@@ -1,0 +1,168 @@
+@import '../../node_modules/bootstrap/scss/functions';
+@import '../../node_modules/bootstrap/scss/variables';
+@import '../../node_modules/bootstrap/scss/mixins';
+
+$primary: #ff36ff;
+$secondary: #10003b;
+
+$theme-colors: (primary: $primary,
+    secondary: $secondary,
+);
+// (Required) Import Bootstrap
+@import '../../node_modules/bootstrap/scss/bootstrap';
+
+a {
+    color: $primary;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    background: url('/img/bg.png') no-repeat top center, #000004;
+    background-size: cover; 
+    font-family: 'Press Start 2P', cursive;
+    -webkit-font-smoothing: none;
+    &:before {
+        position: fixed;
+    content: '';
+    left: 0;
+    right: 0;
+    top: 0;
+    background: #02023147;
+    z-index: -1;
+    bottom: 0;
+    }
+}
+
+.btn {
+    &.btn-primary {
+        outline: solid 0.15em #000;
+    box-shadow: inset 0.213em 0.213em 0 #00000066, inset -0.213em -0.213em 0 #ffffff66, 0 0.213em 0.213em -0.213em #000000cc;
+    transition: linear .2s;
+    border:0;
+    color:#fff;
+    font-weight:bold;
+    &:hover {
+        box-shadow: inset .213em .213em 0 rgba(0,0,0,0.8), inset -.213em -.213em 0 rgba(255,255,255,0.6);
+    }
+    }
+}
+
+.content {}
+
+.start {
+    width:100%;
+    height:535px;
+    text-align: center;
+    color: #fff;
+    h1 {       
+        font-size: 114px;
+        line-height: 114px;        
+        color: #FFFFFF;
+        text-shadow: 0px 6px 0px #D3D3D3;
+    }
+}
+
+.card {
+    background:red;
+    min-height:425px;
+    background: linear-gradient(157.28deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.034) 45.83%, rgba(255, 255, 255, 0.09375) 48.96%, rgba(255, 255, 255, 0) 100%), url('/img/cardbg.png');
+    margin-bottom:100px;
+    .card-brand {
+        height:105px;
+        width:105px;
+        background-size:cover;
+        background-position:center center;
+        margin:0 auto;
+        display:block;
+        margin-top:-55px;
+        border:4px solid $primary;
+        border-radius:1000px;
+    }
+    .card-footer {
+        background:transparent;
+        border:0;
+        padding-bottom:15px;
+    }
+    .card-body {
+        padding-bottom:0;
+        .nft-art {
+            box-shadow: inset 3px 3px 0px 1px #00000052, inset -3px -3px 0px 1px #ffffff3b;
+            background-size:cover !important;
+            background-position:center center !important;
+            background-repeat:no-repeat !important;
+            box-sizing: border-box;
+            border-radius: 4px;
+            background:#000;
+            height:245px;
+        }
+        .nft-counter {
+            height:50px;
+            color:#fff;
+            text-align:center;
+            p {
+                margin:0;
+                font-size:21px;
+                text-shadow: 2px 2px 0px #000;
+            }
+        }
+    }
+}
+
+.nft-modal {
+    .btn-close {
+        color:#fff;
+    }
+    .modal-content {
+        color:#fff;
+        border:0;
+        .modal-header {            
+            border:0;
+        }
+        .modal-body {
+            .nft-art {
+                box-shadow: inset 3px 3px 0px 1px #00000052, inset -3px -3px 0px 1px #ffffff3b;
+                background-size:cover !important;
+                background-position:center center !important;
+                background-repeat:no-repeat !important;
+                box-sizing: border-box;
+                border-radius: 4px;
+                background:#000;
+                height:345px;
+            }
+            .nft-counter {
+                color: #fff;
+                text-align: center;
+                margin-top: -74px;
+                background: #00000091;
+                padding: 10px 0;
+                p {
+                    margin:0;
+                    font-size:36px;
+                    text-shadow: 2px 2px 0px #000;
+                }
+            }
+            ul {
+                margin:0;
+                padding:0;
+                list-style: none;
+                li {
+                    margin-bottom:5px;
+                }
+            }
+            p {
+                font-size:14px;
+                &.title {
+                    color:$primary;
+                }
+            }
+        }
+        .modal-footer {
+            border:0;
+        }
+    }
+    
+}
