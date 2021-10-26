@@ -11,6 +11,11 @@ export default () => {
 
   const { state, dispatch } = useStore()
   const [amount,setAmount] = useState(0)
+
+  function placeBid(){
+      console.log(amount, 'make bid')
+      //Check if bid is highest
+  }
  
   return (
             <>
@@ -57,7 +62,7 @@ export default () => {
                                     </span>
                                     <input type="number" className="form-control amount-input-staking" onChange={(e) => setAmount(e.target.value)} value={amount} autoComplete="off" placeholder="0.00" name="amount"/>
                                 </div>
-                            <button className="btn btn-primary btn-lg w-100" onClick={(e) => placeBid()} disabled={amount == 0}>Place bid</button>
+                            <button className="btn btn-primary btn-lg w-100" onClick={() => placeBid()} disabled={amount == 0}>Place bid</button>
                             </div>
                         </div>
                     </div>
