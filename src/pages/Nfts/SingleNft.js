@@ -27,6 +27,7 @@ export default () => {
                             <p className="description">{raffle.desc}</p>
                             <h5>Current bids</h5>
                             <table className="table">
+                                <tbody>
                                 <tr>
                                     <td>Username</td>
                                     <td>1000 UST</td>
@@ -47,6 +48,7 @@ export default () => {
                                     <td>Username</td>
                                     <td>1000 UST</td>
                                 </tr>
+                                </tbody>
                             </table>
                             <h5>Your bid</h5>
                             <div className="input-group mb-3">
@@ -55,7 +57,7 @@ export default () => {
                                     </span>
                                     <input type="number" className="form-control amount-input-staking" onChange={(e) => setAmount(e.target.value)} value={amount} autoComplete="off" placeholder="0.00" name="amount"/>
                                 </div>
-                            <button className="btn btn-primary btn-lg w-100">Place bid</button>
+                            <button className="btn btn-primary btn-lg w-100" onClick={(e) => placeBid()} disabled={amount == 0}>Place bid</button>
                             </div>
                         </div>
                     </div>

@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
-import axios from 'axios'
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
-
+import {
+    useWallet,
+    WalletStatus,
+    useConnectedWallet,
+    ConnectType,
+} from '@terra-money/wallet-provider'
+import numeral from 'numeral'
 import { useStore } from '../store'
-import { MagnifyingGlass } from "phosphor-react"; 
+import { MagnifyingGlass, Wallet, Check } from "phosphor-react"; 
 
 
 
@@ -11,9 +16,27 @@ import { MagnifyingGlass } from "phosphor-react";
 
 export default function Navbar(props) {
     const { state, dispatch } = useStore()
-   
-    const [connected, setConnected] = useState(false)
+    let connectedWallet = ''
 
+    const [connected, setConnected] = useState(false)
+    const [bank, setBank] = useState(false)
+
+    let wallet = ''
+    if (typeof document !== 'undefined') {
+        wallet = useWallet()
+        connectedWallet = useConnectedWallet()
+    } 
+
+    const lcd = useMemo(() => {
+        if (!connectedWallet) {
+            return null
+        }
+
+        return new LCDClient({
+            URL: connectedWallet.network.lcd,
+            chainID: connectedWallet.network.chainID,
+        })
+    }, [connectedWallet])
     
 
 
@@ -24,10 +47,72 @@ export default function Navbar(props) {
             wallet.connect(wallet.availableConnectTypes[2])
         } else if (to == 'disconnect') { 
             wallet.disconnect()
-            dispatch({ type: 'setWallet', message: {} })
+            // dispatch({ type: 'setWallet', message: {} })
         }
         setConnected(!connected)
     }
+
+    function returnBank() {
+        return (
+            <>
+                <Wallet
+                    size={24}
+                    color="#fff"
+                    style={{ display: 'inline-block', marginTop: '-3px' }}
+                />{' '}
+                {bank ? (
+                    <>
+                        <Check
+                            size={16}
+                            color="#fff"
+                            weight="bold"
+                            style={{
+                                display: 'inline-block',
+                                marginTop: '-8px',
+                                marginLeft: '-5px',
+                            }}
+                        />
+                        {bank} UST
+                    </>
+                ) : (
+                    <div className="spinner-border spinner-border-sm" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                )}
+            </>
+        )
+    }
+
+    async function contactBalance() {
+        if (connectedWallet && connectedWallet.walletAddress && lcd) {
+            let coins;
+            try{
+                const api = new WasmAPI(lcd.apiRequester)
+                coins = await lcd.bank.balance(connectedWallet.walletAddress)
+                setConnected(true)
+            } catch {
+               
+            }
+
+            let uusd = coins.filter((c) => {
+                return c.denom === 'uusd'
+            })
+            let ust = parseInt(uusd) / 1000000
+            setBank(numeral(ust).format('0,0.00'))
+        }
+    }
+
+    useEffect(() => {
+      
+        if (connectedWallet) {
+            contactBalance()
+        }
+
+   
+    }, [
+        connectedWallet,
+        lcd     
+    ])
 
     return (
         <div className="navbar navbar-expand-md">
@@ -70,7 +155,7 @@ export default function Navbar(props) {
                     <input className="form-control " type="search" placeholder="Search" aria-label="Search"/>
                 </form>
                     <li className="nav-item">
-                    
+                            { !connected &&
                                 <div className="dropdown">
                                 <button
                                     className="btn btn-primary nav-item dropdown-toggle"
@@ -100,6 +185,32 @@ export default function Navbar(props) {
                                 </ul>
                                 </div>
                            
+                            }
+                            { connected &&
+                               <div className="dropdown">
+                                   <button
+                                className="btn btn-primary nav-item dropdown-toggle"
+                                type="button"
+                                id="dropdownMenuButton2"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                           >
+                               {returnBank() ? returnBank() : 'loading'}
+                           </button>
+                           <ul
+                                    className="dropdown-menu dropdown-menu-end"
+                                    aria-labelledby="dropdownMenuButton2"
+                                >
+                                    <button
+                                        onClick={() => connectTo('disconnect')}
+                                        className="dropdown-item"
+                                    >                                        
+                                        Disconnect
+                                    </button>
+                                    </ul>
+                               </div>
+                            }
+                                
                     </li>
                 </ul>
                 </div>

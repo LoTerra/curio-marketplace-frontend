@@ -23,10 +23,12 @@ export default function NftCard(props) {
                 <div className="d-flex h-100 w-100">
                     <div className="nft-info align-self-end w-100">
                         { type != 'xl' &&
-                        <>
+                        (
+                            <>
                         <h5 className="card-title m-0">{data.name}</h5>    
                         <p className="m-0">Author name</p>    
                         </>
+                        )
                         }
                     </div>
                 </div>
