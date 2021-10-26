@@ -8,30 +8,36 @@ import Tilt from 'react-tilt'
 export default function NftCard(props) {
     const { state, dispatch } = useStore()
 
-    const {index} = props;
+    const {index, data, type} = props;
 
     return (
-        <div className="col-md-4">
-          <Tilt className="Tilt" options={{ glare: true,maxGlare: .5,max : 20, scale:1.05, transition:true, reset:true, easing:"cubic-bezier(.03,.98,.52,.99)" }}>
+        
+          <a href={'/nfts/'+data.id}>              
+          <Tilt className="Tilt" options={{ glare: true,maxGlare: .5,max : 20, scale:type == 'xl' ? 1.0 : 1.05, transition:true, reset:true, easing:"cubic-bezier(.03,.98,.52,.99)" }}>
           <div className="Tilt-inner">
-           <div className="card" >
-               <div className="card-brand" style={{background:'url(/img/brand.png)'}}>                   
-               </div>
-               <div className="card-body">
-                    <div className="nft-art" style={{background:'url(/img/bull.png)'}}>
+           <div className={'card bg-dark text-white nft-card ' + type} style={{background:'url('+data.bg+')'}}>
+           
+                 <img src={data.art} className="card-img" alt="..."/>
 
+            <div className="card-img-overlay">
+                <div className="d-flex h-100 w-100">
+                    <div className="nft-info align-self-end w-100">
+                        { type != 'xl' &&
+                        <>
+                        <h5 className="card-title m-0">{data.name}</h5>    
+                        <p className="m-0">Author name</p>    
+                        </>
+                        }
                     </div>
-                    <div className="nft-counter d-flex">
-                        <p className="align-self-center w-100">00:00:00:00</p>
-                    </div>
-               </div>
-               <div className="card-footer">
-                   <button className="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target={'#nft'+index}>Buy tickets</button>
-               </div>
+                </div>
+            </div>
+
+         
            </div>
            </div>
            </Tilt>
-           <NftModal index={index} bg={'/img/cardbg.png'} nft={'url(/img/bull.png)'}/>
-        </div>
+           <NftModal index={index} data={data}/>
+          </a>
+        
     )
 }
