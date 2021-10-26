@@ -33,6 +33,7 @@ const initialState = {
     loterraContractAddress: 'terra1q2k29wwcz055q4ftx4eucsq6tg9wtulprjg75w',
     raffles: baseRaffles,
     lcd:lcd,
+    wallet:{},
 }
 
 const reducer = (state, action) => {
@@ -42,6 +43,11 @@ const reducer = (state, action) => {
                 ...state,
                 loterraContractAddress: action.message,
             }
+            case 'setWallet':
+                return {
+                    ...state,
+                    wallet: action.message,
+                }
             default:
             throw new Error(`Unhandled action type: ${action.type}`)
     }

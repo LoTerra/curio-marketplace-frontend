@@ -39,6 +39,27 @@ export default function Navbar(props) {
     }, [connectedWallet])
     
 
+    async function contactBalance() {
+        if (connectedWallet && connectedWallet.walletAddress && lcd) {
+            dispatch({ type: 'setWallet', message: connectedWallet })
+
+            let coins;
+            try{
+                const api = new WasmAPI(lcd.apiRequester)
+                coins = await lcd.bank.balance(connectedWallet.walletAddress)
+                setConnected(true)
+            } catch {
+               
+            }
+
+            let uusd = coins.filter((c) => {
+                return c.denom === 'uusd'
+            })
+            let ust = parseInt(uusd) / 1000000
+            setBank(numeral(ust).format('0,0.00'))
+        }
+    }
+
 
     function connectTo(to) {
         if (to == 'extension') {
@@ -47,7 +68,7 @@ export default function Navbar(props) {
             wallet.connect(wallet.availableConnectTypes[2])
         } else if (to == 'disconnect') { 
             wallet.disconnect()
-            // dispatch({ type: 'setWallet', message: {} })
+            dispatch({ type: 'setWallet', message: {} })
         }
         setConnected(!connected)
     }
@@ -83,24 +104,7 @@ export default function Navbar(props) {
         )
     }
 
-    async function contactBalance() {
-        if (connectedWallet && connectedWallet.walletAddress && lcd) {
-            let coins;
-            try{
-                const api = new WasmAPI(lcd.apiRequester)
-                coins = await lcd.bank.balance(connectedWallet.walletAddress)
-                setConnected(true)
-            } catch {
-               
-            }
-
-            let uusd = coins.filter((c) => {
-                return c.denom === 'uusd'
-            })
-            let ust = parseInt(uusd) / 1000000
-            setBank(numeral(ust).format('0,0.00'))
-        }
-    }
+    
 
     useEffect(() => {
       
