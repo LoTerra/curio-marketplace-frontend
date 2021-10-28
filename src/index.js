@@ -11,14 +11,14 @@ import App from './App'
 
 const mainnet = {
   name: 'mainnet',
-  chainID: 'columbus-4',
+  chainID: 'columbus-5',
   lcd: 'https://lcd.terra.dev',
 }
 
 const testnet = {
   name: 'testnet',
-  chainID: 'tequila-0004',
-  lcd: 'https://tequila-lcd.terra.dev',
+  chainID: 'bombay-12',
+  lcd: 'https://bombay-lcd.terra.dev',
 }
 
 // Export your top level component as JSX (for static rendering)
@@ -35,7 +35,7 @@ if (typeof document !== 'undefined') {
   const render = Comp => {
     renderMethod(
       <Wallet
-                defaultNetwork={mainnet}
+                defaultNetwork={testnet}
                 walletConnectChainIds={{
                     0: testnet,
                     1: mainnet,
@@ -43,7 +43,7 @@ if (typeof document !== 'undefined') {
                 connectorOpts={{
                     bridge: inProduction
                         ? 'https://walletconnect.terra.dev/'
-                        : 'https://tequila-walletconnect.terra.dev/',
+                        : 'https://bombay-walletconnect.terra.dev/',
                 }}
             >
       <AppContainer>

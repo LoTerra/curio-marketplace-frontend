@@ -27,12 +27,14 @@ export default () => {
   const [imageNftData,setImageNftData] = useState(0);
   const [bidInfo, setBidInfo] = useState([]);
 
-  const terra = state.lcd
-  const api = new WasmAPI(terra.apiRequester)
-
   const testAuctionID = 1;
-  const {wallets, post} = useWallet();
   const connectedWallet = useConnectedWallet();
+
+  const lcd = new LCDClient({
+      URL: connectedWallet.network.lcd,
+      chainID: connectedWallet.network.chainID,
+  });
+  const api = new WasmAPI(lcd.apiRequester)
 
   const getNftData = useCallback(async () => {
 
