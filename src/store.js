@@ -2,23 +2,19 @@ import React, {
     createContext,
     useContext,
     useReducer,
-    useCallback,
 } from 'react'
 import {
-    StdFee,
-    MsgExecuteContract,
     LCDClient,
-    WasmAPI,
-    BankAPI,
 } from '@terra-money/terra.js'
 
 const lcd = new LCDClient({
-    URL: 'https://lcd.terra.dev/',
-    chainID: 'columbus-4',
+    URL: 'https://bombay-lcd.terra.dev',
+    chainID: 'bombay-12',
 });
 
 const StoreContext = createContext()
 
+//Static dev data for tests
 const baseRaffles = [
     {id:1,bg:'/img/bull.png',art:'https://pbs.twimg.com/media/FCndFS6X0AIM9NL?format=png&name=900x900',logo:'/img/brand.png',name:'LunaBulls', desc:''},
     {id:2,bg:'/img/nft-1.jpg',art:'https://pbs.twimg.com/media/FCFU8tFXsAI63bf?format=png&name=small',logo:'/img/logo-1.jpg',name:'SudeshaNFT',desc:'LunaBoys are a collection of 1,020 unique art work representing the Luna Ecosystem. LunaBoys rewards holders. Holding three LunaBoys puts you in a draw to win one of five , 1,000 UST prizes.'},
@@ -30,7 +26,7 @@ const baseRaffles = [
 ]
 
 const initialState = {
-    loterraContractAddress: 'terra1q2k29wwcz055q4ftx4eucsq6tg9wtulprjg75w',
+    privTokenContract: 'terra187zev94j7xjgqrmgvl5zdm96sugyme0aumnvjf',
     raffles: baseRaffles,
     lcd:lcd,
     wallet:{},
@@ -38,10 +34,10 @@ const initialState = {
 
 const reducer = (state, action) => {
     switch (action.type) {
-        case 'setLoterraContractAddress':
+        case 'setPrivTokenContract':
             return {
                 ...state,
-                loterraContractAddress: action.message,
+                privTokenContract: action.message,
             }
             case 'setWallet':
                 return {

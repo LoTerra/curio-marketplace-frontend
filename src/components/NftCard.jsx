@@ -8,7 +8,7 @@ import Tilt from 'react-tilt'
 export default function NftCard(props) {
     const { state, dispatch } = useStore()
 
-    const {index, data, type} = props;
+    const {index, data, nft, type} = props;
 
     return (
         
@@ -17,7 +17,7 @@ export default function NftCard(props) {
           <div className="Tilt-inner">
            <div className={'card bg-dark text-white nft-card ' + type} style={{background:'url('+data.bg+')'}}>
            
-                 <img src={data.art} className="card-img" alt="..."/>
+                 <img src={nft ? nft.image : data.art} className="card-img" alt="..."/>
 
             <div className="card-img-overlay">
                 <div className="d-flex h-100 w-100">

@@ -1,8 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { useRouteData } from 'react-static'
 import NftCard from '../../components/NftCard'
 import { useStore } from '../../store'
-
+import {
+    StdFee,
+    MsgExecuteContract,
+    LCDClient,
+    WasmAPI,
+    BankAPI,
+    Denom,
+} from '@terra-money/terra.js'
 
 
 export default () => {
@@ -12,47 +19,97 @@ export default () => {
   const { state, dispatch } = useStore()
   const [amount,setAmount] = useState(0)
 
+  const [nftData,setNftData] = useState(0);
+  const [imageNftData,setImageNftData] = useState(0);
+  const [bidInfo, setBidInfo] = useState([]);
+
+  const terra = state.lcd
+  const api = new WasmAPI(terra.apiRequester)
+
+  const testAuctionID = 1;
+
+  const getNftData = useCallback(async () => {
+
+    try{
+        const nftConfigInfo = await api.contractQuery(
+            state.privTokenContract,
+            {
+                auction:{
+                    auction_id:testAuctionID
+                }
+            }
+        )
+        
+        console.log(nftConfigInfo)
+        setNftData(nftConfigInfo)
+        const nftInfo = await api.contractQuery(
+            nftConfigInfo.nft_contract,
+            {
+                nft_info:{
+                    token_id: nftConfigInfo.nft_id
+                }
+            }
+        )
+
+        console.log(nftInfo);
+        setImageNftData(nftInfo)
+
+        const bids = await api.contractQuery(
+            state.privTokenContract,
+            {
+                bids:{
+                    auction_id:testAuctionID
+                }
+            }
+        )
+
+        console.log(bids);
+        setBidInfo(bids.bids);
+
+    } catch(e){
+        console.log(e)
+    }
+      
+  },[])
+
   function placeBid(){
       console.log(amount, 'make bid')
       //Check if bid is highest
   }
- 
+
+  useEffect(() => {      
+    getNftData()
+}, [getNftData])
+
+    
+
   return (
             <>
             <section className="single-nft-main">
                 <div className="container">
                     <div className="row">
                         <div className="col-md-7">
-                            <NftCard key={1} data={raffle} type={'xl'} index={99}/>
+                            <NftCard key={1} data={raffle} nft={imageNftData} type={'xl'} index={99}/>
                         </div>
                         <div className="col-md-5 d-flex">
                             <div className="align-self-center w-100">
-                            <h3 className="title">{raffle.name}</h3>
+                            <h3 className="title">{imageNftData.name}</h3>
                             <p className="author">Author name</p>
                             <p className="description">{raffle.desc}</p>
-                            <h5>Current bids</h5>
+                            <h5>Current bids ({nftData.total_bids})</h5>
                             <table className="table">
                                 <tbody>
-                                <tr>
-                                    <td>Username</td>
-                                    <td>1000 UST</td>
-                                </tr>
-                                <tr>
-                                    <td>Username</td>
-                                    <td>1000 UST</td>
-                                </tr>
-                                <tr>
-                                    <td>Username</td>
-                                    <td>1000 UST</td>
-                                </tr>
-                                <tr>
-                                    <td>Username</td>
-                                    <td>1000 UST</td>
-                                </tr>
-                                <tr>
-                                    <td>Username</td>
-                                    <td>1000 UST</td>
-                                </tr>
+                                    {bidInfo.length > 0 && bidInfo.sort(
+                                        (a,b) => {return parseInt(a.amount) - parseInt(b.amount)}
+                                    ).map((obj,key) => {                                    
+                                        return (
+                                            <tr key={key}>
+                                            <td>{obj.bidder}</td>
+                                            <td>{obj.amount / 1000000} UST</td>
+                                        </tr>  
+                                        )                                  
+                                    })}                               
+                                
                                 </tbody>
                             </table>
                             <h5>Your bid</h5>

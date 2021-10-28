@@ -1,12 +1,31 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import NftCard from '../components/NftCard'
 import { useStore } from '../store'
 
+import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 
 export default () => {
 
   const { state, dispatch } = useStore()
+  const terra = state.lcd
+  const api = new WasmAPI(terra.apiRequester)
 
+  const fetchNftData = useCallback( async() => {
+        try {
+          const contractConfigInfo = await api.contractQuery(
+            state.privTokenContract,
+            {
+                state: {},
+            }          
+        )
+        console.log(contractConfigInfo)
+        } catch {
+
+        }
+  })
+  useEffect(() => {
+    fetchNftData()
+}, [fetchNftData])
   return (
 <>
 
