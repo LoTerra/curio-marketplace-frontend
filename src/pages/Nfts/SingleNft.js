@@ -2,6 +2,8 @@ import React, { useState, useCallback, useEffect } from 'react'
 import { useRouteData } from 'react-static'
 import NftCard from '../../components/NftCard'
 import { useStore } from '../../store'
+
+import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider';
 import {
     StdFee,
     MsgExecuteContract,
@@ -9,11 +11,13 @@ import {
     WasmAPI,
     BankAPI,
     Denom,
+    CreateTxOptions,
+    MsgSend
 } from '@terra-money/terra.js'
 
 
 export default () => {
- 
+
     const {raffle} = useRouteData()
 
   const { state, dispatch } = useStore()
@@ -27,6 +31,8 @@ export default () => {
   const api = new WasmAPI(terra.apiRequester)
 
   const testAuctionID = 1;
+  const {wallets, post} = useWallet();
+  const connectedWallet = useConnectedWallet();
 
   const getNftData = useCallback(async () => {
 
@@ -72,9 +78,33 @@ export default () => {
       
   },[])
 
-  function placeBid(){
+  async function placeBid(){
       console.log(amount, 'make bid')
-      //Check if bid is highest
+      if (!connectedWallet) return
+
+      /*
+        Here is an example of use for a simple transaction with connect wallet
+       */
+      console.log('walletAddress is', connectedWallet.walletAddress)
+      // In this case network should be testnet bombay
+      console.log('network is', connectedWallet.network)
+      console.log('connectType is', connectedWallet.connectType)
+      //Check if bid is highesti
+        try {
+            let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privTokenContract,{
+                place_bid: {auction_id: testAuctionID}
+            }, {"uusd": String(amount * 1000000)});
+
+            const result = await connectedWallet.post({
+                msgs: [msg]
+            })
+            console.log(result)
+        }catch (e) {
+            console.log(e)
+        }
+
+
+
   }
 
   useEffect(() => {      
