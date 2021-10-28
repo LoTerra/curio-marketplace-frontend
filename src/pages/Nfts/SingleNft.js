@@ -28,11 +28,12 @@ export default () => {
   const [bidInfo, setBidInfo] = useState([]);
 
   const testAuctionID = 1;
+  const {network} = useWallet();
   const connectedWallet = useConnectedWallet();
 
   const lcd = new LCDClient({
-      URL: connectedWallet.network.lcd,
-      chainID: connectedWallet.network.chainID,
+      URL: network.lcd,
+      chainID: network.chainID,
   });
   const api = new WasmAPI(lcd.apiRequester)
 
