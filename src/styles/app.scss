@@ -290,3 +290,15 @@ text-decoration: none;
     }
     
 }
+
+.countdown {
+    .time-low {
+        font-size:12px;
+        text-transform:uppercase;
+        opacity:0.6;
+    }
+    .time {
+        font-size:2vw;
+        font-weight:700;
+    }
+}

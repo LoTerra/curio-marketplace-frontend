@@ -21,12 +21,14 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-hot-loader": "^4.13.0",
+    "react-hot-toast": "^2.1.1",
     "react-static": "^7.5.1",
     "react-static-plugin-reach-router": "^7.5.1",
     "react-static-plugin-sass": "^7.3.0",
     "react-static-plugin-sitemap": "^7.5.1",
     "react-static-plugin-source-filesystem": "^7.5.1",
     "react-tilt": "^0.1.4",
+    "react-timer-hook": "^3.0.5",
     "tslib": "2.2"
   },
   "devDependencies": {

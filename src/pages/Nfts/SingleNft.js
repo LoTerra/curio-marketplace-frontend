@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import NftCard from '../../components/NftCard'
 import { useStore } from '../../store'
+import toast, { Toaster } from 'react-hot-toast';
 
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider';
 import {
@@ -13,31 +14,53 @@ import {
     CreateTxOptions,
     MsgSend
 } from '@terra-money/terra.js'
+import Countdown from '../../components/SingleNft/Countdown';
 
 
 export default (props) => {
   const { state, dispatch } = useStore()
   const [amount,setAmount] = useState(0)
+  const [expiryTimestamp, setExpiryTimestamp] =  useState(1)
+  const [nftData,setNftData] = useState(0)
+  const [imageNftData,setImageNftData] = useState(0)
+  const [bidInfo, setBidInfo] = useState([])
 
-  const [nftData,setNftData] = useState(0);
-  const [imageNftData,setImageNftData] = useState(0);
-  const [bidInfo, setBidInfo] = useState([]);
-
-  const testAuctionID = props.nftId;
+  const testAuctionID = parseInt(props.nftId)
   console.log(testAuctionID)
-  let network = ''
-  let connectedWallet = ''
+  let network = {}
+  let connectedWallet = {}
 
-  if (typeof document !== 'undefined') {
-    network = useWallet();
-    connectedWallet = useConnectedWallet();
-  }
+if (typeof document !== 'undefined') {
+  network = useWallet().network;
+  connectedWallet = useConnectedWallet()
+}
 
   const lcd = new LCDClient({
       URL: network.lcd,
       chainID: network.chainID,
   });
+
+ 
+
   const api = new WasmAPI(lcd.apiRequester)
+
+  const reloadBids = useCallback(async () => {
+      try {
+        const bids = await api.contractQuery(
+            state.privTokenContract,
+            {
+                bids:{
+                    auction_id:testAuctionID
+                }
+            }
+        )
+
+        console.log(bids)
+        setBidInfo(bids.bids)
+      } catch(e){
+        console.log(e)
+      }
+  })
 
   const getNftData = useCallback(async () => {
 
@@ -53,6 +76,13 @@ export default (props) => {
         
         console.log(nftConfigInfo)
         setNftData(nftConfigInfo)
+
+        setExpiryTimestamp(
+            parseInt(nftConfigInfo.end_time * 1000)
+        )
+
+        console.log('timestamp',expiryTimestamp)
+
         const nftInfo = await api.contractQuery(
             nftConfigInfo.nft_contract,
             {
@@ -62,23 +92,27 @@ export default (props) => {
             }
         )
 
-        console.log(nftInfo);
+        console.log(nftInfo)
         setImageNftData(nftInfo)
 
-        const bids = await api.contractQuery(
-            state.privTokenContract,
-            {
-                bids:{
-                    auction_id:testAuctionID
+        if(nftConfigInfo.total_bids > 0){
+            const bids = await api.contractQuery(
+                state.privTokenContract,
+                {
+                    bids:{
+                        auction_id:testAuctionID
+                    }
                 }
-            }
-        )
-
-        console.log(bids);
-        setBidInfo(bids.bids);
+            )
+    
+            console.log(bids)
+            setBidInfo(bids.bids)
+        }
+        
 
     } catch(e){
         console.log(e)
+        
     }
       
   },[])
@@ -101,18 +135,33 @@ export default (props) => {
         try {
             let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privTokenContract,{
                 place_bid: {auction_id: testAuctionID}
-            }, {"uusd": String(amount * 1000000)});
+            }, {uusd: String(amount * 1000000)})
 
             const result = await connectedWallet.post({
                 msgs: [msg]
             })
             console.log(result)
+            //reloadBids()
+            toast.success('Bid succesful')
         }catch (e) {
             console.log(e)
+            //reloadBids()
+            toast.error('Bid error')
         }
 
 
 
+  }
+
+  function nftValid(timestamp){
+    let end = new Date(parseInt(timestamp) * 1000)
+    let now = new Date()
+
+    if(end.getTime() < now.getTime()){
+        return false
+    } else {
+        return true
+    }
   }
 
   useEffect(() => {      
@@ -133,20 +182,25 @@ export default (props) => {
                             <div className="align-self-center w-100">
                             <h3 className="title">{imageNftData.name}</h3>
                             <p className="author">Author name</p>
+                            <p className="description">{imageNftData.description}</p>
+                            <Countdown expiryTimestamp={expiryTimestamp}/>
                             <p className="description">{state.raffles[0].desc}</p>
                             <h5>Current bids ({nftData.total_bids})</h5>
                             <table className="table">
                                 <tbody>
-                                    {bidInfo.length > 0 && bidInfo.sort(
-                                        (a,b) => {return parseInt(a.amount) - parseInt(b.amount)}
+                                    {bidInfo.length > 0 ? bidInfo.sort(
+                                        (a,b) => {return parseInt(b.amount) - parseInt(a.amount)}
                                     ).map((obj,key) => {                                    
                                         return (
                                             <tr key={key}>
-                                            <td>{obj.bidder}</td>
-                                            <td>{obj.amount / 1000000} UST</td>
+                                            <td style={{fontSize:'10px'}}>{obj.bidder}</td>
+                                            <td className="text-end"><strong>{obj.amount / 1000000} UST</strong></td>
                                         </tr>  
                                         )                                  
-                                    })}                               
+                                    }) 
+                                    :
+                                    <p className="text-muted text-center w-100 py-1 m-0">No bids yet</p>
+                                    }                               
                                 
                                 </tbody>
                             </table>
@@ -155,9 +209,9 @@ export default (props) => {
                                     <span className="input-group-text" id="basic-addon1">
                                         <img src="/img/UST.svg" width="30px" className="img-fluid"/>
                                     </span>
-                                    <input type="number" className="form-control amount-input-staking" onChange={(e) => setAmount(e.target.value)} value={amount} autoComplete="off" placeholder="0.00" name="amount"/>
+                                    <input type="number" className="form-control amount-input-staking" required={true} disabled={nftData && nftValid(nftData.end_time) ? false : true} onChange={(e) => setAmount(e.target.value)} value={amount} autoComplete="off" min="1" step="1" placeholder="0" name="amount"/>
                                 </div>
-                            <button className="btn btn-primary btn-lg w-100" onClick={() => placeBid()} disabled={amount == 0}>Place bid</button>
+                                <button className="btn btn-primary btn-lg w-100" disabled={nftData && nftValid(nftData.end_time) ? false : true} onClick={() => placeBid()}>{nftData && nftValid(nftData.end_time) ? 'Place bid' : 'Auction expired'}</button>
                             </div>
                         </div>
                     </div>
@@ -182,6 +236,7 @@ export default (props) => {
       </div>
     </div>
   </section>
+  <Toaster />
             </>
   )
 }

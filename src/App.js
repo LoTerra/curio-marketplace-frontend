@@ -2,8 +2,6 @@ import React from 'react'
 import { Root, Routes, addPrefetchExcludes } from 'react-static'
 import { Router, Link } from "@reach/router"
 
-
-
 import { Head } from 'react-static'
 import { popper } from '@popperjs/core'
 let bootstrap = {}
@@ -85,8 +83,9 @@ function App() {
                                 <SingleNft path="/nfts/:nftId" />                     
                                 <Routes default />                                
                             </Router>
+                
                     </StoreProvider>
-   
+
         </React.Suspense>
       </div>
     </Root>
