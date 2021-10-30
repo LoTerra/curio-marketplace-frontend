@@ -58,13 +58,31 @@ if (typeof document !== 'undefined') {
                     }
                 }
             )
-    
+            sortBids(bids.bids)    
             console.log(bids)
-            setBidInfo(bids.bids)
           } catch(e){
             console.log(e)
           }
     
+  }
+
+  function sortBids(bids){
+    let clean = []
+    bids.map(obj => {
+        let found = clean.find(({bidder}) => bidder === obj.bidder);
+        console.log(found)
+        if(found){          
+            found.amount = parseInt(found.amount) + parseInt(obj.amount)
+        }else {
+            clean.push({bidder:obj.bidder,amount:obj.amount})
+        }
+    });
+
+    clean.sort((a,b) => {return parseInt(b.amount) - parseInt(a.amount)})
+
+
+    setBidInfo(clean)
+    console.log('cleaned',clean)
   }
 
   const getNftData = useCallback(async () => {
@@ -111,7 +129,7 @@ if (typeof document !== 'undefined') {
             )
     
             console.log(bids)
-            setBidInfo(bids.bids)
+            sortBids(bids.bids)  
         }
         
 
@@ -231,9 +249,9 @@ if (typeof document !== 'undefined') {
                                     required={true}
                                     disabled={nftData && nftValid(nftData.end_time) ? false : true}
                                     onChange={(e) => setAmount(e.target.value)}
-                                    value={amount ? amount : nftData.start_price / 1000000 }
+                                    value={amount ? amount : bidInfo && bidInfo[0] ? bidInfo[0].amount / 1000000 * 1.05 : 0 }
                                     autoComplete="off"
-                                    min={nftData.start_price / 1000000}
+                                    min={bidInfo && bidInfo[0] ? bidInfo[0].amount / 1000000 * 1.05 : 0}
                                     step="1"
                                     placeholder="0"
                                     name="amount"
