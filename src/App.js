@@ -1,7 +1,9 @@
 import React from 'react'
 import { Root, Routes, addPrefetchExcludes } from 'react-static'
-//
-import { Link, Router } from 'components/Router'
+import { Router, Link } from "@reach/router"
+
+
+
 import { Head } from 'react-static'
 import { popper } from '@popperjs/core'
 let bootstrap = {}
@@ -11,7 +13,13 @@ if (typeof document !== 'undefined') {
 import { StoreProvider } from './store'
 import './styles/app.scss'
 import Navbar from './components/Navbar'
+import SingleNft from './pages/Nfts/SingleNft'
 
+//Dont prerender routes starting with (because of dynamic data)
+addPrefetchExcludes([
+    "nfts"
+])
+  
 
 function App() {
   return (
@@ -70,11 +78,15 @@ function App() {
                     </Head>   
       <div className="content">
         <React.Suspense fallback={<em>Loading...</em>}>
+       
                     <StoreProvider>
                         <Navbar/>
-                        <Routes default />
+                            <Router>           
+                                <SingleNft path="/nfts/:nftId" />                     
+                                <Routes default />                                
+                            </Router>
                     </StoreProvider>
-
+   
         </React.Suspense>
       </div>
     </Root>

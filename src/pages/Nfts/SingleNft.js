@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import { useRouteData } from 'react-static'
 import NftCard from '../../components/NftCard'
 import { useStore } from '../../store'
 
@@ -16,10 +15,7 @@ import {
 } from '@terra-money/terra.js'
 
 
-export default () => {
-
-    const {raffle} = useRouteData()
-
+export default (props) => {
   const { state, dispatch } = useStore()
   const [amount,setAmount] = useState(0)
 
@@ -27,9 +23,15 @@ export default () => {
   const [imageNftData,setImageNftData] = useState(0);
   const [bidInfo, setBidInfo] = useState([]);
 
-  const testAuctionID = 1;
-  const {network} = useWallet();
-  const connectedWallet = useConnectedWallet();
+  const testAuctionID = props.nftId;
+  console.log(testAuctionID)
+  let network = ''
+  let connectedWallet = ''
+
+  if (typeof document !== 'undefined') {
+    network = useWallet();
+    connectedWallet = useConnectedWallet();
+  }
 
   const lcd = new LCDClient({
       URL: network.lcd,
@@ -88,10 +90,13 @@ export default () => {
       /*
         Here is an example of use for a simple transaction with connect wallet
        */
-      console.log('walletAddress is', connectedWallet.walletAddress)
-      // In this case network should be testnet bombay
-      console.log('network is', connectedWallet.network)
-      console.log('connectType is', connectedWallet.connectType)
+      if(connectedWallet){
+            console.log('walletAddress is', connectedWallet.walletAddress)
+            // In this case network should be testnet bombay
+            console.log('network is', connectedWallet.network)
+            console.log('connectType is', connectedWallet.connectType)
+      }
+      
       //Check if bid is highesti
         try {
             let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privTokenContract,{
@@ -122,13 +127,13 @@ export default () => {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-7">
-                            <NftCard key={1} data={raffle} nft={imageNftData} type={'xl'} index={99}/>
+                            <NftCard key={1} data={state.raffles[0]} nft={imageNftData} type={'xl'} index={99}/>
                         </div>
                         <div className="col-md-5 d-flex">
                             <div className="align-self-center w-100">
                             <h3 className="title">{imageNftData.name}</h3>
                             <p className="author">Author name</p>
-                            <p className="description">{raffle.desc}</p>
+                            <p className="description">{state.raffles[0].desc}</p>
                             <h5>Current bids ({nftData.total_bids})</h5>
                             <table className="table">
                                 <tbody>
