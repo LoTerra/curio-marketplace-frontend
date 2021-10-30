@@ -26,14 +26,17 @@ export default (props) => {
   const [bidInfo, setBidInfo] = useState([])
 
   const testAuctionID = parseInt(props.nftId)
+
   console.log(testAuctionID)
   let network = {}
   let connectedWallet = {}
+
 
 if (typeof document !== 'undefined') {
   network = useWallet().network;
   connectedWallet = useConnectedWallet()
 }
+
 
   const lcd = new LCDClient({
       URL: network.lcd,
@@ -44,23 +47,25 @@ if (typeof document !== 'undefined') {
 
   const api = new WasmAPI(lcd.apiRequester)
 
-  const reloadBids = useCallback(async () => {
-      try {
-        const bids = await api.contractQuery(
-            state.privTokenContract,
-            {
-                bids:{
-                    auction_id:testAuctionID
-                }
-            }
-        )
+  async function reloadBids() {
 
-        console.log(bids)
-        setBidInfo(bids.bids)
-      } catch(e){
-        console.log(e)
-      }
-  })
+        try {
+            const bids = await api.contractQuery(
+                state.privTokenContract,
+                {
+                    bids:{
+                        auction_id:testAuctionID
+                    }
+                }
+            )
+    
+            console.log(bids)
+            setBidInfo(bids.bids)
+          } catch(e){
+            console.log(e)
+          }
+    
+  }
 
   const getNftData = useCallback(async () => {
 
@@ -140,12 +145,11 @@ if (typeof document !== 'undefined') {
             const result = await connectedWallet.post({
                 msgs: [msg]
             })
-            console.log(result)
-            //reloadBids()
+            console.log(result)            
             toast.success('Bid succesful')
+            setTimeout(() => reloadBids(),3000)
         }catch (e) {
-            console.log(e)
-            //reloadBids()
+            console.log(e)       
             toast.error('Bid error')
         }
 
@@ -181,11 +185,22 @@ if (typeof document !== 'undefined') {
                         <div className="col-md-5 d-flex">
                             <div className="align-self-center w-100">
                             <h3 className="title">{imageNftData.name}</h3>
-                            <p className="author">Author name</p>
+                            <p className="author">Author name</p>                        
                             <p className="description">{imageNftData.description}</p>
+                            <div className="row">
+                            <div className="col-6">
+                                    <h6>Starting price</h6>
+                                    <p className="start-price">{nftData.start_price / 1000000} <span>UST</span></p>
+                                </div>
+                                <div className="col-6">
+                                    <h6>Instant buy</h6>
+                                    <p className="start-price">{nftData.instant_buy / 1000000} <span>UST</span></p>
+                                </div>                                
+                            </div>                          
                             <Countdown expiryTimestamp={expiryTimestamp}/>
                             <p className="description">{state.raffles[0].desc}</p>
                             <h5>Current bids ({nftData.total_bids})</h5>
+                            <div style={{maxHeight:'120px',overflowY:'scroll'}}>
                             <table className="table">
                                 <tbody>
                                     {bidInfo.length > 0 ? bidInfo.sort(
@@ -204,14 +219,31 @@ if (typeof document !== 'undefined') {
                                 
                                 </tbody>
                             </table>
+                            </div>
                             <h5>Your bid</h5>
                             <div className="input-group mb-3">
                                     <span className="input-group-text" id="basic-addon1">
                                         <img src="/img/UST.svg" width="30px" className="img-fluid"/>
                                     </span>
-                                    <input type="number" className="form-control amount-input-staking" required={true} disabled={nftData && nftValid(nftData.end_time) ? false : true} onChange={(e) => setAmount(e.target.value)} value={amount} autoComplete="off" min="1" step="1" placeholder="0" name="amount"/>
+                                    <input 
+                                    type="number"
+                                    className="form-control amount-input-staking"
+                                    required={true}
+                                    disabled={nftData && nftValid(nftData.end_time) ? false : true}
+                                    onChange={(e) => setAmount(e.target.value)}
+                                    value={amount ? amount : nftData.start_price / 1000000 }
+                                    autoComplete="off"
+                                    min={nftData.start_price / 1000000}
+                                    step="1"
+                                    placeholder="0"
+                                    name="amount"
+                                    />
                                 </div>
-                                <button className="btn btn-primary btn-lg w-100" disabled={nftData && nftValid(nftData.end_time) ? false : true} onClick={() => placeBid()}>{nftData && nftValid(nftData.end_time) ? 'Place bid' : 'Auction expired'}</button>
+                                <button 
+                                className="btn btn-primary btn-lg w-100"
+                                disabled={nftData && nftValid(nftData.end_time) ? false : true}
+                                onClick={() => placeBid()}>{nftData && nftValid(nftData.end_time) ? 'Place bid' : 'Auction expired'}
+                                </button>
                             </div>
                         </div>
                     </div>
