@@ -23,13 +23,13 @@ export default (props) => {
   const [imageNftData,setImageNftData] = useState(0);
   const [bidInfo, setBidInfo] = useState([]);
 
-  const testAuctionID = props.nftId;
+  const testAuctionID = parseInt(props.nftId);
   console.log(testAuctionID)
-  let network = ''
-  let connectedWallet = ''
+  let network = {}
+  let connectedWallet = {}
 
   if (typeof document !== 'undefined') {
-    network = useWallet();
+    network = useWallet().network;
     connectedWallet = useConnectedWallet();
   }
 
