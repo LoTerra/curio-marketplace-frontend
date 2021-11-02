@@ -237,7 +237,7 @@ if (typeof document !== 'undefined') {
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Charity</h6>
-                                        <p className="highest_bid">{nftData.charity ? 'Yes ' + nftData.charity.fee_percentage + '%': 'No' }</p>
+                                        <p className="highest_bid">{nftData.charity ? nftData.charity.fee_percentage + '%': '0%' }</p>
                                     </div>
                                 </div>
                                 <div className="col-6">
