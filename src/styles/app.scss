@@ -44,6 +44,26 @@ body {
     }
 }
 
+label {
+    font-weight:700;
+}
+
+.form-control {
+    border: 1px solid #595959;
+background: #595959;
+border-radius: 0;
+color:#fff;
+box-shadow:0px 0px 0px 0px $primary;
+transition: box-shadow 200ms linear;
+&:focus,&:active {
+    border: 1px solid #595959;
+    background: #595959;
+    color:#fff;
+    outline:none;
+    box-shadow:0px 0px 0px 1px $primary;
+}
+}
+
 .navbar {
     position:fixed;
     left:0;
@@ -90,6 +110,8 @@ text-decoration: none;
         border:0;
     }
 }
+
+
 
 .btn {
     border-radius:0;
@@ -195,6 +217,8 @@ text-decoration: none;
         }
     }
 }
+
+
 
 .nfts {
     padding:25px 0;

@@ -239,7 +239,7 @@ export default function Navbar(props) {
                 </div>
             </div>
         </div>
-<CreateNftModal/>
+        <CreateNftModal/>
         </>
     )
 }
