@@ -73,12 +73,28 @@ export default function CreateNft(props) {
                   <div className="row">
                       <div className="col-12 mb-3">
                           <label>Nft contract address</label>
-                          <input className="form-control" name="contract_address" required/>
+                          <input type="text" className="form-control" name="contract_address" required/>
                       </div>
                       <div className="col-12 mb-3">
                       <label>Token ID</label>
-                          <input className="form-control" name="token_id" required/>
-                      </div>                   
+                          <input type="text" className="form-control" name="token_id" required/>
+                      </div>            
+                      <div className="col-12 mb-3">
+                      <label>Time start</label> <small>optional</small>
+                          <input type="datetime-local" className="form-control" name="time_start" required/>
+                      </div>    
+                      <div className="col-12 mb-3">
+                      <label>Time end</label> <small>optional</small>
+                          <input type="datetime-local" className="form-control" name="time_end" required/>
+                      </div>     
+                      <div className="col-12 mb-3">
+                      <label>Start/Minimal price</label> <small>optional</small>
+                          <input type="number" className="form-control" name="min_price" required/>
+                      </div>   
+                      <div className="col-12 mb-3">
+                      <label>Instant buy</label> <small>optional</small>
+                          <input type="number" className="form-control" name="instant_buy" required/>
+                      </div>   
                       <div className="col-12 mt-3">
                         <button type="button" type="submit" className="btn btn-primary w-100">Create</button>
                       </div>
