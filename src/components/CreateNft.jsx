@@ -44,7 +44,11 @@ export default function CreateNft(props) {
         let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privTokenContract,{
             send_nft: {
                 contract: data.contract_address,
-                token_id: data.token_id
+                token_id: data.token_id,
+                time_start: data.time_start,
+                time_end: data.time_end,
+                min_price: data.min_price,
+                instant_buy: data.instant_buy,
             }
         }, {uusd: String(1 * 1000000)})
 
