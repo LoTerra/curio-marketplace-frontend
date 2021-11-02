@@ -101,6 +101,7 @@ if (typeof document !== 'undefined') {
         
         console.log(nftConfigInfo)
         setNftData(nftConfigInfo)
+        
 
         setExpiryTimestamp(
             parseInt(nftConfigInfo.end_time * 1000)
@@ -133,9 +134,9 @@ if (typeof document !== 'undefined') {
             console.log(bids)
             sortBids(bids.bids)  
         }
-        
         setTimeout(() => {
             setLoading(false)
+            setAmount(amount !== 0 ? amount : bidInfo && bidInfo[0] ? bidInfo[0].amount / 1000000 * 1.05 : nftData && nftData.start_price ? nftData.start_price / 1000000 * 1.05 : 0)
         },1000)
 
     } catch(e){
@@ -262,7 +263,7 @@ if (typeof document !== 'undefined') {
                                     required={true}
                                     disabled={nftData && nftValid(nftData.end_time) ? false : true}
                                     onChange={(e) => setAmount(e.target.value)}
-                                    value={amount ? amount : bidInfo && bidInfo[0] ? bidInfo[0].amount / 1000000 * 1.05 : nftData && nftData.start_price ? nftData.start_price / 1000000 * 1.05 : 0 }
+                                    value={amount}
                                     autoComplete="off"
                                     min={bidInfo && bidInfo[0] ? bidInfo[0].amount / 1000000 * 1.05 : nftData && nftData.start_price ? nftData.start_price / 1000000 * 1.05 : 0}
                                     step="1"
