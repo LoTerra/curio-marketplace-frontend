@@ -138,7 +138,21 @@ if (typeof document !== 'undefined') {
       
   },[])
 
-  function buyNow(){
+  async function buyNow(){
+      try {
+          /*
+            TODO: Here we need to subtract current bidding from instant buy price and the price should be the difference
+           */
+          let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privTokenContract,{
+              instant_buy: {}
+          }, {"uusd": 0})
+
+          const result = await connectedWallet.post({
+              msgs: [msg]
+          })
+      }catch (e) {
+          console.log(e)
+      }
 
   }
 
@@ -156,7 +170,7 @@ if (typeof document !== 'undefined') {
             console.log('connectType is', connectedWallet.connectType)
       }
       
-      //Check if bid is highesti
+      //Check if bid is highest
         try {
             let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privTokenContract,{
                 place_bid: {auction_id: testAuctionID}
@@ -208,7 +222,13 @@ if (typeof document !== 'undefined') {
                             <p className="author">Author name</p>                        
                             <p className="description">{imageNftData.description}</p>
                             <div className="row">
-                            <div className="col-6">
+                                <div className="col-12">
+                                    <div className="nft-stats">
+                                        <h6>Highest bid</h6>
+                                        <p className="highest_bid">{nftData.highest_bid / 1000000} <span>UST</span></p>
+                                    </div>
+                                </div>
+                                <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Starting price</h6>
                                         <p className="start-price">{nftData.start_price / 1000000} <span>UST</span></p>
@@ -274,7 +294,7 @@ if (typeof document !== 'undefined') {
                                     <div className="col-6">
                                     <button 
                                 className="btn btn-primary btn-lg w-100"
-                                disabled={nftData && nftValid(nftData.end_time) ? false : true}
+                                disabled={nftData && nftValid(nftData.end_time) && nftData.instant_buy ? false : true}
                                 onClick={() => buyNow()}>{nftData && nftValid(nftData.end_time) ? 'Buy now' : 'Auction expired'}
                                 </button>
                                     </div>
