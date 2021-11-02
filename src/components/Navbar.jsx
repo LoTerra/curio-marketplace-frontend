@@ -10,6 +10,7 @@ import numeral from 'numeral'
 import { useStore } from '../store'
 import { MagnifyingGlass, Wallet, Check, UserCircle } from "phosphor-react"; 
 import CreateNftModal from './CreateNft'
+import UserModal from './UserModal'
 
 
 
@@ -169,7 +170,7 @@ export default function Navbar(props) {
                 </form>
                 { connected &&
                     <li className="nav-item">
-                    <button className="btn btn-secondary ">
+                    <button className="btn btn-secondary " data-bs-toggle="modal" data-bs-target="#userModal">
                     <UserCircle size={24} style={{marginTop:'-3px'}}/>
                     </button>
                     </li>
@@ -240,6 +241,7 @@ export default function Navbar(props) {
             </div>
         </div>
         <CreateNftModal/>
+        <UserModal/>
         </>
     )
 }
