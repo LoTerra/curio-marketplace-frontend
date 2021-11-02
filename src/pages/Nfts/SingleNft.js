@@ -70,15 +70,7 @@ if (typeof document !== 'undefined') {
 
   function sortBids(bids){
     let clean = []
-    bids.map(obj => {
-        let found = clean.find(({bidder}) => bidder === obj.bidder);
-        console.log(found)
-        if(found){          
-            found.amount = parseInt(found.amount) + parseInt(obj.amount)
-        }else {
-            clean.push({bidder:obj.bidder,amount:obj.amount})
-        }
-    });
+    clean = bids;
 
     clean.sort((a,b) => {return parseInt(b.amount) - parseInt(a.amount)})
 
@@ -262,10 +254,9 @@ if (typeof document !== 'undefined') {
                                     className="form-control amount-input-staking"
                                     required={true}
                                     disabled={nftData && nftValid(nftData.end_time) ? false : true}
-                                    onChange={(e) => setAmount(e.target.value)}
-                                    value={amount}
-                                    autoComplete="off"
-                                    min={bidInfo && bidInfo[0] ? bidInfo[0].amount / 1000000 * 1.05 : nftData && nftData.start_price ? nftData.start_price / 1000000 * 1.05 : 0}
+                                    onChange={(e) => setAmount(e.target.value)}                                   
+                                    autoComplete="off"                                    
+                                    min={bidInfo && bidInfo[0] ? (bidInfo[0].amount / 1000000 * 1.05 - bidInfo[0].amount / 1000000).toFixed() : nftData && nftData.start_price ? (nftData.start_price / 1000000 * 1.05).toFixed() : 0}
                                     step="1"
                                     placeholder="0"
                                     name="amount"
