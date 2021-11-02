@@ -88,14 +88,19 @@ text-decoration: none;
         line-height: 21px;    
         align-items: center;
         text-align: center;     
+        border:0;
     &.btn-primary {
         background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), #0075FF;
         font-weight: 600;       
         color: #FFFFFF;
-        border:0;
+  
     }
     &.btn-secondary {
         background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), #1E1E1E;
+    }
+    &.btn-default {
+        color:#0075FF;
+        box-shadow:inset 0px 0px 0px 2px #0075FF;
     }
 }
 
@@ -122,6 +127,24 @@ text-decoration: none;
     color:#fff;
     padding:130px 0 80px 0;
     background: linear-gradient(95.32deg, #1F1F1F 7.16%, rgba(22, 22, 22, 0) 98.85%);
+    position:relative;
+    width:100%;
+    overflow:hidden;
+    .nft-stats {
+        background: #191921;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+        h6 {
+            margin-bottom: 0;
+            color: #0778ff;
+        }
+        p {
+            margin:0;
+            font-weight:700;
+            font-size:24px;
+        }
+    }
     table {
         color:#fff;
         border-color: #595959b0;
@@ -289,6 +312,23 @@ text-decoration: none;
         }
     }
     
+}
+
+.nft-loader {
+    background:#1F1F1F;
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    opacity:0;
+    visibility: hidden;
+    transition:all 200ms ease-out;
+    &.show {
+        opacity:1;
+        transition:all 200ms ease-out;
+        visibility: visible;
+    }
 }
 
 .countdown {

@@ -25,6 +25,8 @@ export default (props) => {
   const [imageNftData,setImageNftData] = useState(0)
   const [bidInfo, setBidInfo] = useState([])
 
+  const [loading,setLoading] = useState(true)
+
   const testAuctionID = parseInt(props.nftId)
 
   console.log(testAuctionID)
@@ -47,7 +49,7 @@ if (typeof document !== 'undefined') {
 
   const api = new WasmAPI(lcd.apiRequester)
 
-  async function reloadBids() {
+    const reloadBids = useCallback(async () => {
 
         try {
             const bids = await api.contractQuery(
@@ -64,7 +66,7 @@ if (typeof document !== 'undefined') {
             console.log(e)
           }
     
-  }
+  })
 
   function sortBids(bids){
     let clean = []
@@ -132,6 +134,9 @@ if (typeof document !== 'undefined') {
             sortBids(bids.bids)  
         }
         
+        setTimeout(() => {
+            setLoading(false)
+        },1000)
 
     } catch(e){
         console.log(e)
@@ -139,6 +144,10 @@ if (typeof document !== 'undefined') {
     }
       
   },[])
+
+  function buyNow(){
+
+  }
 
   async function placeBid(){
       console.log(amount, 'make bid')
@@ -207,15 +216,19 @@ if (typeof document !== 'undefined') {
                             <p className="description">{imageNftData.description}</p>
                             <div className="row">
                             <div className="col-6">
-                                    <h6>Starting price</h6>
-                                    <p className="start-price">{nftData.start_price / 1000000} <span>UST</span></p>
+                                    <div className="nft-stats">
+                                        <h6>Starting price</h6>
+                                        <p className="start-price">{nftData.start_price / 1000000} <span>UST</span></p>
+                                    </div>
                                 </div>
                                 <div className="col-6">
-                                    <h6>Instant buy</h6>
-                                    <p className="start-price">{nftData.instant_buy / 1000000} <span>UST</span></p>
+                                    <div className="nft-stats">
+                                        <h6>Instant buy</h6>
+                                        <p className="start-price">{nftData.instant_buy / 1000000} <span>UST</span></p>
+                                    </div>
                                 </div>                                
                             </div>                          
-                            <Countdown expiryTimestamp={expiryTimestamp}/>
+                            {/* <Countdown expiryTimestamp={expiryTimestamp}/> */}
                             <p className="description">{state.raffles[0].desc}</p>
                             <h5>Current bids ({nftData.total_bids})</h5>
                             <div style={{maxHeight:'120px',overflowY:'scroll'}}>
@@ -249,20 +262,39 @@ if (typeof document !== 'undefined') {
                                     required={true}
                                     disabled={nftData && nftValid(nftData.end_time) ? false : true}
                                     onChange={(e) => setAmount(e.target.value)}
-                                    value={amount ? amount : bidInfo && bidInfo[0] ? bidInfo[0].amount / 1000000 * 1.05 : 0 }
+                                    value={amount ? amount : bidInfo && bidInfo[0] ? bidInfo[0].amount / 1000000 * 1.05 : nftData && nftData.start_price ? nftData.start_price / 1000000 * 1.05 : 0 }
                                     autoComplete="off"
-                                    min={bidInfo && bidInfo[0] ? bidInfo[0].amount / 1000000 * 1.05 : 0}
+                                    min={bidInfo && bidInfo[0] ? bidInfo[0].amount / 1000000 * 1.05 : nftData && nftData.start_price ? nftData.start_price / 1000000 * 1.05 : 0}
                                     step="1"
                                     placeholder="0"
                                     name="amount"
                                     />
                                 </div>
-                                <button 
-                                className="btn btn-primary btn-lg w-100"
+                                <small className="d-block py-2 text-muted">In order to bid you need to bid <strong>5% above</strong> current bid or min start price</small>
+                                <div className="row">
+                                    <div className="col-6">
+                                    <button 
+                                className="btn btn-default btn-lg w-100"
                                 disabled={nftData && nftValid(nftData.end_time) ? false : true}
                                 onClick={() => placeBid()}>{nftData && nftValid(nftData.end_time) ? 'Place bid' : 'Auction expired'}
                                 </button>
+                                    </div>
+                                    <div className="col-6">
+                                    <button 
+                                className="btn btn-primary btn-lg w-100"
+                                disabled={nftData && nftValid(nftData.end_time) ? false : true}
+                                onClick={() => buyNow()}>{nftData && nftValid(nftData.end_time) ? 'Buy now' : 'Auction expired'}
+                                </button>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div className={'nft-loader h-100 text-center d-flex ' + (loading ? 'show' : '')}>
+                    <div className="align-self-center w-100">
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="visually-hidden">Loading...</span>
                         </div>
                     </div>
                 </div>

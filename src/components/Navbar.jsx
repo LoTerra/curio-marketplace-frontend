@@ -8,7 +8,7 @@ import {
 } from '@terra-money/wallet-provider'
 import numeral from 'numeral'
 import { useStore } from '../store'
-import { MagnifyingGlass, Wallet, Check } from "phosphor-react"; 
+import { MagnifyingGlass, Wallet, Check, UserCircle } from "phosphor-react"; 
 
 
 
@@ -158,6 +158,13 @@ export default function Navbar(props) {
                     <button type="submit"><MagnifyingGlass size={24} weight="bold" /></button>
                     <input className="form-control " type="search" placeholder="Search" aria-label="Search"/>
                 </form>
+                { connected &&
+                    <li className="nav-item">
+                    <button className="btn btn-secondary ">
+                    <UserCircle size={24} style={{marginTop:'-3px'}}/>
+                    </button>
+                    </li>
+                }
                     <li className="nav-item">
                             { !connected &&
                                 <div className="dropdown">
@@ -191,6 +198,8 @@ export default function Navbar(props) {
                            
                             }
                             { connected &&
+                            <>
+                            
                                <div className="dropdown">
                                    <button
                                 className="btn btn-primary nav-item dropdown-toggle"
@@ -213,6 +222,7 @@ export default function Navbar(props) {
                                     </button>
                                     </ul>
                                </div>
+                               </>
                             }
                                 
                     </li>
