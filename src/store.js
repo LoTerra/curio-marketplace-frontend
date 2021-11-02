@@ -27,7 +27,7 @@ const baseRaffles = [
 ]
 
 const initialState = {
-    privTokenContract: 'terra1rkww8msccz6s7fx3eqxc9gxej48hug5wf2na7y',
+    privTokenContract: 'terra1kdetkq5psxrn53ysafc64wvcx0e47dqym95hgs',
     raffles: baseRaffles,
     lcd:lcd,
     wallet:{},

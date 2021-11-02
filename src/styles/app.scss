@@ -80,6 +80,17 @@ text-decoration: none;
     }
 }
 
+.modal-content {
+    background-color:#151515;
+    border-radius:0;
+    .modal-header{
+        border:0;
+    }
+    .modal-footer {
+        border:0;
+    }
+}
+
 .btn {
     border-radius:0;
     padding: 0.53rem 1.25rem;
