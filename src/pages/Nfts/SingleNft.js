@@ -247,7 +247,6 @@ if (typeof document !== 'undefined') {
                         }
                     }
                 )
-                dispatch({ type: 'setBidder', message: bidderData })
                 setBidder(bidderData)
             }
 
