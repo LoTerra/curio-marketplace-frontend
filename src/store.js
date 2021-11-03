@@ -31,22 +31,33 @@ const initialState = {
     raffles: baseRaffles,
     lcd:lcd,
     wallet:{},
+    bidder: {
+        bid_counter: 0,
+        bids: [],
+        privilege_used: null,
+        total_bid: 0
+    }
 }
 
 const reducer = (state, action) => {
     switch (action.type) {
+        case 'setBidder':
+            return {
+                ...state,
+                bidder: action.message,
+            }
         case 'setPrivTokenContract':
             return {
                 ...state,
                 privTokenContract: action.message,
             }
-            case 'setWallet':
-                return {
-                    ...state,
-                    wallet: action.message,
-                }
-            default:
-            throw new Error(`Unhandled action type: ${action.type}`)
+        case 'setWallet':
+            return {
+                ...state,
+                wallet: action.message,
+            }
+        default:
+        throw new Error(`Unhandled action type: ${action.type}`)
     }
 }
 

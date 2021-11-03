@@ -24,6 +24,12 @@ export default (props) => {
   const [nftData,setNftData] = useState(0)
   const [imageNftData,setImageNftData] = useState(0)
   const [bidInfo, setBidInfo] = useState([])
+    const [bidder, setBidder] = useState( {
+        bid_counter: 0,
+        bids: [],
+        privilege_used: null,
+        total_bid: 0
+    })
 
   const [loading,setLoading] = useState(true)
 
@@ -180,7 +186,7 @@ if (typeof document !== 'undefined') {
                 msgs: [msg]
             })
             console.log(result)            
-            toast.success('Bid succesful')
+            toast.success('Bid successful')
             setTimeout(() => reloadBids(),3000)
         }catch (e) {
             console.log(e)       
@@ -190,6 +196,30 @@ if (typeof document !== 'undefined') {
 
 
   }
+    async function retractBid(){
+        console.log(amount, 'retract bid')
+        if (!connectedWallet) return
+
+        //Check if bid is highest
+        try {
+            let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privTokenContract,{
+                retract_bids: {auction_id: testAuctionID}
+            })
+
+            const result = await connectedWallet.post({
+                msgs: [msg]
+            })
+            console.log(result)
+            toast.success('Retract bids success')
+            setTimeout(() => reloadBids(),3000)
+        }catch (e) {
+            console.log(e)
+            toast.error('Retract bids error')
+        }
+
+
+
+    }
 
   function nftValid(timestamp){
     let end = new Date(parseInt(timestamp) * 1000)
@@ -202,9 +232,32 @@ if (typeof document !== 'undefined') {
     }
   }
 
+    const getNftUserData = useCallback(async () => {
+        try {
+
+            if (connectedWallet){
+                const bidderData = await api.contractQuery(
+                    state.privTokenContract,
+                    {
+                        bidder:{
+                            auction_id:testAuctionID,
+                            address: connectedWallet.walletAddress
+                        }
+                    }
+                )
+                dispatch({ type: 'setBidder', message: bidderData })
+                setBidder(bidderData)
+            }
+
+        }catch (e) {
+            console.log(e)
+        }
+    }, [connectedWallet]);
+
   useEffect(() => {      
     getNftData()
-}, [getNftData])
+      getNftUserData()
+}, [getNftData, getNftUserData])
 
     
 
@@ -287,10 +340,9 @@ if (typeof document !== 'undefined') {
                                     required={true}
                                     disabled={nftData && nftValid(nftData.end_time) ? false : true}
                                     onChange={(e) => setAmount(e.target.value)}                                   
-                                    autoComplete="off"                                    
-                                    min={bidInfo && bidInfo[0] ? (bidInfo[0].amount / 1000000 * 1.05 - bidInfo[0].amount / 1000000).toFixed() : nftData && nftData.start_price ? (nftData.start_price / 1000000 * 1.05).toFixed() : 0}
+                                    autoComplete="off"
                                     step="1"
-                                    placeholder="0"
+                                    placeholder={nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : 0}
                                     name="amount"
                                     />
                                 </div>
@@ -309,6 +361,13 @@ if (typeof document !== 'undefined') {
                                 disabled={nftData && nftValid(nftData.end_time) && nftData.instant_buy ? false : true}
                                 onClick={() => buyNow()}>{nftData && nftValid(nftData.end_time) ? 'Buy now' : 'Auction expired'}
                                 </button>
+                                    </div>
+                                    <div className="col-12 mt-5">
+                                        <button
+                                            className="btn btn-default btn-lg w-100"
+                                            disabled={nftData && connectedWallet && nftData.highest_bidder != connectedWallet.walletAddress && parseInt(bidder.total_bid) > 0 ? false : true}
+                                            onClick={() => retractBid()}>{nftData && nftValid(nftData.end_time) ? 'Retract bid' : 'Retract bid not allowed'}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
