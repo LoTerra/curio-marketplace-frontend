@@ -146,12 +146,12 @@ if (typeof document !== 'undefined') {
 
   async function buyNow(){
       try {
-          /*
-            TODO: Here we need to subtract current bidding from instant buy price and the price should be the difference
-           */
+          if (!connectedWallet) return
+          let final_price = parseInt(bidder.total_bid) > 0 ? parseInt(nftData.instant_buy) - parseInt(bidder.total_bid) : parseInt(nftData.instant_buy)
+
           let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privTokenContract,{
               instant_buy: {}
-          }, {"uusd": 0})
+          }, {"uusd": String(final_price)})
 
           const result = await connectedWallet.post({
               msgs: [msg]
@@ -163,8 +163,10 @@ if (typeof document !== 'undefined') {
   }
 
   async function placeBid(){
-      console.log(amount, 'make bid')
       if (!connectedWallet) return
+      // Set a min bid
+      let min_bid = nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) : 0;
+      if (amount * 1000000 < min_bid) return
 
       /*
         Here is an example of use for a simple transaction with connect wallet
@@ -359,7 +361,7 @@ if (typeof document !== 'undefined') {
                                     <button 
                                 className="btn btn-primary btn-lg w-100"
                                 disabled={nftData && nftValid(nftData.end_time) && nftData.instant_buy ? false : true}
-                                onClick={() => buyNow()}>{nftData && nftValid(nftData.end_time) ? 'Buy now' : 'Auction expired'}
+                                onClick={() => buyNow()}>{nftData && nftValid(nftData.end_time) && nftData.instant_buy ? 'Buy now for ' + (parseInt(bidder.total_bid) > 0 ? (parseInt(nftData.instant_buy) - parseInt(bidder.total_bid)) / 1000000 : parseInt(nftData.instant_buy) / 1000000) +'UST' : 'Buy now'}
                                 </button>
                                     </div>
                                     <div className="col-12 mt-5">
