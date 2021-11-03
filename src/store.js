@@ -27,7 +27,7 @@ const baseRaffles = [
 ]
 
 const initialState = {
-    privTokenContract: 'terra1kdetkq5psxrn53ysafc64wvcx0e47dqym95hgs',
+    privTokenContract: 'terra1eyqqc7xkv5vcld6t5fzt8pmjvuy2mdl5gzxpcz',
     raffles: baseRaffles,
     lcd:lcd,
     wallet:{},
@@ -44,6 +44,11 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 wallet: action.message,
+            }
+        case 'setRaffles':
+            return {
+                ...state,
+                raffles: action.message,
             }
         default:
         throw new Error(`Unhandled action type: ${action.type}`)
