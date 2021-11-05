@@ -46,7 +46,7 @@ export default () => {
 
   <section className="nfts-big">
     <div className="container">
-      <div className="row">  
+        <div className="row">
         
          
               {
@@ -55,7 +55,7 @@ export default () => {
                       <div className="col-md-4">
                         <NftCard key={id} data={obj} type={'small'} index={99}/>
                       </div>)            
-                }) 
+                })
               }
      
         </div>
