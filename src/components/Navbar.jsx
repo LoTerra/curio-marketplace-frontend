@@ -125,7 +125,7 @@ export default function Navbar(props) {
         <div className="navbar navbar-expand-md">
             <div className="container-fluid px-5">
                 <div className="navbar-brand">
-                    <a href="/">SomeName</a>
+                    <a href="/">NFT marketplace</a>
                 </div>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto">
