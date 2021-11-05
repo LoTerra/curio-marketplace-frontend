@@ -32,7 +32,7 @@ export default (props) => {
     })
 
   const [loading,setLoading] = useState(true)
-
+    console.log(props)
   const testAuctionID = parseInt(props.nftId)
 
   console.log(testAuctionID)
@@ -61,7 +61,7 @@ if (typeof document !== 'undefined') {
             const bids = await api.contractQuery(
                 state.privTokenContract,
                 {
-                    bids:{
+                    history_bids:{
                         auction_id:testAuctionID
                     }
                 }
@@ -123,7 +123,7 @@ if (typeof document !== 'undefined') {
             const bids = await api.contractQuery(
                 state.privTokenContract,
                 {
-                    bids:{
+                    history_bids:{
                         auction_id:testAuctionID
                     }
                 }
@@ -268,7 +268,7 @@ if (typeof document !== 'undefined') {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-7">
-                            <NftCard key={1} data={state.raffles[0]} nft={imageNftData} type={'xl'} index={99}/>
+                            <NftCard key={1} data={state.auctions} nft={imageNftData} type={'xl'} index={99}/>
                         </div>
                         <div className="col-md-5 d-flex">
                             <div className="align-self-center w-100">
@@ -308,7 +308,7 @@ if (typeof document !== 'undefined') {
                                 </div>                                
                             </div>                          
                             {/* <Countdown expiryTimestamp={expiryTimestamp}/> */}
-                            <p className="description">{state.raffles[0].desc}</p>
+                            <p className="description">{state.auctions[0]}</p>
                             <h5>Current bids ({nftData.total_bids})</h5>
                             <div style={{maxHeight:'120px',overflowY:'scroll'}}>
                             <table className="table">
@@ -392,7 +392,7 @@ if (typeof document !== 'undefined') {
             <p>Here comes a little description about the category</p>
           </div>
         </div>
-          { state.raffles && state.raffles.slice(0,4).map((obj,key) => {
+          { state.auctions && state.auctions.slice(0,4).map((obj,key) => {
             return (
               <div className="col-md-3">
                 <NftCard key={key} type={'small'} data={obj} index={key}/>
