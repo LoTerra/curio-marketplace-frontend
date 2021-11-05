@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { useStore } from '../store'
-import NftModal from './NftModal'
+import { useStore } from '../../store'
 import Tilt from 'react-tilt'
 
 
 
-export default function NftCard(props) {
+export default function Card(props) {
     const { state, dispatch } = useStore()
 
     const {index, data, nft, type} = props;
     console.log("data-props")
     console.log(data)
     return (<>{ data &&
-        <a href={'/nfts/' + data[0]}>
+        <>
         <Tilt className="Tilt" options={{
             glare: true,
             maxGlare: .5,
@@ -33,7 +32,7 @@ export default function NftCard(props) {
                                 {type != 'xl' &&
                                 (
                                     <>
-                                        <h5 className="card-title m-0">{data[1].nft_id}</h5>
+                                        <h5 className="card-title m-0"></h5>
                                         <p className="m-0"></p>
                                     </>
                                 )
@@ -46,8 +45,8 @@ export default function NftCard(props) {
                 </div>
             </div>
         </Tilt>
-        <NftModal index={index} data={data}/>
-    </a>
+    
+    </>
 }</>
     )
 }

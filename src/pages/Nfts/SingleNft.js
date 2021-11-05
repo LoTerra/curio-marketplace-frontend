@@ -15,7 +15,7 @@ import {
     MsgSend
 } from '@terra-money/terra.js'
 import Countdown from '../../components/SingleNft/Countdown';
-
+import Card from '../../components/SingleNft/Card';
 
 export default (props) => {
   const { state, dispatch } = useStore()
@@ -268,7 +268,7 @@ if (typeof document !== 'undefined') {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-7">
-                            <NftCard key={1} data={state.auctions} nft={imageNftData} type={'xl'} index={99}/>
+                            <Card key={1} data={state.auctions} nft={imageNftData} type={'xl'} index={99}/>
                         </div>
                         <div className="col-md-5 d-flex">
                             <div className="align-self-center w-100">
