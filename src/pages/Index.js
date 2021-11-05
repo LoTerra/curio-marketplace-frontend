@@ -53,10 +53,10 @@ export default () => {
         <div className="col-md-7">
           <div className="row">
             <div className="col-md-4">
-              {
-                auctions.forEach((e, id) =>{
-                  return (<NftCard key={id} data={e} type={'small'} index={99}/>)
-                })
+              { auctions &&
+                  auctions.map((obj, id) => {
+                      return (<NftCard key={id} data={obj} type={'small'} index={99}/>)
+                  })
               }
             </div>
           </div>

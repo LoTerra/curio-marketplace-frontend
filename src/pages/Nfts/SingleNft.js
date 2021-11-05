@@ -306,8 +306,8 @@ if (typeof document !== 'undefined') {
                                         <p className="start-price">{nftData.instant_buy / 1000000} <span>UST</span></p>
                                     </div>
                                 </div>                                
-                            </div>                          
-                            {/* <Countdown expiryTimestamp={expiryTimestamp}/> */}
+                            </div>
+                                <Countdown expiryTimestamp={expiryTimestamp}/>
                             <p className="description">{state.auctions[0]}</p>
                             <h5>Current bids ({nftData.total_bids})</h5>
                             <div style={{maxHeight:'120px',overflowY:'scroll'}}>
@@ -393,7 +393,7 @@ if (typeof document !== 'undefined') {
           </div>
         </div>
           { state.auctions && state.auctions.slice(0,4).map((obj,key) => {
-            return (
+             return (
               <div className="col-md-3">
                 <NftCard key={key} type={'small'} data={obj} index={key}/>
               </div>
