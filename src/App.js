@@ -29,46 +29,46 @@ function App() {
                             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
                         />
                         <title>
-                            NFT Raffle - by LoTerra
+                            NFT auction marketplace - from LoTerra
                         </title>
                         <link
                             rel="icon"
                             type="image/x-icon"
-                            href="https://loterra.io/favicon.ico"
+                            href="#"
                         />
                         <link
                             data-hid="shortcut-icon"
                             rel="shortcut icon"
                             href="https://loterra.io/favicon.ico"
                         />
-                        <meta property="og:title" content="LoTerra" />
+                        <meta property="og:title" content="Privilege" />
                         <meta
                             property="og:image"
-                            content="https://loterra.io/loterra.png"
+                            content=""
                         />
-                        <meta property="og:image:alt" content="LoTerra icon" />
+                        <meta property="og:image:alt" content="Privilege icon" />
                         <meta property="og:type" content="website" />
                         <meta
                             property="og:site_name"
-                            content="NFT Raffle"
+                            content="Privilege marketplace"
                         />
                         <meta
                             property="og:description"
-                            content="LoTerra is a lottery contract, buy tickets as a player or join the governance! DAO allows making decisions together! Manage the casino 🎰 Set the prize 🏆 Up the ticket price or go cheap 🏷 Extract max profits 🤑 Keep the vault secure at all times!"
+                            content="Privilege auction marketplace, where creators sell NFT's"
                         />
                         <meta name="twitter:card" content="summary" />
-                        <meta name="twitter:site" content="LoTerra" />
+                        <meta name="twitter:site" content="Privilege" />
                         <meta
                             name="twitter:title "
-                            content="LoTerra - Decentralized lottery on Terra blockchain"
+                            content="Privilege - Decentralized marketplace on Terra blockchain"
                         />
                         <meta
                             name="twitter:description"
-                            content="LoTerra is a lottery contract, buy tickets as a player or join the governance! DAO allows making decisions together! Manage the casino 🎰 Set the prize 🏆 Up the ticket price or go cheap 🏷 Extract max profits 🤑 Keep the vault secure at all times!"
+                            content="Privilege auction marketplace, where creators sell NFT's"
                         />
                         <meta
                             name="twitter:image"
-                            content="https://loterra.io/loterra.png"
+                            content=""
                         />
                         <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
