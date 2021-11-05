@@ -46,23 +46,20 @@ export default () => {
 
   <section className="nfts-big">
     <div className="container">
-      <div className="row">
-        <div className="col-md-5">
-        <NftCard key={0} data={auctions[0]} type={'big'} index={99}/>
-        </div>
-        <div className="col-md-7">
-          <div className="row">
-            <div className="col-md-4">
+      <div className="row">  
+        
+         
               {
-                auctions.forEach((e, id) =>{
-                  return (<NftCard key={id} data={e} type={'small'} index={99}/>)
-                })
+                auctions.map((obj, id) =>{           
+                    return (
+                      <div className="col-md-4">
+                        <NftCard key={id} data={obj} type={'small'} index={99}/>
+                      </div>)            
+                }) 
               }
-            </div>
-          </div>
+     
         </div>
       </div>
-    </div>
   </section>
 
   {/*<section className="nfts">*/}
