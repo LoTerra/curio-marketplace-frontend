@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export default {
   getSiteData: async ({ dev }) => ({
-    title: 'NFT Raffle',
+    title: 'Auction marketplace',
     lastBuilt: Date.now(),
 }),
 
@@ -16,7 +16,11 @@ getRoutes: async ({ dev }) => [
     {
         path: '/',
         template: 'src/pages/Index',
-    },   
+    },
+    {
+        path: '/Nfts',
+        template: 'src/pages/Nfts/Index',
+    },
     // A 404 component
     {
         path: '404',
