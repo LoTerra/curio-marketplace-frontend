@@ -316,6 +316,16 @@ text-decoration: none;
                 color: #FFFFFF;
             }
         }
+        @media(max-width:768px){
+            height: 335px;
+            .nft-info {
+                .card-title {
+                    font-weight: bold;
+                    font-size: 24px;
+                    color: #FFFFFF;
+                }
+            }
+        }
     }
     &.small {
         height:217px;
