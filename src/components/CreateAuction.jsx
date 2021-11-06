@@ -109,27 +109,27 @@ export default function CreateAuction(props) {
                       <label>Token ID</label>
                           <input type="text" className="form-control" name="token_id" required/>
                       </div>
-                      <div className="col-12 mb-3">
+                      <div className="col-6 mb-3">
                           <label>Time end</label>
                           <input type="datetime-local" className="form-control" name="end_time" required/>
                       </div>
-                      <div className="col-12 mb-3">
+                      <div className="col-6 mb-3">
                           <label>Time start</label> <small>optional</small>
                           <input type="datetime-local" className="form-control" name="start_time"/>
                       </div>
-                      <div className="col-12 mb-3">
+                      <div className="col-6 mb-3">
                           <label>Start/Minimal price</label> <small>optional</small>
                           <input type="number" className="form-control" name="start_price"/>
                       </div>   
-                      <div className="col-12 mb-3">
+                      <div className="col-6 mb-3">
                           <label>Instant buy price</label> <small>optional</small>
                           <input type="number" className="form-control" name="instant_buy"/>
                       </div>
-                      <div className="col-12 mb-3">
+                      <div className="col-6 mb-3">
                           <label>Reserve price</label> <small>optional</small>
                           <input type="number" className="form-control" name="reserve_price"/>
                       </div>
-                      <div className="col-12 mb-3">
+                      <div className="col-6 mb-3">
                           <label>Private sale amount</label> <small>optional</small>
                           <input type="number" className="form-control" name="private_sale_privilege"/>
                       </div>

@@ -11,9 +11,10 @@ export default function UserModal(props) {
 			<div className="modal-content">
 
 				<div className="modal-header">
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               
 
-					<h4 className="modal-title" id="userModalLabel">Right Sidebar</h4>
+					<h4 className="modal-title" id="userModalLabel">Your profile</h4>
+					<button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 
 				<div className="modal-body">
