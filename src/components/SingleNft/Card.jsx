@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { useStore } from '../../store'
 import Tilt from 'react-tilt'
+import Countdown from './Countdown';
 
 
 
 export default function Card(props) {
     const { state, dispatch } = useStore()
 
-    const {index, data, nft, type} = props;
+    const {index, data, nft, type, expiryTimestamp} = props;
     console.log("data-props")
     console.log(data)
     return (<>{ data &&
@@ -45,7 +46,7 @@ export default function Card(props) {
                 </div>
             </div>
         </Tilt>
-    
+        <Countdown expiryTimestamp={expiryTimestamp}/>        
     </>
 }</>
     )

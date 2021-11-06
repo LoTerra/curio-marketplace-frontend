@@ -167,15 +167,51 @@ text-decoration: none;
         background: #191921;
     border-radius: 5px;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
         h6 {
             margin-bottom: 0;
             color: #0778ff;
+            font-size:14px;
         }
         p {
             margin:0;
             font-weight:700;
-            font-size:24px;
+            font-size:18px;
+        }
+    }
+    .nft-bidding {
+        background: #191921;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 10px;
+        height:100%;
+        h6 {
+            margin-bottom: 0;
+            color: #0778ff;
+            font-size:14px;
+        }
+        p {
+            margin:0;
+            font-weight:700;
+            font-size:18px;
+        }
+        &.success {
+            background: linear-gradient(
+                45deg
+                , #75ca5266, transparent);
+                    box-shadow: inset 0px 0px 0px 2px #406039;
+                    h6 {
+                        color: #4fbb3a;
+                    }
+        }
+        &.warning {
+            background: linear-gradient( 
+                45deg
+                 , #c3a22866, transparent);
+                    box-shadow: inset 0px 0px 0px 2px #ad8b24;
+                    h6 {
+                        color: #ad8b24;
+                    }
         }
     }
     table {

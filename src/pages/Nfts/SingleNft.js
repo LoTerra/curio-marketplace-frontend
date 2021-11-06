@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import NftCard from '../../components/NftCard'
 import { useStore } from '../../store'
 import toast, { Toaster } from 'react-hot-toast';
-
+import { Check, Warning } from "phosphor-react"; 
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider';
 import {
     StdFee,
@@ -268,7 +268,7 @@ if (typeof document !== 'undefined') {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-7">
-                            <Card key={1} data={state.auctions} nft={imageNftData} type={'xl'} index={99}/>
+                            <Card key={1} data={state.auctions} nft={imageNftData} type={'xl'}  expiryTimestamp={expiryTimestamp}  index={99}/>
                         </div>
                         <div className="col-md-5 d-flex">
                             <div className="align-self-center w-100">
@@ -276,12 +276,12 @@ if (typeof document !== 'undefined') {
                             <p className="author">Author name</p>                        
                             <p className="description">{imageNftData.description}</p>
                             <div className="row">
-                                <div className="col-12">
+                                {/* <div className="col-12">
                                     <div className="nft-stats">
                                         <h6>Highest bid</h6>
                                         <p className="highest_bid">{nftData.highest_bid / 1000000} <span>UST</span></p>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Reserve price</h6>
@@ -306,9 +306,7 @@ if (typeof document !== 'undefined') {
                                         <p className="start-price">{nftData.instant_buy / 1000000} <span>UST</span></p>
                                     </div>
                                 </div>                                
-                            </div>
-                                <Countdown expiryTimestamp={expiryTimestamp}/>
-                            <p className="description">{state.auctions[0]}</p>
+                            </div>                                                        
                             <h5>Current bids ({nftData.total_bids})</h5>
                             <div style={{maxHeight:'120px',overflowY:'scroll'}}>
                             <table className="table">
@@ -317,10 +315,10 @@ if (typeof document !== 'undefined') {
                                         (a,b) => {return parseInt(b.amount) - parseInt(a.amount)}
                                     ).map((obj,key) => {                                    
                                         return (
-                                            <tr key={key}>
+                                            <tr key={key} className={key == 0 ? 'highest' : ''}>
                                             <td style={{fontSize:'10px'}}>{obj.bidder}</td>
                                             <td className="text-end"><strong>{obj.amount / 1000000} UST</strong></td>
-                                        </tr>  
+                                            </tr>  
                                         )                                  
                                     }) 
                                     :
@@ -330,8 +328,10 @@ if (typeof document !== 'undefined') {
                                 </tbody>
                             </table>
                             </div>
-                            <h5>Your bid</h5>
-                            <div className="input-group mb-3">
+                            <div className="row">
+                                <div className="col-6">
+                                <h5>Your bid</h5>
+                            <div className="input-group mb-0">
                                     <span className="input-group-text" id="basic-addon1">
                                         <img src="/img/UST.svg" width="30px" className="img-fluid"/>
                                     </span>
@@ -347,6 +347,17 @@ if (typeof document !== 'undefined') {
                                     name="amount"
                                     />
                                 </div>
+                                </div>
+                                <div className="col-6">
+                                    <div className={'nft-bidding d-flex ' + (nftData.highest_bid == bidder.total_bid ? 'success' : 'warning')}>
+                                        <div className="align-self-center w-100 text-center">
+                                        <h6>{nftData.highest_bid == bidder.total_bid ? 'You have the highest bid' : bidder.total_bid ? 'You have been overbid' : 'Start bidding'}</h6>
+                                        <p>{nftData.highest_bid == bidder.total_bid ? <Check size={24} /> : <Warning size={24} /> }{bidder.total_bid / 1000000} UST</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                                 <small className="d-block py-2 text-muted">In order to bid you need to bid <strong>5% above</strong> current bid or min start price</small>
                                 <div className="row">
                                     <div className="col-6">
@@ -365,7 +376,7 @@ if (typeof document !== 'undefined') {
                                     </div>
                                     <div className="col-12 mt-5">
                                         <button
-                                            className="btn btn-default btn-lg w-100"
+                                            className="btn btn-secondary btn-lg w-100"
                                             disabled={nftData && connectedWallet && nftData.highest_bidder != connectedWallet.walletAddress && parseInt(bidder.total_bid) > 0 ? false : true}
                                             onClick={() => retractBid()}>{nftData && nftValid(nftData.end_time) ? 'Retract bid' : 'Retract bid not allowed'}
                                         </button>
