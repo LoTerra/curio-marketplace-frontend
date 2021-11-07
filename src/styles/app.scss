@@ -77,7 +77,13 @@ transition: box-shadow 200ms linear;
 font-size: 28px;
 color: #FFFFFF;
 text-decoration: none;
-
+            span {
+                font-size: 14px;
+    color: #2b8cff;
+    position: relative;
+    margin-left: -100px;
+    top: 16px;
+            }
 &:hover {
     color:#fff;
 }
@@ -101,6 +107,21 @@ text-decoration: none;
     }
 }
 
+.nft-left{
+    background: #00000059;
+    padding: 10em 15px;
+    @media(max-width:768px){
+        padding: 5em 15px;
+    }
+}
+
+.nft-right{
+    padding: 10em 15px;
+    @media(max-width:768px){
+        padding: 3em 15px;
+    }
+}
+
 .modal-content {
     background-color:#151515;
     border-radius:0;
@@ -112,6 +133,18 @@ text-decoration: none;
     }
 }
 
+.nav-pills {
+    background: #14141766;
+    padding: 10px;
+    border-radius: 5px;
+    .nav-link {
+        color: #ffffff61;
+        &.active {
+            color: $primary;
+            background-color: #141417;
+        }
+    }
+}
 
 
 .btn {
@@ -129,12 +162,30 @@ text-decoration: none;
         color: #FFFFFF;
   
     }
+    &.btn-special {
+        background:linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), #ff7e00;
+        font-weight: 600;       
+        color: #FFFFFF;
+    }
     &.btn-secondary {
         background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), #1E1E1E;
+    }
+    &.btn-outline-primary {
+        color:#0075FF;
+        box-shadow:inset 0px 0px 0px 2px #0075FF;
+        &:hover {
+            color:#fff;
+        }
     }
     &.btn-default {
         color:#0075FF;
         box-shadow:inset 0px 0px 0px 2px #0075FF;
+    }
+    &.btn-lg {
+        font-size: 18px;
+        padding: 15px 0;
+        font-weight: 700;
+        text-shadow: 1px 1px 0px #00000059;
     }
 }
 
@@ -491,4 +542,58 @@ text-decoration: none;
         font-size: 11px;
     color: #308fff;
     }
+}
+
+@media(max-width:1200px){
+    .navbar {
+            .navbar-collapse {
+                background: #000000c4;
+                position:fixed;
+                right:-100%;
+                width:330px;
+                top:94px;
+                height:100%;
+                bottom:0;
+                transition:all 200ms linear;
+                padding:0px 10px;
+                .btn {
+                    width:100%;
+                    margin:0 !important;
+                }
+                .nav-item {
+                    padding:5px 5px;
+                    margin:0 !important;
+                    .nav-link {
+                   
+                    }
+                }
+                @media(max-width:768px){
+                    top: 69px;
+                    bottom:0;
+                }
+                &.show {
+                    right:0;
+                    bottom:0;
+                    height:100%;
+                }
+                &.collapsing,&.collapse {
+                    position:fixed;
+                right:-100%;
+                width:330px;
+                height:100%;
+                top:94px;
+                bottom:0;
+                @media(max-width:768px){
+                    top: 69px;
+                    bottom:0;
+                }
+                    &.show {
+                        right:0;
+                        bottom:0;
+                        height:100%;
+                    }
+                }
+            }
+        }
+    
 }

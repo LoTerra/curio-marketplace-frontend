@@ -4,6 +4,10 @@ import { useStore } from '../../store'
 import toast, { Toaster } from 'react-hot-toast';
 import { Check, Warning } from "phosphor-react"; 
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider';
+let bootstrap = {}
+if (typeof document !== 'undefined') {
+    bootstrap = require('bootstrap')
+}
 import {
     StdFee,
     MsgExecuteContract,
@@ -223,6 +227,12 @@ if (typeof document !== 'undefined') {
 
     }
 
+    function selectBiddingTab(){
+        let pill = document.querySelector('#pills-profile-tab');
+        let tab = new bootstrap.Tab(pill);
+        tab.show();
+    }
+
   function nftValid(timestamp){
     let end = new Date(parseInt(timestamp) * 1000)
     let now = new Date()
@@ -267,13 +277,10 @@ if (typeof document !== 'undefined') {
             <section className="single-nft-main" style={{padding:0}}>
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-md-6" style={{
-                                background: '#00000059',
-                                padding: '8% 0'
-                        }}>
+                        <div className="col-md-6 nft-left">
                             <Card key={1} data={state.auctions} nft={imageNftData} type={'xl'}  expiryTimestamp={expiryTimestamp}  index={99}/>
                         </div>
-                        <div className="col-md-6 d-flex px-md-5">
+                        <div className="col-md-6 nft-right d-flex">
                             <div className="align-self-center w-100">
                             <h3 className="title">{imageNftData.name}</h3>
                             <p className="author">Author name</p>                        
@@ -321,6 +328,22 @@ if (typeof document !== 'undefined') {
                                     </div>
                                 </div>
                              
+                                    <div className="col-6 mt-3">
+                                    <button onClick={() => selectBiddingTab()}
+                                className="btn btn-primary btn-lg w-100"
+                                disabled={nftData && nftValid(nftData.end_time) ? false : true}
+                                >{nftData && nftValid(nftData.end_time) ? 'Place bid' : 'Auction expired'}
+                                </button>
+                                    </div>
+                                    <div className="col-6 mt-3">
+                                    <button 
+                                className="btn btn-special btn-lg w-100"
+                                disabled={nftData && nftValid(nftData.end_time) && nftData.instant_buy ? false : true}
+                                onClick={() => buyNow()}>{nftData && nftValid(nftData.end_time) && nftData.instant_buy ? 'Buy now for ' + (parseInt(bidder.total_bid) > 0 ? (parseInt(nftData.instant_buy) - parseInt(bidder.total_bid)) / 1000000 : parseInt(nftData.instant_buy) / 1000000) +'UST' : 'Buy now'}
+                                </button>
+                                    </div>
+                                   
+                                
                                                     
                             </div>     
   </div>
@@ -383,14 +406,14 @@ if (typeof document !== 'undefined') {
                                 <div className="row">
                                     <div className="col-6">
                                     <button 
-                                className="btn btn-default btn-lg w-100"
+                                className="btn btn-primary btn-lg w-100"
                                 disabled={nftData && nftValid(nftData.end_time) ? false : true}
                                 onClick={() => placeBid()}>{nftData && nftValid(nftData.end_time) ? 'Place bid' : 'Auction expired'}
                                 </button>
                                     </div>
                                     <div className="col-6">
                                     <button 
-                                className="btn btn-primary btn-lg w-100"
+                                className="btn btn-special btn-lg w-100"
                                 disabled={nftData && nftValid(nftData.end_time) && nftData.instant_buy ? false : true}
                                 onClick={() => buyNow()}>{nftData && nftValid(nftData.end_time) && nftData.instant_buy ? 'Buy now for ' + (parseInt(bidder.total_bid) > 0 ? (parseInt(nftData.instant_buy) - parseInt(bidder.total_bid)) / 1000000 : parseInt(nftData.instant_buy) / 1000000) +'UST' : 'Buy now'}
                                 </button>

@@ -138,19 +138,19 @@ export default function Navbar(props) {
     return (
         <>
         <div className="navbar navbar-expand-lg">
-            <div className="container-fluid px-5">
+            <div className="container-fluid">
                 <div className="navbar-brand">
-                    <a href="/">NFT Marketplace</a>
+                    <a href="/">LoTerra NFT <span>Marketplace</span></a>
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <List size={24} color={'#fff'}/>
+                <List size={48} color={'#fff'}/>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto">
                     <li className="nav-item">
                         <div className="dropdown">
                         <button className="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" type="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">Select category</button>
+                            data-bs-toggle="dropdown" aria-expanded="false">Categories</button>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <button className="dropdown-item">
                                 Category 1
@@ -175,7 +175,7 @@ export default function Navbar(props) {
                     </li>
                     { connected &&
                     <li className="nav-item">
-                    <button className="btn btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#createNftModal">
+                    <button className="btn btn-outline-primary ms-3" data-bs-toggle="modal" data-bs-target="#createNftModal">
                         Create Auction
                     </button>
                     </li>
