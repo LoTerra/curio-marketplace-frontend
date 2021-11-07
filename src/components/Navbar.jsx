@@ -95,14 +95,14 @@ export default function Navbar(props) {
             <>
                 <Wallet
                     size={24}
-                    color="#fff"
+                    color="#000"
                     style={{ display: 'inline-block', marginTop: '-3px' }}
                 />{' '}
                 {bank ? (
                     <>
                         <Check
                             size={16}
-                            color="#fff"
+                            color="#000"
                             weight="bold"
                             style={{
                                 display: 'inline-block',
@@ -110,7 +110,7 @@ export default function Navbar(props) {
                                 marginLeft: '-5px',
                             }}
                         />
-                        {bank} UST
+                        {/* {bank} UST */}
                     </>
                 ) : (
                     <div className="spinner-border spinner-border-sm" role="status">
@@ -140,11 +140,9 @@ export default function Navbar(props) {
         <div className="navbar navbar-expand-lg">
             <div className="container-fluid">
                 <div className="navbar-brand">
-                    <a href="/">LoTerra NFT <span>Marketplace</span></a>
+                    <a href="/">LoTerra NFT <span>Marketplace <small style={{fontSize:'10px'}}>TESTNET</small></span></a>
                 </div>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <List size={48} color={'#fff'}/>
-                </button>
+              
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto">
                     <li className="nav-item">
@@ -225,7 +223,12 @@ export default function Navbar(props) {
                                 </div>
                            
                             }
-                            { connected &&
+                            
+                                
+                    </li>
+                </ul>
+                </div>
+                { connected &&
                             <>
                             
                                <div className="dropdown">
@@ -252,10 +255,9 @@ export default function Navbar(props) {
                                </div>
                                </>
                             }
-                                
-                    </li>
-                </ul>
-                </div>
+                              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <List size={36} color={'#fff'}/>
+                </button>
             </div>
         </div>
         <CreateNftModal/>

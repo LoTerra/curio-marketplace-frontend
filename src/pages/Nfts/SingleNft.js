@@ -280,7 +280,7 @@ if (typeof document !== 'undefined') {
                         <div className="col-md-6 nft-left">
                             <Card key={1} data={state.auctions} nft={imageNftData} type={'xl'}  expiryTimestamp={expiryTimestamp}  index={99}/>
                         </div>
-                        <div className="col-md-6 nft-right d-flex">
+                        <div className="col-md-6 nft-right px-xl-5 d-flex">
                             <div className="align-self-center w-100">
                             <h3 className="title">{imageNftData.name}</h3>
                             <p className="author">Author name</p>                        

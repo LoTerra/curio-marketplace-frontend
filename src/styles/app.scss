@@ -2,8 +2,9 @@
 @import '../../node_modules/bootstrap/scss/variables';
 @import '../../node_modules/bootstrap/scss/mixins';
 
-$primary: #0075FF;
+$primary: #20ff93;
 $secondary: #1E1E1E;
+$special:#ff36ff;
 
 $theme-colors: (primary: $primary,
     secondary: $secondary,
@@ -79,9 +80,9 @@ color: #FFFFFF;
 text-decoration: none;
             span {
                 font-size: 14px;
-    color: #2b8cff;
+    color: $primary;
     position: relative;
-    margin-left: -100px;
+    margin-left: -140px;
     top: 16px;
             }
 &:hover {
@@ -105,6 +106,10 @@ text-decoration: none;
             padding-left:40px;
         }
     }
+}
+
+.text-primary {
+    color:$primary !important;
 }
 
 .nft-left{
@@ -158,13 +163,13 @@ text-decoration: none;
         text-align: center;     
         border:0;
     &.btn-primary {
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), #0075FF;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), $primary;
         font-weight: 600;       
-        color: #FFFFFF;
+        color: #000;
   
     }
     &.btn-special {
-        background:linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), #ff7e00;
+        background:linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), $special;
         font-weight: 600;       
         color: #FFFFFF;
     }
@@ -172,8 +177,8 @@ text-decoration: none;
         background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), #1E1E1E;
     }
     &.btn-outline-primary {
-        color:#0075FF;
-        box-shadow:inset 0px 0px 0px 2px #0075FF;
+        color:$primary;
+        box-shadow:inset 0px 0px 0px 2px $primary;
         &:hover {
             color:#fff;
         }
@@ -186,7 +191,6 @@ text-decoration: none;
         font-size: 18px;
         padding: 15px 0;
         font-weight: 700;
-        text-shadow: 1px 1px 0px #00000059;
     }
 }
 
@@ -223,7 +227,7 @@ text-decoration: none;
     margin-bottom: 10px;
         h6 {
             margin-bottom: 0;
-            color: #0778ff;
+            color: $primary;
             font-size:14px;
         }
         p {
@@ -240,7 +244,7 @@ text-decoration: none;
         height:100%;
         h6 {
             margin-bottom: 0;
-            color: #0778ff;
+            color: $primary;
             font-size:14px;
         }
         p {
@@ -251,10 +255,10 @@ text-decoration: none;
         &.success {
             background: linear-gradient(
                 45deg
-                , #75ca5266, transparent);
-                    box-shadow: inset 0px 0px 0px 2px #406039;
+                , #49ffa754, transparent);
+                    box-shadow: inset 0px 0px 0px 2px #2aff9857;
                     h6 {
-                        color: #4fbb3a;
+                        color: $primary;
                     }
         }
         &.warning {
@@ -284,7 +288,7 @@ text-decoration: none;
         margin-bottom:20px;
     }
     h5 {
-        border-left: 2px solid #0e7dff;
+        border-left: 2px solid $primary;
     padding-left: 10px;
     background: #00000038;
     padding: 10px 10px;
