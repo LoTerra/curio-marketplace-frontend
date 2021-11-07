@@ -278,42 +278,55 @@ if (typeof document !== 'undefined') {
                             <h3 className="title">{imageNftData.name}</h3>
                             <p className="author">Author name</p>                        
                             <p className="description">{imageNftData.description}</p>
-                            <div className="row">
+                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button class="nav-link active btn-sm" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Auction info</button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button class="nav-link btn-sm" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Bidding</button>
+  </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+  <div className="row">
                                 {/* <div className="col-12">
                                     <div className="nft-stats">
                                         <h6>Highest bid</h6>
                                         <p className="highest_bid">{nftData.highest_bid / 1000000} <span>UST</span></p>
                                     </div>
                                 </div> */}
-                                <div className="col-6">
-                                    <div className="row">
+                            
                                     <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Reserve price</h6>
                                         <p className="highest_bid">{nftData.reserve_price / 1000000} <span>UST</span></p>
                                     </div>
                                 </div>
-                                <div className="col-6">
+                                <div className="col-lg-6">
                                     <div className="nft-stats">
                                         <h6>Charity</h6>
                                         <p className="highest_bid">{nftData.charity ? nftData.charity.fee_percentage + '%': '0%' }</p>
                                     </div>
                                 </div>
-                                <div className="col-6">
+                                <div className="col-lg-6">
                                     <div className="nft-stats">
                                         <h6>Starting price</h6>
                                         <p className="start-price">{nftData.start_price / 1000000} <span>UST</span></p>
                                     </div>
                                 </div>
-                                <div className="col-6">
+                                <div className="col-lg-6">
                                     <div className="nft-stats">
                                         <h6>Instant buy</h6>
                                         <p className="start-price">{nftData.instant_buy / 1000000} <span>UST</span></p>
                                     </div>
                                 </div>
-                                    </div>
-                                </div>
-                                <div className="col-6">
+                             
+                                                    
+                            </div>     
+  </div>
+  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+  <div className="row">
+  <div className="col-12">
                                 <h5>Current bids ({nftData.total_bids})</h5>
                             <div style={{maxHeight:'120px',overflowY:'scroll'}}>
                             <table className="table">
@@ -322,9 +335,10 @@ if (typeof document !== 'undefined') {
                                         (a,b) => {return parseInt(b.amount) - parseInt(a.amount)}
                                     ).map((obj,key) => {                                    
                                         return (
-                                            <tr key={key} className={key == 0 ? 'highest' : ''}>
-                                            <td style={{fontSize:'10px', width:'100px'}}>{obj.bidder.slice(0, -10) + "**********"}</td>
-                                            <td className="text-end"><strong>{obj.amount / 1000000} UST</strong></td>
+                                            <tr key={key} className={key == 0 ? 'highest' : ''}>                                    
+                                            <td className="text-start"><strong>{obj.amount / 1000000} UST</strong>
+                                            <small className="d-block text-muted" style={{fontSize:'10px'}}>{obj.bidder.slice(0, -20) + "**********"}</small>
+                                            </td>
                                             </tr>  
                                         )                                  
                                     }) 
@@ -335,10 +349,7 @@ if (typeof document !== 'undefined') {
                                 </tbody>
                             </table>
                             </div>
-                                    </div>                                
-                            </div>                                                        
-                            
-                            <div className="row">
+                                    </div>          
                                 <div className="col-6">
                                 <h5>Your bid</h5>
                             <div className="input-group mb-0">
@@ -392,6 +403,11 @@ if (typeof document !== 'undefined') {
                                         </button>
                                     </div>
                                 </div>
+  </div>
+</div>
+                                                                          
+                            
+                            
                             </div>
                         </div>
                     </div>
