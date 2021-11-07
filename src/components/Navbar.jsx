@@ -8,7 +8,7 @@ import {
 } from '@terra-money/wallet-provider'
 import numeral from 'numeral'
 import { useStore } from '../store'
-import { MagnifyingGlass, Wallet, Check, UserCircle } from "phosphor-react"; 
+import { MagnifyingGlass, Wallet, Check, UserCircle, List } from "phosphor-react"; 
 import CreateNftModal from './CreateAuction'
 import UserModal from './UserModal'
 
@@ -21,6 +21,7 @@ export default function Navbar(props) {
     let connectedWallet = ''
 
     const [connected, setConnected] = useState(false)
+    const [userBids,setUserBids] = useState(false)
     const [bank, setBank] = useState(false)
 
     let wallet = ''
@@ -49,6 +50,20 @@ export default function Navbar(props) {
             try{
                 const api = new WasmAPI(lcd.apiRequester)
                 coins = await lcd.bank.balance(connectedWallet.walletAddress)
+
+              
+                    const bidderData = await api.contractQuery(
+                        state.privTokenContract,
+                        {
+                            bidder:{   
+                                auction_id:0,                          
+                                address: connectedWallet.walletAddress
+                            }
+                        }
+                    )
+                    setUserBids(bidderData)
+                    console.log(bidderData)
+
                 setConnected(true)
             } catch {
                
@@ -122,11 +137,14 @@ export default function Navbar(props) {
 
     return (
         <>
-        <div className="navbar navbar-expand-md">
+        <div className="navbar navbar-expand-lg">
             <div className="container-fluid px-5">
                 <div className="navbar-brand">
-                    <a href="/">NFT marketplace</a>
+                    <a href="/">NFT Marketplace</a>
                 </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <List size={24} color={'#fff'}/>
+                </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto">
                     <li className="nav-item">
@@ -158,7 +176,7 @@ export default function Navbar(props) {
                     { connected &&
                     <li className="nav-item">
                     <button className="btn btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#createNftModal">
-                        Create NFT auction
+                        Create Auction
                     </button>
                     </li>
                     }

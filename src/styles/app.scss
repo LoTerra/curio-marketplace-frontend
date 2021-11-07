@@ -77,6 +77,10 @@ transition: box-shadow 200ms linear;
 font-size: 28px;
 color: #FFFFFF;
 text-decoration: none;
+span {
+    color:$primary;
+    font-size:14px;
+}
 &:hover {
     color:#fff;
 }
@@ -308,7 +312,7 @@ text-decoration: none;
         }
     }
     &.xl {
-        height:562px;
+   
         .nft-info {
             .card-title {
                 font-weight: bold;
@@ -328,7 +332,6 @@ text-decoration: none;
         }
     }
     &.small {
-        height:217px;
         .nft-info {
             .card-title {
                 font-weight: bold;
@@ -395,6 +398,19 @@ text-decoration: none;
     
 }
 
+.nft-preview{
+    position: relative;
+    width: 80%;
+    height: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0px 5px 45px #000;
+    img {
+        border-radius:20px;
+    }
+}
+
 .nft-loader {
     background:#1F1F1F;
     position:absolute;
@@ -413,6 +429,11 @@ text-decoration: none;
 }
 
 .countdown {
+    bottom: 0;
+    padding: 2%;
+    top: unset;
+    background: #00000096;
+    height: auto;
     .time-low {
         font-size:12px;
         text-transform:uppercase;

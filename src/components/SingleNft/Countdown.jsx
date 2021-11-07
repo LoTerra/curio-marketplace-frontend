@@ -23,7 +23,7 @@ export default function Countdown(props){
 
 
     return (
-        <div className="countdown col-12 col-md-10 mx-auto">
+        <div className="countdown">
                     {expiryTimestamp > new Date() ? (
                         <div className="row text-center">
                             <div className="col px-1">

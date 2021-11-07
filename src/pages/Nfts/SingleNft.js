@@ -264,13 +264,16 @@ if (typeof document !== 'undefined') {
 
   return (
             <>
-            <section className="single-nft-main">
-                <div className="container">
+            <section className="single-nft-main" style={{padding:0}}>
+                <div className="container-fluid">
                     <div className="row">
-                        <div className="col-md-7">
+                        <div className="col-md-6" style={{
+                                background: '#00000059',
+                                padding: '8% 0'
+                        }}>
                             <Card key={1} data={state.auctions} nft={imageNftData} type={'xl'}  expiryTimestamp={expiryTimestamp}  index={99}/>
                         </div>
-                        <div className="col-md-5 d-flex">
+                        <div className="col-md-6 d-flex px-md-5">
                             <div className="align-self-center w-100">
                             <h3 className="title">{imageNftData.name}</h3>
                             <p className="author">Author name</p>                        
@@ -283,6 +286,8 @@ if (typeof document !== 'undefined') {
                                     </div>
                                 </div> */}
                                 <div className="col-6">
+                                    <div className="row">
+                                    <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Reserve price</h6>
                                         <p className="highest_bid">{nftData.reserve_price / 1000000} <span>UST</span></p>
@@ -305,9 +310,11 @@ if (typeof document !== 'undefined') {
                                         <h6>Instant buy</h6>
                                         <p className="start-price">{nftData.instant_buy / 1000000} <span>UST</span></p>
                                     </div>
-                                </div>                                
-                            </div>                                                        
-                            <h5>Current bids ({nftData.total_bids})</h5>
+                                </div>
+                                    </div>
+                                </div>
+                                <div className="col-6">
+                                <h5>Current bids ({nftData.total_bids})</h5>
                             <div style={{maxHeight:'120px',overflowY:'scroll'}}>
                             <table className="table">
                                 <tbody>
@@ -316,7 +323,7 @@ if (typeof document !== 'undefined') {
                                     ).map((obj,key) => {                                    
                                         return (
                                             <tr key={key} className={key == 0 ? 'highest' : ''}>
-                                            <td style={{fontSize:'10px'}}>{obj.bidder}</td>
+                                            <td style={{fontSize:'10px', width:'100px'}}>{obj.bidder.slice(0, -10) + "**********"}</td>
                                             <td className="text-end"><strong>{obj.amount / 1000000} UST</strong></td>
                                             </tr>  
                                         )                                  
@@ -328,6 +335,9 @@ if (typeof document !== 'undefined') {
                                 </tbody>
                             </table>
                             </div>
+                                    </div>                                
+                            </div>                                                        
+                            
                             <div className="row">
                                 <div className="col-6">
                                 <h5>Your bid</h5>
