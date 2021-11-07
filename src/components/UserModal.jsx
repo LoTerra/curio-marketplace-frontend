@@ -6,7 +6,7 @@ export default function UserModal(props) {
     const { state, dispatch } = useStore()
 
     return (
-        <div className="modal right fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel">
+        <div className="modal right fade" id="userModal" tabIndex="-1" role="dialog" aria-labelledby="userModalLabel">
 		<div className="modal-dialog " role="document">
 			<div className="modal-content">
 

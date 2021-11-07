@@ -47,7 +47,10 @@ export default () => {
   <section className="nfts-big">
     <div className="container">
         <div className="row">
-        
+          <div className="col-md-10 intro mx-auto text-center">
+            <h1><span className="green">Buy</span> or <span className="pink">Auction</span> your NFT</h1>
+            <p className="slogan">We are currently in <strong>testnet mode</strong>, feel free to test with us</p>
+          </div>
          
               {
                 auctions.map((obj, id) =>{           

@@ -177,10 +177,11 @@ text-decoration: none;
         background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), #1E1E1E;
     }
     &.btn-outline-primary {
-        color:$primary;
-        box-shadow:inset 0px 0px 0px 2px $primary;
+        color:$special;
+        box-shadow:inset 0px 0px 0px 2px $special;
         &:hover {
-            color:#fff;
+            background:$special;
+            color:#000;
         }
     }
     &.btn-default {
@@ -211,6 +212,22 @@ text-decoration: none;
 .nfts-big {
     padding:130px 0 80px 0;
     background: linear-gradient(95.32deg, #1F1F1F 7.16%, rgba(22, 22, 22, 0) 98.85%);
+    .intro {
+        margin-bottom:45px;
+    }
+    h1 {
+        font-weight:700;
+        .pink {
+            border-bottom:4px solid $special;
+        }
+        .green {
+            border-bottom:4px solid $primary;
+        }
+    }
+    .slogan {
+        margin-top: 15px;
+        opacity: 0.5;
+    }
 }
 
 .single-nft-main {
@@ -341,6 +358,17 @@ text-decoration: none;
     overflow:hidden;
     position:relative;
     box-shadow: 0px 10px 14px #00000061;
+    .btn-primary{
+        position: absolute;
+    right: 20px;
+    left: unset;
+    top: 20px;
+    text-align: center;
+    z-index: 9;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    }
     .card-img {
         position: absolute;
     left: 0px;

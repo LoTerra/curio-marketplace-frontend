@@ -285,16 +285,16 @@ if (typeof document !== 'undefined') {
                             <h3 className="title">{imageNftData.name}</h3>
                             <p className="author">Author name</p>                        
                             <p className="description">{imageNftData.description}</p>
-                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-  <li class="nav-item" role="presentation">
-    <button class="nav-link active btn-sm" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Auction info</button>
+                            <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
+  <li className="nav-item" role="presentation">
+    <button className="nav-link active btn-sm" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Auction info</button>
   </li>
-  <li class="nav-item" role="presentation">
-    <button class="nav-link btn-sm" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Bidding</button>
+  <li className="nav-item" role="presentation">
+    <button className="nav-link btn-sm" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Bidding</button>
   </li>
 </ul>
-<div class="tab-content" id="pills-tabContent">
-  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+<div className="tab-content" id="pills-tabContent">
+  <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
   <div className="row">
                                 {/* <div className="col-12">
                                     <div className="nft-stats">
@@ -347,7 +347,7 @@ if (typeof document !== 'undefined') {
                                                     
                             </div>     
   </div>
-  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+  <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
   <div className="row">
   <div className="col-12">
                                 <h5>Current bids ({nftData.total_bids})</h5>
