@@ -111,7 +111,8 @@ text-decoration: none;
     background: #00000059;
     padding: 10em 15px;
     @media(max-width:768px){
-        padding: 5em 15px;
+        padding: 7em 15px;
+        padding-bottom:3em;
     }
 }
 
@@ -148,7 +149,7 @@ text-decoration: none;
 
 
 .btn {
-    border-radius:5px;
+    border-radius:4px;
     padding: 0.53rem 1.25rem;
     font-weight: 600;
         font-size: 14px;

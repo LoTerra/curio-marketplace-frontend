@@ -309,19 +309,19 @@ if (typeof document !== 'undefined') {
                                         <p className="highest_bid">{nftData.reserve_price / 1000000} <span>UST</span></p>
                                     </div>
                                 </div>
-                                <div className="col-lg-6">
+                                <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Charity</h6>
                                         <p className="highest_bid">{nftData.charity ? nftData.charity.fee_percentage + '%': '0%' }</p>
                                     </div>
                                 </div>
-                                <div className="col-lg-6">
+                                <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Starting price</h6>
                                         <p className="start-price">{nftData.start_price / 1000000} <span>UST</span></p>
                                     </div>
                                 </div>
-                                <div className="col-lg-6">
+                                <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Instant buy</h6>
                                         <p className="start-price">{nftData.instant_buy / 1000000} <span>UST</span></p>
