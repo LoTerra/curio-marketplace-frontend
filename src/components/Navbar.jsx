@@ -184,13 +184,7 @@ export default function Navbar(props) {
                     <button type="submit"><MagnifyingGlass size={24} weight="bold" /></button>
                     <input className="form-control " type="search" placeholder="Search" aria-label="Search"/>
                 </form>
-                { connected &&
-                    <li className="nav-item">
-                    <button className="btn btn-secondary " data-bs-toggle="modal" data-bs-target="#userModal">
-                    <UserCircle size={24} style={{marginTop:'-3px'}}/>
-                    </button>
-                    </li>
-                }
+                
                     <li className="nav-item">
                             { !connected &&
                                 <div className="dropdown">
@@ -227,17 +221,23 @@ export default function Navbar(props) {
                                 
                     </li>
                 </ul>
-                </div>
-                { connected &&
-                            <>
-                            
-                               <div className="dropdown">
+                </div>             
+              
+               <div className="d-flex">
+               { connected &&
+                       <>
+                    <button className="btn btn-secondary px-2" data-bs-toggle="modal" data-bs-target="#userModal">
+                    <UserCircle size={24} style={{marginTop:'-3px'}}/>
+                    </button>
+                   
+                               <div className="dropdown nav-item ms-2">
                                    <button
-                                className="btn btn-primary nav-item dropdown-toggle"
+                                className="btn btn-primary dropdown-toggle px-2"
                                 type="button"
                                 id="dropdownMenuButton2"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
+                        
                            >
                                {returnBank() ? returnBank() : 'loading'}
                            </button>
@@ -253,11 +253,17 @@ export default function Navbar(props) {
                                     </button>
                                     </ul>
                                </div>
+        
+                              
                                </>
                             }
-                              <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <List size={36} color={'#fff'}/>
+                
+                 <button className="nav-item navbar-toggler px-2 btn ms-2 btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <List size={24} color={'#fff'}/>
                 </button>
+               </div>
+              
+               
             </div>
         </div>
         <CreateNftModal/>

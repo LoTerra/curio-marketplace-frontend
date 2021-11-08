@@ -85,6 +85,12 @@ text-decoration: none;
     margin-left: -140px;
     top: 16px;
             }
+            @media(max-width:660px){
+                font-size: 22px;
+                span{
+                    font-size:12px;
+                }
+            }
 &:hover {
     color:#fff;
 }
@@ -580,6 +586,8 @@ text-decoration: none;
     color: $primary;
     }
 }
+
+
 
 @media(max-width:1200px){
     .navbar {
