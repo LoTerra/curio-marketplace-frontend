@@ -12,6 +12,7 @@ import {
     CreateTxOptions,
     MsgSend
 } from '@terra-money/terra.js'
+import { X } from 'phosphor-react';
 
 export default function CreateAuction(props) {
 
@@ -96,7 +97,9 @@ export default function CreateAuction(props) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="createNftModalLabel">Create NFT auction</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" className="btn btn-secondary p-2" data-bs-dismiss="modal" aria-label="Close">
+					<X size={24} color={"#fff"} />			                    		
+					</button>
             </div>
             <div className="modal-body">
               <form onSubmit={(e) => create(e)}>

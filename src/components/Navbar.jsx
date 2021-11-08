@@ -120,6 +120,23 @@ export default function Navbar(props) {
             </>
         )
     }
+    
+
+    function rawBank(){
+        return (
+            <>
+            {bank ? (
+                    <>                       
+                        {bank} UST
+                    </>
+                ) : (
+                    <div className="spinner-border spinner-border-sm" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                )}
+            </>
+        )
+    }
 
     
 
@@ -185,17 +202,25 @@ export default function Navbar(props) {
                     <input className="form-control " type="search" placeholder="Search" aria-label="Search"/>
                 </form>
                 
-                    <li className="nav-item">
-                            { !connected &&
+            
+                </ul>
+                </div>             
+              
+               <div className="d-flex">
+               { !connected &&
                                 <div className="dropdown">
                                 <button
-                                    className="btn btn-primary nav-item dropdown-toggle"
+                                    className="btn btn-primary nav-item dropdown-toggle px-2"
                                     type="button"
                                     id="dropdownMenuButton2"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
                                 >                                    
-                                    Connect
+                                    <Wallet
+                    size={24}
+                    color="#000"
+                    style={{ display: 'inline-block', marginTop: '-3px' }}
+                />
                                 </button>
                                 <ul
                                     className="dropdown-menu dropdown-menu-end"
@@ -217,13 +242,6 @@ export default function Navbar(props) {
                                 </div>
                            
                             }
-                            
-                                
-                    </li>
-                </ul>
-                </div>             
-              
-               <div className="d-flex">
                { connected &&
                        <>
                     <button className="btn btn-secondary px-2" data-bs-toggle="modal" data-bs-target="#userModal">
@@ -267,7 +285,7 @@ export default function Navbar(props) {
             </div>
         </div>
         <CreateNftModal/>
-        <UserModal/>
+        <UserModal rawBank={rawBank()}/>
         </>
     )
 }
