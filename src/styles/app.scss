@@ -162,6 +162,11 @@ text-decoration: none;
         align-items: center;
         text-align: center;     
         border:0;
+        small {
+            display:block;
+            font-size:12px;
+            font-weight:300;
+        }
     &.btn-primary {
         background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), $primary;
         font-weight: 600;       
@@ -512,19 +517,18 @@ text-decoration: none;
 }
 
 .countdown {
-    bottom: 0;
-    padding: 2%;
-    top: unset;
-    background: #00000096;
-    height: auto;
-    .time-low {
-        font-size:12px;
-        text-transform:uppercase;
-        opacity:0.6;
-    }
-    .time {
-        font-size:2vw;
+    width:100%;
+    p{
+        font-size:24px;
         font-weight:700;
+        small {
+            font-size:12px;
+            opacity:0.5;
+            margin-right:5px;
+        }
+        @media(max-width:768px){
+            font-size:17px;
+        }
     }
 }
 

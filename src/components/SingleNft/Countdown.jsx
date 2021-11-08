@@ -25,63 +25,28 @@ export default function Countdown(props){
     return (
         <div className="countdown">
                     {expiryTimestamp > new Date() ? (
+                       
                         <div className="row text-center">
-                            <div className="col px-1">
-                                <div className="text-sm time-low">Days</div>
-                                <div className="font-bold time" x-text="days">
-                                    {expiryTimestamp > 1
+                            <div className="col-12">
+                            <p>
+                            {expiryTimestamp > 1
                                         ? days.toString().padStart(2, 0)
-                                        : '-'}
-                                </div>
-                            </div>
-                            <div className="col px-1">
-                                <span className="spacer">:</span>
-                            </div>
-                            <div className="col px-1">
-                                <div className="text-sm time-low">Hours</div>
-                                <div className="font-bold time" x-text="hours">
-                                    {expiryTimestamp > 1
+                                        : '-'} <small>Days</small>
+                                         {expiryTimestamp > 1
                                         ? hours.toString().padStart(2, 0)
-                                        : '-'}
-                                </div>
-                            </div>
-                            <div className="col px-1">
-                                <span className="spacer">:</span>
-                            </div>
-                            <div className="col px-1">
-                                <div className="text-sm time-low">Minutes</div>
-                                <div
-                                    className="font-bold time"
-                                    x-text="minutes"
-                                >
-                                    {expiryTimestamp > 1
+                                        : '-'} <small>Hours</small>
+                                         {expiryTimestamp > 1
                                         ? minutes.toString().padStart(2, 0)
-                                        : '-'}
-                                </div>
-                            </div>
-                            <div className="col px-1">
-                                <span className="spacer">:</span>
-                            </div>
-                            <div className="col px-1">
-                                <div className="text-sm time-low">Seconds</div>
-                                <div
-                                    className="font-bold time"
-                                    x-text="seconds"
-                                >
-                                    {expiryTimestamp > 1
+                                        : '-'} <small>Minutes</small>
+                                        {expiryTimestamp > 1
                                         ? seconds.toString().padStart(2, 0)
-                                        : '-'}
-                                </div>
+                                        : '-'} <small>Seconds</small>
+                            </p>
                             </div>
+                            
                         </div>
                     ) : (
-                        <div className="row text-center">
-                            <div className="col px-1">
-                                <div className="font-bold time">
-                                    <div>Auction expired</div>
-                                </div>
-                            </div>
-                        </div>
+                        <p className="text-muted py-2">Auction expired</p>
                     )}
                 </div>
     )
