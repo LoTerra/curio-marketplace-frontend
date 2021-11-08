@@ -167,10 +167,22 @@ if (typeof document !== 'undefined') {
   }
 
   async function placeBid(){
-      if (!connectedWallet) return
+      if (!connectedWallet) {
+        toast.error('Connect your wallet')
+        return
+      }
+
+      if(amount == 0){
+        toast.error('Please fill a amount to bid')
+        return 
+      }
+      
       // Set a min bid
-      let min_bid = nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) : 0;
-      if (amount * 1000000 < min_bid) return
+      let min_bid = nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) : nftData.start_price !== 0 ? nftData.start_price : 0;
+      if (amount * 1000000 < min_bid) {
+            toast.error('Your bid is to low')
+          return
+      }
 
       /*
         Here is an example of use for a simple transaction with connect wallet
