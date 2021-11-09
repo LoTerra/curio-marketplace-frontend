@@ -16,7 +16,7 @@ export default () => {
 
     async function getHomePageData() {
       try {
-        const result = await axios.get("http://144.126.219.247/api/get-items")
+        const result = await axios.get("https://privilege.digital/api/get-items")
         console.log(result.data);
         setNfts(result.data.filterItems)
       } catch (error) {
