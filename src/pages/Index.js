@@ -1,6 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react'
 import NftCard from '../components/NftCard'
 import { useStore } from '../store'
+import axios from "axios"
 
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 
@@ -10,8 +11,24 @@ export default () => {
   const terra = state.lcd
   const api = new WasmAPI(terra.apiRequester)
     const [auctions, setAuction] = useState([])
+    const [nfts, setNfts] = useState(false);
+
+
+    async function getHomePageData() {
+      try {
+        const result = await axios.get("http://144.126.219.247/api/get-items")
+        console.log(result.data);
+        setNfts(result.data.filterItems)
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
 
   const fetchNftData = useCallback( async() => {
+
+    
+
         try {
           const contractStateInfo = await api.contractQuery(
             state.privTokenContract,
@@ -20,6 +37,9 @@ export default () => {
             }          
         )
         console.log(contractStateInfo)
+
+      
+      console.log(nfts,'nfts')
 
           /// Min is 10 result max is 30
           const firstThirstyAuctionsInfo = await api.contractQuery(
@@ -40,6 +60,7 @@ export default () => {
   }, [])
   useEffect(() => {
     fetchNftData()
+    getHomePageData()
 }, [fetchNftData])
   return (
 <>
@@ -53,7 +74,7 @@ export default () => {
           </div>
          
               {
-                auctions.map((obj, id) =>{           
+                nfts.length > 0 && nfts.map((obj, id) =>{           
                     return (
                       <div className="col-md-4">
                         <NftCard key={id} data={obj} type={'small'} index={99}/>

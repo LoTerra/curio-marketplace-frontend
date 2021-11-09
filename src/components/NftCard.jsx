@@ -14,7 +14,7 @@ export default function NftCard(props) {
     console.log("data-props")
     console.log(data)
     return (<>{ data &&
-        <a href={'/nfts/' + data[0]}>
+        <a href={'/nfts/' + data.nft_id}>
         <Tilt className="Tilt" options={{
             glare: true,
             maxGlare: .5,
@@ -27,7 +27,7 @@ export default function NftCard(props) {
             <div className="Tilt-inner">
                 <div className={'card bg-dark text-white nft-card ratio ratio-1x1 ' + type} style={{background: 'url(' + '' + ')'}}>
                     <button className="btn btn-primary"><ArrowRight size={24} color={'#000'}/></button>
-                    <img src={nft ? nft.image : 'https://i.pinimg.com/736x/1d/00/6c/1d006cafea4ebb657e1bee4d38043569.jpg'} className="card-img" alt="..."/>
+                    <img src={nft ? nft.image_url : 'https://i.pinimg.com/736x/1d/00/6c/1d006cafea4ebb657e1bee4d38043569.jpg'} className="card-img" alt="..."/>
 
                     <div className="card-img-overlay">
                         <div className="d-flex h-100 w-100">
@@ -35,14 +35,14 @@ export default function NftCard(props) {
                                 {type != 'xl' &&
                                 (
                                     <>
-                                        <h5 className="card-title m-0">{data[1].nft_id}</h5>
-                                        <p className="m-0 text-muted">Highest bid: <strong>{data[1].highest_bid / 1000000} UST</strong></p>
-                                        <p className="m-0 text-muted">Total bids: <strong>{data[1].total_bids}</strong></p>                                       
+                                        <h5 className="card-title m-0">{data.title}</h5>
+                                        {/* <p className="m-0 text-muted">Highest bid: <strong>{data.highest_bid / 1000000} UST</strong></p>
+                                        <p className="m-0 text-muted">Total bids: <strong>{data.total_bids}</strong></p>                                        */}
                                             
                                     </>
                                 )
                                 }
-                                <SmallCountdown expiryTimestamp={data[1].end_time} />                                      
+                                <SmallCountdown expiryTimestamp={data.end_time} />                                      
                             </div>
                         </div>
                     </div>
