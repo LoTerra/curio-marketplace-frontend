@@ -14,7 +14,7 @@ export default function NftCard(props) {
     console.log("data-props")
     console.log(data)
     return (<>{ data &&
-        <a href={'/nfts/' + data.nft_id}>
+        <a href={'/nfts/' + data.auction_id}>
         <Tilt className="Tilt" options={{
             glare: true,
             maxGlare: .5,
@@ -27,7 +27,7 @@ export default function NftCard(props) {
             <div className="Tilt-inner">
                 <div className={'card bg-dark text-white nft-card ratio ratio-1x1 ' + type} style={{background: 'url(' + '' + ')'}}>
                     <button className="btn btn-primary"><ArrowRight size={24} color={'#000'}/></button>
-                    <img src={nft ? nft.image_url : 'https://i.pinimg.com/736x/1d/00/6c/1d006cafea4ebb657e1bee4d38043569.jpg'} className="card-img" alt="..."/>
+                    <img src={data.image_url} className="card-img" alt="..."/>
 
                     <div className="card-img-overlay">
                         <div className="d-flex h-100 w-100">
