@@ -241,7 +241,9 @@ const reloadData = useCallback(async () => {
           let final_price = parseInt(bidder.total_bid) > 0 ? parseInt(nftData.instant_buy) - parseInt(bidder.total_bid) : parseInt(nftData.instant_buy)
 
           let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privTokenContract,{
-              instant_buy: {}
+              instant_buy: {
+                  auction_id:testAuctionID
+              }
           }, {"uusd": String(final_price)})
 
           const result = await connectedWallet.post({
