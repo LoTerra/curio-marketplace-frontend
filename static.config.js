@@ -18,9 +18,13 @@ getRoutes: async ({ dev }) => [
         template: 'src/pages/Index',
     },
     {
-        path: '/Nfts',
-        template: 'src/pages/Nfts/Index',
+      path: '/create',
+      template: 'src/pages/Create',
     },
+    {
+        path: '/nfts',
+        template: 'src/pages/Nfts/Index',
+    },    
     // A 404 component
     {
         path: '404',

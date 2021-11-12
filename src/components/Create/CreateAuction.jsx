@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useStore } from '../store'
+import { useStore } from '../../store'
 import toast, { Toaster } from 'react-hot-toast';
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider';
 import {
@@ -91,17 +91,7 @@ export default function CreateAuction(props) {
 
     }
 
-    return (
-        <div className="modal fade" id="createNftModal" tabIndex="-1" aria-labelledby="createNftModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="createNftModalLabel">Create NFT auction</h5>
-              <button type="button" className="btn btn-secondary p-2" data-bs-dismiss="modal" aria-label="Close">
-					<X size={24} color={"#fff"} />			                    		
-					</button>
-            </div>
-            <div className="modal-body">
+    return (       
               <form onSubmit={(e) => create(e)}>
                   <div className="row">
                       <div className="col-12 mb-3">
@@ -148,10 +138,6 @@ export default function CreateAuction(props) {
                         <button type="button" type="submit" className="btn btn-primary w-100">Create</button>
                       </div>
                   </div>
-                </form>
-            </div>      
-          </div>
-        </div>
-      </div>
+                </form>          
     )
 }

@@ -12,6 +12,7 @@ import { StoreProvider } from './store'
 import './styles/app.scss'
 import Navbar from './components/Navbar'
 import SingleNft from './pages/Nfts/SingleNft'
+import Create from './pages/Create'
 
 //Dont prerender routes starting with (because of dynamic data)
 addPrefetchExcludes([
@@ -79,9 +80,10 @@ function App() {
        
                     <StoreProvider>
                         <Navbar/>
-                            <Router>           
-                                <SingleNft path="/nfts/:nftId" />                     
-                                <Routes default />                                
+                            <Router>    
+                                <SingleNft path="/nfts/:nftId" />         
+                                <Create path="/create" />    
+                                <Routes default />                                                                                                                 
                             </Router>
                 
                     </StoreProvider>

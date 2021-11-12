@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useStore } from '../store'
-import NftModal from './NftModal'
 import Tilt from 'react-tilt'
 import { ArrowRight } from 'phosphor-react'
 import SmallCountdown from './SmallCountdown'
@@ -42,7 +41,7 @@ export default function NftCard(props) {
                                     </>
                                 )
                                 }
-                                <SmallCountdown expiryTimestamp={data.end_time} />                                      
+                                {/* <SmallCountdown expiryTimestamp={data.end_time} />                                       */}
                             </div>
                         </div>
                     </div>
@@ -50,8 +49,7 @@ export default function NftCard(props) {
 
                 </div>
             </div>
-        </Tilt>
-        <NftModal index={index} data={data}/>
+        </Tilt>  
     </a>
 }</>
     )
