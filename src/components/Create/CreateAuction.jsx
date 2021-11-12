@@ -78,6 +78,8 @@ export default function CreateAuction(props) {
             }
         })
 
+
+
         const result = await connectedWallet.post({            
             msgs: [msg]
         })
