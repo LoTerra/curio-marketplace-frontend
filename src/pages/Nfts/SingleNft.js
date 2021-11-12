@@ -292,7 +292,8 @@ const reloadData = useCallback(async () => {
             })
             console.log(result)            
             toast.success('Bid successful')
-            setTimeout(() => reloadBids(),3000)
+            //Not needed, we reload on websocket event
+            //setTimeout(() => reloadData(),3000)
         }catch (e) {
             console.log(e)       
             toast.error('Bid error')
@@ -316,7 +317,7 @@ const reloadData = useCallback(async () => {
             })
             console.log(result)
             toast.success('Retract bids success')
-            setTimeout(() => reloadBids(),3000)
+            setTimeout(() => reloadData(),3000)
         }catch (e) {
             console.log(e)
             toast.error('Retract bids error')
