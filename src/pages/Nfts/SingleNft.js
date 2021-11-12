@@ -58,6 +58,52 @@ if (typeof document !== 'undefined') {
       chainID: network.chainID,
   });
 
+  const api = new WasmAPI(lcd.apiRequester)
+ 
+
+const reloadData = useCallback(async () => {
+
+   try {
+    const bids = await api.contractQuery(
+        state.privTokenContract,
+        {
+            history_bids:{
+                auction_id:testAuctionID
+            }
+        }
+    )
+    sortBids(bids.bids)    
+
+        const nftConfigInfo = await api.contractQuery(
+            state.privTokenContract,
+            {
+                auction:{
+                    auction_id:testAuctionID
+                }
+            }
+        )        
+    
+        setNftData(nftConfigInfo)        
+
+        if(connectedWallet && connectedWallet.walletAddress){
+            const bidderData = await api.contractQuery(
+                state.privTokenContract,
+                {
+                    bidder:{
+                        auction_id:testAuctionID,
+                        address: connectedWallet.walletAddress
+                    }
+                }
+            )
+            setBidder(bidderData)
+        }
+    
+      } catch(e){
+        console.log(e)
+      }
+
+})
+
   function observer(){
     // const wsclient = new WebSocketClient("wss://observer.terra.dev");
      console.log("ok")
@@ -90,6 +136,7 @@ if (typeof document !== 'undefined') {
                                         console.log(ev.attributes)               
                                         if(ev.attributes[3].value == testAuctionID){
                                             toast.success('New bid off +'+ (ev.attributes[1].value / 1000000)+'UST')
+                                            reloadData()
                                         }    
                                         
                                      }
@@ -116,26 +163,7 @@ if (typeof document !== 'undefined') {
  
  observer()
 
-  const api = new WasmAPI(lcd.apiRequester)
 
-    const reloadBids = useCallback(async () => {
-
-        try {
-            const bids = await api.contractQuery(
-                state.privTokenContract,
-                {
-                    history_bids:{
-                        auction_id:testAuctionID
-                    }
-                }
-            )
-            sortBids(bids.bids)    
-            console.log(bids)
-          } catch(e){
-            console.log(e)
-          }
-    
-  })
 
   function sortBids(bids){
     let clean = []
@@ -454,7 +482,7 @@ if (typeof document !== 'undefined') {
   <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
   <div className="row">
   <div className="col-12">
-                                <h5>Current bids ({nftData.total_bids})</h5>
+                                <h5>Current bids ({bidInfo.length})</h5>
                             <div style={{maxHeight:'120px',overflowY:'scroll'}}>
                             <table className="table">
                                 <tbody>
