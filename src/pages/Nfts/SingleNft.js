@@ -341,12 +341,10 @@ const reloadData = useCallback(async () => {
                 return 'Add ' + ((parseInt(info.highest_bid) + (parseInt(info.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 + ' UST'
             }
         }
-        if(parseInt(info.start_price) > 0 && parseInt(info.highest_bid) > parseInt(info.start_price) ){
-            return 'Start bidding from ' + (parseInt(info.highest_bid) / 1000000)+ ' UST'
-        }
-        if(parseInt(info.start_price) > 0){
-            return 'Start bidding from ' + (parseInt(info.start_price) / 1000000) + ' UST'
-        }
+
+        return 'Start bidding from ' + (info.highest_bid ? ((parseInt(info.highest_bid) + (parseInt(info.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : 0)+ ' UST'
+
+
     }
 
     function highestBidder(data){
