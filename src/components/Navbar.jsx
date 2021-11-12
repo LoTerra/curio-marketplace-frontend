@@ -190,7 +190,7 @@ export default function Navbar(props) {
                     { connected &&
                     <li className="nav-item">
                     <a className="btn btn-outline-primary ms-3" href="/create">
-                        Create Auction
+                        Auction or Mint
                     </a>
                     </li>
                     }

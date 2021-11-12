@@ -376,6 +376,7 @@ if (typeof document !== 'undefined') {
                             <h3 className="title">{imageNftData.name}</h3>
                             <p className="author">Author name</p>                        
                             <p className="description">{imageNftData.description}</p>
+                         
                             <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
   <li className="nav-item" role="presentation">
     <button className="nav-link active btn-sm" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Auction info</button>
@@ -393,9 +394,17 @@ if (typeof document !== 'undefined') {
                                         <p className="highest_bid">{nftData.highest_bid / 1000000} <span>UST</span></p>
                                     </div>
                                 </div> */}
-                                    <div className="col-12">
+                                   <div className="col-12">
                                         <Countdown expiryTimestamp={expiryTimestamp}/>  
                                     </div>
+                                <div className="col-12">
+                                    <div className="nft-stats big w-100 my-2">
+                                        <h6>Highest bid</h6>
+                                        <p className="highest_bid">{nftData.highest_bid / 1000000} <span>UST</span></p>
+                                    </div>
+                                    </div>
+                                 
+                                    
                                     <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Reserve price</h6>

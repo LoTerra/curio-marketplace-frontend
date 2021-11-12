@@ -263,6 +263,19 @@ text-decoration: none;
             font-weight:700;
             font-size:18px;
         }
+        &.big {
+            background:#191921;
+            text-align:center;
+            border:0;
+            h6 {
+                color:#fff;
+                opacity:0.6;
+            }
+            p {
+                font-size:36px;
+                color:$primary;
+            }
+        }
     }
     .nft-bidding {
         background: #191921;
@@ -579,6 +592,18 @@ text-decoration: none;
 }
 }
 
+.auctionForm {
+    h5 {
+        border-left: 2px solid #20ff93;
+    padding-left: 10px;
+    background: #00000038;
+    padding: 10px 10px;
+    font-weight: 600;
+    }
+    small {
+        color:$primary;
+    }
+}
 
 .modal {
     small {

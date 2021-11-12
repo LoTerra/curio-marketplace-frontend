@@ -92,8 +92,11 @@ export default function CreateAuction(props) {
     }
 
     return (       
-              <form onSubmit={(e) => create(e)}>
+              <form className="auctionForm" onSubmit={(e) => create(e)}>
                   <div className="row">
+                      <div className="col-12">
+                        <h5>Main details</h5>
+                      </div>
                       <div className="col-12 mb-3">
                           <label>Nft contract address</label>
                           <input type="text" className="form-control" name="contract_address" required/>
@@ -101,6 +104,9 @@ export default function CreateAuction(props) {
                       <div className="col-12 mb-3">
                       <label>Token ID</label>
                           <input type="text" className="form-control" name="token_id" required/>
+                      </div>
+                      <div className="col-12">
+                        <h5>Auction settings</h5>
                       </div>
                       <div className="col-6 mb-3">
                           <label>Time end</label>
@@ -125,6 +131,9 @@ export default function CreateAuction(props) {
                       <div className="col-6 mb-3">
                           <label>Private sale amount</label> <small>optional</small>
                           <input type="number" className="form-control" name="private_sale_privilege"/>
+                      </div>
+                      <div className="col-12">
+                        <h5>Charity options</h5>
                       </div>
                       <div className="col-12 mb-3">
                           <label>Charity address</label> <small>optional</small>
