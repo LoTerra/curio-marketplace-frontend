@@ -49,23 +49,23 @@ export default function CreateAuction(props) {
        };
 
       if (data.start_time) {
-          auction_msg.create_auction.start_time = new Date(data.start_time).getTime() / 1000
+          auction_msg.create_auction_nft.start_time = new Date(data.start_time).getTime() / 1000
       }
 
       if (data.charity_address &&  data.charity_fee){
-          auction_msg.create_auction.charity = { address: data.charity_address , fee_percentage: parseFloat(data.charity_fee)}
+          auction_msg.create_auction_nft.charity = { address: data.charity_address , fee_percentage: parseFloat(data.charity_fee)}
       }
       if (data.start_price){
-          auction_msg.create_auction.start_price = String(data.start_price * 1000000)
+          auction_msg.create_auction_nft.start_price = String(data.start_price * 1000000)
       }
       if (data.instant_buy){
-          auction_msg.create_auction.instant_buy = String(data.instant_buy * 1000000)
+          auction_msg.create_auction_nft.instant_buy = String(data.instant_buy * 1000000)
       }
       if (data.reserve_price){
-          auction_msg.create_auction.reserve_price = String(data.reserve_price * 1000000)
+          auction_msg.create_auction_nft.reserve_price = String(data.reserve_price * 1000000)
       }
       if (data.private_sale_privilege){
-          auction_msg.create_auction.private_sale_privilege = String(data.private_sale_privilege * 1000000)
+          auction_msg.create_auction_nft.private_sale_privilege = String(data.private_sale_privilege * 1000000)
       }
 
         let msg = new MsgExecuteContract(connectedWallet.walletAddress, String(data.contract_address),{
