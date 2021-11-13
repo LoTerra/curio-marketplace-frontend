@@ -490,6 +490,9 @@ const reloadData = useCallback(async () => {
   <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
   <div className="row">
   <div className="col-12">
+                                        <Countdown expiryTimestamp={expiryTimestamp}/>  
+                                    </div>
+  <div className="col-12">
                             <h5 className="mb-0">Current bids ({bidInfo.length})</h5>
                             <div style={{maxHeight:'120px',overflowY:'scroll',overflowX:'hidden'}}>
                             <table className="table bidding-table">
