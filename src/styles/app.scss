@@ -373,6 +373,12 @@ text-decoration: none;
     }
 }
 
+.bidding-table {
+    .highest {
+        color: #20ff93;
+        background: #36fe9d17;
+    }
+}
 
 .nft-card {    
     background: linear-gradient(157.28deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.034) 45.83%, rgba(255, 255, 255, 0.09375) 48.96%, rgba(255, 255, 255, 0) 100%), url('/img/cardbg.png');   

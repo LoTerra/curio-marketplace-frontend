@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import NftCard from '../../components/NftCard'
 import { useStore } from '../../store'
 import toast, { Toaster } from 'react-hot-toast';
-import { Check, Warning } from "phosphor-react"; 
+import { Check, Clock, Warning } from "phosphor-react"; 
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider';
 const { w3cwebsocket }  = require( "websocket");
 const client = new w3cwebsocket('wss://observer.terra.dev');
@@ -349,9 +349,9 @@ const reloadData = useCallback(async () => {
         }
     }
 
-    function highestBidder(data){
-       
-    }
+    function format_time(s) {
+        return new Date(s * 1e3).toISOString().slice(-13, -5);
+      }
 
   function nftValid(timestamp){
     let end = new Date(parseInt(timestamp) * 1000)
@@ -483,17 +483,27 @@ const reloadData = useCallback(async () => {
   <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
   <div className="row">
   <div className="col-12">
-                                <h5>Current bids ({bidInfo.length})</h5>
-                            <div style={{maxHeight:'120px',overflowY:'scroll'}}>
-                            <table className="table">
+                                <h5 className="mb-0">Current bids ({bidInfo.length})</h5>
+                            <div style={{maxHeight:'120px',overflowY:'scroll',overflowX:'hidden'}}>
+                            <table className="table bidding-table">
                                 <tbody>
                                     {bidInfo.length > 0 ? bidInfo.sort(
                                         (a,b) => {return parseInt(b.amount) - parseInt(a.amount)}
                                     ).map((obj,key) => {                                    
                                         return (
-                                            <tr key={key} className={key == 0 ? 'highest' : ''}>                                    
-                                            <td className="text-start"><strong>{obj.amount / 1000000} UST</strong>
-                                            <small className="d-block text-muted" style={{fontSize:'10px'}}>{obj.bidder.slice(0, -20) + "**********"}</small>
+                                            <tr key={key} className={key == 0 ? 'highest' : ''}>         
+                                            <td>  
+                                            <div className="row">
+                                                <div className="col-6 text-start">
+                                                <strong>{obj.amount / 1000000} UST</strong>
+                                                <small className="d-block text-muted" style={{fontSize:'10px'}}>{obj.bidder.slice(0, -20) + "**********"}</small>
+                                                </div>
+                                                <div className="col-6 text-end">
+                                                <small className="text-muted bid-time"><Clock size={'16px'} style={{position:'relative',top:'-2px', marginRight:'3px'}}/>{format_time(obj.time)}</small>
+                                                </div>
+                                            </div>
+                                            
+                                          
                                             </td>
                                             </tr>  
                                         )                                  
@@ -506,7 +516,7 @@ const reloadData = useCallback(async () => {
                             </table>
                             </div>
                                     </div>          
-                                <div className="col-12">
+                                <div className={nftData.highest_bid != bidder.total_bid ? 'col-6' : 'd-none'}>
                                 <h5>Your bid</h5>
                             <div className="input-group mb-0">
                                     <span className="input-group-text" id="basic-addon1">
@@ -519,25 +529,30 @@ const reloadData = useCallback(async () => {
                                     disabled={nftData && nftValid(nftData.end_time) ? false : true}
                                     onChange={(e) => setAmount(e.target.value)}                                   
                                     autoComplete="off"
-                                    step="1"
+                                    value={amount}
+                                    step="1"                                    
+                                    min={nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : 0}
                                     placeholder={nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : 0}
                                     name="amount"
                                     />
                                 </div>
                                 </div>
-                                {/* <div className="col-6">
+                                <div className={nftData.highest_bid != bidder.total_bid ? 'col-6' : 'col-12'}>
                                     <div className={'nft-bidding d-flex ' + (nftData.highest_bid == bidder.total_bid ? 'success' : 'warning')}>
                                         <div className="align-self-center w-100 text-center">
                                         <h6>{nftData.highest_bid == bidder.total_bid ? 'You have the highest bid' : bidder.total_bid ? 'You have been overbid' : 'Start bidding'}</h6>
                                         <p>{nftData.highest_bid == bidder.total_bid ? <Check size={24} /> : <Warning size={24} /> }{bidder.total_bid / 1000000} UST</p>
+                                        {nftData.highest_bid != bidder.total_bid &&
+                                        <p style={{textDecoration:'underline', fontSize:'12px'}} onClick={() => setAmount(nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : 0)}>Add minimal {nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : 0} UST</p>
+                                        }   
                                         </div>
                                     </div>
-                                </div> */}
+                                </div>
                             </div>
                             
                                 <small className="d-block py-2 text-muted">In order to bid you need to bid <strong>5% above</strong> current bid or min start price</small>
                                 <div className="row">
-                                    <div className="col-6">
+                                    <div className={nftData.highest_bid != bidder.total_bid ? 'col-6' : 'd-none'}>
                                     <button 
                                 className="btn btn-primary btn-lg w-100"
                                 disabled={nftData && nftValid(nftData.end_time) ? false : true}
@@ -545,7 +560,7 @@ const reloadData = useCallback(async () => {
                                 <small>{nftData && nftValid(nftData.end_time) ? getBiddingInfo(nftData) : ''}</small>
                                 </button>
                                     </div>
-                                    <div className="col-6">
+                                    <div className={nftData && nftValid(nftData.end_time) && nftData.instant_buy ? 'col-6' : 'd-none'}>
                                     <button 
                                 className="btn btn-special btn-lg w-100"
                                 disabled={nftData && nftValid(nftData.end_time) && nftData.instant_buy ? false : true}
