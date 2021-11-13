@@ -303,12 +303,12 @@ text-decoration: none;
                     }
         }
         &.warning {
-            background: linear-gradient( 
-                45deg
-                 , #c3a22866, transparent);
-                    box-shadow: inset 0px 0px 0px 2px #ad8b24;
+            background: linear-gradient(
+45deg
+, #ff36ff4d, transparent);
+    box-shadow: inset 0px 0px 0px 2px #ff36ff;
                     h6 {
-                        color: #ad8b24;
+                        color: #ff36ff;
                     }
         }
     }

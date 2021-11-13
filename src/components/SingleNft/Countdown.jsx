@@ -46,7 +46,7 @@ export default function Countdown(props){
                             
                         </div>
                     ) : (
-                        <p className="text-muted py-2">Auction expired</p>
+                        <p className="text-muted py-2 text-center m-0">Auction finished</p>
                     )}
                 </div>
     )
