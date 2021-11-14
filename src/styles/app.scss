@@ -223,6 +223,9 @@ text-decoration: none;
 .nfts-big {
     padding:130px 0 80px 0;
     background: linear-gradient(95.32deg, #1F1F1F 7.16%, rgba(22, 22, 22, 0) 98.85%);
+    @media(max-width:768px){
+        padding:100px 0 80px 0;
+    }
     .intro {
         margin-bottom:45px;
     }
@@ -352,6 +355,29 @@ text-decoration: none;
     }
 }
 
+.carousel {
+.control-dots {
+    position: absolute;
+    bottom: -5px;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+    z-index: 1;
+    margin:0;
+}
+    .carousel-status {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        padding: 5px;
+        font-size: 10px;
+        text-shadow: 1px 1px 1px rgb(0 0 0 / 90%);
+        color: #fff;
+        background: #00000069;
+        border-radius: 4px;
+        right: unset;
+    }
+}
 
 
 .nfts {
