@@ -2,11 +2,6 @@ import React, {useCallback, useEffect, useState} from 'react'
 import NftCard from '../components/NftCard'
 import { useStore } from '../store'
 import axios from "axios"
-import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
-
-
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
 
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 
@@ -77,7 +72,7 @@ export default () => {
             <h1><span className="green">Buy</span> or <span className="pink">Auction</span> your NFT</h1>
             <p className="slogan">We are currently in <strong>testnet mode</strong>, feel free to test with us</p>
           </div>
-          <BrowserView className="row">
+        
           {
                 nfts.length > 0 && nfts.map((obj, id) =>{           
                     return (
@@ -86,19 +81,7 @@ export default () => {
                       </div>)            
                 })
               }
-          </BrowserView>
-          <MobileView>
-          <Carousel showThumbs={false}>
-              {
-                nfts.length > 0 && nfts.map((obj, id) =>{           
-                    return (
-                      <div className="col-md-4">
-                        <NftCard key={id} data={obj} type={'small'} index={99}/>
-                      </div>)            
-                })
-              }
-          </Carousel>
-          </MobileView>
+         
         </div>
       </div>
   </section>
