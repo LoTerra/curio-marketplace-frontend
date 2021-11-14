@@ -17,8 +17,8 @@ export default function NftCard(props) {
         <Tilt className="Tilt" options={{
             glare: true,
             maxGlare: .5,
-            max: 20,
-            scale: type == 'xl' ? 1.0 : 1.05,
+            max: 10,
+            scale: type == 'xl' ? 1.0 : 1.0,
             transition: true,
             reset: true,
             easing: "cubic-bezier(.03,.98,.52,.99)"

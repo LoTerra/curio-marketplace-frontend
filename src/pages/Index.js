@@ -3,6 +3,9 @@ import NftCard from '../components/NftCard'
 import { useStore } from '../store'
 import axios from "axios"
 
+
+
+
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 
 export default () => {
@@ -66,17 +69,18 @@ export default () => {
 <>
 
   <section className="nfts-big">
-    <div className="container">
+    <div className="container-fluid">
         <div className="row">
           <div className="col-md-10 intro mb-0 mb-md-5 mx-auto text-center">
             <h1><span className="green">Buy</span> or <span className="pink">Auction</span> your NFT</h1>
             <p className="slogan">We are currently in <strong>testnet mode</strong>, feel free to test with us</p>
           </div>
-        
+        </div>
+        <div className="row">
           {
                 nfts.length > 0 && nfts.map((obj, id) =>{           
                     return (
-                      <div className="col-md-4">
+                      <div className={'col-md-3'}>
                         <NftCard key={id} data={obj} type={'small'} index={99}/>
                       </div>)            
                 })
