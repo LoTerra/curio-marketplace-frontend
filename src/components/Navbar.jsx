@@ -156,7 +156,7 @@ export default function Navbar(props) {
         <div className="navbar navbar-expand-lg">
             <div className="container-fluid">
                 <div className="navbar-brand">
-                    <a href="/">LoTerra NFT <span>Marketplace <small style={{fontSize:'10px'}}>TESTNET</small></span></a>
+                    <a href="/"><img src={'/img/logo.svg'}/></a>
                 </div>
               
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">

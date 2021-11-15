@@ -85,7 +85,14 @@ text-decoration: none;
     margin-left: -140px;
     top: 16px;
             }
+            img {
+                max-width:100%;
+                height:auto;
+            }
             @media(max-width:660px){
+                img {
+                    max-width:205px
+                }
                 font-size: 22px;
                 span{
                     font-size:12px;
@@ -159,6 +166,29 @@ text-decoration: none;
 }
 
 
+.nav-pills-categories {
+    white-space: nowrap;
+    display:block!important;
+    flex-wrap: nowrap;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    .nav-item {
+        display:inline-block;
+    }
+    .nav-link {
+        transition:all 200ms linear;
+        padding:0 10px;
+        background:none;
+        &.active {
+            color:#fff;
+            font-size:18px;
+            background:none;
+        }
+    }
+}
+
 .btn {
     border-radius:4px;
     padding: 0.53rem 1.25rem;
@@ -172,6 +202,10 @@ text-decoration: none;
             display:block;
             font-size:12px;
             font-weight:300;
+        }
+        &.btn-plain {
+            background:#000;
+            color:#fff;
         }
     &.btn-primary {
         background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), $primary;

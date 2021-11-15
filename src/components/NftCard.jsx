@@ -25,9 +25,9 @@ export default function NftCard(props) {
         }}>
             <div className="Tilt-inner">
                 <div className={'card bg-dark text-white nft-card ratio ratio-1x1 ' + type} style={{background: 'url(' + '' + ')'}}>
-                    <button className="btn btn-primary"><ArrowRight size={24} color={'#000'}/></button>
+                    <button className="btn btn-plain"><ArrowRight size={24} color={'#fff'}/></button>
                    
-                    { data.end_time > 0 &&
+                    { data.end_time > 0 && 
                         <SmallCountdown expiryTimestamp={data.end_time} />
                     }
                     

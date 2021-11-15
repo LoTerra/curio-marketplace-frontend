@@ -15,7 +15,7 @@ export default () => {
   const api = new WasmAPI(terra.apiRequester)
     const [auctions, setAuction] = useState([])
     const [nfts, setNfts] = useState(false);
-
+    let cat = ["Undefined", "Art", "Photography", "Metaverses", "Games", "Music", "Domains", "DeFi", "Memes", "Punks"]
 
     async function getHomePageData() {
       try {
@@ -75,16 +75,45 @@ export default () => {
             <h1><span className="green">Buy</span> or <span className="pink">Auction</span> your NFT</h1>
             <p className="slogan">We are currently in <strong>testnet mode</strong>, feel free to test with us</p>
           </div>
+          <div className="col-md-12 mx-auto">
+          <ul className="nav nav-pills nav-pills-categories nav-justify mb-3" id="pills-tab" role="tablist">
+            { cat.map((obj,i) => {
+               return ( <li className="nav-item" role="presentation">
+               <button className={i == 0 ? "nav-link active" : "nav-link"} id={"pills-tab-"+i} data-bs-toggle="pill" data-bs-target={"#pills-content-"+i} type="button" role="tab" aria-controls="pills-create" aria-selected="true">
+                 {obj}
+                  <small style={{fontSize:'12px', opacity:0.5}}>
+                    ({nfts && obj !== 'Undefined' && nfts.filter((a) => {return a.category == obj} ).length}
+                    {nfts && obj === 'Undefined' &&  nfts.filter((a) => {return a.category == null} ).length})
+                    </small>
+                    </button>
+             </li>)
+            })
+
+            }
+
+</ul>
+          </div>
         </div>
-        <div className="row">
-          {
-                nfts.length > 0 && nfts.map((obj, id) =>{           
-                    return (
-                      <div className={'col-md-3'}>
-                        <NftCard key={id} data={obj} type={'small'} index={99}/>
-                      </div>)            
-                })
-              }
+        <div className="tab-content" id="pills-tabContent">
+        { cat.map((obj,i) => {
+               return ( 
+                <div className={i == 0 ? "tab-pane fade show active" : "tab-pane fade"} id={"pills-content-"+i} role="tabpanel" aria-labelledby={"pills-tab-"+i}>
+                <div className="row">
+                  {
+                        nfts.length > 0 && nfts.filter((a) => {return obj !== "Undefined" ? a.category == obj : a.category == null} ).map((obj, id) =>{           
+                            return (
+                              <div className={'col-md-3'}>
+                                <NftCard key={id} data={obj} type={'small'} index={99}/>
+                              </div>)            
+                        })
+                      }
+                
+                </div>
+                </div>
+               )
+            })
+
+            }
          
         </div>
       </div>
