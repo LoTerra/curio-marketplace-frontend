@@ -13,6 +13,10 @@ import {
     MsgSend
 } from '@terra-money/terra.js'
 import { X } from 'phosphor-react';
+import StepZilla from "react-stepzilla";
+import Step1 from './Step1';
+import Step2 from './Step2';
+import Step3 from './Step3';
 
 export default function CreateAuction(props) {
 
@@ -20,6 +24,13 @@ export default function CreateAuction(props) {
 
     let network = {}
     let connectedWallet = {}
+
+    const steps =
+    [
+      {name: 'Step 1', component: <Step1 />},
+      {name: 'Step 2', component: <Step2 />},
+      {name: 'Step 3', component: <Step3 />},
+    ]
   
   
     if (typeof document !== 'undefined') {
@@ -94,61 +105,19 @@ export default function CreateAuction(props) {
     }
 
     return (       
-              <form className="auctionForm" onSubmit={(e) => create(e)}>
-                  <div className="row">
-                      <div className="col-12">
-                        <h5>Main details</h5>
-                      </div>
-                      <div className="col-12 mb-3">
-                          <label>Nft contract address</label>
-                          <input type="text" className="form-control" name="contract_address" required/>
-                      </div>
-                      <div className="col-12 mb-3">
-                      <label>Token ID</label>
-                          <input type="text" className="form-control" name="token_id" required/>
-                      </div>
-                      <div className="col-12">
-                        <h5>Auction settings</h5>
-                      </div>
-                      <div className="col-6 mb-3">
-                          <label>Time end</label>
-                          <input type="datetime-local" className="form-control" name="end_time" required/>
-                      </div>
-                      <div className="col-6 mb-3">
-                          <label>Time start</label> <small>optional</small>
-                          <input type="datetime-local" className="form-control" name="start_time"/>
-                      </div>
-                      <div className="col-6 mb-3">
-                          <label>Start/Minimal price</label> <small>optional</small>
-                          <input type="number" className="form-control" name="start_price"/>
-                      </div>   
-                      <div className="col-6 mb-3">
-                          <label>Instant buy price</label> <small>optional</small>
-                          <input type="number" className="form-control" name="instant_buy"/>
-                      </div>
-                      <div className="col-6 mb-3">
-                          <label>Reserve price</label> <small>optional</small>
-                          <input type="number" className="form-control" name="reserve_price"/>
-                      </div>
-                      <div className="col-6 mb-3">
-                          <label>Private sale amount</label> <small>optional</small>
-                          <input type="number" className="form-control" name="private_sale_privilege"/>
-                      </div>
-                      <div className="col-12">
-                        <h5>Charity options</h5>
-                      </div>
-                      <div className="col-12 mb-3">
-                          <label>Charity address</label> <small>optional</small>
-                          <input type="text" className="form-control" name="charity_address"/>
-                      </div>
-                      <div className="col-12 mb-3">
-                          <label>Charity percentage fee</label> <small>optional</small>
-                          <input type="number" className="form-control" name="charity_fee"/>
-                      </div>
-                      <div className="col-12 mt-3">
-                        <button type="button" type="submit" className="btn btn-primary w-100">Create</button>
-                      </div>
-                  </div>
-                </form>          
+        <>
+        <form className="auctionForm" onSubmit={(e) => create(e)}>
+            <div className='step-progress'>
+            <StepZilla 
+            steps={steps}
+            showNavigation={true}
+            nextButtonCls='btn btn-prev btn-primary float-end'
+            backButtonCls='btn btn-next btn-secondary float-start'
+            />
+            </div>
+        </form>  
+                  
+                     
+                </>
     )
 }

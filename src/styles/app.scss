@@ -777,3 +777,108 @@ text-decoration: none;
         }
     
 }
+
+
+ol.progtrckr {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  ol.progtrckr li {
+    display: inline-block;
+    text-align: center;
+    line-height: 4.5rem;
+    cursor: pointer;
+    width: 100%;
+    transition:all 200ms linear;
+  }
+  
+  ol.progtrckr li span {
+    padding: 0 1.5rem;
+    transition:all 200ms linear;
+  }
+  
+  @media (max-width: 650px) {
+    .progtrckr li span {
+      display: none;
+    }
+  }
+  .progtrckr em {
+    display: none;
+    font-weight: 700;
+    padding-left: 1rem;
+  }
+  
+  @media (max-width: 650px) {
+    .progtrckr em {
+      display: inline;
+    }
+  }
+  
+  ol.progtrckr li.progtrckr-todo {
+    color: #858585;
+    border-bottom: 4px solid #19191d;
+  }
+  
+  ol.progtrckr li.progtrckr-doing {
+    color: #ff36ff;
+    border-bottom: 4px solid #19191d;
+  }
+  
+  ol.progtrckr li.progtrckr-done {
+    color: #858585;
+    border-bottom: 4px solid #ff36ff;
+  }
+  
+  ol.progtrckr li:after {
+    content: "\A0\A0";
+  }
+  
+  ol.progtrckr li:before {
+    position: relative;
+    bottom: -3.7rem;
+    float: left;
+    left: 50%;
+  }
+  
+  ol.progtrckr li.progtrckr-todo:before {
+    content: "•";
+    color: #191921;
+    background-color: #191921;
+    width: 1.2em;
+    line-height: 1.2em;
+    border-radius: 100px;
+  }
+  
+  ol.progtrckr li.progtrckr-todo:hover:before {
+    color: #ff36ff;
+  }
+  
+  ol.progtrckr li.progtrckr-doing:before {
+    content: "•";
+    color: #2aff98;
+    background-color: #19191e;
+    width: 1.2em;
+    line-height: 1.2em;
+    border-radius: 1.2em;
+  }
+  
+  ol.progtrckr li.progtrckr-doing:hover:before {
+    color: #ff36ff;
+  }
+  
+  ol.progtrckr li.progtrckr-done:before {
+    content: "\2713";
+    color: white;
+    background-color: #ff36ff;
+    width: 1.2em;
+    line-height: 1.2em;
+    border-radius: 1.2em;
+  }
+  
+  ol.progtrckr li.progtrckr-done:hover:before {
+    color: #333;
+  }
+  
