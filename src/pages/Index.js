@@ -10,7 +10,7 @@ import 'swiper/swiper-bundle.css';
 
 
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
-
+ 
 export default () => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
 
