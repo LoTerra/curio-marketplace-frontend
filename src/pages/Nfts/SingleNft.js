@@ -465,9 +465,9 @@ const reloadData = useCallback(async () => {
                                 className="btn btn-primary btn-lg w-100"
                                 disabled={nftData && nftValid(nftData.end_time) ? false : true}
                                 >{nftData && nftValid(nftData.end_time) ? 'Place bid' : 'Auction finished'}
-                                {nftData && nftValid(nftData.end_time) &&
+                                {/* {nftData && nftValid(nftData.end_time) &&
                                     <small>{getBiddingInfo(nftData)}</small>
-                                }
+                                } */}
                                 </button>
                                     </div>
 
@@ -571,7 +571,7 @@ const reloadData = useCallback(async () => {
                                 className="btn btn-primary btn-lg w-100"
                                 disabled={nftData && nftValid(nftData.end_time) ? false : true}
                                 onClick={() => placeBid()}>{nftData && nftValid(nftData.end_time) ? 'Place bid' : 'Auction finished'}
-                                <small>{nftData && nftValid(nftData.end_time) ? getBiddingInfo(nftData) : ''}</small>
+                                {/* <small>{nftData && nftValid(nftData.end_time) ? getBiddingInfo(nftData) : ''}</small> */}
                                 </button>
                                     </div>
                                     <div className={nftData && nftValid(nftData.end_time) && nftData.instant_buy ? 'col-md-6' : 'd-none'}>

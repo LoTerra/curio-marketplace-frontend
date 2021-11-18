@@ -2,6 +2,9 @@ import React, {useCallback, useEffect, useState} from 'react'
 import NftCard from '../components/NftCard'
 import { useStore } from '../store'
 import axios from "axios"
+// import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
+import 'swiper/swiper-bundle.css';
 
 
 
@@ -9,6 +12,8 @@ import axios from "axios"
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 
 export default () => {
+  const [currentSlide, setCurrentSlide] = React.useState(0)
+
 
   const { state, dispatch } = useStore()
   const terra = state.lcd
@@ -27,6 +32,16 @@ export default () => {
       }
     }
 
+    function nftValid(timestamp){
+      let end = new Date(parseInt(timestamp) * 1000)
+      let now = new Date()    
+  
+      if(end.getTime() < now.getTime()){
+          return false
+      } else {
+          return true
+      }
+    }
 
   const fetchNftData = useCallback( async() => {
 
@@ -68,12 +83,72 @@ export default () => {
   return (
 <>
 
+
   <section className="nfts-big">
     <div className="container-fluid">
         <div className="row">
           <div className="col-md-10 intro mb-0 mb-md-5 mx-auto text-center">
             <h1><span className="green">Buy</span> or <span className="pink">Auction</span> your NFT</h1>
             <p className="slogan">We are currently in <strong>testnet mode</strong>, feel free to test with us</p>
+            <div className="row mt-3 mb-5">
+              <div className="col-md-4 mx-auto">
+                <div className="row">
+                <div className="col-md-6">
+                <button className="btn btn-primary w-100">Explore</button>
+              </div>
+              <div className="col-md-6">
+                <a href="/create" className="btn btn-outline-primary w-100">Create auction</a>
+              </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-12 small-heading">
+            <h3>Almost ending</h3>
+          </div>
+          <div className="col-md-12">
+          <div className="row">
+            {nfts.length > 0 &&
+            <Swiper
+            spaceBetween={25}
+            slidesPerView={6}
+            breakpoints={{
+              // when window width is >= 640px
+              1: {         
+                slidesPerView: 1,
+              },
+              // when window width is >= 768px
+              768: {    
+                slidesPerView: 2,
+              },
+              1000: {    
+                slidesPerView: 6,
+              },
+            }}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
+    {
+                        nfts.filter((a)=>{
+                          if(nftValid(a.end_time)){
+                          return true;
+                          }
+                          return false;
+                                              
+                      }).sort((a,b) => {return b.end_time > a.end_time}).slice(0,12).map((obj, id) =>{           
+                            return (
+                              <SwiperSlide>
+                                <NftCard key={id} data={obj} type={'xs'} index={99}/>
+                              </SwiperSlide>)            
+                        })
+                      }
+                      </Swiper>
+}
+     
+      </div>
+            </div>
+            <div className="col-md-12 heading">
+            <h3>Explore by category</h3>
           </div>
           <div className="col-md-12 mx-auto">
           <ul className="nav nav-pills nav-pills-categories nav-justify mb-3" id="pills-tab" role="tablist">

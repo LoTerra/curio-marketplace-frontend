@@ -161,7 +161,7 @@ export default function Navbar(props) {
               
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto">
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <div className="dropdown">
                         <button className="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" type="button"
                             data-bs-toggle="dropdown" aria-expanded="false">Categories</button>
@@ -186,7 +186,7 @@ export default function Navbar(props) {
                             </button>
                         </ul>
                         </div>
-                    </li>
+                    </li> */}
                     { connected &&
                     <li className="nav-item">
                     <a className="btn btn-outline-primary ms-3" href="/create">
