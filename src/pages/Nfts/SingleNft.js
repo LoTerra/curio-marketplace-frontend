@@ -23,6 +23,7 @@ import {
 } from '@terra-money/terra.js'
 import Countdown from '../../components/SingleNft/Countdown';
 import Card from '../../components/SingleNft/Card';
+import MainLoader from '../../components/Loaders/MainLoader';
 
 export default (props) => {
   const { state, dispatch } = useStore()
@@ -603,13 +604,7 @@ const reloadData = useCallback(async () => {
                         </div>
                     </div>
                 </div>
-                <div className={'nft-loader h-100 text-center d-flex ' + (loading ? 'show' : '')}>
-                    <div className="align-self-center w-100">
-                        <div className="spinner-border text-primary" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
-                    </div>
-                </div>
+                <MainLoader loading={loading}/>
             </section>
             <section className="nfts">
     <div className="container">

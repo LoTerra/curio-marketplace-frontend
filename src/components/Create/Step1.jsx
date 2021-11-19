@@ -29,6 +29,7 @@ export default function Step1(props) {
     
         return isDataValid;
       }
+      
       const validationCheck = () => {
         if (validateOnDemand)
           return;

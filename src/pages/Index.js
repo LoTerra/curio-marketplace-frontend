@@ -10,6 +10,7 @@ import 'swiper/swiper-bundle.css';
 
 
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
+import MainLoader from '../components/Loaders/MainLoader';
  
 export default () => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
@@ -20,6 +21,7 @@ export default () => {
   const api = new WasmAPI(terra.apiRequester)
     const [auctions, setAuction] = useState([])
     const [nfts, setNfts] = useState(false);
+    const [loading,setLoading] = useState(true)
     let cat = ["Undefined", "Art", "Photography", "Metaverses", "Games", "Music", "Domains", "DeFi", "Memes", "Punks"]
 
     async function getHomePageData() {
@@ -27,6 +29,7 @@ export default () => {
         const result = await axios.get("https://privilege.digital/api/get-items")
         console.log(result.data);
         setNfts(result.data.filterItems)
+        setLoading(false)
       } catch (error) {
         console.error(error);
       }
@@ -233,6 +236,7 @@ export default () => {
   {/*    </div>*/}
   {/*  </div>*/}
   {/*</section>*/}
+  <MainLoader loading={loading}/>
   </>
   )
 }
