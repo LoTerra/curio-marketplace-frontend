@@ -27,7 +27,7 @@ const StoreContext = createContext()
 // ]
 
 const initialState = {
-    privTokenContract: 'terra1eyqqc7xkv5vcld6t5fzt8pmjvuy2mdl5gzxpcz',
+    privTokenContract: 'terra1dullgnj5cm4fgpetrrq8ctukag89upajjt8f3g',
     auctions: [],
     lcd:lcd,
     wallet:{},
