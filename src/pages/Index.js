@@ -102,10 +102,10 @@ export default () => {
                <div className="col-md-8">
                  <div className="row">
                  <div className="col-md-6 mb-4">
-                <button className="btn btn-primary w-100">Explore</button>
+                <button className="btn btn-primary btn-lg w-100">Explore</button>
               </div>
               <div className="col-md-6 mb-4">
-                <a href="/create" className="btn btn-outline-primary w-100">Create auction</a>
+                <a href="/create" className="btn btn-lg btn-outline-primary w-100">Create auction</a>
               </div>
                    </div>
                  </div>
