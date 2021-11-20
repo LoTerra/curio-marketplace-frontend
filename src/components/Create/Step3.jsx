@@ -17,9 +17,9 @@ export default function Step3(props) {
                           <label>Charity percentage fee</label> <small>optional</small>
                           <input type="number" className="form-control" name="charity_fee"/>
                       </div>
-                      {/* <div className="col-12 mt-3">
+                      <div className="col-12 mt-3 mb-3">
                         <button type="button" type="submit" className="btn btn-primary w-100">Create</button>
-                      </div> */}
+                      </div>
         </div>
         </>
     )

@@ -11,6 +11,8 @@ import 'swiper/swiper-bundle.css';
 
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import MainLoader from '../components/Loaders/MainLoader';
+import NftInfoCard from '../components/NftInfoCard';
+import { HourglassMedium } from 'phosphor-react';
  
 export default () => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
@@ -90,24 +92,68 @@ export default () => {
   <section className="nfts-big">
     <div className="container-fluid">
         <div className="row">
-          <div className="col-md-10 intro mb-0 mb-md-5 mx-auto text-center">
-            <h1><span className="green">Buy</span> or <span className="pink">Auction</span> your NFT</h1>
-            <p className="slogan">We are currently in <strong>testnet mode</strong>, feel free to test with us</p>
-            <div className="row mt-3 mb-5">
-              <div className="col-md-4 mx-auto">
-                <div className="row">
-                <div className="col-md-6">
+          <div className="col-md-6 d-flex intro mb-0 mb-md-5 mx-auto text-start">
+            <div className="align-self-center w-100">
+            <div className="row">
+              <div className="col-md-7">
+                <h1><span className="green">Buy</span> or <span className="pink">Auction</span> your NFT</h1>
+                <p className="slogan">We are currently in <strong>testnet mode</strong>, feel free to test with us</p>
+              </div>
+               <div className="col-md-8">
+                 <div className="row">
+                 <div className="col-md-6 mb-4">
                 <button className="btn btn-primary w-100">Explore</button>
               </div>
-              <div className="col-md-6">
+              <div className="col-md-6 mb-4">
                 <a href="/create" className="btn btn-outline-primary w-100">Create auction</a>
               </div>
-                </div>
+                   </div>
+                 </div>
+            </div>
+            <div className="row mt-3 mb-5">
+            
+              <div className="col-md-4 mt-4">
+                <p className="title">Earn privilege</p>
+                <p className="info">Creating auction or participating in auctions will earn you privilege.</p>
+              </div>
+              <div className="col-md-4 mt-4">
+                <p className="title">Start bidding</p>
+                <p className="info">Participate in auctions and earn privilege, unlock private auctions with privilege</p>
+              </div>
+              <div className="col-md-4 mt-4">
+                <p className="title">Create auction</p>
+                <p className="info">Everyone will be able to sell their nfts on the privilege marketplace</p>
               </div>
             </div>
+            </div>
+          </div>
+          <div className="col-md-5">
+          {nfts.length > 0 &&
+            <Swiper
+            spaceBetween={25}
+            slidesPerView={2}           
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
+    {
+                        nfts.filter((a)=>{
+                          if(nftValid(a.end_time)){
+                          return true;
+                          }
+                          return false;
+                                              
+                      }).sort((a,b) => {return b.end_time > a.end_time}).slice(0,12).map((obj, id) =>{           
+                            return (
+                              <SwiperSlide>
+                                <NftInfoCard key={id} data={obj} type={'xs'} index={99}/>
+                              </SwiperSlide>)            
+                        })
+                      }
+                      </Swiper>
+}
           </div>
           <div className="col-md-12 small-heading">
-            <h3>Almost ending</h3>
+            <h3><span className="icon"><HourglassMedium size={38} color="#ff36ff" /> <HourglassMedium size={38} color="#20ff93" /></span> Almost ending</h3>
           </div>
           <div className="col-md-12">
           <div className="row">

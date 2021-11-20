@@ -6,7 +6,7 @@ import SmallCountdown from './SmallCountdown'
 
 
 
-export default function NftCard(props) {
+export default function NftInfoCard(props) {
     const { state, dispatch } = useStore()
 
     const {index, data, nft, type} = props;
