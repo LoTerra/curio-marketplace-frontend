@@ -13,10 +13,6 @@ import {
     MsgSend
 } from '@terra-money/terra.js'
 import { CheckSquareOffset, Heart, SlidersHorizontal, X } from 'phosphor-react';
-import StepZilla from "react-stepzilla";
-import Step1 from './Step1';
-import Step2 from './Step2';
-import Step3 from './Step3';
 
 export default function CreateAuction(props) {
 
