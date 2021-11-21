@@ -486,6 +486,13 @@ text-decoration: none;
     }
 }
 
+.nft-link {
+    text-decoration:none;
+    &:hover {
+        
+    }
+}
+
 .nft-card {    
     background: linear-gradient(157.28deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.034) 45.83%, rgba(255, 255, 255, 0.09375) 48.96%, rgba(255, 255, 255, 0) 100%), url('/img/cardbg.png');   
     margin-bottom:28px;
@@ -494,6 +501,7 @@ text-decoration: none;
     overflow:hidden;
     position:relative;
     box-shadow: 0px 10px 14px #00000061;
+  
     .btn-plain{
         position: absolute;
     right: 20px;

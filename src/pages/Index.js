@@ -3,6 +3,7 @@ import NftCard from '../components/NftCard'
 import { useStore } from '../store'
 import axios from "axios"
 // import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
 import 'swiper/swiper-bundle.css';
 
@@ -132,6 +133,8 @@ export default () => {
             <Swiper
             spaceBetween={25}
             slidesPerView={2}           
+            pagination={{ clickable: true }}
+            EffectCards={true}
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper) => console.log(swiper)}
           >
