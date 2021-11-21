@@ -714,6 +714,20 @@ text-decoration: none;
 }
 }
 
+.countdown-small {
+    small {
+        display:block;
+        opacity:0.5;
+        font-size:13px;
+        margin-top:3px;
+        font-weight:600px;
+    }
+    p {
+        margin:0;
+        font-size:13px;
+    }
+}
+
 .auctionForm {
     h5 {
         padding: 10px 0px;

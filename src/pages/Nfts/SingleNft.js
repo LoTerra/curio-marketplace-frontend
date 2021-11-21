@@ -274,6 +274,14 @@ const reloadData = useCallback(async () => {
           return
       }
 
+      //Check if above minimum 5%
+      if(amount * 1000000 > min_bid){
+          let result = confirm('Are you sure you bid above the minimun 5% ?')
+          if(!result){
+              return
+          }
+      }
+
       /*
         Here is an example of use for a simple transaction with connect wallet
        */
