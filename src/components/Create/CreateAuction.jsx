@@ -21,12 +21,7 @@ export default function CreateAuction(props) {
     let network = {}
     let connectedWallet = {}
 
-    const steps =
-    [
-      {name: 'Step 1', component: <Step1 />},
-      {name: 'Step 2', component: <Step2 />},
-      {name: 'Step 3', component: <Step3 />},
-    ]
+  
   
   
     if (typeof document !== 'undefined') {
