@@ -16,7 +16,7 @@ export default function NftInfoCard(props) {
         <a href={'/nfts/' + data.auction_id} className="nft-link">
       
         
-                <div className={'card bg-dark text-white nft-card ' + type} style={{background: 'url(' + '' + ')'}}>
+                <div className={'card text-white nft-card ' + type}>
                     {/* <button className="btn btn-plain"><ArrowRight size={24} color={'#fff'}/></button> */}
                    
                         
