@@ -562,9 +562,13 @@ const reloadData = useCallback(async () => {
                                     <div className={'nft-bidding d-flex ' + (nftData.highest_bid == bidder.total_bid ? 'success' : 'warning')}>
                                         <div className="align-self-center w-100 text-center">
                                         <h6>{nftData.highest_bid == bidder.total_bid ? 'You have the highest bid' : bidder.total_bid ? 'You have been overbid' : 'Start bidding'}</h6>
-                                        <p>{nftData.highest_bid == bidder.total_bid ? <Check size={18} /> : <Info size={18} /> }{bidder.total_bid / 1000000} UST</p>
+                                        <p>{nftData.highest_bid == bidder.total_bid ? <Check size={18} /> : <Info size={18} /> } {bidder.total_bid / 1000000} UST</p>
                                         {nftData.highest_bid != bidder.total_bid &&
-                                        <p style={{textDecoration:'underline', fontSize:'12px', fontWeight:300}} onClick={() => setAmount(nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : 0)}>Add minimal {nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : 0} UST</p>
+                                        <p 
+                                        style={{textDecoration:'underline', fontSize:'12px', fontWeight:300}} 
+                                        onClick={() => setAmount(nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0)}>
+                                            Add minimal {nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0} UST
+                                        </p>
                                         }   
                                         </div>
                                     </div>

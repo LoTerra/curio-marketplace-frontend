@@ -93,14 +93,14 @@ export default () => {
   <section className="nfts-big">
     <div className="container-fluid">
         <div className="row">
-          <div className="col-md-6 d-flex intro mb-0 mb-md-5 mx-auto text-start">
+          <div className="col-md-7 ps-0 ps-lg-5 d-flex intro mb-0 mb-md-5 text-start">
             <div className="align-self-center w-100">
             <div className="row">
-              <div className="col-md-7">
+              <div className="col-xl-7">
                 <h1><span className="green">Buy</span> or <span className="pink">Auction</span> your NFT</h1>
                 <p className="slogan">We are currently in <strong>testnet mode</strong>, feel free to test with us</p>
               </div>
-               <div className="col-md-8">
+               <div className="col-xl-8">
                  <div className="row">
                  <div className="col-md-6 mb-4">
                 <button className="btn btn-primary btn-lg w-100">Explore</button>
@@ -161,13 +161,29 @@ export default () => {
           {nfts.length > 0 &&
             <Swiper
             modules={[Navigation, Pagination]}
-            spaceBetween={25}
+            spaceBetween={25} 
             slidesPerView={2}           
             pagination={{ clickable: true }}
             navigation={true}
             EffectCards={true}
             onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}                  
+            onSwiper={(swiper) => console.log(swiper)}             
+            breakpoints={{
+              // when window width is >= 640px
+              1: {         
+                slidesPerView: 1,
+              },
+              // when window width is >= 768px
+              768: {    
+                slidesPerView: 1,
+              },
+              1000: {    
+                slidesPerView: 1,
+              },
+              1300: {    
+                slidesPerView: 2,
+              },
+            }}     
           >
     {
                         nfts.filter((a)=>{
