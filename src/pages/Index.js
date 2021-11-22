@@ -13,7 +13,7 @@ import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import MainLoader from '../components/Loaders/MainLoader';
 import NftInfoCard from '../components/NftInfoCard';
 import { CirclesThreePlus, Coin, HourglassMedium, MonitorPlay } from 'phosphor-react';
-import { Navigation, Pagination } from 'swiper';
+import { Navigation, Pagination, Autoplay } from 'swiper';
  
 export default () => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
@@ -160,14 +160,17 @@ export default () => {
             </div>
           {nfts.length > 0 &&
             <Swiper
-            modules={[Navigation, Pagination]}
+            modules={[Navigation, Pagination,Autoplay]}
             spaceBetween={25} 
             slidesPerView={2}           
             pagination={{ clickable: true }}
-            navigation={true}
-            EffectCards={true}
+            navigation={true} 
+            autoplay={{ delay: 3000, 
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true
+             }}
             onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}             
+            onSwiper={(swiper) => console.log(swiper)}            
             breakpoints={{
               // when window width is >= 640px
               1: {         
