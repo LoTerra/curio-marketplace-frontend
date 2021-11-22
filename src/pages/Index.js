@@ -3,7 +3,6 @@ import NftCard from '../components/NftCard'
 import { useStore } from '../store'
 import axios from "axios"
 // import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
-
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
 import 'swiper/swiper-bundle.css';
 
@@ -13,7 +12,8 @@ import 'swiper/swiper-bundle.css';
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import MainLoader from '../components/Loaders/MainLoader';
 import NftInfoCard from '../components/NftInfoCard';
-import { HourglassMedium } from 'phosphor-react';
+import { CirclesThreePlus, Coin, HourglassMedium, MonitorPlay } from 'phosphor-react';
+import { Navigation, Pagination } from 'swiper';
  
 export default () => {
   const [currentSlide, setCurrentSlide] = React.useState(0)
@@ -111,32 +111,58 @@ export default () => {
                    </div>
                  </div>
             </div>
-            <div className="row mt-3 mb-5">
+            <div className="row mt-3 mb-5 info-row">
             
               <div className="col-md-4 mt-4">
-                <p className="title">Earn privilege</p>
-                <p className="info">Creating auction or participating in auctions will earn you privilege.</p>
+                <div className="row">
+                  <div className="col-lg-3 text-center">
+                    <span className="icon"><Coin size={60} weight="light" /></span> 
+                  </div>
+                  <div className="col-lg-9">
+                    <p className="title">Earn privilege</p>
+                    <p className="info">Creating auction or participating in auctions will earn you privilege.</p>
+                  </div>
+                </div>              
               </div>
+
               <div className="col-md-4 mt-4">
-                <p className="title">Start bidding</p>
-                <p className="info">Participate in auctions and earn privilege, unlock private auctions with privilege</p>
+                <div className="row">
+                  <div className="col-lg-3 text-center">
+                    <span className="icon"><MonitorPlay size={60} weight="light" /></span> 
+                  </div>
+                  <div className="col-lg-9">
+                    <p className="title">Start bidding</p>
+                    <p className="info">Participate in auctions and earn privilege, unlock private auctions with privilege</p>
+                  </div>
+                </div>              
               </div>
+
               <div className="col-md-4 mt-4">
-                <p className="title">Create auction</p>
-                <p className="info">Everyone will be able to sell their nfts on the privilege marketplace</p>
+                <div className="row">
+                  <div className="col-lg-3 text-center">
+                    <span className="icon"><CirclesThreePlus size={60} weight="light" /></span> 
+                  </div>
+                  <div className="col-lg-9">
+                    <p className="title">Create auction</p>
+                    <p className="info">Everyone will be able to sell their nfts on the privilege marketplace</p>
+                  </div>
+                </div>              
               </div>
+
             </div>
             </div>
           </div>
           <div className="col-md-5">
           {nfts.length > 0 &&
             <Swiper
+            modules={[Navigation, Pagination]}
             spaceBetween={25}
             slidesPerView={2}           
             pagination={{ clickable: true }}
+            navigation={true}
             EffectCards={true}
             onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
+            onSwiper={(swiper) => console.log(swiper)}                  
           >
     {
                         nfts.filter((a)=>{
@@ -152,6 +178,7 @@ export default () => {
                               </SwiperSlide>)            
                         })
                       }
+                     
                       </Swiper>
 }
           </div>
@@ -162,8 +189,10 @@ export default () => {
           <div className="row">
             {nfts.length > 0 &&
             <Swiper
+            modules={[Navigation, Pagination]}
             spaceBetween={25}
             slidesPerView={6}
+          
             breakpoints={{
               // when window width is >= 640px
               1: {         
@@ -177,6 +206,8 @@ export default () => {
                 slidesPerView: 6,
               },
             }}
+            pagination={{ clickable: true }}
+            navigation={true}
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper) => console.log(swiper)}
           >

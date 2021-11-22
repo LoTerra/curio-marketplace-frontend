@@ -8,7 +8,7 @@ import {
 } from '@terra-money/wallet-provider'
 import numeral from 'numeral'
 import { useStore } from '../store'
-import { MagnifyingGlass, Wallet, Check, UserCircle, List } from "phosphor-react"; 
+import { MagnifyingGlass, Wallet, Check, UserCircle, List, CirclesThreePlus, PlusCircle } from "phosphor-react"; 
 import UserModal from './UserModal'
 
 
@@ -190,7 +190,7 @@ export default function Navbar(props) {
                     { connected &&
                     <li className="nav-item">
                     <a className="btn btn-outline-primary ms-3" href="/create">
-                        Auction or Mint
+                        <PlusCircle size={16} weight="bold"/> Auction
                     </a>
                     </li>
                     }

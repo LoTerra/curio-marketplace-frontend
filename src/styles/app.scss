@@ -632,6 +632,15 @@ text-decoration: none;
     
 }
 
+.swiper {
+    padding-bottom:15px;
+}
+.swiper-button-next { color: #fff; }
+.swiper-button-prev { color: #fff; }
+.swiper-pagination-bullet.swiper-pagination-bullet-active {background:#fff;}
+.swiper-button-prev.swiper-button-disabled, .swiper-button-next.swiper-button-disabled {
+    opacity:0;
+}
 .nft-preview{
     position: relative;
     // width: 80%;
