@@ -17,7 +17,7 @@ export default function NftInfoCard(props) {
       
         
                 <div className={'card bg-dark text-white nft-card ' + type} style={{background: 'url(' + '' + ')'}}>
-                    <button className="btn btn-plain"><ArrowRight size={24} color={'#fff'}/></button>
+                    {/* <button className="btn btn-plain"><ArrowRight size={24} color={'#fff'}/></button> */}
                    
                         
                      

@@ -641,6 +641,22 @@ text-decoration: none;
 .swiper-button-prev.swiper-button-disabled, .swiper-button-next.swiper-button-disabled {
     opacity:0;
 }
+
+
+.swiper-button-prev:after, .swiper-button-next:after {
+    font-family: swiper-icons;
+    font-size: 18px;
+    background: #19191f;
+    text-transform: none !important;
+    letter-spacing: 0;
+    text-transform: none;
+    font-variant: initial;
+    line-height: 1;
+    padding: 15px 7px;
+    border-radius: 4px;
+}
+
+
 .nft-preview{
     position: relative;
     // width: 80%;
