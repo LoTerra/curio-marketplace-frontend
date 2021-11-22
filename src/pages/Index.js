@@ -153,6 +153,11 @@ export default () => {
             </div>
           </div>
           <div className="col-md-5">
+            <div className="row">
+            <div className="col-md-12 heading">
+            <h3>Featured</h3>
+          </div>
+            </div>
           {nfts.length > 0 &&
             <Swiper
             modules={[Navigation, Pagination]}
