@@ -30,7 +30,7 @@ export default () => {
     async function getHomePageData() {
       try {
         const result = await axios.get("https://privilege.digital/api/get-items")
-        console.log(result.data);
+        console.log(result.data);       
         setNfts(result.data.filterItems)
         setLoading(false)
       } catch (error) {
@@ -195,7 +195,7 @@ export default () => {
                           }
                           return false;
                                               
-                      }).sort((a,b) => {return b.end_time > a.end_time}).slice(0,12).map((obj, id) =>{           
+                      }).sort((a,b) => {return a.end_time - b.end_time}).slice(0,12).map((obj, id) =>{           
                             return (
                               <SwiperSlide>
                                 <NftInfoCard key={id} data={obj} type={'xs'} index={99}/>
@@ -242,7 +242,7 @@ export default () => {
                           }
                           return false;
                                               
-                      }).sort((a,b) => {return b.end_time > a.end_time}).slice(0,12).map((obj, id) =>{           
+                      }).sort((a,b) => {return a.end_time - b.end_time}).slice(0,12).map((obj, id) =>{           
                             return (
                               <SwiperSlide>
                                 <NftCard key={id} data={obj} type={'xs'} index={99}/>

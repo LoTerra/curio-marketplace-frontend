@@ -10,8 +10,8 @@ export default function NftCard(props) {
     const { state, dispatch } = useStore()
 
     const {index, data, nft, type} = props;
-    console.log("data-props")
-    console.log(data)
+    //console.log("data-props")
+    //console.log(data)
     return (<>{ data &&
         <a href={'/nfts/' + data.auction_id}>
       
@@ -19,7 +19,17 @@ export default function NftCard(props) {
                 <div className={'card text-white nft-card ratio ratio-1x1 ' + type}>
                     {/* <button className="btn btn-plain"><ArrowRight size={24} color={'#fff'}/></button> */}
                    
-             
+                    {data.restricted &&
+                        <span className="nft-badge">
+                            Restricted
+                        </span>
+                    }
+
+                    {data.instant_buy > 0 &&
+                        <span className="nft-badge">
+                            Instant buy
+                        </span>
+                    }
                     
                     <img src={data.image_url} className="card-img" alt="..."/>
 

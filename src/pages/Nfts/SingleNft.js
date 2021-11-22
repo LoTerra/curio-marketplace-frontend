@@ -434,6 +434,9 @@ const reloadData = useCallback(async () => {
                                 </div> */}
                                    <div className="col-12">
                                         <Countdown expiryTimestamp={expiryTimestamp}/>  
+                                        { (new Date(nftData.start_time)).getTime() > Date.now() &&
+                                            <p>In de toekomst</p>
+                                        }
                                     </div>
                                 <div className="col-12">
                                     <div className="nft-stats big w-100 my-2">

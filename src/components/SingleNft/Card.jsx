@@ -9,8 +9,8 @@ export default function Card(props) {
     const { state, dispatch } = useStore()
 
     const {index, data, nft, type, expiryTimestamp} = props;
-    console.log("data-props")
-    console.log(data)
+    //console.log("data-props")
+    ///console.log(data)
     return (<>{ data &&
         <>
       
