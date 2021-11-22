@@ -633,7 +633,7 @@ text-decoration: none;
 }
 
 .swiper {
-    padding-bottom:15px;
+    padding-bottom:15px !important;
 }
 .swiper-button-next { color: #fff; }
 .swiper-button-prev { color: #fff; }
@@ -645,7 +645,8 @@ text-decoration: none;
 
 .swiper-button-prev:after, .swiper-button-next:after {
     font-family: swiper-icons;
-    font-size: 18px;
+    font-size: 18px !important;
+    color: #858585;
     background: #19191f;
     text-transform: none !important;
     letter-spacing: 0;
