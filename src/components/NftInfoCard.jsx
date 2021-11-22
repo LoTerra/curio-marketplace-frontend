@@ -44,7 +44,7 @@ export default function NftInfoCard(props) {
                         </div>
                     </div>
                     <div className="card-body">
-                    <h5 className="card-title m-0">{data.title}</h5>
+                    <h5 className="card-title m-0" style={{fontWeight:'bold'}}>{data.title}</h5>
                     <p className="mt-3 text-muted" style={{height:'48px',overflow:'hidden'}}>{data.description ? data.description : 'No description'}</p>
                                         { data.end_time && data.end_time > 1 &&
                                         <SmallCountdown expiryTimestamp={data.end_time} />
