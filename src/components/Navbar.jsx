@@ -197,7 +197,7 @@ export default function Navbar(props) {
                 </ul>
                 <ul className="navbar-nav ms-auto">
                 <form className="nav-item me-3">
-                    <button type="submit"><MagnifyingGlass size={24} weight="bold" /></button>
+                    <button type="submit"><MagnifyingGlass size={24} color={'#595959'} weight="bold" /></button>
                     <input className="form-control " type="search" placeholder="Search" aria-label="Search"/>
                 </form>
                 

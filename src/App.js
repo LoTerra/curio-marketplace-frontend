@@ -13,6 +13,7 @@ import './styles/app.scss'
 import Navbar from './components/Navbar'
 import SingleNft from './pages/Nfts/SingleNft'
 import Create from './pages/Create'
+import MainLoader from './components/Loaders/MainLoader'
 
 //Dont prerender routes starting with (because of dynamic data)
 addPrefetchExcludes([
@@ -76,7 +77,7 @@ function App() {
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"/>
                     </Head>   
       <div className="content">
-        <React.Suspense fallback={<em>Loading...</em>}>
+        <React.Suspense fallback={<MainLoader/>}>
        
                     <StoreProvider>
                         <Navbar/>
