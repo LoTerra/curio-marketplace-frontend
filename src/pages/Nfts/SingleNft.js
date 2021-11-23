@@ -199,34 +199,28 @@ const reloadData = useCallback(async () => {
         )
 
         console.log('timestamp',expiryTimestamp)
+        
+          
+          var config = {
+            method: 'get',
+            url: 'https://privilege.digital/api/get-items',          
+            params : {
+                auctionId: testAuctionID
+            }
+          };
+          
+          axios(config)
+          .then(function (response) {
+            console.log('repsonse',response.data);
+            const data = response.data.filterItems[0]
+            setImageNftData({image: data.image_url, name: data.title})  
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
 
-        let info = await axios.get(`https://bombay-fcd.terra.dev/v1/wasm/contract/${nftConfigInfo.nft_contract}`) 
-        let nftInfo;
-
-        if (info.data.code_id == "18723"){
-                nftInfo = await api.contractQuery(             
-                    nftConfigInfo.nft_contract,
-                {
-                    metadata_u_r_i:{
-                        token_id:  nftConfigInfo.nft_id
-                    }
-                }
-            )
-            let data = await axios.get(nftInfo)          
-            //console.log('info',talis)
-            setImageNftData({image: data.data.media, name: data.data.title})
-        } else {
-            nftInfo = await api.contractQuery(
-                nftConfigInfo.nft_contract,
-                {
-                    nft_info:{
-                        token_id: nftConfigInfo.nft_id
-                    }
-                }
-            )
-            console.log('info',nftInfo)
-            setImageNftData(nftInfo)
-        }       
+     
+          
 
         //Final check for bids
         if(nftConfigInfo.total_bids > 0){
