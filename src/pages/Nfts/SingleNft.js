@@ -209,7 +209,7 @@ const reloadData = useCallback(async () => {
             }
           };
           
-          axios(config)
+          await axios(config)
           .then(function (response) {
             console.log('repsonse',response.data);
             const data = response.data.filterItems[0]
