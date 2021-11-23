@@ -3,6 +3,7 @@ import NftCard from '../../components/NftCard'
 import { useStore } from '../../store'
 import toast, { Toaster } from 'react-hot-toast';
 import { Check, Clock, Info, Warning } from "phosphor-react"; 
+import axios from 'axios';
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider';
 const { w3cwebsocket }  = require( "websocket");
 const client = new w3cwebsocket('wss://observer.terra.dev');
@@ -199,18 +200,35 @@ const reloadData = useCallback(async () => {
 
         console.log('timestamp',expiryTimestamp)
 
-        const nftInfo = await api.contractQuery(
-            nftConfigInfo.nft_contract,
-            {
-                nft_info:{
-                    token_id: nftConfigInfo.nft_id
+        let info = await axios.get(`https://bombay-fcd.terra.dev/v1/wasm/contract/${nftConfigInfo.nft_contract}`) 
+        let nftInfo;
+
+        if (info.data.code_id == "18723"){
+                nftInfo = await api.contractQuery(             
+                    nftConfigInfo.nft_contract,
+                {
+                    metadata_u_r_i:{
+                        token_id:  nftConfigInfo.nft_id
+                    }
                 }
-            }
-        )
+            )
+            let data = await axios.get(nftInfo)          
+            //console.log('info',talis)
+            setImageNftData({image: data.data.media, name: data.data.title})
+        } else {
+            nftInfo = await api.contractQuery(
+                nftConfigInfo.nft_contract,
+                {
+                    nft_info:{
+                        token_id: nftConfigInfo.nft_id
+                    }
+                }
+            )
+            console.log('info',nftInfo)
+            setImageNftData(nftInfo)
+        }       
 
-        console.log(nftInfo)
-        setImageNftData(nftInfo)
-
+        //Final check for bids
         if(nftConfigInfo.total_bids > 0){
             const bids = await api.contractQuery(
                 state.privTokenContract,
