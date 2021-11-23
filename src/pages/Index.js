@@ -25,7 +25,7 @@ export default () => {
     const [auctions, setAuction] = useState([])
     const [nfts, setNfts] = useState(false);
     const [loading,setLoading] = useState(true)
-    let cat = ["Undefined", "Art", "Photography", "Metaverses", "Games", "Music", "Domains", "DeFi", "Memes", "Punks"]
+    
 
     async function getHomePageData() {
       try {
@@ -259,7 +259,7 @@ export default () => {
           </div>
           <div className="col-md-12 mx-auto">
           <ul className="nav nav-pills nav-pills-categories nav-justify mb-3" id="pills-tab" role="tablist">
-            { cat.map((obj,i) => {
+            { state.categories.map((obj,i) => {
                return ( <li className="nav-item" role="presentation">
                <button className={i == 0 ? "nav-link active" : "nav-link"} id={"pills-tab-"+i} data-bs-toggle="pill" data-bs-target={"#pills-content-"+i} type="button" role="tab" aria-controls="pills-create" aria-selected="true">
                  {obj}
@@ -277,7 +277,7 @@ export default () => {
           </div>
         </div>
         <div className="tab-content" id="pills-tabContent">
-        { cat.map((obj,i) => {
+        { state.categories.map((obj,i) => {
                return ( 
                 <div className={i == 0 ? "tab-pane fade show active" : "tab-pane fade"} id={"pills-content-"+i} role="tabpanel" aria-labelledby={"pills-tab-"+i}>
                 <div className="row">
