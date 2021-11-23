@@ -213,7 +213,8 @@ const reloadData = useCallback(async () => {
           .then(function (response) {
             console.log('repsonse',response.data);
             const data = response.data.filterItems[0]
-            setImageNftData({image: data.image_url, name: data.title})  
+            setImageNftData({image: data.image_url, name: data.title, description: data.description, private_sale: data.private_sale})  
+            console.log({image: data.image_url, name: data.title, description: data.description, private_sale: data.private_sale})
           })
           .catch(function (error) {
             console.log(error);
@@ -424,8 +425,14 @@ const reloadData = useCallback(async () => {
                         <div className="col-md-6 nft-left">
                             <Card key={1} data={state.auctions} nft={imageNftData} type={'xl'}  expiryTimestamp={expiryTimestamp}  index={99}/>
                         </div>
+                                 
                         <div className="col-md-6 nft-right px-xl-5 d-flex">
+                     
                             <div className="align-self-center w-100">
+                                
+                            {parseInt(imageNftData.private_sale) > 0  &&
+                            <p>Private auction</p>
+                            } 
                             <h3 className="title">{imageNftData.name}</h3>
                             <p className="author">Author name</p>                        
                             <p className="description">{imageNftData.description}</p>
@@ -483,7 +490,9 @@ const reloadData = useCallback(async () => {
                                         <p className="start-price">{nftData.instant_buy / 1000000} <span>UST</span></p>
                                     </div>
                                 </div>
-                             
+
+                                
+                                {!parseInt(imageNftData.private_sale) > 0  &&
                                     <div className={nftData && nftValid(nftData.end_time,nftData.start_time) ? 'col-md-6 mt-3' : 'col-md-12 mt-3'}>
                                     <button onClick={() => selectBiddingTab()}
                                 className="btn btn-primary btn-lg w-100"
@@ -494,8 +503,9 @@ const reloadData = useCallback(async () => {
                                 } */}
                                 </button>
                                     </div>
+                                    }
 
-                                    {nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy &&
+                                    {nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy && !parseInt(imageNftData.private_sale) > 0 &&
 
                                     <div className="col-md-6 mt-3">
                                     <button 
@@ -593,6 +603,7 @@ const reloadData = useCallback(async () => {
                             </div>
                             
                                 <small className="d-block p-3 text-muted">In order to bid you need to bid <strong>5% above</strong> current bid or min start price, each new bid is counted on top of your previous bids</small>
+                                {!parseInt(imageNftData.private_sale) > 0  &&
                                 <div className="row">
                                     <div className={nftData.highest_bid != bidder.total_bid ? nftData && nftValid(nftData.end_time,nftData.start_time) ? 'col-md-6' : 'col-md-12' : 'd-none'}>
                                     <button 
@@ -622,6 +633,7 @@ const reloadData = useCallback(async () => {
                                     }
 
                                 </div>
+}
   </div>
 </div>
                                                                           
@@ -629,6 +641,7 @@ const reloadData = useCallback(async () => {
                             
                             </div>
                         </div>
+                   
                     </div>
                 </div>
                 <MainLoader loading={loading}/>
