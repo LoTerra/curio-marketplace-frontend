@@ -362,15 +362,18 @@ const reloadData = useCallback(async () => {
         return new Date(s * 1e3).toISOString().slice(-13, -5);
       }
 
-  function nftValid(timestamp){
-    let end = new Date(parseInt(timestamp) * 1000)
+  function nftValid(end,start){
+    let ending = new Date(parseInt(end) * 1000)
+    let starting = new Date(parseInt(start) * 1000)
     let now = new Date()    
 
-    if(end.getTime() < now.getTime()){
+    if(ending < now){
         return false
-    } else {
-        return true
+    } 
+    if(starting > now){
+        return false;
     }
+    return true;
   }
 
     const getNftUserData = useCallback(async () => {
@@ -433,10 +436,7 @@ const reloadData = useCallback(async () => {
                                     </div>
                                 </div> */}
                                    <div className="col-12">
-                                        <Countdown expiryTimestamp={expiryTimestamp}/>  
-                                        { (new Date(nftData.start_time)).getTime() > Date.now() &&
-                                            <p>In de toekomst</p>
-                                        }
+                                   <Countdown expiryTimestamp={expiryTimestamp} end={nftData.end_time} start={nftData.start_time}/>                                     
                                     </div>
                                 <div className="col-12">
                                     <div className="nft-stats big w-100 my-2">
@@ -472,25 +472,25 @@ const reloadData = useCallback(async () => {
                                     </div>
                                 </div>
                              
-                                    <div className={nftData && nftValid(nftData.end_time) ? 'col-md-6 mt-3' : 'col-md-12 mt-3'}>
+                                    <div className={nftData && nftValid(nftData.end_time,nftData.start_time) ? 'col-md-6 mt-3' : 'col-md-12 mt-3'}>
                                     <button onClick={() => selectBiddingTab()}
                                 className="btn btn-primary btn-lg w-100"
-                                disabled={nftData && nftValid(nftData.end_time) ? false : true}
-                                >{nftData && nftValid(nftData.end_time) ? 'Place bid' : 'Auction finished'}
-                                {/* {nftData && nftValid(nftData.end_time) &&
+                                disabled={nftData && nftValid(nftData.end_time,nftData.start_time) ? false : true}
+                                >{nftData && nftValid(nftData.end_time,nftData.start_time) ? 'Place bid' : nftData.start_time * 1000 > Date.now() ? 'Auction not started yet' : 'Auction finished'}
+                                {/* {nftData && nftValid(nftData.end_time,nftData.start_time) &&
                                     <small>{getBiddingInfo(nftData)}</small>
                                 } */}
                                 </button>
                                     </div>
 
-                                    {nftData && nftValid(nftData.end_time) && nftData.instant_buy &&
+                                    {nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy &&
 
                                     <div className="col-md-6 mt-3">
                                     <button 
                                 className="btn btn-special btn-lg w-100"
-                                disabled={nftData && nftValid(nftData.end_time) && nftData.instant_buy ? false : true}
-                                onClick={() => buyNow()}>{nftData && nftValid(nftData.end_time) && nftData.instant_buy ? 'Buy now' : 'Not available'}
-                                <small>{nftData && nftValid(nftData.end_time) && nftData.instant_buy ? (parseInt(bidder.total_bid) > 0 ? (parseInt(nftData.instant_buy) - parseInt(bidder.total_bid)) / 1000000 : parseInt(nftData.instant_buy) / 1000000) +'UST' : ''}</small>
+                                disabled={nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy ? false : true}
+                                onClick={() => buyNow()}>{nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy ? 'Buy now' : 'Not available'}
+                                <small>{nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy ? (parseInt(bidder.total_bid) > 0 ? (parseInt(nftData.instant_buy) - parseInt(bidder.total_bid)) / 1000000 : parseInt(nftData.instant_buy) / 1000000) +'UST' : ''}</small>
                                 </button>
                                     </div>
                                 }
@@ -502,7 +502,7 @@ const reloadData = useCallback(async () => {
   <div className="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
   <div className="row">
   <div className="col-12">
-                                        <Countdown expiryTimestamp={expiryTimestamp}/>  
+                                        <Countdown expiryTimestamp={expiryTimestamp} end={nftData.end_time} start={nftData.start_time}/>  
                                     </div>
   <div className="col-12">
                             <h5 className="mb-0">Current bids ({bidInfo.length})</h5>
@@ -538,7 +538,7 @@ const reloadData = useCallback(async () => {
                             </table>
                             </div>
                                     </div>       
-                                    {nftData && nftValid(nftData.end_time) &&
+                                    {nftData && nftValid(nftData.end_time,nftData.start_time) &&
                                 <>
                                 <div className={nftData.highest_bid != bidder.total_bid ? 'col-md-6 order-2 order-md-1' : 'd-none'}>
                                 <h5>Your bid</h5>
@@ -550,7 +550,7 @@ const reloadData = useCallback(async () => {
                                     type="number"
                                     className="form-control amount-input-staking"
                                     required={true}
-                                    disabled={nftData && nftValid(nftData.end_time) ? false : true}
+                                    disabled={nftData && nftValid(nftData.end_time,nftData.start_time) ? false : true}
                                     onChange={(e) => setAmount(e.target.value)}                                   
                                     autoComplete="off"
                                     value={amount}
@@ -582,29 +582,29 @@ const reloadData = useCallback(async () => {
                             
                                 <small className="d-block p-3 text-muted">In order to bid you need to bid <strong>5% above</strong> current bid or min start price, each new bid is counted on top of your previous bids</small>
                                 <div className="row">
-                                    <div className={nftData.highest_bid != bidder.total_bid ? nftData && nftValid(nftData.end_time) ? 'col-md-6' : 'col-md-12' : 'd-none'}>
+                                    <div className={nftData.highest_bid != bidder.total_bid ? nftData && nftValid(nftData.end_time,nftData.start_time) ? 'col-md-6' : 'col-md-12' : 'd-none'}>
                                     <button 
                                 className="btn btn-primary btn-lg w-100"
-                                disabled={nftData && nftValid(nftData.end_time) ? false : true}
-                                onClick={() => placeBid()}>{nftData && nftValid(nftData.end_time) ? 'Place bid' : 'Auction finished'}
-                                {/* <small>{nftData && nftValid(nftData.end_time) ? getBiddingInfo(nftData) : ''}</small> */}
+                                disabled={nftData && nftValid(nftData.end_time,nftData.start_time) ? false : true}
+                                onClick={() => placeBid()}>{nftData && nftValid(nftData.end_time,nftData.start_time) ? 'Place bid' : nftData.start_time * 1000 > Date.now() ? 'Auction not started yet' : 'Auction finished'}
+                                {/* <small>{nftData && nftValid(nftData.end_time,nftData.start_time) ? getBiddingInfo(nftData) : ''}</small> */}
                                 </button>
                                     </div>
-                                    <div className={nftData && nftValid(nftData.end_time) && nftData.instant_buy ? 'col-md-6' : 'd-none'}>
+                                    <div className={nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy ? 'col-md-6' : 'd-none'}>
                                     <button 
                                 className="btn btn-special btn-lg w-100"
-                                disabled={nftData && nftValid(nftData.end_time) && nftData.instant_buy ? false : true}
-                                onClick={() => buyNow()}>{nftData && nftValid(nftData.end_time) && nftData.instant_buy ? 'Buy now' : 'Not available'}
-                                <small>{nftData && nftValid(nftData.end_time) && nftData.instant_buy ? (parseInt(bidder.total_bid) > 0 ? (parseInt(nftData.instant_buy) - parseInt(bidder.total_bid)) / 1000000 : parseInt(nftData.instant_buy) / 1000000) +'UST' : ''}</small>
+                                disabled={nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy ? false : true}
+                                onClick={() => buyNow()}>{nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy ? 'Buy now' : 'Not available'}
+                                <small>{nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy ? (parseInt(bidder.total_bid) > 0 ? (parseInt(nftData.instant_buy) - parseInt(bidder.total_bid)) / 1000000 : parseInt(nftData.instant_buy) / 1000000) +'UST' : ''}</small>
                                 </button>
                                     </div>
 
-                                    {nftData && nftValid(nftData.end_time) &&
+                                    {nftData && nftValid(nftData.end_time,nftData.start_time) &&
                                     <div className="col-12 mt-5">
                                         <button
                                             className="btn btn-secondary btn-lg w-100"
                                             disabled={nftData && connectedWallet && nftData.highest_bidder != connectedWallet.walletAddress && parseInt(bidder.total_bid) > 0 ? false : true}
-                                            onClick={() => retractBid()}>{nftData && nftValid(nftData.end_time) ? 'Retract bid(s)' : 'Retract bid not allowed'}
+                                            onClick={() => retractBid()}>{nftData && nftValid(nftData.end_time,nftData.start_time) ? 'Retract bid(s)' : 'Retract bid not allowed'}
                                         </button>
                                     </div>
                                     }

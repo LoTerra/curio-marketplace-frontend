@@ -4,7 +4,7 @@ import { useTimer } from 'react-timer-hook'
 
 export default function SmallCountdown(props){
 
-    const { expiryTimestamp } = props
+    const { expiryTimestamp, start } = props
     const [currentTime, setCurrentTime] = useState(Date.now());
 
   const timeBetween = expiryTimestamp * 1000 - currentTime;
@@ -12,6 +12,12 @@ export default function SmallCountdown(props){
   const minutes = Math.floor((timeBetween / 1000 / 60) % 60);
   const hours = Math.floor((timeBetween / (1000 * 60 * 60)) % 24);
   const days = Math.floor(timeBetween / (1000 * 60 * 60 * 24));
+
+  const timeBetweenStart = start * 1000 - currentTime;
+  const secondsStart = Math.floor((timeBetweenStart / 1000) % 60);
+  const minutesStart = Math.floor((timeBetweenStart / 1000 / 60) % 60);
+  const hoursStart = Math.floor((timeBetweenStart / (1000 * 60 * 60)) % 24);
+  const daysStart = Math.floor(timeBetweenStart / (1000 * 60 * 60 * 24));
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -26,8 +32,19 @@ export default function SmallCountdown(props){
 
     return (
         <div className="countdown-small">
+          {start * 1000 > Date.now() &&
+            <>
+            <small>START TIME</small>
+            <p>{daysStart}d {hoursStart}h {minutesStart}m {secondsStart}s</p>  
+            </>
+          }
+          {start * 1000 <= Date.now() &&
+            <>
             <small>TIME LEFT</small>
-            <p>{days}d {hours}h {minutes}m {seconds}s</p>                   
+            <p>{days}d {hours}h {minutes}m {seconds}s</p>      
+            </>
+          }
+                         
         </div>
     )
 }

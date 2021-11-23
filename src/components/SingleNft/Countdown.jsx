@@ -1,53 +1,97 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { useTimer } from 'react-timer-hook'
 
 export default function Countdown(props){
 
-    const { expiryTimestamp } = props
+    const { expiryTimestamp, start, end } = props
+    const [currentTime, setCurrentTime] = useState(Date.now());
 
-    const { seconds, minutes, hours, days, restart } = useTimer({
-        autoStart: false,
-        expiryTimestamp,
-        onExpire: () => console.warn('onExpire called'),
-    })   
+  const timeBetween = expiryTimestamp - currentTime;
+  const seconds = Math.floor((timeBetween / 1000) % 60);
+  const minutes = Math.floor((timeBetween / 1000 / 60) % 60);
+  const hours = Math.floor((timeBetween / (1000 * 60 * 60)) % 24);
+  const days = Math.floor(timeBetween / (1000 * 60 * 60 * 24));
 
-    //console.log(percentageTillRebase)
-    useEffect(() => {
-        console.log(expiryTimestamp) 
-        if (
-            expiryTimestamp >
-            1 /** in ordder to avoid unnecessary re-rendering/ layout */
-        )
-            restart(expiryTimestamp)
-    }, [expiryTimestamp])
+  const timeBetweenStart = start * 1000 - currentTime;
+  const secondsStart = Math.floor((timeBetweenStart / 1000) % 60);
+  const minutesStart = Math.floor((timeBetweenStart / 1000 / 60) % 60);
+  const hoursStart = Math.floor((timeBetweenStart / (1000 * 60 * 60)) % 24);
+  const daysStart = Math.floor(timeBetweenStart / (1000 * 60 * 60 * 24));
+
+
+
+ 
+    function nftValid(end,start){
+        let ending = parseInt(end) * 1000
+        let starting = parseInt(start) * 1000
+        let now = Date.now()    
+        //console.log(ending,starting,now)   
+        if(starting > now){
+            return false;
+        }
+        if(ending < now){
+            return false;
+        } 
+        return true;
+      }
+
+      useEffect(() => {
+        const interval = setInterval(() => {
+          setCurrentTime(Date.now());
+        //   console.log(currentTime, expiryTimestamp)
+        }, 1000);
+    
+        return () => clearInterval(interval);
+      }, []);
+    
 
 
     return (
         <div className="countdown">
-                    {expiryTimestamp > new Date() ? (
+                    { end > 1 && nftValid(end,start) ? (
                        
                         <div className="row text-center">
                             <div className="col-12">
                             <p>
                             {expiryTimestamp > 1
-                                        ? days.toString().padStart(2, 0)
+                                        ? days
                                         : '-'} <small>Days</small>
                                          {expiryTimestamp > 1
-                                        ? hours.toString().padStart(2, 0)
+                                        ? hours
                                         : '-'} <small>Hours</small>
                                          {expiryTimestamp > 1
-                                        ? minutes.toString().padStart(2, 0)
+                                        ? minutes
                                         : '-'} <small>Minutes</small>
                                         {expiryTimestamp > 1
-                                        ? seconds.toString().padStart(2, 0)
+                                        ? seconds
                                         : '-'} <small>Seconds</small>
                             </p>
                             </div>
                             
                         </div>
                     ) : (
-                        <p className="text-muted py-2 text-center m-0">Auction finished</p>
+                        <p className="text-muted py-2 text-center m-0"></p>
                     )}
+                    { start * 1000 > Date.now() &&
+                              <div className="row text-center">
+                              <div className="col-12">
+                         <p>
+                             <small className="d-block">STARTS IN</small>
+                         {expiryTimestamp > 1
+                                     ? daysStart
+                                     : '-'} <small>Days</small>
+                                      {expiryTimestamp > 1
+                                     ? hoursStart
+                                     : '-'} <small>Hours</small>
+                                      {expiryTimestamp > 1
+                                     ? minutesStart
+                                     : '-'} <small>Minutes</small>
+                                     {expiryTimestamp > 1
+                                     ? secondsStart
+                                     : '-'} <small>Seconds</small>
+                         </p>
+                         </div>
+                         </div>
+                    }
                 </div>
     )
 }
