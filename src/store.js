@@ -30,6 +30,7 @@ let cats = ["Undefined", "Art", "Photography", "Metaverses", "Games", "Music", "
 
 const initialState = {
     privTokenContract: 'terra1dullgnj5cm4fgpetrrq8ctukag89upajjt8f3g',
+    privTokenCw20Contract: 'terra1kpsmhql3fyy6vlv5l0ue8um3l6c5n9578sy9jv',
     categories: cats,
     auctions: [],
     lcd:lcd,

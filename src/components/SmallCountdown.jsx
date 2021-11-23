@@ -34,7 +34,7 @@ export default function SmallCountdown(props){
         <div className="countdown-small">
           {start * 1000 > Date.now() &&
             <>
-            <small>START TIME</small>
+            <small>STARTS IN</small>
             <p>{daysStart}d {hoursStart}h {minutesStart}m {secondsStart}s</p>  
             </>
           }

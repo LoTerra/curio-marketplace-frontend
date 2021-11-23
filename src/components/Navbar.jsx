@@ -21,6 +21,7 @@ export default function Navbar(props) {
 
     const [connected, setConnected] = useState(false)
     const [userBids,setUserBids] = useState(false)
+    const [priv, setPriv] = useState(false);
     const [bank, setBank] = useState(false)
 
     let wallet = ''
@@ -46,10 +47,19 @@ export default function Navbar(props) {
             dispatch({ type: 'setWallet', message: connectedWallet })
 
             let coins;
+            let privToken;
             try{
                 const api = new WasmAPI(lcd.apiRequester)
                 coins = await lcd.bank.balance(connectedWallet.walletAddress)
 
+                privToken = await api.contractQuery(
+                    state.privTokenCw20Contract, 
+                    {
+                        balance: {
+                            address: connectedWallet.walletAddress,
+                        }
+                    }
+                    )
               
                     const bidderData = await api.contractQuery(
                         state.privTokenContract,
@@ -62,12 +72,13 @@ export default function Navbar(props) {
                     )
                     setUserBids(bidderData)
                     console.log(bidderData)
+                    console.log(privToken)
+                    setPriv(privToken.result.balance)
 
                 setConnected(true)
             } catch {
                
-            }
-
+            }            
             let uusd = coins.filter((c) => {
                 return c.denom === 'uusd'
             })
@@ -283,7 +294,7 @@ export default function Navbar(props) {
                
             </div>
         </div>   
-        <UserModal rawBank={rawBank()}/>
+        <UserModal rawBank={rawBank()} priv={priv}/>
         </>
     )
 }
