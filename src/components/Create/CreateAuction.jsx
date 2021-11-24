@@ -57,9 +57,9 @@ export default function CreateAuction(props) {
           auction_msg.create_auction_nft.start_time = new Date(data.start_time).getTime() / 1000
       }
 
-      if (data.category) {
-        auction_msg.create_auction_nft.category = String(data.category)
-      }
+    //   if (data.category) {
+    //     auction_msg.create_auction_nft.category = String(data.category)
+    //   }
 
       if (data.charity_address &&  data.charity_fee){
           auction_msg.create_auction_nft.charity = { address: data.charity_address , fee_percentage: parseFloat(data.charity_fee)}
@@ -124,7 +124,7 @@ export default function CreateAuction(props) {
                         <label>Token ID</label>
                         <input type="text" className="form-control" name="token_id" required />
                     </div>
-                    <div className="col-12 mb-3">
+                    {/* <div className="col-12 mb-3">
                         <label>NFT Category</label>                        
                         <select className="form-control" name="category" required>
                             <option value="">Select category</option>
@@ -132,7 +132,7 @@ export default function CreateAuction(props) {
                             return <option value={obj}>{obj}</option>
                         })}
                         </select>
-                    </div>
+                    </div> */}
                 </div>
 
 
