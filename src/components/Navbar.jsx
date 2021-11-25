@@ -60,7 +60,7 @@ export default function Navbar(props) {
                         }
                     }
                     )
-              
+                    setPriv(privToken.balance)
                     const bidderData = await api.contractQuery(
                         state.privAuctionContract,
                         {
@@ -73,7 +73,7 @@ export default function Navbar(props) {
                     setUserBids(bidderData)
                     console.log(bidderData)
                     console.log(privToken)
-                    setPriv(privToken.result.balance)
+                    
 
                 setConnected(true)
             } catch {
