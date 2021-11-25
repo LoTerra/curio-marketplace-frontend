@@ -165,6 +165,7 @@ export default () => {
             slidesPerView={2}           
             pagination={{ clickable: true }}
             navigation={true} 
+            loop={true}
             autoplay={{ delay: 3000, 
               disableOnInteraction: false,
               pauseOnMouseEnter: true
@@ -216,7 +217,7 @@ export default () => {
             modules={[Navigation, Pagination]}
             spaceBetween={25}
             slidesPerView={6}
-          
+            loop={true}
             breakpoints={{
               // when window width is >= 640px
               1: {         
