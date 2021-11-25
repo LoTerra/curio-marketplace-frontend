@@ -18,6 +18,7 @@ export default function BiddingInterface(props) {
         nftValid,
         connectedWallet,
         placeBid,
+        rightsCheck,
         buyNow
     } = props;
 
@@ -104,7 +105,7 @@ export default function BiddingInterface(props) {
                                     </div>
                                 </div>
                                 <small className="d-block p-3 text-muted">In order to bid you need to bid <strong>5% above</strong> current bid or min start price, each new bid is counted on top of your previous bids</small>
-                                {imageNftData && !parseInt(imageNftData.private_sale) > 0  &&
+                                {imageNftData && rightsCheck &&
                                 <div className="row">
                                     <div className={nftData.highest_bid != bidder.total_bid ? nftData && nftValid(nftData.end_time,nftData.start_time) ? 'col-md-6' : 'col-md-12' : 'd-none'}>
                                     <button 

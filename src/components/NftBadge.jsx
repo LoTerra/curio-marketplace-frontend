@@ -13,6 +13,12 @@ export default function NftBadge(props){
             </span>
         }
 
+        {data.private_sale !== undefined && data.private_sale !== null && data.private_sale > 0 &&
+            <span className="nft-badge">
+                Private sale
+            </span>
+        }
+
         {data.instant_buy > 0 &&
             <span className="nft-badge">
                 Instant buy

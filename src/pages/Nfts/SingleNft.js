@@ -271,7 +271,9 @@ const reloadData = useCallback(async () => {
         const result = await connectedWallet.post({
             msgs: [msg]
         })
-
+        toast.success("Auction unlocked!")
+        getNftData()
+        getNftUserData()
       } catch(e){
           console.log(e)
       }
@@ -409,6 +411,25 @@ const reloadData = useCallback(async () => {
     return true;
   }
 
+  const rightsCheck = () => {
+      if(nftData.start_time * 1000 > Date.now()){
+          console.log('check not valid start time')
+        return false;
+      }
+      if(imageNftData.private_sale > 0 && imageNftData.private_sale !== undefined || null){
+        if(bidder.privilege_used === imageNftData.private_sale){
+            console.log('bidder unlocked')
+            return true;
+          } else {
+            console.log('bidder not unlocked')
+            return false;
+          }
+      } else {
+          console.log('no private sale, true')
+          return true;
+      }      
+  }
+
     const getNftUserData = useCallback(async () => {
         try {
 
@@ -454,7 +475,7 @@ const reloadData = useCallback(async () => {
                     <h3 className="title">{imageNftData.name}</h3>
                     <p className="author">Author name</p>
                     <p className="description">{imageNftData.description}</p>
-                    {!parseInt(imageNftData.private_sale) > 0 &&
+                    {rightsCheck() && nftData.instant_buy !== nftData.highest_bid || nftData.instant_buy == null &&
                     <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                         <li className="nav-item" role="presentation">
                             <button className="nav-link active btn-sm" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Auction info</button>
@@ -471,8 +492,8 @@ const reloadData = useCallback(async () => {
                                     <Countdown expiryTimestamp={expiryTimestamp} end={nftData.end_time} start={nftData.start_time} />
                                 </div>
                                                    
-                                <AuctionInfo nftData={nftData} bidInfo={bidInfo} imageNftData={imageNftData} bidder={bidder} nftValid={(a,b) => nftValid(a,b)} buyNow={() => buyNow()}/>
-                                {parseInt(imageNftData.private_sale) > 0 &&
+                                <AuctionInfo nftData={nftData} bidInfo={bidInfo} imageNftData={imageNftData} bidder={bidder} nftValid={(a,b) => nftValid(a,b)} buyNow={() => buyNow()} rightsCheck={() => rightsCheck()}/>
+                                {bidder.privilege_used === null || bidder.privilege_used === undefined && imageNftData.private_sale > 0 &&
                                 <div className="col-12">
                                     <button className="btn btn-primary btn-lg w-100 mt-3" onClick={() => unlockPrivAuction(imageNftData.private_sale)}>
                                         Unlock private auction
@@ -498,6 +519,7 @@ const reloadData = useCallback(async () => {
                                 nftValid={(a,b) => nftValid(a,b)}
                                 retractBid={() => retractBid()}
                                 connectedWallet={connectedWallet}
+                                rightsCheck={() => rightsCheck()}
                                 placeBid={() => placeBid()}
                                 buyNow={() => buyNow()} />
                             </div>

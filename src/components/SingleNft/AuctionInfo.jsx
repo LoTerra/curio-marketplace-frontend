@@ -9,7 +9,7 @@ if (typeof document !== 'undefined') {
 export default function AuctionInfo(props) {
     const { state, dispatch } = useStore()
 
-    const {nftData, bidInfo, imageNftData, nftValid, bidder, buyNow} = props;
+    const {nftData, bidInfo, imageNftData, nftValid, bidder, buyNow, rightsCheck} = props;
 
     function selectBiddingTab(){
         let pill = document.querySelector('#pills-profile-tab');
@@ -54,7 +54,7 @@ export default function AuctionInfo(props) {
                                     </div>
                                 </div>
 
-                                {!parseInt(imageNftData.private_sale) > 0  &&
+                                {rightsCheck &&
                                     <div className={nftData && nftValid(nftData.end_time,nftData.start_time) ? 'col-md-6 mt-3' : 'col-md-12 mt-3'}>
                                     <button onClick={() => selectBiddingTab()}
                                 className="btn btn-primary btn-lg w-100"
@@ -64,7 +64,7 @@ export default function AuctionInfo(props) {
                                     </div>
                                     }
 
-                                    {nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy && !parseInt(imageNftData.private_sale) > 0 &&
+                                    {nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy && rightsCheck &&
 
                                     <div className="col-md-6 mt-3">
                                     <button 
