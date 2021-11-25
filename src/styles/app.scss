@@ -91,12 +91,13 @@ text-decoration: none;
             }
             @media(max-width:660px){
                 img {
-                    max-width:205px
-                }
-                font-size: 22px;
-                span{
-                    font-size:12px;
-                }
+                    max-width:165px
+                }               
+            }
+            @media(max-width:370px){
+                img {
+                    max-width:110px
+                }               
             }
 &:hover {
     color:#fff;
@@ -190,8 +191,7 @@ text-decoration: none;
 }
 
 .btn {
-    border-radius:4px;
-    padding: 0.53rem 1.25rem;
+    border-radius:4px;    
     font-weight: 600;
         font-size: 14px;
         line-height: 21px;    
@@ -849,8 +849,7 @@ text-decoration: none;
                 transition:all 200ms linear;
                 padding:0px 10px;
                 .btn {
-                    width:100%;
-                    margin:0 !important;
+                    width:100%;                    
                 }
                 .nav-item {
                     padding:5px 5px;
@@ -876,8 +875,9 @@ text-decoration: none;
                 top:94px;
                 bottom:0;
                 @media(max-width:768px){
-                    top: 69px;
+                    top: 0;
                     bottom:0;
+                    z-index:999;
                 }
                     &.show {
                         right:0;

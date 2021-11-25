@@ -172,6 +172,7 @@ export default function Navbar(props) {
               
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto">
+                <button className="navbar-toggler btn btn-secondary mobile-toggle mt-3 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">Close</button>
                     {/* <li className="nav-item">
                         <div className="dropdown">
                         <button className="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" type="button"
@@ -200,13 +201,14 @@ export default function Navbar(props) {
                     </li> */}
                     { connected &&
                     <li className="nav-item">
-                    <a className="btn btn-outline-primary ms-3" href="/create">
+                    <a className="btn btn-outline-primary ms-md-3" href="/create">
                         <PlusCircle size={16} weight="bold"/> Auction
                     </a>
                     </li>
                     }
                 </ul>
                 <ul className="navbar-nav ms-auto">
+                
                 <form className="nav-item me-3">
                     <button type="submit"><MagnifyingGlass size={24} color={'#595959'} weight="bold" /></button>
                     <input className="form-control " type="search" placeholder="Search" aria-label="Search"/>

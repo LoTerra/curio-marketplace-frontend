@@ -96,22 +96,22 @@ export default () => {
           <div className="col-md-7 ps-0 ps-lg-5 d-flex intro mb-0 mb-md-5 text-start">
             <div className="align-self-center w-100">
             <div className="row">
-              <div className="col-xl-7">
+              <div className="col-xl-7 text-center text-md-start">
                 <h1><span className="green">Buy</span> or <span className="pink">Auction</span> your NFT</h1>
                 <p className="slogan">We are currently in <strong>testnet mode</strong>, feel free to test with us</p>
               </div>
                <div className="col-xl-8">
                  <div className="row">
-                 <div className="col-md-6 mb-4">
+                 <div className="col-6 mb-4">
                 <button className="btn btn-primary btn-lg w-100">Explore</button>
               </div>
-              <div className="col-md-6 mb-4">
+              <div className="col-6 mb-4">
                 <a href="/create" className="btn btn-lg btn-outline-primary w-100">Create auction</a>
               </div>
                    </div>
                  </div>
             </div>
-            <div className="row mt-3 mb-5 info-row">
+            <div className="row mt-3 mb-5 info-row d-none d-md-flex">
             
               <div className="col-md-4 mt-4">
                 <div className="row">
