@@ -254,7 +254,7 @@ const reloadData = useCallback(async () => {
       try{
         if (!connectedWallet) return
         let priv_msg = {
-            register_private_auction:{
+            register_private_sale:{
                 auction_id: testAuctionID
             }
         };
