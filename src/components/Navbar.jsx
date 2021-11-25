@@ -62,7 +62,7 @@ export default function Navbar(props) {
                     )
               
                     const bidderData = await api.contractQuery(
-                        state.privTokenContract,
+                        state.privAuctionContract,
                         {
                             bidder:{   
                                 auction_id:0,                          

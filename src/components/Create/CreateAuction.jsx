@@ -79,7 +79,7 @@ export default function CreateAuction(props) {
 
         let msg = new MsgExecuteContract(connectedWallet.walletAddress, String(data.contract_address),{
             send_nft: {
-                contract: state.privTokenContract,
+                contract: state.privAuctionContract,
                 token_id: data.token_id,
                 msg:Buffer.from(JSON.stringify(auction_msg)).toString(
                     'base64'

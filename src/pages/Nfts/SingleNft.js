@@ -23,6 +23,7 @@ import Card from '../../components/SingleNft/Card';
 import MainLoader from '../../components/Loaders/MainLoader';
 import AuctionInfo from '../../components/SingleNft/AuctionInfo';
 import BiddingInterface from '../../components/SingleNft/BiddingInterface';
+import { data } from 'jquery';
 
 export default (props) => {
   const { state, dispatch } = useStore()
@@ -65,7 +66,7 @@ const reloadData = useCallback(async () => {
 
    try {
     const bids = await api.contractQuery(
-        state.privTokenContract,
+        state.privAuctionContract,
         {
             history_bids:{
                 auction_id:testAuctionID
@@ -75,7 +76,7 @@ const reloadData = useCallback(async () => {
     sortBids(bids.bids)    
 
         const nftConfigInfo = await api.contractQuery(
-            state.privTokenContract,
+            state.privAuctionContract,
             {
                 auction:{
                     auction_id:testAuctionID
@@ -87,7 +88,7 @@ const reloadData = useCallback(async () => {
 
         if(connectedWallet && connectedWallet.walletAddress){
             const bidderData = await api.contractQuery(
-                state.privTokenContract,
+                state.privAuctionContract,
                 {
                     bidder:{
                         auction_id:testAuctionID,
@@ -180,7 +181,7 @@ const reloadData = useCallback(async () => {
 
     try{
         const nftConfigInfo = await api.contractQuery(
-            state.privTokenContract,
+            state.privAuctionContract,
             {
                 auction:{
                     auction_id:testAuctionID
@@ -224,7 +225,7 @@ const reloadData = useCallback(async () => {
         //Final check for bids
         if(nftConfigInfo.total_bids > 0){
             const bids = await api.contractQuery(
-                state.privTokenContract,
+                state.privAuctionContract,
                 {
                     history_bids:{
                         auction_id:testAuctionID
@@ -247,12 +248,41 @@ const reloadData = useCallback(async () => {
       
   },[])
 
+
+
+  async function unlockPrivAuction(price){
+      try{
+        if (!connectedWallet) return
+        let priv_msg = {
+            register_private_auction:{
+                auction_id: testAuctionID
+            }
+        };
+        let msg = new MsgExecuteContract(connectedWallet.walletAddress, String(state.privTokenCw20Contract),{
+            send: {
+                contract: state.privAuctionContract,    
+                amount: String(price),            
+                msg:Buffer.from(JSON.stringify(priv_msg)).toString(
+                    'base64'
+                )
+            }
+        })
+
+        const result = await connectedWallet.post({
+            msgs: [msg]
+        })
+
+      } catch(e){
+          console.log(e)
+      }
+  }
+
   async function buyNow(){
       try {
           if (!connectedWallet) return
           let final_price = parseInt(bidder.total_bid) > 0 ? parseInt(nftData.instant_buy) - parseInt(bidder.total_bid) : parseInt(nftData.instant_buy)
 
-          let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privTokenContract,{
+          let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privAuctionContract,{
               instant_buy: {
                   auction_id:testAuctionID
               }
@@ -305,7 +335,7 @@ const reloadData = useCallback(async () => {
       
       //Check if bid is highest
         try {
-            let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privTokenContract,{
+            let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privAuctionContract,{
                 place_bid: {auction_id: testAuctionID}
             }, {uusd: String(amount * 1000000)})
 
@@ -330,7 +360,7 @@ const reloadData = useCallback(async () => {
 
         //Check if bid is highest
         try {
-            let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privTokenContract,{
+            let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privAuctionContract,{
                 retract_bids: {auction_id: testAuctionID}
             })
 
@@ -384,7 +414,7 @@ const reloadData = useCallback(async () => {
 
             if (connectedWallet){
                 const bidderData = await api.contractQuery(
-                    state.privTokenContract,
+                    state.privAuctionContract,
                     {
                         bidder:{
                             auction_id:testAuctionID,
@@ -444,7 +474,7 @@ const reloadData = useCallback(async () => {
                                 <AuctionInfo nftData={nftData} bidInfo={bidInfo} imageNftData={imageNftData} bidder={bidder} nftValid={(a,b) => nftValid(a,b)} buyNow={() => buyNow()}/>
                                 {parseInt(imageNftData.private_sale) > 0 &&
                                 <div className="col-12">
-                                    <button className="btn btn-primary btn-lg w-100 mt-3">
+                                    <button className="btn btn-primary btn-lg w-100 mt-3" onClick={() => unlockPrivAuction(imageNftData.private_sale)}>
                                         Unlock private auction
                                         <small><strong>Costs: </strong>{parseInt(imageNftData.private_sale) / 1000000} PRIV</small>
                                     </button>

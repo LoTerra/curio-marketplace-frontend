@@ -55,7 +55,7 @@ export default () => {
 
         try {
           const contractStateInfo = await api.contractQuery(
-            state.privTokenContract,
+            state.privAuctionContract,
             {
                 state: {},
             }          
@@ -67,7 +67,7 @@ export default () => {
 
           /// Min is 10 result max is 30
           const firstThirstyAuctionsInfo = await api.contractQuery(
-              state.privTokenContract,
+              state.privAuctionContract,
               {
                 all_auctions: {
                   // start_after: 0, // For pagination you can set the id you want here and receive next 30 auctions
