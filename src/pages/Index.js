@@ -96,11 +96,11 @@ export default () => {
           <div className="col-md-7 ps-0 ps-lg-5 d-flex intro mb-0 mb-md-5 text-start">
             <div className="align-self-center w-100">
             <div className="row">
-              <div className="col-xl-7 text-center text-md-start">
+              <div className="col-xl-7 mx-auto text-center">
                 <h1><span className="green">Buy</span> or <span className="pink">Auction</span> your NFT</h1>
-                <p className="slogan">We are currently in <strong>testnet mode</strong>, feel free to test with us</p>
+                <p className="slogan mb-5">We are currently in <strong>testnet mode</strong>, feel free to test with us</p>
               </div>
-               <div className="col-xl-8">
+               <div className="col-xl-8 mx-auto">
                  <div className="row">
                  <div className="col-6 mb-4">
                 <button className="btn btn-primary btn-lg w-100">Explore</button>
