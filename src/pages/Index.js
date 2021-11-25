@@ -164,7 +164,7 @@ export default () => {
             spaceBetween={25} 
             slidesPerView={2}           
             pagination={{ clickable: true }}
-            navigation={true} 
+            navigation={false} 
             loop={true}
             autoplay={{ delay: 3000, 
               disableOnInteraction: false,
@@ -232,7 +232,7 @@ export default () => {
               },
             }}
             pagination={{ clickable: true }}
-            navigation={true}
+            navigation={false}
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper) => console.log(swiper)}
           >
