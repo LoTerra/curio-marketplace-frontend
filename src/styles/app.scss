@@ -843,7 +843,7 @@ text-decoration: none;
                 position:fixed;
                 right:-100%;
                 width:330px;
-                top:94px;
+                top:0;
                 height:100%;
                 bottom:0;
                 transition:all 200ms linear;
@@ -872,12 +872,13 @@ text-decoration: none;
                 right:-100%;
                 width:330px;
                 height:100%;
-                top:94px;
+                top:0;
                 bottom:0;
                 @media(max-width:768px){
                     top: 0;
                     bottom:0;
                     z-index:999;
+                    height:100%;
                 }
                     &.show {
                         right:0;
