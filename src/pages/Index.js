@@ -283,7 +283,13 @@ export default () => {
                 <div className={i == 0 ? "tab-pane fade show active" : "tab-pane fade"} id={"pills-content-"+i} role="tabpanel" aria-labelledby={"pills-tab-"+i}>
                 <div className="row">
                   {
-                        nfts.length > 0 && nfts.filter((a) => {return obj !== "Undefined" ? a.category == obj : a.category == null} ).map((obj, id) =>{           
+                        nfts.length > 0 && nfts.filter((a) => {return obj !== "Undefined" ? a.category == obj : a.category == null} ).filter((a)=>{
+                          if(nftValid(a.end_time)){
+                          return true;
+                          }
+                          return false;
+                                              
+                      }).map((obj, id) =>{           
                             return (
                               <div className={'col-md-3'}>
                                 <NftCard key={id} data={obj} type={'small'} index={99}/>
