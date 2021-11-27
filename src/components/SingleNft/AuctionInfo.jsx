@@ -28,34 +28,41 @@ export default function AuctionInfo(props) {
                                     </div>
                                 </div>
                                  
-                                    
+                                { nftData.reserve_price !== null &&    
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Reserve price</h6>
                                         <p className="highest_bid">{nftData.reserve_price / 1000000} <span>UST</span></p>
                                     </div>
                                 </div>
+                                }
+                                { nftData.charity !== null &&
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Charity</h6>
                                         <p className="highest_bid">{nftData.charity ? nftData.charity.fee_percentage + '%': '0%' }</p>
                                     </div>
                                 </div>
+                                }
+                                { nftData.start_price !== null &&
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Starting price</h6>
                                         <p className="start-price">{nftData.start_price / 1000000} <span>UST</span></p>
                                     </div>
                                 </div>
+                                }
+                                { nftData.instant_buy !== null &&
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Instant buy</h6>
                                         <p className="start-price">{nftData.instant_buy / 1000000} <span>UST</span></p>
                                     </div>
                                 </div>
+                                }
 
                                 {rightsCheck &&
-                                    <div className={nftData && nftValid(nftData.end_time,nftData.start_time) ? 'col-md-6 mt-3' : 'col-md-12 mt-3'}>
+                                    <div className={nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy !== null ? 'col-md-6 mt-3' : 'col-md-12 mt-3'}>
                                     <button onClick={() => selectBiddingTab()}
                                 className="btn btn-primary btn-lg w-100"
                                 disabled={nftData && nftValid(nftData.end_time,nftData.start_time) ? false : true}

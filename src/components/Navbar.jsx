@@ -13,8 +13,6 @@ import UserModal from './UserModal'
 
 
 
-
-
 export default function Navbar(props) {
     const { state, dispatch } = useStore()
     let connectedWallet = ''

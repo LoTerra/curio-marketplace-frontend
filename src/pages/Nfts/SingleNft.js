@@ -475,7 +475,7 @@ const reloadData = useCallback(async () => {
                     <h3 className="title">{imageNftData.name}</h3>
                     <p className="author">Author name</p>
                     <p className="description">{imageNftData.description}</p>
-                    {rightsCheck() && nftData.instant_buy !== nftData.highest_bid || nftData.instant_buy == null &&
+                    {rightsCheck()  &&
                     <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                         <li className="nav-item" role="presentation">
                             <button className="nav-link active btn-sm" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Auction info</button>
