@@ -262,6 +262,11 @@ text-decoration: none;
     }
     .intro {
         margin-bottom:45px;
+        .badge {
+            width:auto;
+            background:#20ff93;
+            color:#000;
+        }
         .title {
             margin:0;
             font-weight:700;
