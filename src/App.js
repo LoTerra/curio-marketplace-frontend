@@ -32,7 +32,7 @@ function App() {
                             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
                         />
                         <title>
-                            NFT auction marketplace - from LoTerra
+                            Privilege - Decentralized marketplace on Terra blockchain
                         </title>
                         <link
                             rel="icon"

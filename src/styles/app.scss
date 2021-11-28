@@ -283,7 +283,21 @@ text-decoration: none;
     }
     .slogan {
         margin-top: 15px;
+        margin-bottom:0;
         opacity: 0.5;
+        font-size: 28px;
+        font-weight: 500;
+    }
+    .powered {
+        font-size:12px;
+        text-transform:uppercase;
+        margin-bottom:35px;
+        opacity:0.3;
+        font-weight:200;
+        img {
+            margin-left:5px;
+            margin-top:-3px;
+        }
     }
 }
 
