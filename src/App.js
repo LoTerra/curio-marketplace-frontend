@@ -14,6 +14,7 @@ import Navbar from './components/Navbar'
 import SingleNft from './pages/Nfts/SingleNft'
 import Create from './pages/Create'
 import MainLoader from './components/Loaders/MainLoader'
+import Footer from './components/Footer'
 
 //Dont prerender routes starting with (because of dynamic data)
 addPrefetchExcludes([
@@ -86,7 +87,7 @@ function App() {
                                 <Create path="/create" />    
                                 <Routes default />                                                                                                                 
                             </Router>
-                
+                        <Footer/>
                     </StoreProvider>
 
         </React.Suspense>

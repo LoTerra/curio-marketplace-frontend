@@ -125,7 +125,7 @@ export default () => {
               <div className="col-md-4 mt-4">
                 <div className="row">
                   <div className="col-lg-3 text-center">
-                    <span className="icon"><Coin size={60} weight="light" /></span> 
+                    <span className="icon"><Coin size={60} color={'#4d4d4f'} weight="light" /></span> 
                   </div>
                   <div className="col-lg-9">
                     <p className="title">Privilege Token</p>
@@ -137,7 +137,7 @@ export default () => {
               <div className="col-md-4 mt-4">
                 <div className="row">
                   <div className="col-lg-3 text-center">
-                    <span className="icon"><MonitorPlay size={60} weight="light" /></span> 
+                    <span className="icon"><MonitorPlay size={60} color={'#4d4d4f'} weight="light" /></span> 
                   </div>
                   <div className="col-lg-9">
                     <p className="title">Start Bidding</p>
@@ -149,7 +149,7 @@ export default () => {
               <div className="col-md-4 mt-4">
                 <div className="row">
                   <div className="col-lg-3 text-center">
-                    <span className="icon"><CirclesThreePlus size={60} weight="light" /></span> 
+                    <span className="icon"><CirclesThreePlus size={60} color={'#4d4d4f'} weight="light" /></span> 
                   </div>
                   <div className="col-lg-9">
                     <p className="title">Create Auction</p>

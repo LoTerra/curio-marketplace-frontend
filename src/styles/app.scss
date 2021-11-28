@@ -995,3 +995,20 @@ ol.progtrckr {
     color: #333;
   }
   
+
+  footer {
+      background:#1b1b1c;
+      width:100%;
+      display:block;
+      text-align:center;
+      padding:25px;
+      ul {
+          margin:0;
+          padding:0;
+          list-style: none;
+          text-align:center;
+          li {
+              display:inline-block;
+          }
+      }
+  }
