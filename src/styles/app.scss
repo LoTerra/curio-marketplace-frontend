@@ -273,7 +273,7 @@ text-decoration: none;
         }
     }
     h1 {
-        font-weight:700;
+        font-weight:700; 
         .pink {
             border-bottom:4px solid $special;
         }
@@ -418,6 +418,9 @@ text-decoration: none;
 .heading {
     // background: #12121287;
     padding: 15px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 14px;
     h3 {
         font-size:31px;
         font-weight:700;

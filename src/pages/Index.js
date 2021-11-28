@@ -12,7 +12,7 @@ import 'swiper/swiper-bundle.css';
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import MainLoader from '../components/Loaders/MainLoader';
 import NftInfoCard from '../components/NftInfoCard';
-import { CirclesThreePlus, Coin, HourglassMedium, MonitorPlay } from 'phosphor-react';
+import { CirclesThreePlus, Coin, Fire, HourglassMedium, MonitorPlay } from 'phosphor-react';
 import { Navigation, Pagination, Autoplay } from 'swiper';
  
 export default () => {
@@ -102,10 +102,10 @@ export default () => {
   <section className="nfts-big">
     <div className="container-fluid">
         <div className="row">
-          <div className="col-md-7 ps-0 ps-lg-5 d-flex intro mb-0 mb-md-5 text-start">
+          <div className="col-md-7 px-lg-5 d-flex intro mb-0 mb-md-5 text-start">
             <div className="align-self-center w-100">
             <div className="row">
-              <div className="col-xl-7 mx-auto text-center">
+              <div className="col-xl-12 mt-5 mx-auto text-center">
                 <h1><span className="green">Buy</span> or <span className="pink">Auction</span> your NFT</h1>
                 <p className="slogan">Decentralized Marketplace</p>
                 <p className="powered">powered by <img src={'img/terralogo.svg'} style={{width:'80px'}}/></p>
@@ -165,8 +165,8 @@ export default () => {
           </div>
           <div className="col-md-5">
             <div className="row">
-            <div className="col-md-12 heading">
-            <h3>Featured</h3>
+            <div className="col-md-12 heading text-start">
+            <h3><Fire size={36} color={'#fff'}/> Featured</h3>
           </div>
             </div>
           {nfts.length > 0 &&
@@ -218,6 +218,12 @@ export default () => {
                       </Swiper>
 }
           </div>
+          </div>
+          </div>
+          </section>
+
+          <div className="container-fluid">
+          <div className="row">
           <div className="col-md-12 small-heading">
             <h3><span className="icon"><HourglassMedium size={38} color="#ff36ff" /> <HourglassMedium size={38} color="#20ff93" /></span> Almost ending</h3>
           </div>
@@ -319,7 +325,7 @@ export default () => {
          
         </div>
       </div>
-  </section>
+
 
   {/*<section className="nfts">*/}
   {/*  <div className="container">*/}
