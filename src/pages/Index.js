@@ -38,15 +38,24 @@ export default () => {
       }
     }
 
-    function nftValid(timestamp){
-      let end = new Date(parseInt(timestamp) * 1000)
+    function nftValid(end,start){
+      let ending = new Date(parseInt(end) * 1000)
+      let starting = new Date(parseInt(start) * 1000)
       let now = new Date()    
   
-      if(end.getTime() < now.getTime()){
+      //If ending is lower then filter
+      if(ending.getTime() < now.getTime()){
           return false
-      } else {
-          return true
       }
+
+      //If starting is higher then filter
+      if(starting.getTime() > now.getTime()){
+        return false;
+      }
+      
+      //If valid return true
+      return true;
+      
     }
 
   const fetchNftData = useCallback( async() => {
@@ -119,8 +128,8 @@ export default () => {
                     <span className="icon"><Coin size={60} weight="light" /></span> 
                   </div>
                   <div className="col-lg-9">
-                    <p className="title">Earn privilege</p>
-                    <p className="info">Creating auction or participating in auctions will earn you privilege.</p>
+                    <p className="title">Privilege Token</p>
+                    <p className="info">When you want to attend a private auction you will need privilege tokens in order to unlock the private auction and participate</p>
                   </div>
                 </div>              
               </div>
@@ -131,8 +140,8 @@ export default () => {
                     <span className="icon"><MonitorPlay size={60} weight="light" /></span> 
                   </div>
                   <div className="col-lg-9">
-                    <p className="title">Start bidding</p>
-                    <p className="info">Participate in auctions and earn privilege, unlock private auctions with privilege</p>
+                    <p className="title">Start Bidding</p>
+                    <p className="info">Get your NFT right now! Place a bid on your desired NFT, after your first bid your new bids will compound with the allready bidded amount.</p>
                   </div>
                 </div>              
               </div>
@@ -143,8 +152,8 @@ export default () => {
                     <span className="icon"><CirclesThreePlus size={60} weight="light" /></span> 
                   </div>
                   <div className="col-lg-9">
-                    <p className="title">Create auction</p>
-                    <p className="info">Everyone will be able to sell their nfts on the privilege marketplace</p>
+                    <p className="title">Create Auction</p>
+                    <p className="info">Everyone will be able to sell their nfts on the privilege marketplace, setup your desired start time or even select a fee for your favorite charity</p>
                   </div>
                 </div>              
               </div>
@@ -191,7 +200,7 @@ export default () => {
           >
     {
                         nfts.filter((a)=>{
-                          if(nftValid(a.end_time)){
+                          if(nftValid(a.end_time,a.start_time)){
                           return true;
                           }
                           return false;
@@ -238,12 +247,14 @@ export default () => {
           >
     {
                         nfts.filter((a)=>{
-                          if(nftValid(a.end_time)){
-                          return true;
-                          }
-                          return false;
+                          if(nftValid(a.end_time,a.start_time)){
+                            return true;
+                            }
+                            return false;
                                               
-                      }).sort((a,b) => {return a.end_time - b.end_time}).slice(0,12).map((obj, id) =>{           
+                      }).sort((a,b) => {
+                        return a.end_time - b.end_time;
+                      }).slice(0,12).map((obj, id) =>{           
                             return (
                               <SwiperSlide>
                                 <NftCard key={id} data={obj} type={'xs'} index={99}/>
@@ -284,10 +295,10 @@ export default () => {
                 <div className="row">
                   {
                         nfts.length > 0 && nfts.filter((a) => {return obj !== "Undefined" ? a.category == obj : a.category == null} ).filter((a)=>{
-                          if(nftValid(a.end_time)){
-                          return true;
-                          }
-                          return false;
+                          if(nftValid(a.end_time,a.start_time)){
+                            return true;
+                            }
+                            return false;
                                               
                       }).map((obj, id) =>{           
                             return (
