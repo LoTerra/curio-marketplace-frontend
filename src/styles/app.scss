@@ -654,6 +654,23 @@ text-decoration: none;
     
 }
 
+.single-nft-badge {
+    background: linear-gradient(
+45deg, #ff36ff, #ff77ff);
+    box-shadow: 0px 2px 7px #00000069;
+    color: #000;
+    border-radius: 4px;
+    z-index: 9;
+    display: inline-block;
+    width: auto;
+    height: auto;
+    padding: 3px 13px;
+    font-size: 18px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-style: italic;
+}
+
 .nft-badge {
     position: absolute;
     top: 10px;

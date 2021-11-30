@@ -504,11 +504,11 @@ const reloadData = useCallback(async () => {
 
             <div className="col-md-6 nft-right px-xl-5 d-flex">
                 <div className="align-self-center w-100">
-                    <a href="/" className="btn btn-secondary btn-sm mb-3 px-0" style={{fontWeight:300, opacity:0.5, background:'transparent'}}>
+                    <a href="/" className="btn btn-secondary btn-sm mb-3 px-0 text-center text-md-start" style={{fontWeight:300,display:'block', opacity:0.5, background:'transparent'}}>
                         <ArrowLeft size={16} style={{position:'relative',top:'-1px'}}/> Back to home
                     </a>
                     {parseInt(imageNftData.private_sale) > 0 &&
-                    <p>Private auction</p>
+                    <p className="single-nft-badge">Private auction</p>
                     }
                     <h3 className="title">{imageNftData.name}</h3>
                     <p className="author">Author name</p>
