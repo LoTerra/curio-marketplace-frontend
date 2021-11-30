@@ -26,7 +26,7 @@ const StoreContext = createContext()
 //     {id:7,bg:'/img/bull.png',art:'https://pbs.twimg.com/media/FCKxX_IWQAk7vhN?format=jpg&name=medium',logo:'/img/brand.png',name:'LunaBulls', desc:''},
 // ]
 
-let cats = ["Undefined", "Art", "Photography", "Metaverses", "Games", "Music", "Domains", "DeFi", "Memes", "Punks"]
+let cats = ["All", "Art", "Photography", "Metaverses", "Games", "Music", "Domains", "DeFi", "Memes", "Punks", "Other"]
 
 const initialState = {
     privAuctionContract: 'terra1dullgnj5cm4fgpetrrq8ctukag89upajjt8f3g',

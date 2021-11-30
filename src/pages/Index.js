@@ -285,8 +285,29 @@ export default () => {
                <button className={i == 0 ? "nav-link active" : "nav-link"} id={"pills-tab-"+i} data-bs-toggle="pill" data-bs-target={"#pills-content-"+i} type="button" role="tab" aria-controls="pills-create" aria-selected="true">
                  {obj}
                   <small style={{fontSize:'12px', opacity:0.5}}>
-                    ({nfts && obj !== 'Undefined' && nfts.filter((a) => {return a.category == obj} ).length}
-                    {nfts && obj === 'Undefined' &&  nfts.filter((a) => {return a.category == null} ).length})
+                    (                    
+                    {nfts && obj !== 'Other' &&  obj !== 'All' && nfts.filter((a)=>{
+                          if(nftValid(a.end_time,a.start_time)){
+                            return true;
+                            }
+                            return false;
+                                              
+                      }).filter((a) => {return a.category == obj} ).length}
+                    {nfts && obj === 'Other' &&  nfts.filter((a)=>{
+                          if(nftValid(a.end_time,a.start_time)){
+                            return true;
+                            }
+                            return false;
+                                              
+                      }).filter((a) => {return a.category == null} ).length}
+                    {nfts && obj === 'All' && nfts.filter((a)=>{
+                          if(nftValid(a.end_time,a.start_time)){
+                            return true;
+                            }
+                            return false;
+                                              
+                      }).filter((a) => {return a} ).length}
+                    )
                     </small>
                     </button>
              </li>)
@@ -303,7 +324,17 @@ export default () => {
                 <div className={i == 0 ? "tab-pane fade show active" : "tab-pane fade"} id={"pills-content-"+i} role="tabpanel" aria-labelledby={"pills-tab-"+i}>
                 <div className="row">
                   {
-                        nfts.length > 0 && nfts.filter((a) => {return obj !== "Undefined" ? a.category == obj : a.category == null} ).filter((a)=>{
+                        nfts.length > 0 && nfts.filter((a) => {
+                          if(obj !== "Other" && obj !== "All"){
+                            return a.category == obj;
+                          }
+                          if(obj === "Other"){
+                            return a.category == null
+                          }
+                          if(obj === "All"){
+                            return a
+                          }                        
+                        } ).filter((a)=>{
                           if(nftValid(a.end_time,a.start_time)){
                             return true;
                             }
