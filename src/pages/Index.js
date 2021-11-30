@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import NftCard from '../components/NftCard'
 import { useStore } from '../store'
 import axios from "axios"
@@ -25,7 +25,7 @@ export default () => {
     const [auctions, setAuction] = useState([])
     const [nfts, setNfts] = useState(false);
     const [loading,setLoading] = useState(true)
-    
+    const exploreDiv = useRef(null)
 
     async function getHomePageData() {
       try {
@@ -56,6 +56,25 @@ export default () => {
       //If valid return true
       return true;
       
+    }
+
+    function nftValidEnd(end){
+      let ending = new Date(parseInt(end) * 1000)  
+      let now = new Date()    
+  
+      //If ending is lower then filter
+      if(ending.getTime() < now.getTime()){
+          return false
+      }
+      
+      //If valid return true
+      return true;
+      
+    }
+
+    const scrollToExplore = () => {
+      exploreDiv.current.scrollIntoView()
+
     }
 
   const fetchNftData = useCallback( async() => {
@@ -115,7 +134,7 @@ export default () => {
                <div className="col-xl-8 mx-auto">
                  <div className="row">
                  <div className="col-6 mb-4">
-                <button className="btn btn-primary btn-lg w-100">Explore</button>
+                <button className="btn btn-primary btn-lg w-100" onClick={() => scrollToExplore()}>Explore</button>
               </div>
               <div className="col-6 mb-4">
                 <a href="/create" className="btn btn-lg btn-outline-primary w-100">Create auction</a>
@@ -203,7 +222,7 @@ export default () => {
           >
     {
                         nfts.filter((a)=>{
-                          if(nftValid(a.end_time,a.start_time)){
+                          if(nftValidEnd(a.end_time)){
                           return true;
                           }
                           return false;
@@ -275,7 +294,7 @@ export default () => {
      
       </div>
             </div>
-            <div className="col-md-12 heading">
+            <div className="col-md-12 heading" ref={exploreDiv}>
             <h3>Explore by category</h3>
           </div>
           <div className="col-md-12 mx-auto">
@@ -287,21 +306,21 @@ export default () => {
                   <small style={{fontSize:'12px', opacity:0.5}}>
                     (                    
                     {nfts && obj !== 'Other' &&  obj !== 'All' && nfts.filter((a)=>{
-                          if(nftValid(a.end_time,a.start_time)){
+                          if(nftValidEnd(a.end_time)){
                             return true;
                             }
                             return false;
                                               
                       }).filter((a) => {return a.category == obj} ).length}
                     {nfts && obj === 'Other' &&  nfts.filter((a)=>{
-                          if(nftValid(a.end_time,a.start_time)){
+                          if(nftValidEnd(a.end_time)){
                             return true;
                             }
                             return false;
                                               
                       }).filter((a) => {return a.category == null} ).length}
                     {nfts && obj === 'All' && nfts.filter((a)=>{
-                          if(nftValid(a.end_time,a.start_time)){
+                          if(nftValidEnd(a.end_time)){
                             return true;
                             }
                             return false;
@@ -335,7 +354,7 @@ export default () => {
                             return a
                           }                        
                         } ).filter((a)=>{
-                          if(nftValid(a.end_time,a.start_time)){
+                          if(nftValidEnd(a.end_time)){
                             return true;
                             }
                             return false;

@@ -656,16 +656,22 @@ text-decoration: none;
 
 .nft-badge {
     position: absolute;
-    top: 15px;
-    left: 15px;
-    background: #ff36ff;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(
+45deg, #ff36ff, #ff77ff);
+    box-shadow: 0px 2px 7px #00000069;
+    color: #000;
     border-radius: 4px;
     z-index: 9;
     display: inline-block;
     width: auto;
     height: auto;
     padding: 3px 6px;
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-style: italic;
 }
 
 .swiper {

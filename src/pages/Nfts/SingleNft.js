@@ -7,6 +7,9 @@ import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider';
 const { w3cwebsocket }  = require( "websocket");
 const client = new w3cwebsocket('wss://observer.terra.dev');
 const auction_address = "terra1eyqqc7xkv5vcld6t5fzt8pmjvuy2mdl5gzxpcz";
+// import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
+// import 'swiper/swiper-bundle.css';
+// import { Navigation, Pagination, Autoplay } from 'swiper';
 
 import {
     StdFee,
@@ -24,6 +27,7 @@ import MainLoader from '../../components/Loaders/MainLoader';
 import AuctionInfo from '../../components/SingleNft/AuctionInfo';
 import BiddingInterface from '../../components/SingleNft/BiddingInterface';
 import { data } from 'jquery';
+import { ArrowLeft } from 'phosphor-react';
 
 export default (props) => {
   const { state, dispatch } = useStore()
@@ -31,6 +35,7 @@ export default (props) => {
   const [expiryTimestamp, setExpiryTimestamp] =  useState(1)
   const [nftData,setNftData] = useState(0)
   const [imageNftData,setImageNftData] = useState(0)
+  const [recent, setRecent] = useState(0)
   const [bidInfo, setBidInfo] = useState([])
     const [bidder, setBidder] = useState( {
         bid_counter: 0,
@@ -219,7 +224,23 @@ const reloadData = useCallback(async () => {
             console.log(error);
           });
 
-     
+          var config_recent = {
+            method: 'get',
+            url: 'https://privilege.digital/api/get-items',          
+            params : {
+                limit: 5
+            }
+          };
+          
+          await axios(config_recent)
+          .then(function (response) {
+            console.log('repsonse',response.data);
+            setRecent(response.data.filterItems)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          
           
 
         //Final check for bids
@@ -411,6 +432,20 @@ const reloadData = useCallback(async () => {
     return true;
   }
 
+  function nftValidEnd(end){
+    let ending = new Date(parseInt(end) * 1000)  
+    let now = new Date()    
+
+    //If ending is lower then filter
+    if(ending.getTime() < now.getTime()){
+        return false
+    }
+    
+    //If valid return true
+    return true;
+    
+  }
+
   const rightsCheck = () => {
       if(nftData.start_time * 1000 > Date.now()){
           console.log('check not valid start time')
@@ -469,6 +504,9 @@ const reloadData = useCallback(async () => {
 
             <div className="col-md-6 nft-right px-xl-5 d-flex">
                 <div className="align-self-center w-100">
+                    <a href="/" className="btn btn-secondary btn-sm mb-3 px-0" style={{fontWeight:300, opacity:0.5, background:'transparent'}}>
+                        <ArrowLeft size={16} style={{position:'relative',top:'-1px'}}/> Back to home
+                    </a>
                     {parseInt(imageNftData.private_sale) > 0 &&
                     <p>Private auction</p>
                     }
@@ -531,23 +569,61 @@ const reloadData = useCallback(async () => {
     </div>
     <MainLoader loading={loading} />
 </section>
-<section className="nfts">
-    <div className="container">
+{/* <section className="nfts mt-0">
+    <div className="container-fluid">
         <div className="row">
             <div className="col-md-12">
                 <div className="heading">
-                    <h3>Category name</h3>
-                    <p>Here comes a little description about the category</p>
+                    <h3>Category name</h3>                 
                 </div>
             </div>
-            { state.auctions && state.auctions.slice(0,4).map((obj,key) => { return (
-            <div className="col-md-3">
-                <NftCard key={key} type={'small'} data={obj} index={key}/>
+           <div class="col-md-12">
+               <div class="row">
+               <Swiper
+            modules={[Navigation, Pagination]}
+            spaceBetween={25}
+            slidesPerView={6}
+            loop={true}
+            breakpoints={{
+              // when window width is >= 640px
+              1: {         
+                slidesPerView: 1,
+              },
+              // when window width is >= 768px
+              768: {    
+                slidesPerView: 2,
+              },
+              1000: {    
+                slidesPerView: 6,
+              },
+            }}
+            pagination={{ clickable: true }}
+            navigation={false}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
+    {
+                   recent && recent.filter((a)=>{
+                          if(nftValidEnd(a.end_time)){
+                            return true;
+                            }
+                            return false;
+                                              
+                      }).sort((a,b) => {
+                        return a.end_time - b.end_time;
+                      }).slice(0,12).map((obj, id) =>{           
+                            return (
+                              <SwiperSlide>
+                                <NftCard key={id} data={obj} type={'xs'} index={99}/>
+                              </SwiperSlide>)            
+                        })
+                      }
+                      </Swiper>
+                </div>
             </div>
-            ) })}
         </div>
     </div>
-</section>
+</section> */}
 <Toaster />
             </>
   )
