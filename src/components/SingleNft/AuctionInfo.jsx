@@ -58,7 +58,7 @@ export default function AuctionInfo(props) {
                                 </div>
                              
 
-                                {rightsCheck &&
+                                {rightsCheck() &&
                                     <div className={nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy !== null ? 'col-md-6 mt-3' : 'col-md-12 mt-3'}>
                                     <button onClick={() => selectBiddingTab()}
                                 className="btn btn-primary btn-lg w-100"
@@ -68,7 +68,7 @@ export default function AuctionInfo(props) {
                                     </div>
                                     }
 
-                                    {nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy && rightsCheck &&
+                                    {nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy && rightsCheck() &&
 
                                     <div className="col-md-6 mt-3">
                                     <button 

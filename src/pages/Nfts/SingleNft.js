@@ -215,7 +215,10 @@ const reloadData = useCallback(async () => {
 
   async function unlockPrivAuction(price){
       try{
-        if (!connectedWallet) return
+        if (!connectedWallet){
+            toast.error('Connect your wallet')
+            return;
+        }
         let priv_msg = {
             register_private_sale:{
                 auction_id: testAuctionID
@@ -500,7 +503,7 @@ const reloadData = useCallback(async () => {
                                 </div>
                                                    
                                 <AuctionInfo nftData={nftData} bidInfo={bidInfo} imageNftData={imageNftData} bidder={bidder} nftValid={(a,b) => nftValid(a,b)} buyNow={() => buyNow()} rightsCheck={() => rightsCheck()}/>
-                                {bidder.privilege_used === null || bidder.privilege_used === undefined && imageNftData.private_sale > 0 &&
+                                {bidder.privilege_used !== imageNftData.private_sale && imageNftData.private_sale > 0 &&
                                 <div className="col-12">
                                     <button className="btn btn-primary btn-lg w-100 mt-3" onClick={() => unlockPrivAuction(imageNftData.private_sale)}>
                                         Unlock private auction
