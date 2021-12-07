@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useStore } from '../../store'
 import toast, { Toaster } from 'react-hot-toast';
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider';
@@ -18,16 +18,72 @@ export default function CreateAuction(props) {
 
     const { state, dispatch } = useStore()
 
-    let network = {}
-    let connectedWallet = {}
+    const [contractAddress, setContractAddress] = useState("")
+    const [tokenId, setTokenId] = useState("")
+    const [userNfts, setUserNfts] = useState([]);
+    
 
-  
-  
+    let network = {}
+    let connectedWallet = {} 
   
     if (typeof document !== 'undefined') {
         network = useWallet().network;
         connectedWallet = useConnectedWallet()
     }
+
+    const lcd = useMemo(() => {
+        if (!connectedWallet) {
+            return null
+        }
+
+        return new LCDClient({
+            URL: connectedWallet.network.lcd,
+            chainID: connectedWallet.network.chainID,
+        })
+    }, [connectedWallet])
+
+    async function getNftProviderData(){
+        //Clean before new data
+        setUserNfts([])
+        //Spread operator
+        let data = [];
+        try{
+            const api = new WasmAPI(lcd.apiRequester)  
+
+            const tokenData = await api.contractQuery(
+                contractAddress, 
+                {
+                    tokens: {
+                        owner: connectedWallet.walletAddress,
+                        limit: 30,
+                    }
+                }
+                )
+                console.log(tokenData)
+            
+                tokenData.tokens.map(async (obj) => {
+                    const singleToken = await api.contractQuery(
+                        contractAddress, 
+                        {
+                            nft_info: {
+                                token_id: obj,                                
+                            }
+                        }
+                        )
+                        singleToken.token_id = obj
+                        data.push(singleToken)
+                        setUserNfts(userNfts => [...userNfts,singleToken])       
+                })             
+
+                
+                console.log(userNfts)
+            } catch(e){
+                setUserNfts([])
+                console.log(e)
+            }
+            
+    }
+
 
     async function create(e) {
         e.preventDefault()
@@ -102,6 +158,10 @@ export default function CreateAuction(props) {
 
     }
 
+    useEffect(() => {
+        
+      }, [userNfts]);
+
     return (       
         <>
         <form className="auctionForm" onSubmit={(e)=> create(e)}>
@@ -117,12 +177,43 @@ export default function CreateAuction(props) {
                     </div>
                     <div className="col-12 mb-3">
                         <label>Nft contract address</label>
-
-                        <input type="text" className="form-control" name="contract_address" required />
+                        <div className="btn-group d-block">
+  <button type="button" className="btn btn-default btn-block dropdown-toggle w-100" data-bs-toggle="dropdown" aria-expanded="false">
+    Select NFT Collection
+  </button>
+  <ul className="dropdown-menu">
+    <li><a className="dropdown-item" onClick={() => setContractAddress("terra1w9g7lacvel0r6stqpra9e3sj64tglz70h7sv72")}>TNS (testnet)</a></li>
+    <li><a className="dropdown-item" onClick={() => setContractAddress("terra1lfr4aja5a2xpxvnrl4gyjpru0wwglu7k87jmeq")}>Hero NFT (Mainnet)</a></li>
+  </ul>
+</div>
+                        <input type="text" className="form-control" value={contractAddress} onChange={(e) =>setContractAddress(e.target.value)} name="contract_address" required />
+                        {contractAddress !== '' &&
+                            <button type="button" className="btn btn-primary w-100 my-2" onClick={() => getNftProviderData()}>Get nfts from contract</button>
+                        }
                     </div>
-                    <div className="col-12 mb-3">
+                  
+                        <div className="col-12">
+                            <div className="row">
+                                { userNfts && userNfts.length > 0 &&
+                                    <p><strong>Select NFT You want to auction</strong></p>
+                                }
+                            {userNfts && userNfts.map((obj,k) => 
+
+(<div className="col-md-3" key={k}>
+<div className={'nft-thumb' + (tokenId == obj.token_id ? ' active' : '')} onClick={() => setTokenId(obj.token_id)}>
+<img src={obj.image} className="img-fluid"/>
+<p>{obj.name}</p>
+</div>
+</div>      )                  
+                            
+                                )
+                            }
+                            </div>
+                        </div>
+                    
+                    <div className="col-12 mb-3 mt-2">
                         <label>Token ID</label>
-                        <input type="text" className="form-control" name="token_id" required />
+                        <input type="text" className="form-control" value={tokenId} onChange={(e) => setTokenId(e.target.value)} name="token_id" required />
                     </div>
                     {/* <div className="col-12 mb-3">
                         <label>NFT Category</label>                        

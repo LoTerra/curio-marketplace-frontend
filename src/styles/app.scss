@@ -654,6 +654,19 @@ text-decoration: none;
     
 }
 
+.nft-thumb {
+    box-shadow:inset 0px 0px 0px 0px #ff36ff;
+    position:relative;
+    overflow:hidden;
+    padding:5px;
+    p {
+        margin:0;
+    }
+    &.active {
+        box-shadow:inset 0px 0px 0px 2px #ff36ff;
+    }
+}
+
 .single-nft-badge {
     background: linear-gradient(
 45deg, #ff36ff, #ff77ff);
