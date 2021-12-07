@@ -441,26 +441,19 @@ const reloadData = useCallback(async () => {
           console.log(data)
           console.log(JSON.parse(data.message)[0].events)          
     
-                    let tx = JSON.parse(data.message)[0]
-                     // console.log(tx)
-                     tx.events.map(ev => {
-                         console.log(ev)
-                        
-                         if (ev.type == 'wasm'){
-                            
-                             ev.attributes.map(async (attr) => {                               
-                                    
-                                        console.log(ev.attributes)               
-                                        if(parseInt(ev.attributes[3].value) == testAuctionID){
-                                            toast.success('New bid off +'+ (ev.attributes[1].value / 1000000)+'UST')
-                                            reloadData()
-                                        }    
-                                        
-                                     
-                                 
-                             })
-                         }
-                     })
+        let tx = JSON.parse(data.message)[0]
+        // console.log(tx)
+        tx.events.map(ev => {
+        console.log(ev)
+
+            if (ev.type == 'wasm'){                            
+            console.log(ev.attributes)               
+                if(parseInt(ev.attributes[3].value) == testAuctionID){
+                toast.success('New bid off +'+ (ev.attributes[1].value / 1000000)+'UST')
+                reloadData()
+                }    
+            }
+        })
       });
       return (() => {
         pusher.unsubscribe('my-channel')
