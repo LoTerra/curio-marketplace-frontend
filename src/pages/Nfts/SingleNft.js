@@ -433,8 +433,8 @@ const reloadData = useCallback(async () => {
       getNftUserData()
 
       //Pusher code
-      const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
-        cluster: process.env.PUSHER_APP_CLUSTER
+      const pusher = new Pusher('371306b233edc5c8cfb9', {
+        cluster: 'eu'
       });
       const channel = pusher.subscribe('my-channel');
       channel.bind('my-event', function(data) {  
