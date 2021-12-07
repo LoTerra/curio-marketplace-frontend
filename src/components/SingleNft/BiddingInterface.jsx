@@ -119,7 +119,7 @@ if (typeof document !== 'undefined') {
                                 <small className="d-block p-3 text-muted">In order to bid you need to bid <strong>5% above</strong> current bid or min start price, each new bid is counted on top of your previous bids</small>
                                 {rightsCheck() &&
                                 <div className="row">
-                                    <div className={nftData.highest_bid != bidder.total_bid ? nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy !== null ? 'col-md-6' : 'col-md-12' : 'd-none'}>
+                                    <div className={nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy !== null ? 'col-md-6' : 'col-md-12'}>
                                     <button 
                                 className="btn btn-primary btn-lg w-100"
                                 disabled={nftData && nftValid(nftData.end_time,nftData.start_time) ? false : true}
