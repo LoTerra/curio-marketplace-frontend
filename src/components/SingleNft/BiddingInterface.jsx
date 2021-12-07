@@ -90,7 +90,7 @@ if (typeof document !== 'undefined') {
                                     className="form-control amount-input-staking"
                                     required={true}
                                     disabled={nftData && nftValid(nftData.end_time,nftData.start_time) ? false : true}
-                                    onChange={(e) => setAmount(e.target.value)}                                   
+                                    onChange={(e) => setAmount(e.target.value.replace(',','.'))}                                   
                                     autoComplete="off"
                                     value={amount}
                                     step="1"                                    
