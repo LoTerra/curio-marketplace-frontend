@@ -79,7 +79,7 @@ if (typeof document !== 'undefined') {
                             
                             {nftData && nftValid(nftData.end_time,nftData.start_time) &&
                                 <>
-                                <div className={nftData.highest_bid != bidder.total_bid ? 'col-md-6' : 'd-none'}>
+                                <div className={'col-md-6'}>
                                 <h5>Your bid</h5>
                             <div className="input-group mb-0">
                                     <span className="input-group-text" id="basic-addon1">
@@ -100,7 +100,7 @@ if (typeof document !== 'undefined') {
                                     />
                                 </div>
                                 </div>
-                                <div className={nftData.highest_bid != bidder.total_bid ? 'col-md-6' : 'col-12'}>
+                                <div className={'col-md-6'}>
                                     <div className={'nft-bidding d-flex ' + (nftData.highest_bid == bidder.total_bid ? 'success' : 'warning')}>
                                         <div className="align-self-center w-100 text-center">
                                         <h6>{nftData.highest_bid == bidder.total_bid ? 'You have the highest bid' : bidder.total_bid && bidder.total_bid > 0 ? 'You have been overbid' : 'Start bidding'}</h6>
