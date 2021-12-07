@@ -109,8 +109,8 @@ if (typeof document !== 'undefined') {
                                         {nftData.highest_bid != bidder.total_bid && nftData.highest_bid &&
                                         <p 
                                         style={{textDecoration:'underline', fontSize:'12px', fontWeight:300}} 
-                                        onClick={() => setAmount(nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0)}>
-                                            Add minimal {nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0} UST
+                                        onClick={() => setAmount(nftData.highest_bid ? (((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000).toFixed(3) : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0)}>
+                                            Add minimal {nftData.highest_bid ? (((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000).toFixed(3) : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0} UST
                                         </p>
                                         }   
                                         </div>

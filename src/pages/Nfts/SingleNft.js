@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider';
 import Pusher from 'pusher-js';
 
-const auction_address = "terra1eyqqc7xkv5vcld6t5fzt8pmjvuy2mdl5gzxpcz";
+const auction_address = "terra1dullgnj5cm4fgpetrrq8ctukag89upajjt8f3g";
 // import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
 // import 'swiper/swiper-bundle.css';
 // import { Navigation, Pagination, Autoplay } from 'swiper';
@@ -111,17 +111,6 @@ const reloadData = useCallback(async () => {
 })
 
 
-function pusherConnection(){
-    var pusher = new Pusher(process.env.PUSHER_APP_KEY, {
-        cluster: process.env.PUSHER_APP_CLUSTER
-      });
-      var channel = pusher.subscribe('my-channel');
-      channel.bind('my-event', function(data) {
-        console.log(data);
-      });
-}
-//Run pusher
-pusherConnection();
 
 
   function sortBids(bids){
@@ -440,8 +429,42 @@ pusherConnection();
     }, [connectedWallet]);
 
   useEffect(() => {      
-    getNftData()
+        getNftData()
       getNftUserData()
+
+      //Pusher code
+      const pusher = new Pusher(process.env.PUSHER_APP_KEY, {
+        cluster: process.env.PUSHER_APP_CLUSTER
+      });
+      const channel = pusher.subscribe('my-channel');
+      channel.bind('my-event', function(data) {  
+          console.log(data)
+          console.log(JSON.parse(data.message)[0].events)          
+    
+                    let tx = JSON.parse(data.message)[0]
+                     // console.log(tx)
+                     tx.events.map(ev => {
+                         console.log(ev)
+                        
+                         if (ev.type == 'wasm'){
+                            
+                             ev.attributes.map(async (attr) => {                               
+                                    
+                                        console.log(ev.attributes)               
+                                        if(parseInt(ev.attributes[3].value) == testAuctionID){
+                                            toast.success('New bid off +'+ (ev.attributes[1].value / 1000000)+'UST')
+                                            reloadData()
+                                        }    
+                                        
+                                     
+                                 
+                             })
+                         }
+                     })
+      });
+      return (() => {
+        pusher.unsubscribe('my-channel')
+    })
 }, [getNftData, getNftUserData])
 
     
