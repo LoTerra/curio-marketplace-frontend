@@ -4,8 +4,8 @@ import { useStore } from '../../store'
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider';
-const { w3cwebsocket }  = require( "websocket");
-const client = new w3cwebsocket('wss://observer.terra.dev');
+import Pusher from 'pusher-js';
+
 const auction_address = "terra1eyqqc7xkv5vcld6t5fzt8pmjvuy2mdl5gzxpcz";
 // import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
 // import 'swiper/swiper-bundle.css';
@@ -110,65 +110,18 @@ const reloadData = useCallback(async () => {
 
 })
 
-  function observer(){
-    // const wsclient = new WebSocketClient("wss://observer.terra.dev");
-     console.log("ok")
-     client.onopen = () => {
-         console.log('WebSocket Client Connected');
-         client.send(JSON.stringify({subscribe: "new_block", chain_id: "bombay-12"}))
-     };
-     client.onmessage = (message) => {
-         let to_json = JSON.parse(message.data)
-         // console.log(to_json.data.txs[0]);
-         to_json.data.txs.map(txs => {
-             // console.log(txs)
-             try {
-                 let to_json_raw = JSON.parse(txs.raw_log)
-                 to_json_raw.map(tx =>{
-                     // console.log(tx)
-                     tx.events.map(ev => {
-                         if (ev.type == 'execute_contract'){
-                             ev.attributes.map(attr => {
-                                 // console.log(attr)
-                                 if (attr.key == "contract_address" && attr.value == auction_address){
-                                     console.log("Auction event detected")                                    
-                                 }
-                             })
-                         }
-                         if (ev.type == 'wasm'){
-                            
-                             ev.attributes.map(async (attr) => {                                
-                                     if ( attr.key == "contract_address" && attr.value == auction_address){
-                                        console.log(ev.attributes)               
-                                        if(ev.attributes[3].value == testAuctionID){
-                                            toast.success('New bid off +'+ (ev.attributes[1].value / 1000000)+'UST')
-                                            reloadData()
-                                        }    
-                                        
-                                     }
-                                 
-                             })
-                         }
-                     })
- 
-                     // console.log(tx)
-                 })
-             } catch (e) {
-                 console.log("Not JSON parsable")
-             }
-         })
-     };
- 
-     client.onclose = function(e) {
-         console.log('websocket closed. reopening...');
-         setTimeout(function() {
-             observer();
-         }, 1000);
-     };
- }
- 
- observer()
 
+function pusherConnection(){
+    var pusher = new Pusher(process.env.PUSHER_APP_KEY, {
+        cluster: process.env.PUSHER_APP_CLUSTER
+      });
+      var channel = pusher.subscribe('my-channel');
+      channel.bind('my-event', function(data) {
+        console.log(data);
+      });
+}
+//Run pusher
+pusherConnection();
 
 
   function sortBids(bids){
