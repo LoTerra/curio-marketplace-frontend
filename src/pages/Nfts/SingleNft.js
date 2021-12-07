@@ -281,8 +281,8 @@ const reloadData = useCallback(async () => {
       }
 
       //Check if above minimum 5%
-      if(amount * 1000000 > min_bid){
-          let result = confirm('Are you sure you bid above the minimun 5% ?')
+      if(amount * 1000000 > min_bid + 0.5){
+          let result = confirm('Are you sure you want to bid above the minimun 5% ?')
           if(!result){
               return
           }
