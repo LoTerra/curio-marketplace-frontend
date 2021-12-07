@@ -205,7 +205,7 @@ export default function Navbar(props) {
                     </li>
                     }
                 </ul>
-                <ul className="navbar-nav ms-auto">
+                {/* <ul className="navbar-nav ms-auto">
                 
                 <form className="nav-item me-3">
                     <button type="submit"><MagnifyingGlass size={24} color={'#595959'} weight="bold" /></button>
@@ -213,7 +213,7 @@ export default function Navbar(props) {
                 </form>
                 
             
-                </ul>
+                </ul> */}
                 </div>             
               
                <div className="d-flex">
