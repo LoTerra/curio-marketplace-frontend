@@ -2,7 +2,8 @@
   "name": "react-static-example-basic",
   "private": true,
   "scripts": {
-    "start": "react-static start",
+    "start": "cross-env NODE_ENV=production react-static start",
+    "dev": "cross-env NODE_ENV=development react-static start",
     "stage": "react-static build --staging",
     "build": "react-static build",
     "analyze": "react-static build --analyze",
@@ -15,6 +16,7 @@
     "@terra-money/wallet-provider": "^2.2.0",
     "axios": "^0.24.0",
     "bootstrap": "^5.1.2",
+    "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "jquery": "^3.6.0",
     "keen-slider": "^5.5.1",
