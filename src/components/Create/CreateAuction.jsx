@@ -12,7 +12,7 @@ import {
     CreateTxOptions,
     MsgSend
 } from '@terra-money/terra.js'
-import { CheckSquareOffset, Heart, SlidersHorizontal, X } from 'phosphor-react';
+import { CheckSquareOffset, Heart, SlidersHorizontal, WarningCircle, X } from 'phosphor-react';
 
 export default function CreateAuction(props) {
 
@@ -165,40 +165,43 @@ export default function CreateAuction(props) {
 
     return (       
         <>
-        <form className="auctionForm" onSubmit={(e)=> create(e)}>
+        
+        { connectedWallet && connectedWallet.walletAddress ? 
 
-            <div className="row mb-4">
-                <div className="col-md-3">
-                    <span className="icon"><CheckSquareOffset size={70} weight="light" /><CheckSquareOffset size={70} weight="light" /></span>
-                    <p className="info">Set your auction to your needs, decide when your auction starts and end.</p>
-                </div>
-                <div className="col-md-9">
-                    <div className="col-12">
-                        <h5>Main details</h5>
-                    </div>
-                    <div className="col-12 mb-3">
-                        <label>Nft contract address</label>
-                        <div className="btn-group d-block">
-  <button type="button" className="btn btn-default btn-block dropdown-toggle w-100" data-bs-toggle="dropdown" aria-expanded="false">
-    Select NFT Collection
-  </button>
-  <ul className="dropdown-menu">
-    <li><a className="dropdown-item" onClick={() => setContractAddress("terra1w9g7lacvel0r6stqpra9e3sj64tglz70h7sv72")}>TNS (testnet)</a></li>
-    <li><a className="dropdown-item" onClick={() => setContractAddress("terra1lfr4aja5a2xpxvnrl4gyjpru0wwglu7k87jmeq")}>Hero NFT (Mainnet)</a></li>
-  </ul>
+<form className="auctionForm" onSubmit={(e)=> create(e)}>
+
+<div className="row mb-4">
+    <div className="col-md-3">
+        <span className="icon"><CheckSquareOffset size={70} weight="light" /><CheckSquareOffset size={70} weight="light" /></span>
+        <p className="info">Set your auction to your needs, decide when your auction starts and end.</p>
+    </div>
+    <div className="col-md-9">
+        <div className="col-12">
+            <h5>Main details</h5>
+        </div>
+        <div className="col-12 mb-3">
+            <label>Nft contract address</label>
+            <div className="btn-group d-block">
+<button type="button" className="btn btn-default btn-block dropdown-toggle w-100" data-bs-toggle="dropdown" aria-expanded="false">
+Select NFT Collection
+</button>
+<ul className="dropdown-menu">
+<li><a className="dropdown-item" onClick={() => setContractAddress("terra1w9g7lacvel0r6stqpra9e3sj64tglz70h7sv72")}>TNS (testnet)</a></li>
+<li><a className="dropdown-item" onClick={() => setContractAddress("terra1lfr4aja5a2xpxvnrl4gyjpru0wwglu7k87jmeq")}>Hero NFT (Mainnet)</a></li>
+</ul>
 </div>
-                        <input type="text" className="form-control" value={contractAddress} onChange={(e) =>setContractAddress(e.target.value)} name="contract_address" required />
-                        {contractAddress !== '' &&
-                            <button type="button" className="btn btn-primary w-100 my-2" onClick={() => getNftProviderData()}>Get nfts from contract</button>
-                        }
-                    </div>
-                  
-                        <div className="col-12">
-                            <div className="row">
-                                { userNfts && userNfts.length > 0 &&
-                                    <p><strong>Select NFT You want to auction</strong></p>
-                                }
-                            {userNfts && userNfts.map((obj,k) => 
+            <input type="text" className="form-control" value={contractAddress} onChange={(e) =>setContractAddress(e.target.value)} name="contract_address" required />
+            {contractAddress !== '' &&
+                <button type="button" className="btn btn-primary w-100 my-2" onClick={() => getNftProviderData()}>Get nfts from contract</button>
+            }
+        </div>
+      
+            <div className="col-12">
+                <div className="row">
+                    { userNfts && userNfts.length > 0 &&
+                        <p><strong>Select NFT You want to auction</strong></p>
+                    }
+                {userNfts && userNfts.map((obj,k) => 
 
 (<div className="col-md-3" key={k}>
 <div className={'nft-thumb' + (tokenId == obj.token_id ? ' active' : '')} onClick={() => setTokenId(obj.token_id)}>
@@ -206,96 +209,104 @@ export default function CreateAuction(props) {
 <p>{obj.name}</p>
 </div>
 </div>      )                  
-                            
-                                )
-                            }
-                            </div>
-                        </div>
-                    
-                    <div className="col-12 mb-3 mt-2">
-                        <label>Token ID</label>
-                        <input type="text" className="form-control" value={tokenId} onChange={(e) => setTokenId(e.target.value)} name="token_id" required />
-                    </div>
-                    {/* <div className="col-12 mb-3">
-                        <label>NFT Category</label>                        
-                        <select className="form-control" name="category" required>
-                            <option value="">Select category</option>
-                        { state.categories.map((obj,i) => {
-                            return <option value={obj}>{obj}</option>
-                        })}
-                        </select>
-                    </div> */}
-                </div>
-
-
-            </div>
-            <div className="row mb-4">
-
-                <div className="col-md-3">
-                <span className="icon"><SlidersHorizontal size={70} weight="light" />       <SlidersHorizontal size={70} weight="light" /></span>             
-                    <p className="info">Set your auction to your needs, decide when your auction starts and end.</p>
-                </div>
-                <div className="col-md-9">
-                    <div className="row">
-                        <div className="col-12">
-                            <h5>Auction settings</h5>
-                        </div>
-                        <div className="col-md-6 mb-3">
-                            <label>Time end</label>
-                            <input type="datetime-local" className="form-control" name="end_time" required />
-                        </div>
-                        <div className="col-md-6 mb-3">
-                            <label>Time start</label> <small>optional</small>
-                            <input type="datetime-local" className="form-control" name="start_time" />
-                        </div>
-                        <div className="col-md-6 mb-3">
-                            <label>Start/Minimal price</label> <small>optional</small>
-                            <input type="number" className="form-control" name="start_price" />
-                        </div>
-                        <div className="col-md-6 mb-3">
-                            <label>Instant buy price</label> <small>optional</small>
-                            <input type="number" className="form-control" name="instant_buy" />
-                        </div>
-                        <div className="col-md-6 mb-3">
-                            <label>Reserve price</label> <small>optional</small>
-                            <input type="number" className="form-control" name="reserve_price" />
-                        </div>
-                        <div className="col-md-6 mb-3">
-                            <label>Private sale amount</label> <small>optional</small>
-                            <input type="number" className="form-control" name="private_sale_privilege" />
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div className="row">
-                <div className="col-md-3">
-                <span className="icon"> <Heart size={70} weight="light" /><Heart size={70} weight="light" /></span>
-                    <p className="info">Set your auction to your needs, decide when your auction starts and end.</p>
-                </div>
-                <div className="col-md-9">
-                    <div className="row">
-                        <div className="col-12">
-                            <h5>Charity options</h5>
-                        </div>
-                        <div className="col-12 mb-3">
-                            <label>Charity address</label> <small>optional</small>
-                            <input type="text" className="form-control" name="charity_address" />
-                        </div>
-                        <div className="col-12 mb-3">
-                            <label>Charity percentage fee</label> <small>optional</small>
-                            <input type="number" className="form-control" name="charity_fee" />
-                        </div>
-                        <div className="col-12 mt-3 mb-3">
-                            <button type="button" type="submit" className="btn btn-primary btn-lg w-100">Create</button>
-                        </div>
-                    </div>
+                
+                    )
+                }
                 </div>
             </div>
+        
+        <div className="col-12 mb-3 mt-2">
+            <label>Token ID</label>
+            <input type="text" className="form-control" value={tokenId} onChange={(e) => setTokenId(e.target.value)} name="token_id" required />
+        </div>
+        {/* <div className="col-12 mb-3">
+            <label>NFT Category</label>                        
+            <select className="form-control" name="category" required>
+                <option value="">Select category</option>
+            { state.categories.map((obj,i) => {
+                return <option value={obj}>{obj}</option>
+            })}
+            </select>
+        </div> */}
+    </div>
+
+
+</div>
+<div className="row mb-4">
+
+    <div className="col-md-3">
+    <span className="icon"><SlidersHorizontal size={70} weight="light" />       <SlidersHorizontal size={70} weight="light" /></span>             
+        <p className="info">Set your auction to your needs, decide when your auction starts and end.</p>
+    </div>
+    <div className="col-md-9">
+        <div className="row">
+            <div className="col-12">
+                <h5>Auction settings</h5>
+            </div>
+            <div className="col-md-6 mb-3">
+                <label>Time end</label>
+                <input type="datetime-local" className="form-control" name="end_time" required />
+            </div>
+            <div className="col-md-6 mb-3">
+                <label>Time start</label> <small>optional</small>
+                <input type="datetime-local" className="form-control" name="start_time" />
+            </div>
+            <div className="col-md-6 mb-3">
+                <label>Start/Minimal price</label> <small>optional</small>
+                <input type="number" className="form-control" name="start_price" />
+            </div>
+            <div className="col-md-6 mb-3">
+                <label>Instant buy price</label> <small>optional</small>
+                <input type="number" className="form-control" name="instant_buy" />
+            </div>
+            <div className="col-md-6 mb-3">
+                <label>Reserve price</label> <small>optional</small>
+                <input type="number" className="form-control" name="reserve_price" />
+            </div>
+            <div className="col-md-6 mb-3">
+                <label>Private sale amount</label> <small>optional</small>
+                <input type="number" className="form-control" name="private_sale_privilege" />
+            </div>
+        </div>
+    </div>
+
+</div>
+<div className="row">
+    <div className="col-md-3">
+    <span className="icon"> <Heart size={70} weight="light" /><Heart size={70} weight="light" /></span>
+        <p className="info">Set your auction to your needs, decide when your auction starts and end.</p>
+    </div>
+    <div className="col-md-9">
+        <div className="row">
+            <div className="col-12">
+                <h5>Charity options</h5>
+            </div>
+            <div className="col-12 mb-3">
+                <label>Charity address</label> <small>optional</small>
+                <input type="text" className="form-control" name="charity_address" />
+            </div>
+            <div className="col-12 mb-3">
+                <label>Charity percentage fee</label> <small>optional</small>
+                <input type="number" className="form-control" name="charity_fee" />
+            </div>
+            <div className="col-12 mt-3 mb-3">
+                <button type="button" type="submit" className="btn btn-primary btn-lg w-100">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
-        </form>
+</form>
+
+:
+
+<div className="col-12 p-4 text-center">
+<p><WarningCircle size={24}/> You need to connect your wallet in order to create an auction</p>
+</div>
+
+        }
                   
                      
                 </>
