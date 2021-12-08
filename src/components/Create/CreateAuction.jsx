@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { useStore } from '../../store'
 import toast, { Toaster } from 'react-hot-toast';
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider';
+import contractData from '../../contracts.json';
 import {
     StdFee,
     MsgExecuteContract,
@@ -19,22 +20,34 @@ export default function CreateAuction(props) {
     const { state, dispatch } = useStore()
 
     const [contractAddress, setContractAddress] = useState("")
+    const [selectedContract,setSelectContract] = useState()
     const [tokenId, setTokenId] = useState("")
-    const [userNfts, setUserNfts] = useState([]);
+    const [userNfts, setUserNfts] = useState([])
+    const [contracts, setContracts] = useState([])
+
+    const closeRef = useRef();
+
+    
     
 
     let network = ''
     let connectedWallet = '' 
+
   
     if (typeof document !== 'undefined') {
         network = useWallet().network;
         connectedWallet = useConnectedWallet()
+        
+           
+        
     }
+
+
 
     const lcd = useMemo(() => {
         if (!connectedWallet) {
             return null
-        }
+        } 
 
         return new LCDClient({
             URL: connectedWallet.network.lcd,
@@ -73,16 +86,40 @@ export default function CreateAuction(props) {
                         )
                         singleToken.token_id = obj
                         data.push(singleToken)
-                        setUserNfts(userNfts => [...userNfts,singleToken])       
+                        setUserNfts(userNfts => [...userNfts,singleToken[0]])       
                 })             
 
                 
                 console.log(userNfts)
+                if(userNfts.length === 0){
+                    toast.error('No NFTS found on contract')
+                }
             } catch(e){
                 setUserNfts([])
                 console.log(e)
             }
             
+    }
+
+    function selectNftContract(obj){
+        setSelectContract(obj)
+        setContractAddress(obj.contract);
+        getNftProviderData();
+        closeRef.current.click()
+    }
+
+    function getContractData(){
+        if(connectedWallet){
+            setContracts([])
+            let contracts_json = JSON.parse(JSON.stringify(contractData));
+            let data = contracts_json[connectedWallet.network.name];           
+
+            Object.keys(data[0]).map(key => {             
+                setContracts(contracts => [...contracts, data[0][key]])
+            })
+
+            console.log(connectedWallet.network, contracts)
+        }
     }
 
 
@@ -159,9 +196,12 @@ export default function CreateAuction(props) {
 
     }
 
+  
+
     useEffect(() => {
-        
-      }, [userNfts]);
+ 
+            
+      }, [userNfts, contracts]);
 
     return (       
         <>
@@ -182,15 +222,53 @@ export default function CreateAuction(props) {
         <div className="col-12 mb-3">
             <label>Nft contract address</label>
             <div className="btn-group d-block">
-<button type="button" className="btn btn-default btn-block dropdown-toggle w-100" data-bs-toggle="dropdown" aria-expanded="false">
-Select NFT Collection
+<button type="button" className="btn btn-secondary btn-block w-100" onClick={() => getContractData()} data-bs-toggle="modal" data-bs-target="#nftContracts">
+Select NFT Contract Address
 </button>
-<ul className="dropdown-menu">
-<li><a className="dropdown-item" onClick={() => setContractAddress("terra1w9g7lacvel0r6stqpra9e3sj64tglz70h7sv72")}>TNS (testnet)</a></li>
-<li><a className="dropdown-item" onClick={() => setContractAddress("terra1lfr4aja5a2xpxvnrl4gyjpru0wwglu7k87jmeq")}>Hero NFT (Mainnet)</a></li>
-</ul>
+
+
+<div class="modal fade" id="nftContracts" tabindex="-1" aria-labelledby="nftContractsLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="nftContractsLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" ref={closeRef} aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div className="row">
+            {contracts && contracts.length > 0 && contracts.map((obj,k) => 
+                (<div className="col-md-12" key={k}>
+                <a className={'text-white d-block ' + (obj.contract == contractAddress ? ' active' : '')} onClick={() => selectNftContract(obj)}>
+                    <div className="row">
+                        <div className="col-md-2"><img src={obj.icon} className="d-block img-fluid" /></div>
+                        <div className="col-md-10">{obj.name}</div>
+                    </div>
+                    
+                    
+                    </a>
+                </div>)
+            )}           
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>
-            <input type="text" className="form-control" value={contractAddress} onChange={(e) =>setContractAddress(e.target.value)} name="contract_address" required />
+
+</div>
+
+{ selectedContract && selectedContract !== '' &&
+    <div className="card bg-dark">
+        <div className="card-body">
+            <p><strong>Selected contract: </strong></p>
+            <h3>{selectedContract.name}</h3>
+            <p>{selectedContract.contract}</p>
+        </div>
+    </div>
+}
+            <input type="hidden" className="form-control" value={contractAddress} onChange={(e) =>setContractAddress(e.target.value)} name="contract_address" required />
             {contractAddress !== '' &&
                 <button type="button" className="btn btn-primary w-100 my-2" onClick={() => getNftProviderData()}>Get nfts from contract</button>
             }
@@ -307,7 +385,7 @@ Select NFT Collection
 </div>
 
         }
-                  
+          <Toaster/>        
                      
                 </>
     )
