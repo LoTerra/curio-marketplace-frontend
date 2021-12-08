@@ -23,8 +23,8 @@ export default function CreateAuction(props) {
     const [userNfts, setUserNfts] = useState([]);
     
 
-    let network = {}
-    let connectedWallet = {} 
+    let network = ''
+    let connectedWallet = '' 
   
     if (typeof document !== 'undefined') {
         network = useWallet().network;
@@ -42,14 +42,15 @@ export default function CreateAuction(props) {
         })
     }, [connectedWallet])
 
+
     async function getNftProviderData(){
         //Clean before new data
         setUserNfts([])
         //Spread operator
         let data = [];
         try{
+        
             const api = new WasmAPI(lcd.apiRequester)  
-
             const tokenData = await api.contractQuery(
                 contractAddress, 
                 {
