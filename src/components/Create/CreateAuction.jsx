@@ -228,20 +228,20 @@ Select NFT Contract Address
 
 
 <div class="modal fade" id="nftContracts" tabindex="-1" aria-labelledby="nftContractsLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="nftContractsLabel">Modal title</h5>
+        <h5 class="modal-title" id="nftContractsLabel">Select NFT Contract</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" ref={closeRef} aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div className="row">
             {contracts && contracts.length > 0 && contracts.map((obj,k) => 
-                (<div className="col-md-12" key={k}>
+                (<div className="col-md-3 text-center nft-contract-thumb" key={k}>
                 <a className={'text-white d-block ' + (obj.contract == contractAddress ? ' active' : '')} onClick={() => selectNftContract(obj)}>
                     <div className="row">
-                        <div className="col-md-2"><img src={obj.icon} className="d-block img-fluid" /></div>
-                        <div className="col-md-10">{obj.name}</div>
+                        <div className="col-md-12"><img src={obj.icon} className="d-block img-fluid" /></div>
+                        <div className="col-md-12 mb-3">{obj.name}</div>
                     </div>
                     
                     
