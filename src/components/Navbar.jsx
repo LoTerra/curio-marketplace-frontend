@@ -286,9 +286,9 @@ export default function Navbar(props) {
                                </>
                             }
                 
-                 <button className="nav-item navbar-toggler px-2 btn ms-2 btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                 {/* <button className="nav-item navbar-toggler px-2 btn ms-2 btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <List size={24} color={'#fff'}/>
-                </button>
+                </button> */}
                </div>
               
                
