@@ -220,6 +220,10 @@ text-decoration: none;
     }
     &.btn-secondary {
         background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), #1E1E1E;
+        &.active {
+            color: #20ff93;
+            background: #0000008f;
+        }
     }
     &.btn-outline-primary {
         color:$special;
@@ -703,6 +707,19 @@ text-decoration: none;
         cursor:pointer;
         img {
             transform:scale(1.05);
+        }
+    }
+
+    &.list-view {
+        border-bottom:1px solid #404040;
+        height: 44px;
+        line-height: 44px;
+        transition:all 200ms linear;
+        img {
+            margin-right:7px;
+        }
+        &:hover {
+            background:#404040;
         }
     }
 }

@@ -19,6 +19,7 @@ export default function CreateAuction(props) {
 
     const { state, dispatch } = useStore()
 
+    const [listView,setListView] = useState(true)
     const [contractAddress, setContractAddress] = useState("")
     const [selectedContract,setSelectContract] = useState()
     const [manual,setManual] = useState(false)
@@ -255,8 +256,23 @@ export default function CreateAuction(props) {
       </div>
       <div class="modal-body">
         <div className="row">
+            <div className="col-12">
+                <div className="btn-group d-block w-100 mb-3">
+                    <button type="button" className={"btn btn-secondary w-50" + (listView ? ' active' : '')} onClick={() => setListView(true)}>List view</button>
+                    <button type="button" className={"btn btn-secondary w-50" + (!listView ? ' active' : '')} onClick={() => setListView(false)}>Grid view</button>
+                </div>
+            </div>
             {contracts && contracts.length > 0 && contracts.map((obj,k) => 
-                (<div className="col-md-3 text-center nft-contract-thumb" key={k}>
+                listView ?
+                (<div className="col-md-12 text-start nft-contract-thumb list-view" key={k}>
+                <a className={'text-white d-block ' + (obj.contract == contractAddress ? ' active' : '')} onClick={() => selectNftContract(obj)}>
+                        <img src={obj.icon} className="d-inline-block img-fluid" width="40" />
+                        {obj.name}               
+                    </a>
+                </div>)
+                :
+                (
+                    <div className="col-md-3 text-center nft-contract-thumb grid-view" key={k}>
                 <a className={'text-white d-block ' + (obj.contract == contractAddress ? ' active' : '')} onClick={() => selectNftContract(obj)}>
                     <div className="row">
                         <div className="col-md-12"><img src={obj.icon} className="d-block img-fluid" /></div>
@@ -265,7 +281,8 @@ export default function CreateAuction(props) {
                     
                     
                     </a>
-                </div>)
+                </div>
+                )
             )}           
         </div>
       </div>
