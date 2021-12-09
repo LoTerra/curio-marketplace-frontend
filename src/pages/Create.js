@@ -13,7 +13,8 @@ export default  () => {
         <div className="row">
           <div className="col-md-10 intro mx-auto text-center">
             <h1><span className="pink">Auction</span> your NFT</h1>
-            <p className="slogan">We are currently in <strong>testnet mode</strong>, feel free to test with us</p>
+            <p className="badge">Currently in BETA</p>
+            <p className="slogan">Select your NFT and set up the auction</p>
           </div>
           <div className="col-md-10 mx-auto">
           <CreateAuction/> 
