@@ -299,10 +299,10 @@ export default function CreateAuction(props) {
     <div className="card bg-dark">
         <div className="card-body">
             <div className="row">
-                <div className="col-md-4">
+                <div className="col-3">
                     <img src={selectedContract.icon} className="img-fluid"/>
                 </div>
-                <div className="col-md-8">
+                <div className="col-9">
                 <p className="m-0"><strong>Selected contract: </strong></p>
             <h3>{selectedContract.name}</h3>
             <p>{selectedContract.contract}</p>
