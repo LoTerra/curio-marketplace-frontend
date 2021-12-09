@@ -137,6 +137,16 @@ export default function CreateAuction(props) {
             toast.error('Connect your wallet')
            return false;
       }
+
+      if(contractAddress === ''){
+          toast.error('NFT Contract Address needs to be filled')
+          return false;
+      }
+
+      if(tokenId === ''){
+        toast.error('NFT Token ID needs to be filled')
+        return false;
+    }
     
       if(connectedWallet){
             console.log('walletAddress is', connectedWallet.walletAddress)
