@@ -32,28 +32,28 @@ export default function AuctionInfo(props) {
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Reserve price</h6>
-                                        <p className="highest_bid">{nftData.reserve_price / 1000000} <span>UST</span></p>
+                                        <p className="highest_bid">{nftData.reserve_price ? (nftData.reserve_price / 1000000) + '<span>UST</span>' : 'No'} </p>
                                     </div>
                                 </div>
                           
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Charity</h6>
-                                        <p className="highest_bid">{nftData.charity ? nftData.charity.fee_percentage + '%': '0%' }</p>
+                                        <p className="highest_bid">{nftData.charity ? nftData.charity.fee_percentage + '%': 'No' }</p>
                                     </div>
                                 </div>
                             
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Starting price</h6>
-                                        <p className="start-price">{nftData.start_price / 1000000} <span>UST</span></p>
+                                        <p className="start-price">{nftData.start_price ? (nftData.start_price / 1000000) + '<span>UST</span>' : 'No' } </p>
                                     </div>
                                 </div>
                              
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Instant buy</h6>
-                                        <p className="start-price">{nftData.instant_buy / 1000000} <span>UST</span></p>
+                                        <p className="start-price">{nftData.instant_buy ? (nftData.instant_buy / 1000000) + '<span>UST</span>' : 'No'}</p>
                                     </div>
                                 </div>
                              
