@@ -26,6 +26,7 @@ export default function CreateAuction(props) {
     const [tokenId, setTokenId] = useState("")
     const [userNfts, setUserNfts] = useState([])
     const [contracts, setContracts] = useState([])
+    const [nftLoader, setNftLoader] = useState(false);
 
     const closeRef = useRef();
 
@@ -60,9 +61,10 @@ export default function CreateAuction(props) {
 
     async function getNftProviderData(){
         //Clean before new data
+        setNftLoader(true)
         setUserNfts([])
         setTokenId("")
-    
+        
         //Spread operator
         let data = [];
         try{
@@ -95,12 +97,15 @@ export default function CreateAuction(props) {
 
                 
                 console.log(userNfts)
-                if(data.length === 0){
+                if(tokenData && tokenData.tokens.length === 0){
                     toast.error('No NFTS found on contract')
                 }
+                setNftLoader(false)
             } catch(e){
                 setUserNfts([])
+                toast.error('Error')
                 console.log(e)
+                setNftLoader(false)
             }
             
     }
@@ -319,6 +324,15 @@ export default function CreateAuction(props) {
         </div>
       
             <div className="col-12">
+                { nftLoader &&
+                  <div className="row">
+                      <div className="col-12 text-center">
+                      <div class="spinner-border text-primary " role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                          </div>
+                      </div>
+                }
                 <div className="row">
                     { userNfts && userNfts.length > 0 &&
                         <p><strong>Select NFT You want to auction</strong></p>
