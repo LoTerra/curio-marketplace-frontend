@@ -654,11 +654,35 @@ text-decoration: none;
     
 }
 
+.success-message {
+    color: #20ff93;
+    background: #26ff9629;
+    padding: 15px;
+    border-radius: 5px;
+    p {
+        margin:0;
+    }
+}
+
 .nft-thumb {
     box-shadow:inset 0px 0px 0px 0px #ff36ff;
     position:relative;
     overflow:hidden;
     padding:5px;
+    border-radius:5px;
+    transition:all 200ms linear;
+    .nft-selected {
+        position: absolute;
+        left: 15px;
+        top: 15px;
+        background: #ff36ff;
+        color: #fff;
+        border-radius: 100px;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 28px;
+    }
     p {
         margin:0;
     }

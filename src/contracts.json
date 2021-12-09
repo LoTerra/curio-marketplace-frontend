@@ -246,6 +246,12 @@
         "contract": "terra1225xrxqrdnxt8shtzrqnvzkc0rqxgt4577cyqm",
         "icon": "https://www.redeyedspacetoads.io/rest_icon.svg"
       },
+      "terra1w9g7lacvel0r6stqpra9e3sj64tglz70h7sv72": {        
+        "name": "TNS",
+        "symbol": "TNS",
+        "contract": "terra1w9g7lacvel0r6stqpra9e3sj64tglz70h7sv72",
+        "icon": "https://tns.money/static/images/logo.svg"
+      },
     "terra1axq5cef8dnuv6hghseu5kl6909at63p28wvuhv": {	
       "contract": "terra1axq5cef8dnuv6hghseu5kl6909at63p28wvuhv",
       "name": "TerraGems",
