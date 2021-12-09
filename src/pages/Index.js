@@ -150,8 +150,8 @@ export default () => {
                     <span className="icon"><Coin size={60} color={'#4d4d4f'} weight="light" /></span> 
                   </div>
                   <div className="col-lg-9">
-                    <p className="title">Privilege Token</p>
-                    <p className="info">When you want to attend a private auction you will need privilege tokens in order to unlock the private auction and participate</p>
+                    <p className="title">Rarifact Token</p>
+                    <p className="info">When you want to attend a private auction you will need RAR tokens in order to unlock the private auction and participate</p>
                   </div>
                 </div>              
               </div>
@@ -175,7 +175,7 @@ export default () => {
                   </div>
                   <div className="col-lg-9">
                     <p className="title">Create Auction</p>
-                    <p className="info">Everyone will be able to sell their nfts on the privilege marketplace, setup your desired start time or even select a fee for your favorite charity</p>
+                    <p className="info">Everyone will be able to sell their nfts on the Rarifact marketplace, setup your desired start time or even select a fee for your favorite charity</p>
                   </div>
                 </div>              
               </div>

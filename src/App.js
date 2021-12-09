@@ -32,42 +32,42 @@ function App() {
                             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
                         />
                         <title>
-                            Privilege - Decentralized marketplace on Terra blockchain
+                            Rarifact - Decentralized marketplace on Terra blockchain
                         </title>
                         <link
                             rel="icon"
                             type="image/x-icon"
-                            href="#"
+                            href="/img/apple-touch-icon.png"
                         />
                         <link
                             data-hid="shortcut-icon"
                             rel="shortcut icon"
-                            href="https://loterra.io/favicon.ico"
+                            href="/img/favicon.ico"
                         />
-                        <meta property="og:title" content="Privilege" />
+                        <meta property="og:title" content="Rarifact" />
                         <meta
                             property="og:image"
                             content=""
                         />
-                        <meta property="og:image:alt" content="Privilege icon" />
+                        <meta property="og:image:alt" content="Rarifact icon" />
                         <meta property="og:type" content="website" />
                         <meta
                             property="og:site_name"
-                            content="Privilege marketplace"
+                            content="Rarifact marketplace"
                         />
                         <meta
                             property="og:description"
-                            content="Privilege auction marketplace, where creators sell NFT's"
+                            content="Rarifact auction marketplace, where creators sell NFT's"
                         />
                         <meta name="twitter:card" content="summary" />
-                        <meta name="twitter:site" content="Privilege" />
+                        <meta name="twitter:site" content="Rarifact" />
                         <meta
                             name="twitter:title "
-                            content="Privilege - Decentralized marketplace on Terra blockchain"
+                            content="Rarifact - Decentralized marketplace on Terra blockchain"
                         />
                         <meta
                             name="twitter:description"
-                            content="Privilege auction marketplace, where creators sell NFT's"
+                            content="Rarifact auction marketplace, where creators sell NFT's"
                         />
                         <meta
                             name="twitter:image"

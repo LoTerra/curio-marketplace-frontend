@@ -24,7 +24,7 @@ export default function UserModal(props) {
 						<h5 className="modal-heading">Your balance <small>UST</small></h5>
 						<h2>{rawBank}</h2>
 						<h5 className="modal-heading">Your balance <small>PRIV</small></h5>
-						<h2>{parseFloat(priv / 1000000)} PRIV</h2>
+						<h2>{parseFloat(priv / 1000000)} RAR</h2>
 						<h5 className="modal-heading mt-3">Your biddings</h5>
 						<p className="p-2 text-center text-muted">Coming soon</p>
 						<h5 className="modal-heading">Your nfts</h5>
