@@ -53,11 +53,11 @@ function App() {
                         <meta property="og:type" content="website" />
                         <meta
                             property="og:site_name"
-                            content="Rarifact marketplace"
+                            content="Rarifact"
                         />
                         <meta
                             property="og:description"
-                            content="Rarifact auction marketplace, where creators sell NFT's"
+                            content="Rarifact the place to find a rare, unusual, or intriguing NFT."
                         />
                         <meta name="twitter:card" content="summary" />
                         <meta name="twitter:site" content="Rarifact" />
@@ -67,7 +67,7 @@ function App() {
                         />
                         <meta
                             name="twitter:description"
-                            content="Rarifact auction marketplace, where creators sell NFT's"
+                            content="Rarifact the place to find a rare, unusual, or intriguing NFT."
                         />
                         <meta
                             name="twitter:image"
