@@ -29,8 +29,8 @@ const StoreContext = createContext()
 let cats = ["All", "Art", "Photography", "Metaverses", "Games", "Music", "Domains", "DeFi", "Memes", "Punks", "Other"]
 
 const initialState = {
-    privAuctionContract: 'terra1dullgnj5cm4fgpetrrq8ctukag89upajjt8f3g',
-    privTokenCw20Contract: 'terra1kpsmhql3fyy6vlv5l0ue8um3l6c5n9578sy9jv',
+    privAuctionContract: 'terra10qpgrwqtqv0v9alas4w769xed049tnlv698av9',
+    privTokenCw20Contract: 'terra1p0rzpd05mea8xyd275akhlu79el9duvc29wr03',
     categories: cats,
     auctions: [],
     lcd:lcd,
