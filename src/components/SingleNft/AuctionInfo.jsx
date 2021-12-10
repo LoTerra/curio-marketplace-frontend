@@ -32,7 +32,7 @@ export default function AuctionInfo(props) {
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Reserve price</h6>
-                                        <p className="highest_bid">{nftData.reserve_price ? (nftData.reserve_price / 1000000) + '<span>UST</span>' : 'No'} </p>
+                                        <p className="highest_bid">{nftData.reserve_price ? (nftData.reserve_price / 1000000) : 'No'} {nftData.reserve_price && <span>UST</span>}</p>
                                     </div>
                                 </div>
                           
@@ -46,14 +46,14 @@ export default function AuctionInfo(props) {
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Starting price</h6>
-                                        <p className="start-price">{nftData.start_price ? (nftData.start_price / 1000000) + '<span>UST</span>' : 'No' } </p>
+                                        <p className="start-price">{nftData.start_price ? (nftData.start_price / 1000000) : 'No' } {nftData.start_price && <span>UST</span>}</p>
                                     </div>
                                 </div>
                              
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Instant buy</h6>
-                                        <p className="start-price">{nftData.instant_buy ? (nftData.instant_buy / 1000000) + '<span>UST</span>' : 'No'}</p>
+                                        <p className="start-price">{nftData.instant_buy ? (nftData.instant_buy / 1000000) : 'No'} {nftData.instant_buy && <span>UST</span>}</p>
                                     </div>
                                 </div>
                              

@@ -507,7 +507,7 @@ const reloadData = useCallback(async () => {
                                 <div className="col-12">
                                     <button className="btn btn-primary btn-lg w-100 mt-3" onClick={() => unlockPrivAuction(imageNftData.private_sale)}>
                                         Unlock private auction
-                                        <small><strong>Costs: </strong>{parseInt(imageNftData.private_sale) / 1000000} PRIV</small>
+                                        <small><strong>Costs: </strong>{parseInt(imageNftData.private_sale) / 1000000} RAR</small>
                                     </button>
                                 </div>
                                 }

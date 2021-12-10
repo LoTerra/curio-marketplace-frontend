@@ -127,7 +127,7 @@ export default () => {
               <div className="col-xl-12 mt-5 mx-auto text-center">
                 <h1><span className="green">Buy</span> or <span className="pink">Auction</span> your NFT</h1>
                 <p className="slogan">Decentralized Marketplace</p>
-                <p className="badge">Currently in BETA</p>
+                <p className="badge">TESTNET MODE</p>
                 <p className="powered">powered by <img src={'img/terralogo.svg'} style={{width:'80px'}}/></p>
                 
               </div>
