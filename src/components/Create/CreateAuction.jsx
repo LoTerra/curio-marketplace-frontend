@@ -238,11 +238,17 @@ export default function CreateAuction(props) {
 
     }
 
-  
+  const contractChangeHandler = (e) => {
+     setTokenId("")          
+    setUserNfts([])
+     setContract({contract:null,
+        address:e.target.value })
+  }
 
     useEffect(() => {
-       
-      }, [userNfts, contracts,contract]);
+        console.log(tokenId)
+        console.log(contract)
+      }, [userNfts, contracts,contract, tokenId]);
 
     return (       
         <>
@@ -344,7 +350,7 @@ export default function CreateAuction(props) {
             {contract.address !== '' &&
                                 <>
                                 <label className="mt-2">Edit Contract address</label>
-                                <input type="text" className="form-control mb-2" value={contract.address} onChange={(e) => setContract({value:e.target.value},prevValues => {return{...prevValues,address:this.state.value}})} name="contract_address" required />
+                                <input type="text" className="form-control mb-2" value={contract.address} onChange={(e) => contractChangeHandler(e)} name="contract_address" required />
                                 
                 <button type="button" className="btn btn-secondary btn-lg w-100 my-2" onClick={() => debouncedClick()}><ArrowsClockwise color={'#20ff93'} size={21} weight={'bold'} style={{position:'relative',top:'-2px'}} /> Get nfts from contract</button>
                 </>
@@ -362,10 +368,10 @@ export default function CreateAuction(props) {
                       </div>
                 }
                 <div className="row">
-                    { userNfts && userNfts.length > 0 &&
+                    { userNfts && userNfts.length > 0 && contract.address &&
                         <h4><strong>Select NFT You want to auction</strong></h4>
                     }
-                {userNfts && userNfts.length > 0 && userNfts.map((obj,k) => 
+                {userNfts && userNfts.length > 0 && contract.address && userNfts.map((obj,k) => 
 (<div className="col-md-3" key={k}>
 <div className={'nft-thumb' + (tokenId && tokenId == obj.token_id ? ' active' : '')} onClick={() => setTokenId(obj.token_id)}>
     { tokenId && tokenId == obj.token_id &&
@@ -405,15 +411,15 @@ export default function CreateAuction(props) {
 
 </div>
 <div className="row mb-4">
-    { contract.address !== '' && tokenId !== '' &&
-        <>
-        <div className="col-md-3"></div>
-        <div className="col-md-9">
-            <div className="success-message">
-                <p><CheckCircle size={21} /> Nft selected, you can now setup the rest of your auction</p>
+    { contract.address !== '' && tokenId !== '' && contract.contract &&
+        (<>
+            <div className="col-md-3"></div>
+            <div className="col-md-9">
+                <div className="success-message">
+                    <p><CheckCircle size={21} /> Nft selected, you can now setup the rest of your auction</p>
+                </div>
             </div>
-        </div>
-        </>
+            </>)
     }
     <div className="col-md-3">
     <span className="icon"><SlidersHorizontal size={70} weight="light" />       <SlidersHorizontal size={70} weight="light" /></span>             
