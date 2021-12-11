@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react'
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { useStore } from '../../store'
 import toast, { Toaster } from 'react-hot-toast';
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider';
 import contractData from '../../contracts.json';
+
+import debounce from 'lodash.debounce';
+
 import {
     StdFee,
     MsgExecuteContract,
@@ -15,13 +18,19 @@ import {
 } from '@terra-money/terra.js'
 import { ArrowsClockwise, Check, CheckCircle, CheckSquareOffset, Heart, SlidersHorizontal, WarningCircle, X } from 'phosphor-react';
 
+const  INTERVAL = 1000;
+
+
 export default function CreateAuction(props) {
 
     const { state, dispatch } = useStore()
 
-    const [listView,setListView] = useState(true)
-    const [contractAddress, setContractAddress] = useState("")
-    const [selectedContract,setSelectContract] = useState()
+    const [listView,setListView] = useState(true)   
+    const [contract, setContract] = useState({
+        contract: {},
+        address: ''
+    })
+
     const [manual,setManual] = useState(false)
     const [tokenId, setTokenId] = useState("")
     const [userNfts, setUserNfts] = useState([])
@@ -59,19 +68,19 @@ export default function CreateAuction(props) {
     }, [connectedWallet])
 
 
-    async function getNftProviderData(){
+    async function getNftProviderData(address){
         //Clean before new data
-        setNftLoader(true)
+   
         setUserNfts([])
         setTokenId("")
         
         //Spread operator
         let data = [];
         try{
-        
+      
             const api = new WasmAPI(lcd.apiRequester)  
             const tokenData = await api.contractQuery(
-                contractAddress, 
+                address, 
                 {
                     tokens: {
                         owner: connectedWallet.walletAddress,
@@ -83,7 +92,7 @@ export default function CreateAuction(props) {
             
                 tokenData.tokens.map(async (obj) => {
                     const singleToken = await api.contractQuery(
-                        contractAddress, 
+                        address, 
                         {
                             nft_info: {
                                 token_id: obj,                                
@@ -111,12 +120,24 @@ export default function CreateAuction(props) {
     }
 
     function selectNftContract(obj){
-        console.log(obj)
-        setContractAddress(obj.contract);        
-        setSelectContract(obj)    
-        getNftProviderData();
+        console.log(obj)        
+        // setSelectContract(obj)   
+         
+        setContract(prevValues => {
+            return {...prevValues,contract:obj,address:obj.contract}
+        })
         closeRef.current.click();
+        getNftProviderData(obj.contract)
+        
     }
+
+
+
+    const debouncedClick = useCallback(debounce(() => {
+        setNftLoader(true)
+        getNftProviderData(contract.address)
+      }, INTERVAL));
+      
 
     function getContractData(){
         if(connectedWallet){
@@ -144,7 +165,7 @@ export default function CreateAuction(props) {
            return false;
       }
 
-      if(contractAddress === ''){
+      if(contract.address === ''){
           toast.error('NFT Contract Address needs to be filled')
           return false;
       }
@@ -217,12 +238,17 @@ export default function CreateAuction(props) {
 
     }
 
-  
+  const contractChangeHandler = (e) => {
+     setTokenId("")          
+    setUserNfts([])
+     setContract({contract:null,
+        address:e.target.value })
+  }
 
     useEffect(() => {
- 
-            
-      }, [userNfts, contracts, selectedContract,contractAddress]);
+        console.log(tokenId)
+        console.log(contract)
+      }, [userNfts, contracts,contract, tokenId]);
 
     return (       
         <>
@@ -243,12 +269,12 @@ export default function CreateAuction(props) {
         <div className="col-12 mb-3">
    
 <div className="row">
-    <div className="col-md-6">
+    <div className="col-md-12">
     <button type="button" className="btn btn-primary btn-block btn-lg w-100" onClick={() => getContractData()} data-bs-toggle="modal" data-bs-target="#nftContracts">Add NFT</button>
     </div>
-    <div className="col-md-6">
+    {/* <div className="col-md-6">
     <button type="button" className={'btn btn-secondary d-block btn-lg w-100'} onClick={() => setManual(!manual)}>Add NFT Manually</button>
-    </div>
+    </div> */}
 </div>
 
 
@@ -261,7 +287,9 @@ export default function CreateAuction(props) {
       </div>
       <div class="modal-body">
         <div className="row">
+       
             <div className="col-12">
+                
                 <div className="btn-group d-block w-100 mb-3">
                     <button type="button" className={"btn btn-secondary w-50" + (listView ? ' active' : '')} onClick={() => setListView(true)}>List view</button>
                     <button type="button" className={"btn btn-secondary w-50" + (!listView ? ' active' : '')} onClick={() => setListView(false)}>Grid view</button>
@@ -270,7 +298,7 @@ export default function CreateAuction(props) {
             {contracts && contracts.length > 0 && contracts.map((obj,k) => 
                 listView ?
                 (<div className="col-md-12 text-start nft-contract-thumb list-view" key={k}>
-                <a className={'text-white d-block ' + (obj.contract == contractAddress ? ' active' : '')} onClick={() => selectNftContract(obj)}>
+                <a className={'text-white d-block ' + (obj.contract == contract.address ? ' active' : '')} onClick={() => selectNftContract(obj)}>
                         <img src={obj.icon} className="d-inline-block img-fluid" width="40" />
                         {obj.name}               
                     </a>
@@ -278,7 +306,7 @@ export default function CreateAuction(props) {
                 :
                 (
                     <div className="col-md-3 text-center nft-contract-thumb grid-view" key={k}>
-                <a className={'text-white d-block ' + (obj.contract == contractAddress ? ' active' : '')} onClick={() => selectNftContract(obj)}>
+                <a className={'text-white d-block ' + (obj.contract == contract.address ? ' active' : '')} onClick={() => selectNftContract(obj)}>
                     <div className="row">
                         <div className="col-md-12"><img src={obj.icon} className="d-block img-fluid" /></div>
                         <div className="col-md-12 mb-3">{obj.name}</div>
@@ -300,26 +328,32 @@ export default function CreateAuction(props) {
 
 
 
-{ selectedContract && selectedContract !== '' &&
+{ contract.contract && contract.address !== '' &&
     <div className="card bg-dark">
         <div className="card-body">
             <div className="row">
                 <div className="col-3">
-                    <img src={selectedContract.icon} className="img-fluid"/>
+                    <img src={contract.contract.icon} className="img-fluid"/>
                 </div>
                 <div className="col-9">
                 <p className="m-0"><strong>Selected contract: </strong></p>
-            <h3>{selectedContract.name}</h3>
-            <p>{selectedContract.contract}</p>
+            <h3>{contract.contract.name}</h3>
+            <p>{contract.contract.contract}</p>
                 </div>
+
             </div>
             
         </div>
     </div>
 }
             
-            {contractAddress !== '' &&
-                <button type="button" className="btn btn-secondary btn-lg w-100 my-2" onClick={() => getNftProviderData()}><ArrowsClockwise color={'#20ff93'} size={21} weight={'bold'} style={{position:'relative',top:'-2px'}} /> Get nfts from contract</button>
+            {contract.address !== '' &&
+                                <>
+                                <label className="mt-2">Edit Contract address</label>
+                                <input type="text" className="form-control mb-2" value={contract.address} onChange={(e) => contractChangeHandler(e)} name="contract_address" required />
+                                
+                <button type="button" className="btn btn-secondary btn-lg w-100 my-2" onClick={() => debouncedClick()}><ArrowsClockwise color={'#20ff93'} size={21} weight={'bold'} style={{position:'relative',top:'-2px'}} /> Get nfts from contract</button>
+                </>
             }
         </div>
       
@@ -334,10 +368,10 @@ export default function CreateAuction(props) {
                       </div>
                 }
                 <div className="row">
-                    { userNfts && userNfts.length > 0 &&
-                        <p><strong>Select NFT You want to auction</strong></p>
+                    { userNfts && userNfts.length > 0 && contract.address &&
+                        <h4><strong>Select NFT You want to auction</strong></h4>
                     }
-                {userNfts && userNfts.length > 0 && userNfts.map((obj,k) => 
+                {userNfts && userNfts.length > 0 && contract.address && userNfts.map((obj,k) => 
 (<div className="col-md-3" key={k}>
 <div className={'nft-thumb' + (tokenId && tokenId == obj.token_id ? ' active' : '')} onClick={() => setTokenId(obj.token_id)}>
     { tokenId && tokenId == obj.token_id &&
@@ -357,8 +391,7 @@ export default function CreateAuction(props) {
             
             {manual &&
             <>
-            <label>Contract address</label>
-            <input type="text" className="form-control" value={contractAddress} onChange={(e) =>setContractAddress(e.target.value)} name="contract_address" required />
+            
             <label>Token ID</label>
             <input type="text" className="form-control" value={tokenId} onChange={(e) => setTokenId(e.target.value)} name="token_id" required />
             </>
@@ -378,15 +411,15 @@ export default function CreateAuction(props) {
 
 </div>
 <div className="row mb-4">
-    { contractAddress !== '' && tokenId !== '' &&
-        <>
-        <div className="col-md-3"></div>
-        <div className="col-md-9">
-            <div className="success-message">
-                <p><CheckCircle size={21} /> Nft selected, you can now setup the rest of your auction</p>
+    { contract.address !== '' && tokenId !== '' && contract.contract &&
+        (<>
+            <div className="col-md-3"></div>
+            <div className="col-md-9">
+                <div className="success-message">
+                    <p><CheckCircle size={21} /> Nft selected, you can now setup the rest of your auction</p>
+                </div>
             </div>
-        </div>
-        </>
+            </>)
     }
     <div className="col-md-3">
     <span className="icon"><SlidersHorizontal size={70} weight="light" />       <SlidersHorizontal size={70} weight="light" /></span>             
