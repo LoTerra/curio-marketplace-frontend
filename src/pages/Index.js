@@ -23,7 +23,7 @@ export default () => {
   const terra = state.lcd
   const api = new WasmAPI(terra.apiRequester)
     const [auctions, setAuction] = useState([])
-    const [nfts, setNfts] = useState(false);
+    const [nfts, setNfts] = useState([]);
     const [loading,setLoading] = useState(true)
     const exploreDiv = useRef(null)
 
