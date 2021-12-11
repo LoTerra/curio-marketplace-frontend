@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react'
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react'
 import { useStore } from '../../store'
 import toast, { Toaster } from 'react-hot-toast';
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider';
 import contractData from '../../contracts.json';
+
+import debounce from 'lodash.debounce';
+
 import {
     StdFee,
     MsgExecuteContract,
@@ -15,6 +18,9 @@ import {
 } from '@terra-money/terra.js'
 import { ArrowsClockwise, Check, CheckCircle, CheckSquareOffset, Heart, SlidersHorizontal, WarningCircle, X } from 'phosphor-react';
 
+const  INTERVAL = 1000;
+
+
 export default function CreateAuction(props) {
 
     const { state, dispatch } = useStore()
@@ -22,6 +28,12 @@ export default function CreateAuction(props) {
     const [listView,setListView] = useState(true)
     const [contractAddress, setContractAddress] = useState("")
     const [selectedContract,setSelectContract] = useState()
+
+    const [contract, setContract] = useState({
+        contract: {},
+        address: ''
+    })
+
     const [manual,setManual] = useState(false)
     const [tokenId, setTokenId] = useState("")
     const [userNfts, setUserNfts] = useState([])
@@ -59,19 +71,19 @@ export default function CreateAuction(props) {
     }, [connectedWallet])
 
 
-    async function getNftProviderData(){
+    async function getNftProviderData(address){
         //Clean before new data
-        setNftLoader(true)
+   
         setUserNfts([])
         setTokenId("")
         
         //Spread operator
         let data = [];
         try{
-        
+      
             const api = new WasmAPI(lcd.apiRequester)  
             const tokenData = await api.contractQuery(
-                contractAddress, 
+                address, 
                 {
                     tokens: {
                         owner: connectedWallet.walletAddress,
@@ -83,7 +95,7 @@ export default function CreateAuction(props) {
             
                 tokenData.tokens.map(async (obj) => {
                     const singleToken = await api.contractQuery(
-                        contractAddress, 
+                        address, 
                         {
                             nft_info: {
                                 token_id: obj,                                
@@ -112,11 +124,23 @@ export default function CreateAuction(props) {
 
     function selectNftContract(obj){
         console.log(obj)
-        setContractAddress(obj.contract);        
-        setSelectContract(obj)    
-        getNftProviderData();
+        // setContractAddress(obj.contract);        
+        // setSelectContract(obj)    
+        setContract(prevValues => {
+            return {...prevValues,contract:obj,address:obj.contract}
+        })
         closeRef.current.click();
+        getNftProviderData(obj.contract)
+        
     }
+
+
+
+    const debouncedClick = useCallback(debounce(() => {
+        setNftLoader(true)
+        getNftProviderData(contract.address)
+      }, INTERVAL));
+      
 
     function getContractData(){
         if(connectedWallet){
@@ -220,9 +244,8 @@ export default function CreateAuction(props) {
   
 
     useEffect(() => {
- 
-            
-      }, [userNfts, contracts, selectedContract,contractAddress]);
+       
+      }, [userNfts, contracts,contract]);
 
     return (       
         <>
@@ -300,17 +323,17 @@ export default function CreateAuction(props) {
 
 
 
-{ selectedContract && selectedContract !== '' &&
+{ contract.contract && contract.contract !== '' &&
     <div className="card bg-dark">
         <div className="card-body">
             <div className="row">
                 <div className="col-3">
-                    <img src={selectedContract.icon} className="img-fluid"/>
+                    <img src={contract.contract.icon} className="img-fluid"/>
                 </div>
                 <div className="col-9">
                 <p className="m-0"><strong>Selected contract: </strong></p>
-            <h3>{selectedContract.name}</h3>
-            <p>{selectedContract.contract}</p>
+            <h3>{contract.contract.name}</h3>
+            <p>{contract.contract.contract}</p>
                 </div>
             </div>
             
@@ -318,8 +341,8 @@ export default function CreateAuction(props) {
     </div>
 }
             
-            {contractAddress !== '' &&
-                <button type="button" className="btn btn-secondary btn-lg w-100 my-2" onClick={() => getNftProviderData()}><ArrowsClockwise color={'#20ff93'} size={21} weight={'bold'} style={{position:'relative',top:'-2px'}} /> Get nfts from contract</button>
+            {contract.address !== '' &&
+                <button type="button" className="btn btn-secondary btn-lg w-100 my-2" onClick={() => debouncedClick()}><ArrowsClockwise color={'#20ff93'} size={21} weight={'bold'} style={{position:'relative',top:'-2px'}} /> Get nfts from contract</button>
             }
         </div>
       
