@@ -19,6 +19,7 @@ export default function BiddingInterface(props) {
         connectedWallet,
         placeBid,
         rightsCheck,
+        isOwner,
         buyNow
     } = props;
 
@@ -77,7 +78,7 @@ if (typeof document !== 'undefined') {
                             </div>
                             </div>
                             
-                            {nftData && nftValid(nftData.end_time,nftData.start_time) &&
+                            {nftData && nftValid(nftData.end_time,nftData.start_time) && !isOwner &&
                                 <>
                                 <div className={'col-md-6'}>
                                 <h5>Your bid</h5>
@@ -92,10 +93,10 @@ if (typeof document !== 'undefined') {
                                     disabled={nftData && nftValid(nftData.end_time,nftData.start_time) ? false : true}
                                     onChange={(e) => setAmount(e.target.value.replace(',','.'))}                                   
                                     autoComplete="off"
-                                    value={amount}
+                                    value={amount > 0 ? amount : nftData.highest_bid ? setAmount(((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000) : nftData.start_price ? setAmount(nftData.start_price / 1000000) : 0}
                                     step="1"                                    
-                                    min={nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : 0}
-                                    placeholder={nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : 0}
+                                    min={nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : nftData.start_price ? nftData.start_price / 1000000 : 0}
+                                    placeholder={nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : nftData.start_price ? nftData.start_price / 1000000 : 0}
                                     name="amount"
                                     />
                                 </div>
@@ -113,13 +114,20 @@ if (typeof document !== 'undefined') {
                                             Add minimal {nftData.highest_bid ? (((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000).toFixed(3) : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0} UST
                                         </p>
                                         }   
+                                        {!parseInt(nftData.highest_bid) > 0 && parseInt(nftData.start_price) > 0 &&
+                                        <p 
+                                        style={{textDecoration:'underline', fontSize:'12px', fontWeight:300}} 
+                                        onClick={() => setAmount(nftData.highest_bid ? (((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000).toFixed(3) : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0)}>
+                                            Add minimal {nftData.highest_bid ? (((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000).toFixed(3) : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0} UST
+                                        </p>
+                                        } 
                                         </div>
                                     </div>
                                 </div>
                                 <small className="d-block p-3 text-muted">In order to bid you need to bid <strong>5% above</strong> current bid or min start price, each new bid is counted on top of your previous bids</small>
-                                {rightsCheck() &&
-                                <div className="row">
-                                    <div className={nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy !== null ? 'col-md-6' : 'col-md-12'}>
+                                {rightsCheck() && !isOwner &&
+                                <>
+                                    <div className={nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy !== null ? 'col-md-6 mt-3' : 'col-md-12 mt-3'}>
                                     <button 
                                 className="btn btn-primary btn-lg w-100"
                                 disabled={nftData && nftValid(nftData.end_time,nftData.start_time) ? false : true}
@@ -127,7 +135,7 @@ if (typeof document !== 'undefined') {
                                 {/* <small>{nftData && nftValid(nftData.end_time,nftData.start_time) ? getBiddingInfo(nftData) : ''}</small> */}
                                 </button>
                                     </div>
-                                    <div className={nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy ? 'col-md-6' : 'd-none'}>
+                                    <div className={nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy ? 'col-md-6 mt-3' : 'd-none'}>
                                     <button 
                                 className="btn btn-special btn-lg w-100"
                                 disabled={nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy ? false : true}
@@ -146,7 +154,7 @@ if (typeof document !== 'undefined') {
                                     </div>
                                     }
 
-                                </div>
+                             </>
 }
                                 </>
                                 }

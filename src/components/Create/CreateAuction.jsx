@@ -213,10 +213,10 @@ export default function CreateAuction(props) {
           auction_msg.create_auction_nft.private_sale_privilege = String(data.private_sale_privilege * 1000000)
       }
 
-        let msg = new MsgExecuteContract(connectedWallet.walletAddress, String(data.contract_address),{
+        let msg = new MsgExecuteContract(connectedWallet.walletAddress, String(contract.address),{
             send_nft: {
                 contract: state.privAuctionContract,
-                token_id: data.token_id,
+                token_id: tokenId,
                 msg:Buffer.from(JSON.stringify(auction_msg)).toString(
                     'base64'
                 )

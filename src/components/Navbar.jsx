@@ -59,25 +59,27 @@ export default function Navbar(props) {
                     }
                     )
                     setPriv(privToken.balance)
-                    const bidderData = await api.contractQuery(
-                        state.privAuctionContract,
-                        {
-                            bidder:{   
-                                auction_id:0,                          
-                                address: connectedWallet.walletAddress
-                            }
-                        }
-                    )
-                    setUserBids(bidderData)
-                    console.log(bidderData)
+                    // const bidderData = await api.contractQuery(
+                    //     state.privAuctionContract,
+                    //     {
+                    //         bidder:{   
+                    //             auction_id:0,                          
+                    //             address: connectedWallet.walletAddress
+                    //         }
+                    //     }
+                    // )
+                    // setUserBids(bidderData)
+                    // console.log(bidderData)
                     console.log(privToken)
-                    
+                   
 
                 setConnected(true)
             } catch {
                
-            }            
+            }         
+            console.log(coins)   
             let uusd = coins.filter((c) => {
+                console.log(c)
                 return c.denom === 'uusd'
             })
             let ust = parseInt(uusd) / 1000000
