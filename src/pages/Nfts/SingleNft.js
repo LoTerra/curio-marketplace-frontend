@@ -37,7 +37,7 @@ export default (props) => {
   const [nftData,setNftData] = useState(0)
   const [imageNftData,setImageNftData] = useState(0)
   const [recent, setRecent] = useState(0)
-  const [isOwner, setIsOwner] = useState();
+  const [isOwner, setIsOwner] = useState(false);
   const [bidInfo, setBidInfo] = useState([])
     const [bidder, setBidder] = useState( {
         bid_counter: 0,
@@ -137,13 +137,11 @@ const reloadData = useCallback(async () => {
                 }
             }
         )
-        
+    
         console.log(nftConfigInfo)
         setNftData(nftConfigInfo)
-      
-        if(connectedWallet && connectedWallet.walletAddress && nftConfigInfo.creator == connectedWallet.walletAddress){
-            setIsOwner(true)
-        }
+    
+       
 
         setExpiryTimestamp(
             parseInt(nftConfigInfo.end_time * 1000)
@@ -423,18 +421,25 @@ const reloadData = useCallback(async () => {
 
     const getNftUserData = useCallback(async () => {
         try {
-            
+         
             if (connectedWallet && connectedWallet.walletAddress){
-                const bidderData = await api.contractQuery(
-                    state.privAuctionContract,
-                    {
-                        bidder:{
-                            auction_id:testAuctionID,
-                            address: connectedWallet.walletAddress
-                        }
-                    }
-                )
-                setBidder(bidderData)                
+                
+                // const bidderData = await api.contractQuery(
+                //     state.privAuctionContract,
+                //     {
+                //         bidder:{
+                //             auction_id:testAuctionID,
+                //             address: connectedWallet.walletAddress
+                //         }
+                //     }
+                // )
+                // setBidder(bidderData)     
+                
+              if(connectedWallet.walletAddress == nftData.creator){
+                  setIsOwner(true)
+              }            
+            } else {
+                setIsOwner(false);
             }
 
         }catch (e) {
@@ -444,7 +449,9 @@ const reloadData = useCallback(async () => {
 
   useEffect(() => {      
         getNftData()
-       getNftUserData()      
+       getNftUserData()    
+       
+   
     
       //Pusher code
       const pusher = new Pusher('371306b233edc5c8cfb9', {
@@ -473,7 +480,7 @@ const reloadData = useCallback(async () => {
         pusher.unsubscribe('my-channel')
     })
   
-}, [getNftData, getNftUserData, isOwner])
+}, [getNftData, getNftUserData])
 
     
 
