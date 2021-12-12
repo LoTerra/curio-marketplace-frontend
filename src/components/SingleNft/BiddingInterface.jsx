@@ -113,6 +113,13 @@ if (typeof document !== 'undefined') {
                                             Add minimal {nftData.highest_bid ? (((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000).toFixed(3) : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0} UST
                                         </p>
                                         }   
+                                        {!parseInt(nftData.highest_bid) > 0 && parseInt(nftData.start_price) > 0 &&
+                                        <p 
+                                        style={{textDecoration:'underline', fontSize:'12px', fontWeight:300}} 
+                                        onClick={() => setAmount(nftData.highest_bid ? (((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000).toFixed(3) : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0)}>
+                                            Add minimal {nftData.highest_bid ? (((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000).toFixed(3) : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0} UST
+                                        </p>
+                                        } 
                                         </div>
                                     </div>
                                 </div>

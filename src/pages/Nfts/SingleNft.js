@@ -350,12 +350,16 @@ const reloadData = useCallback(async () => {
 
 
     function getBiddingInfo(info){
-        if(bidder.bids.length > 0) {
+        if(bidder.bids.length > 0 && info.highest_bid !== 0) {
             if(parseInt(bidder.total_bid) == parseInt(info.highest_bid)) {
                 return 'You are the highest bidder';
             } else {
                 return 'Add ' + ((parseInt(info.highest_bid) + (parseInt(info.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 + ' UST'
             }
+        }
+
+        if(info.highest_bid == 0 && parseInt(info.start_price) > 0){
+            return 'Start bidding from ' + (parseInt(info.start_price) / 1000000) + ' UST'    
         }
 
         return 'Start bidding from ' + (info.highest_bid ? ((parseInt(info.highest_bid) + (parseInt(info.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : 0)+ ' UST'
