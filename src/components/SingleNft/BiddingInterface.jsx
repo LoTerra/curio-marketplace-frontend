@@ -19,6 +19,7 @@ export default function BiddingInterface(props) {
         connectedWallet,
         placeBid,
         rightsCheck,
+        isOwner,
         buyNow
     } = props;
 
@@ -77,7 +78,7 @@ if (typeof document !== 'undefined') {
                             </div>
                             </div>
                             
-                            {nftData && nftValid(nftData.end_time,nftData.start_time) &&
+                            {nftData && nftValid(nftData.end_time,nftData.start_time) && !isOwner &&
                                 <>
                                 <div className={'col-md-6'}>
                                 <h5>Your bid</h5>
@@ -124,7 +125,7 @@ if (typeof document !== 'undefined') {
                                     </div>
                                 </div>
                                 <small className="d-block p-3 text-muted">In order to bid you need to bid <strong>5% above</strong> current bid or min start price, each new bid is counted on top of your previous bids</small>
-                                {rightsCheck() &&
+                                {rightsCheck() && !isOwner &&
                                 <>
                                     <div className={nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy !== null ? 'col-md-6 mt-3' : 'col-md-12 mt-3'}>
                                     <button 

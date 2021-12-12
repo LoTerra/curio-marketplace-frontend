@@ -27,7 +27,8 @@ import MainLoader from '../../components/Loaders/MainLoader';
 import AuctionInfo from '../../components/SingleNft/AuctionInfo';
 import BiddingInterface from '../../components/SingleNft/BiddingInterface';
 import { data } from 'jquery';
-import { ArrowLeft } from 'phosphor-react';
+import { ArrowLeft, Eye } from 'phosphor-react';
+import { connect } from '@terra-money/wallet-provider/modules/readonly-wallet';
 
 export default (props) => {
   const { state, dispatch } = useStore()
@@ -36,6 +37,7 @@ export default (props) => {
   const [nftData,setNftData] = useState(0)
   const [imageNftData,setImageNftData] = useState(0)
   const [recent, setRecent] = useState(0)
+  const [isOwner, setIsOwner] = useState();
   const [bidInfo, setBidInfo] = useState([])
     const [bidder, setBidder] = useState( {
         bid_counter: 0,
@@ -138,7 +140,10 @@ const reloadData = useCallback(async () => {
         
         console.log(nftConfigInfo)
         setNftData(nftConfigInfo)
-        
+      
+        if(connectedWallet && connectedWallet.walletAddress && nftConfigInfo.creator == connectedWallet.walletAddress){
+            setIsOwner(true)
+        }
 
         setExpiryTimestamp(
             parseInt(nftConfigInfo.end_time * 1000)
@@ -159,8 +164,9 @@ const reloadData = useCallback(async () => {
           .then(function (response) {
             console.log('repsonse',response.data);
             const data = response.data.filterItems[0]
-            setImageNftData({image: data.image_url, name: data.title, description: data.description, private_sale: data.private_sale})  
+            setImageNftData({image: data.image_url, name: data.title, description: data.description, private_sale: data.private_sale, creator: data.creator.address})  
             console.log({image: data.image_url, name: data.title, description: data.description, private_sale: data.private_sale})
+            
           })
           .catch(function (error) {
             console.log(error);
@@ -417,8 +423,8 @@ const reloadData = useCallback(async () => {
 
     const getNftUserData = useCallback(async () => {
         try {
-
-            if (connectedWallet){
+            
+            if (connectedWallet && connectedWallet.walletAddress){
                 const bidderData = await api.contractQuery(
                     state.privAuctionContract,
                     {
@@ -428,7 +434,7 @@ const reloadData = useCallback(async () => {
                         }
                     }
                 )
-                setBidder(bidderData)
+                setBidder(bidderData)                
             }
 
         }catch (e) {
@@ -438,8 +444,8 @@ const reloadData = useCallback(async () => {
 
   useEffect(() => {      
         getNftData()
-      getNftUserData()
-
+       getNftUserData()      
+    
       //Pusher code
       const pusher = new Pusher('371306b233edc5c8cfb9', {
         cluster: 'eu'
@@ -466,7 +472,8 @@ const reloadData = useCallback(async () => {
       return (() => {
         pusher.unsubscribe('my-channel')
     })
-}, [getNftData, getNftUserData])
+  
+}, [getNftData, getNftUserData, isOwner])
 
     
 
@@ -488,7 +495,9 @@ const reloadData = useCallback(async () => {
                     <p className="single-nft-badge">Private auction</p>
                     }
                     <h3 className="title">{imageNftData.name}</h3>
-                    <p className="author">Author name</p>
+                    { isOwner &&
+                        <p style={{color:'#ff36ff'}}><Eye size={24}/> Viewing your own auction</p>
+                    }
                     <p className="description">{imageNftData.description}</p>
                     {rightsCheck()  &&
                     <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -507,7 +516,7 @@ const reloadData = useCallback(async () => {
                                     <Countdown expiryTimestamp={expiryTimestamp} end={nftData.end_time} start={nftData.start_time} />
                                 </div>
                                                    
-                                <AuctionInfo nftData={nftData} bidInfo={bidInfo} imageNftData={imageNftData} bidder={bidder} nftValid={(a,b) => nftValid(a,b)} buyNow={() => buyNow()} rightsCheck={() => rightsCheck()}/>
+                                <AuctionInfo nftData={nftData} bidInfo={bidInfo} imageNftData={imageNftData} bidder={bidder} nftValid={(a,b) => nftValid(a,b)} buyNow={() => buyNow()} rightsCheck={() => rightsCheck()} isOwner = {isOwner}/>
                                 {bidder.privilege_used !== imageNftData.private_sale && imageNftData.private_sale > 0 &&
                                 <div className="col-12">
                                     <button className="btn btn-primary btn-lg w-100 mt-3" onClick={() => unlockPrivAuction(imageNftData.private_sale)}>
@@ -536,6 +545,7 @@ const reloadData = useCallback(async () => {
                                 connectedWallet={connectedWallet}
                                 rightsCheck={() => rightsCheck()}
                                 placeBid={() => placeBid()}
+                                isOwner = {isOwner}
                                 buyNow={() => buyNow()} />
                             </div>
                         </div>
