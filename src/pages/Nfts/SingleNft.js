@@ -259,6 +259,7 @@ const reloadData = useCallback(async () => {
           const result = await connectedWallet.post({
               msgs: [msg]
           })
+          reloadData()
       }catch (e) {
           console.log(e)
       }
