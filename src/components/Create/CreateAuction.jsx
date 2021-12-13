@@ -73,6 +73,12 @@ export default function CreateAuction(props) {
    
         setUserNfts([])
         setTokenId("")
+
+        if(address === ''){
+            toast.error('Fill NFT Contract Address')
+            setNftLoader(false)
+            return
+        }
         
         //Spread operator
         let data = [];
@@ -270,7 +276,7 @@ export default function CreateAuction(props) {
    
 <div className="row">
     <div className="col-md-12">
-    <button type="button" className="btn btn-primary btn-block btn-lg w-100" onClick={() => getContractData()} data-bs-toggle="modal" data-bs-target="#nftContracts">Add NFT</button>
+    <button type="button" className="btn btn-primary btn-block btn-lg w-100" onClick={() => getContractData()} data-bs-toggle="modal" data-bs-target="#nftContracts">Select NFT Contract</button>
     </div>
     {/* <div className="col-md-6">
     <button type="button" className={'btn btn-secondary d-block btn-lg w-100'} onClick={() => setManual(!manual)}>Add NFT Manually</button>
@@ -347,14 +353,12 @@ export default function CreateAuction(props) {
     </div>
 }
             
-            {contract.address !== '' &&
-                                <>
-                                <label className="mt-2">Edit Contract address</label>
+      
+                                <label className="mt-2">Manually fill contract address</label>
                                 <input type="text" className="form-control mb-2" value={contract.address} onChange={(e) => contractChangeHandler(e)} name="contract_address" required />
                                 
                 <button type="button" className="btn btn-secondary btn-lg w-100 my-2" onClick={() => debouncedClick()}><ArrowsClockwise color={'#20ff93'} size={21} weight={'bold'} style={{position:'relative',top:'-2px'}} /> Get nfts from contract</button>
-                </>
-            }
+           
         </div>
       
             <div className="col-12">
