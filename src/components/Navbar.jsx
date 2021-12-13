@@ -72,18 +72,18 @@ export default function Navbar(props) {
                     // console.log(bidderData)
                     console.log(privToken)
                    
-
-                setConnected(true)
+                    console.log(coins)   
+                    let uusd = coins.filter((c) => {                
+                        return c.denom === 'uusd'
+                    })            
+                    let ust = parseInt(uusd) / 1000000
+                    console.log(uusd,'ust bank')
+                    setBank(numeral(ust).format('0,0.00'))
+                    setConnected(true)
             } catch {
                
             }         
-            console.log(coins)   
-            let uusd = coins.filter((c) => {
-                console.log(c)
-                return c.denom === 'uusd'
-            })
-            let ust = parseInt(uusd) / 1000000
-            setBank(numeral(ust).format('0,0.00'))
+            
         }
     }
 

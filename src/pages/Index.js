@@ -100,7 +100,7 @@ export default () => {
                 all_auctions: {
                   // start_after: 0, // For pagination you can set the id you want here and receive next 30 auctions
                   limit: 30
-                },
+                }, 
               }
           )
             console.log(firstThirstyAuctionsInfo.auctions)

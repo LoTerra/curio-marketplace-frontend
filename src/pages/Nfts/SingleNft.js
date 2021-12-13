@@ -28,7 +28,6 @@ import AuctionInfo from '../../components/SingleNft/AuctionInfo';
 import BiddingInterface from '../../components/SingleNft/BiddingInterface';
 import { data } from 'jquery';
 import { ArrowLeft, Eye } from 'phosphor-react';
-import { connect } from '@terra-money/wallet-provider/modules/readonly-wallet';
 
 export default (props) => {
   const { state, dispatch } = useStore()
