@@ -459,8 +459,8 @@ const reloadData = useCallback(async () => {
       const pusher = new Pusher('371306b233edc5c8cfb9', {
         cluster: 'eu'
       });
-      const channel = pusher.subscribe('my-channel');
-      channel.bind('my-event', function(data) {  
+      const channel = pusher.subscribe('auction-channel');
+      channel.bind('bid-event', function(data) {
           console.log(data)
           console.log(JSON.parse(data.message)[0].events)          
     
@@ -479,7 +479,7 @@ const reloadData = useCallback(async () => {
         })
       });
       return (() => {
-        pusher.unsubscribe('my-channel')
+        pusher.unsubscribe('auction-channel')
     })
   
 }, [getNftData, getNftUserData])
