@@ -247,7 +247,7 @@ export default () => {
             <h3><span className="icon"><HourglassMedium size={38} color="#ff36ff" /> <HourglassMedium size={38} color="#20ff93" /></span> Almost ending</h3>
           </div>
           <div className="col-md-12">
-          <div className="row">
+        
             {nfts.length > 0 &&
             <Swiper
             modules={[Navigation, Pagination]}
@@ -299,7 +299,7 @@ export default () => {
                       </Swiper>
 }
      
-      </div>
+  
             </div>
   </div>
 </div>
@@ -309,7 +309,7 @@ export default () => {
             <h3><span className="icon"><Clock size={38} color="#ff36ff" /> <Clock size={38} color="#20ff93" /></span> Recently ended</h3>
           </div>
           <div className="col-md-12">
-          <div className="row">
+  
             {nfts.length > 0 &&
             <Swiper
             modules={[Navigation, Pagination]}
@@ -361,7 +361,7 @@ export default () => {
                       </Swiper>
 }
      
-      </div>
+     
             </div>
             <div className="col-md-12 heading" ref={exploreDiv}>
             <h3>Explore by category</h3>
