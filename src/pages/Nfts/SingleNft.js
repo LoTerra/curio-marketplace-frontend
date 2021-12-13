@@ -26,7 +26,6 @@ import Card from '../../components/SingleNft/Card';
 import MainLoader from '../../components/Loaders/MainLoader';
 import AuctionInfo from '../../components/SingleNft/AuctionInfo';
 import BiddingInterface from '../../components/SingleNft/BiddingInterface';
-import { data } from 'jquery';
 import { ArrowLeft, Eye } from 'phosphor-react';
 import WithdrawNft from '../../components/SingleNft/WithdrawNft';
 
@@ -293,7 +292,7 @@ const reloadData = useCallback(async () => {
 
       //Check if above minimum 5%
       if(amount * 1000000 > min_bid + 0.5){
-          let result = confirm('Are you sure you want to bid above the minimun 5% ?')
+          let result = window.confirm('Are you sure you want to bid above the minimun 5% ?')
           if(!result){
               return
           }

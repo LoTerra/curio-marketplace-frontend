@@ -180,6 +180,11 @@ export default function CreateAuction(props) {
         toast.error('NFT Token ID needs to be filled')
         return false;
     }
+
+        let confirm = window.confirm('Are you sure you want to create this auction?')
+          if(!confirm){
+              return
+          }
     
       if(connectedWallet){
             console.log('walletAddress is', connectedWallet.walletAddress)
