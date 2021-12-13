@@ -241,8 +241,7 @@ const reloadData = useCallback(async () => {
             msgs: [msg]
         })
         toast.success("Auction unlocked!")
-        getNftData()
-        getNftUserData()
+        setTimeout(() => reloadData(),1000)
       } catch(e){
           console.log(e)
       }
