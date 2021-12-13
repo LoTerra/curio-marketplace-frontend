@@ -423,16 +423,16 @@ const reloadData = useCallback(async () => {
   }
 
   const isWinner = () => {
-      if(connectedWallet && connectedWallet.walletAddress){
-          if(!nftValidEnd(nftData.end_time) && nftData.highest_bidder == connectedWallet.walletAddress || nftData.creator == connectedWallet.walletAddress){
-            return true;
-          } else {
-              return false;
-          }          
-      } else {
-          return false;
-      }
-  }
+    if(connectedWallet && connectedWallet.walletAddress){
+        if(!nftValidEnd(nftData.end_time) && nftData.highest_bidder == connectedWallet.walletAddress || !nftValidEnd(nftData.end_time) && nftData.creator == connectedWallet.walletAddress){
+          return true;
+        } else {
+            return false;
+        }          
+    } else {
+        return false;
+    }
+}
 
     const getNftUserData = useCallback(async () => {
         try {

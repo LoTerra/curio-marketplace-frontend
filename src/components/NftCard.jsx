@@ -11,6 +11,20 @@ export default function NftCard(props) {
     const { state, dispatch } = useStore()
 
     const {index, data, nft, type} = props;
+
+    function nftValidEnd(end){
+        let ending = new Date(parseInt(end) * 1000)  
+        let now = new Date()    
+    
+        //If ending is lower then filter
+        if(ending.getTime() < now.getTime()){
+            return false
+        }
+        
+        //If valid return true
+        return true;
+        
+      }
     //console.log("data-props")
     //console.log(data)
     return (<>{ data &&
@@ -31,8 +45,8 @@ export default function NftCard(props) {
                                 (
                                     <>
                                         <h5 className="card-title m-0">{data.title}</h5>
-                                        { data.end_time && data.end_time > 1 &&
-                                        <SmallCountdown expiryTimestamp={data.end_time} start={data.start_time} />
+                                        {data.end_time && data.end_time > 1 &&
+                                            <SmallCountdown expiryTimestamp={data.end_time} start={data.start_time} />
                                         }
                                         {/* <p className="m-0 text-muted">Highest bid: <strong>{data.highest_bid / 1000000} UST</strong></p>
                                         <p className="m-0 text-muted">Total bids: <strong>{data.total_bids}</strong></p>                                        */}

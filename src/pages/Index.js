@@ -12,7 +12,7 @@ import 'swiper/swiper-bundle.css';
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import MainLoader from '../components/Loaders/MainLoader';
 import NftInfoCard from '../components/NftInfoCard';
-import { CirclesThreePlus, Coin, Fire, HourglassMedium, MonitorPlay } from 'phosphor-react';
+import { CirclesThreePlus, Clock, Coin, Fire, HourglassMedium, MonitorPlay } from 'phosphor-react';
 import { Navigation, Pagination, Autoplay } from 'swiper';
  
 export default () => {
@@ -241,10 +241,9 @@ export default () => {
           </div>
           </div>
           </section>
-
-          <div className="container-fluid">
-          <div className="row">
-          <div className="col-md-12 small-heading">
+<div className="container-fluid">
+  <div className="row">
+  <div className="col-md-12 small-heading">
             <h3><span className="icon"><HourglassMedium size={38} color="#ff36ff" /> <HourglassMedium size={38} color="#20ff93" /></span> Almost ending</h3>
           </div>
           <div className="col-md-12">
@@ -276,6 +275,60 @@ export default () => {
     {
                         nfts.filter((a)=>{
                           if(nftValid(a.end_time,a.start_time)){
+                            return true;
+                            }
+                            return false;
+                                              
+                      }).sort((a,b) => {
+                        return a.end_time - b.end_time;
+                      }).slice(0,12).map((obj, id) =>{           
+                            return (
+                              <SwiperSlide>
+                                <NftCard key={id} data={obj} type={'xs'} index={99}/>
+                              </SwiperSlide>)            
+                        })
+                      }
+                      </Swiper>
+}
+     
+      </div>
+            </div>
+  </div>
+</div>
+          <div className="container-fluid">
+          <div className="row">
+          <div className="col-md-12 small-heading">
+            <h3><span className="icon"><Clock size={38} color="#ff36ff" /> <Clock size={38} color="#20ff93" /></span> Recently ended</h3>
+          </div>
+          <div className="col-md-12">
+          <div className="row">
+            {nfts.length > 0 &&
+            <Swiper
+            modules={[Navigation, Pagination]}
+            spaceBetween={25}
+            slidesPerView={6}
+            loop={true}
+            breakpoints={{
+              // when window width is >= 640px
+              1: {         
+                slidesPerView: 1,
+              },
+              // when window width is >= 768px
+              768: {    
+                slidesPerView: 2,
+              },
+              1000: {    
+                slidesPerView: 6,
+              },
+            }}
+            pagination={{ clickable: true }}
+            navigation={false}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
+    {
+                        nfts.filter((a)=>{
+                          if(!nftValidEnd(a.end_time)){
                             return true;
                             }
                             return false;
