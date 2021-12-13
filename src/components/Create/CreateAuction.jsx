@@ -275,7 +275,7 @@ export default function CreateAuction(props) {
 <div className="row mb-4">
     <div className="col-md-3">
         <span className="icon"><CheckSquareOffset size={70} weight="light" /><CheckSquareOffset size={70} weight="light" /></span>
-        <p className="info">Set your auction to your needs, decide when your auction starts and end.</p>
+        <p className="info">Select the contract of your NFT in the list or manually add it</p>
     </div>
     <div className="col-md-9">
         <div className="col-12">
@@ -436,7 +436,7 @@ export default function CreateAuction(props) {
     }
     <div className="col-md-3">
     <span className="icon"><SlidersHorizontal size={70} weight="light" />       <SlidersHorizontal size={70} weight="light" /></span>             
-        <p className="info">Set your auction to your needs, decide when your auction starts and end.</p>
+        <p className="info">Selling your items at auctions allows bidders to compete for them at a live sale – and it’s exciting to watch the auction on curio.art to see whether they will sell over the auctioneer’s estimate.</p>
     </div>
     <div className="col-md-9">
         <div className="row">
@@ -480,7 +480,7 @@ export default function CreateAuction(props) {
 <div className="row">
     <div className="col-md-3">
     <span className="icon"> <Heart size={70} weight="light" /><Heart size={70} weight="light" /></span>
-        <p className="info">Set your auction to your needs, decide when your auction starts and end.</p>
+        <p className="info">Let bidders to win items that they value but also to support a charitable cause in part by driving up the price.</p>
     </div>
     <div className="col-md-9">
         <div className="row">

@@ -14,7 +14,7 @@ export default  () => {
           <div className="col-md-10 intro mx-auto text-center">
             <h1><span className="pink">Auction</span> your NFT</h1>
             <p className="badge">TESTNET MODE</p>
-            <p className="slogan">Select your NFT and set up the auction</p>
+            <p className="slogan">Choosing to sell your items at curio.art means that bidders from around the world can bid online for them.</p>
           </div>
           <div className="col-md-10 mx-auto">
           <CreateAuction/> 
