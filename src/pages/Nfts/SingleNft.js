@@ -161,8 +161,8 @@ const reloadData = useCallback(async () => {
           .then(function (response) {
             console.log('repsonse',response.data);
             const data = response.data.filterItems[0]
-            setImageNftData({image: data.image_url, name: data.title, description: data.description, private_sale: data.private_sale, creator: data.creator.address})  
-            console.log({image: data.image_url, name: data.title, description: data.description, private_sale: data.private_sale})
+            setImageNftData({image: data.image_url, name: data.title, description: data.description, private_sale: data.private_sale_privilege, creator: data.creator.address})  
+            console.log({image: data.image_url, name: data.title, description: data.description, private_sale: data.private_sale_privilege})
             
           })
           .catch(function (error) {
@@ -407,8 +407,8 @@ const reloadData = useCallback(async () => {
           console.log('check not valid start time')
         return false;
       }
-      if(imageNftData.private_sale > 0 && imageNftData.private_sale !== undefined || null){
-        if(bidder.privilege_used === imageNftData.private_sale){
+      if(nftData.private_sale_privilege > 0 && nftData.private_sale_privilege !== undefined || null){
+        if(bidder.privilege_used === nftData.private_sale_privilege){
             console.log('bidder unlocked')
             return true;
           } else {
@@ -516,7 +516,7 @@ const reloadData = useCallback(async () => {
                     <a href="/" className="btn btn-secondary btn-sm mb-3 px-0 text-center text-md-start" style={{fontWeight:300,display:'block', opacity:0.5, background:'transparent'}}>
                         <ArrowLeft size={16} style={{position:'relative',top:'-1px'}}/> Back to home
                     </a>
-                    {parseInt(imageNftData.private_sale) > 0 &&
+                    {parseInt(nftData.private_sale_privilege) > 0 &&
                     <p className="single-nft-badge">Private auction</p>
                     }
                     <h3 className="title">{imageNftData.name}</h3>
@@ -543,11 +543,11 @@ const reloadData = useCallback(async () => {
                                 </div>
                                                    
                                 <AuctionInfo nftData={nftData} bidInfo={bidInfo} imageNftData={imageNftData} bidder={bidder} nftValid={(a,b) => nftValid(a,b)} buyNow={() => buyNow()} rightsCheck={() => rightsCheck()} isOwner = {isOwner}/>
-                                {bidder.privilege_used !== imageNftData.private_sale && imageNftData.private_sale > 0 &&
+                                {bidder.privilege_used !== nftData.private_sale_privilege && nftData.private_sale_privilege > 0 &&
                                 <div className="col-12">
-                                    <button className="btn btn-primary btn-lg w-100 mt-3" onClick={() => unlockPrivAuction(imageNftData.private_sale)}>
+                                    <button className="btn btn-primary btn-lg w-100 mt-3" onClick={() => unlockPrivAuction(nftData.private_sale_privilege)}>
                                         Unlock private auction
-                                        <small><strong>Costs: </strong>{parseInt(imageNftData.private_sale) / 1000000} SITY</small>
+                                        <small><strong>Costs: </strong>{parseInt(nftData.private_sale_privilege) / 1000000} SITY</small>
                                     </button>
                                 </div>
                                 }

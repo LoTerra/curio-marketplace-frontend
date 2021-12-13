@@ -253,15 +253,7 @@ export default () => {
             modules={[Navigation, Pagination]}
             spaceBetween={25}
             slidesPerView={1}
-            loop={ nfts.filter((a)=>{
-              if(nftValid(a.end_time,a.start_time)){
-                return true;
-                }
-                return false;
-                                  
-          }).sort((a,b) => {
-            return a.end_time - b.end_time;
-          }).length > 2 ? true : false}
+            loop={ false}
             breakpoints={{
               // when window width is >= 640px
               1: {         
@@ -315,15 +307,7 @@ export default () => {
             modules={[Navigation, Pagination]}
             spaceBetween={25}
             slidesPerView={1}
-            loop={nfts.filter((a)=>{
-              if(!nftValidEnd(a.end_time)){
-                return true;
-                }
-                return false;
-                                  
-          }).sort((a,b) => {
-            return a.end_time - b.end_time;
-          }).length > 2 ? true : false}
+            loop={false}
             breakpoints={{
               // when window width is >= 640px
               1: {         
