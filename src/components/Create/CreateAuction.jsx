@@ -445,26 +445,32 @@ export default function CreateAuction(props) {
             </div>
             <div className="col-md-6 mb-3">
                 <label>Time start</label> <small>optional</small>
+                <p className="info">When the auction start</p>
                 <input type="datetime-local" className="form-control" name="start_time" />
             </div>
             <div className="col-md-6 mb-3">
                 <label>Time end</label>
+                <p className="info">When the auction end</p>
                 <input type="datetime-local" className="form-control" name="end_time" required />
             </div>           
             <div className="col-md-6 mb-3">
-                <label>Start/Minimal price</label> <small>optional</small>
+                <label>Opening bid price</label> <small>optional</small>
+                <p className="info">While the reserve price is the minimum price a seller is willing to accept, the opening bid is the amount suggested to start bidding</p>
                 <input type="number" className="form-control" name="start_price" />
             </div>
             <div className="col-md-6 mb-3">
-                <label>Instant buy price</label> <small>optional</small>
+                <label>Buyout price</label> <small>optional</small>
+                <p className="info">This is an auction where the seller sets a price at which participants can choose to buy the item if they wish. If no participants choose the 'buyout' option, then the highest bidder wins the item</p>
                 <input type="number" className="form-control" name="instant_buy" />
             </div>
             <div className="col-md-6 mb-3">
                 <label>Reserve price</label> <small>optional</small>
+                <p className="info">If the reserve price is not met, the seller is not required to sell the item, even to the highest bidder</p>
                 <input type="number" className="form-control" name="reserve_price" />
             </div>
             <div className="col-md-6 mb-3">
-                <label>Private sale amount</label> <small>optional</small>
+                <label>Private sale amount in SITY</label> <small>optional</small>
+                <p className="info">Open only to owner of SITY play to earn tokens</p>
                 <input type="number" className="form-control" name="private_sale_privilege" />
             </div>
         </div>
@@ -480,6 +486,7 @@ export default function CreateAuction(props) {
         <div className="row">
             <div className="col-12">
                 <h5>Charity options</h5>
+                <p className="info">Charity auction the winning payment can be paid totally or partially to benefits a cause</p>
             </div>
             <div className="col-12 mb-3">
                 <label>Charity address</label> <small>optional</small>
