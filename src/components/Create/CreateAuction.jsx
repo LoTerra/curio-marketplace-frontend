@@ -279,7 +279,7 @@ export default function CreateAuction(props) {
     </div>
     <div className="col-md-9">
         <div className="col-12">
-            <h5>Main details</h5>
+            <h5>Contract details</h5>
         </div>
         <div className="col-12 mb-3">
    
