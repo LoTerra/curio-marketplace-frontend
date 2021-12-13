@@ -260,8 +260,10 @@ text-decoration: none;
 }
 
 .nfts-big {
-    padding:130px 0 80px 0;
-    background: linear-gradient(95.32deg, #1F1F1F 7.16%, rgba(22, 22, 22, 0) 98.85%);
+    padding: 130px 0 80px 0;
+    background-size: cover !important;
+    background: linear-gradient(
+0deg, #1a1a20 22.16%, rgb(26 26 32 / 50%) 90%),url('/img/herobg.jpeg');
     @media(max-width:768px){
         padding:100px 0 80px 0;
     }
