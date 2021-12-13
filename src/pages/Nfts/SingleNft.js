@@ -542,7 +542,7 @@ const reloadData = useCallback(async () => {
                                 </div>
                                                    
                                 <AuctionInfo nftData={nftData} bidInfo={bidInfo} imageNftData={imageNftData} bidder={bidder} nftValid={(a,b) => nftValid(a,b)} buyNow={() => buyNow()} rightsCheck={() => rightsCheck()} isOwner = {isOwner}/>
-                                {bidder.privilege_used !== nftData.private_sale_privilege && nftData.private_sale_privilege > 0 &&
+                                {!isOwner && bidder.privilege_used !== nftData.private_sale_privilege && nftData.private_sale_privilege > 0 &&
                                 <div className="col-12">
                                     <button className="btn btn-primary btn-lg w-100 mt-3" onClick={() => unlockPrivAuction(nftData.private_sale_privilege)}>
                                         Unlock private auction
