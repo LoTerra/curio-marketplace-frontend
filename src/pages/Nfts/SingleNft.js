@@ -28,6 +28,7 @@ import AuctionInfo from '../../components/SingleNft/AuctionInfo';
 import BiddingInterface from '../../components/SingleNft/BiddingInterface';
 import { data } from 'jquery';
 import { ArrowLeft, Eye } from 'phosphor-react';
+import WithdrawNft from '../../components/SingleNft/WithdrawNft';
 
 export default (props) => {
   const { state, dispatch } = useStore()
@@ -265,7 +266,7 @@ const reloadData = useCallback(async () => {
           const result = await connectedWallet.post({
               msgs: [msg]
           })
-          reloadData()
+          setTimeout(() => reloadData(),3000)
       }catch (e) {
           console.log(e)
       }
@@ -421,6 +422,18 @@ const reloadData = useCallback(async () => {
       }      
   }
 
+  const isWinner = () => {
+      if(connectedWallet && connectedWallet.walletAddress){
+          if(!nftValidEnd(nftData.end_time) && nftData.highest_bidder == connectedWallet.walletAddress || nftData.creator == connectedWallet.walletAddress){
+            return true;
+          } else {
+              return false;
+          }          
+      } else {
+          return false;
+      }
+  }
+
     const getNftUserData = useCallback(async () => {
         try {
          
@@ -521,6 +534,7 @@ const reloadData = useCallback(async () => {
                     <div className="tab-content" id="pills-tabContent">
                         <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                             <div className="row">
+                               
                                 <div className="col-12">
                                     <Countdown expiryTimestamp={expiryTimestamp} end={nftData.end_time} start={nftData.start_time} />
                                 </div>
@@ -533,6 +547,11 @@ const reloadData = useCallback(async () => {
                                         <small><strong>Costs: </strong>{parseInt(imageNftData.private_sale) / 1000000} SITY</small>
                                     </button>
                                 </div>
+                                }
+                                     { isWinner() &&
+                                    <div className="col-12 my-3">
+                                        <WithdrawNft connectedWallet={connectedWallet} auctionId={testAuctionID} data={nftData}/>
+                                        </div>
                                 }
                             </div>
                         </div>
@@ -556,6 +575,7 @@ const reloadData = useCallback(async () => {
                                 placeBid={() => placeBid()}
                                 isOwner = {isOwner}
                                 buyNow={() => buyNow()} />
+                               
                             </div>
                         </div>
                     </div>
@@ -564,6 +584,7 @@ const reloadData = useCallback(async () => {
         </div>
     </div>
     <MainLoader loading={loading} />
+
 </section>
 {/* <section className="nfts mt-0">
     <div className="container-fluid">
