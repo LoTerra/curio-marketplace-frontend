@@ -534,9 +534,7 @@ const reloadData = useCallback(async () => {
                     <div className="tab-content" id="pills-tabContent">
                         <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                             <div className="row">
-                                { isWinner() &&
-                                    <WithdrawNft connectedWallet={connectedWallet} auctionId={testAuctionID} data={nftData}/>
-                                }
+                               
                                 <div className="col-12">
                                     <Countdown expiryTimestamp={expiryTimestamp} end={nftData.end_time} start={nftData.start_time} />
                                 </div>
@@ -549,6 +547,11 @@ const reloadData = useCallback(async () => {
                                         <small><strong>Costs: </strong>{parseInt(imageNftData.private_sale) / 1000000} SITY</small>
                                     </button>
                                 </div>
+                                }
+                                     { isWinner() &&
+                                    <div className="col-12 my-3">
+                                        <WithdrawNft connectedWallet={connectedWallet} auctionId={testAuctionID} data={nftData}/>
+                                        </div>
                                 }
                             </div>
                         </div>
@@ -572,6 +575,7 @@ const reloadData = useCallback(async () => {
                                 placeBid={() => placeBid()}
                                 isOwner = {isOwner}
                                 buyNow={() => buyNow()} />
+                               
                             </div>
                         </div>
                     </div>
@@ -580,6 +584,7 @@ const reloadData = useCallback(async () => {
         </div>
     </div>
     <MainLoader loading={loading} />
+
 </section>
 {/* <section className="nfts mt-0">
     <div className="container-fluid">
