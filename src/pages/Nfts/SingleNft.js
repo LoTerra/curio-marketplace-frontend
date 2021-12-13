@@ -264,6 +264,7 @@ const reloadData = useCallback(async () => {
           const result = await connectedWallet.post({
               msgs: [msg]
           })
+          toast.success('Instant buy succesful!')
           setTimeout(() => reloadData(),3000)
       }catch (e) {
           console.log(e)

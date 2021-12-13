@@ -43,7 +43,7 @@ export default function WithdrawNft(props) {
     ///console.log(data)
     return (
         <>
-            <button className="btn btn-primary btn-lg w-100" type="button" disabled={data.resolved !== true ? false : true} onClick={() => withdrawNFt()}>{data.resolved !== true ? 'Withdraw NFT' : 'NFT Withdrawn succesfull'}</button>
+            <button className="btn btn-primary btn-lg w-100" type="button" disabled={data.resolved !== true ? false : true} onClick={() => withdrawNFt()}>{data.resolved !== true ? 'Withdraw NFT' : 'NFT Withdrawn succesful'}</button>
         </>
     )
 }
