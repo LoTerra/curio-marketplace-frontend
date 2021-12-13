@@ -436,7 +436,7 @@ export default function CreateAuction(props) {
     }
     <div className="col-md-3">
     <span className="icon"><SlidersHorizontal size={70} weight="light" />       <SlidersHorizontal size={70} weight="light" /></span>             
-        <p className="info">Selling your items at auctions allows bidders to compete for them at a live sale – and it’s exciting to watch the auction on curio.art to see whether they will sell over the auctioneer’s estimate.</p>
+        <p className="info">Selling your NFTs at auctions allows bidders to compete for them at a live sale – and it’s exciting to watch the auction on curio.art to see whether they will sell over the auctioneer’s estimate.</p>
     </div>
     <div className="col-md-9">
         <div className="row">
@@ -444,13 +444,13 @@ export default function CreateAuction(props) {
                 <h5>Auction settings</h5>
             </div>
             <div className="col-md-6 mb-3">
-                <label>Time start</label> <small>optional</small>
-                <p className="info">When the auction start</p>
+                <label>Scheduled to start</label> <small>optional</small>
+                <p className="info">Time the auction begins</p>
                 <input type="datetime-local" className="form-control" name="start_time" />
             </div>
             <div className="col-md-6 mb-3">
-                <label>Time end</label>
-                <p className="info">When the auction end</p>
+                <label>Auction end</label>
+                <p className="info">Time the auction finishes</p>
                 <input type="datetime-local" className="form-control" name="end_time" required />
             </div>           
             <div className="col-md-6 mb-3">
@@ -470,7 +470,7 @@ export default function CreateAuction(props) {
             </div>
             <div className="col-md-6 mb-3">
                 <label>Private sale amount in SITY</label> <small>optional</small>
-                <p className="info">Open only to owner of SITY play to earn tokens</p>
+                <p className="info">Open only to owners of SITY play to earn tokens</p>
                 <input type="number" className="form-control" name="private_sale_privilege" />
             </div>
         </div>
