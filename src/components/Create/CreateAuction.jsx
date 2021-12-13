@@ -431,13 +431,13 @@ export default function CreateAuction(props) {
                 <h5>Auction settings</h5>
             </div>
             <div className="col-md-6 mb-3">
-                <label>Time end</label>
-                <input type="datetime-local" className="form-control" name="end_time" required />
-            </div>
-            <div className="col-md-6 mb-3">
                 <label>Time start</label> <small>optional</small>
                 <input type="datetime-local" className="form-control" name="start_time" />
             </div>
+            <div className="col-md-6 mb-3">
+                <label>Time end</label>
+                <input type="datetime-local" className="form-control" name="end_time" required />
+            </div>           
             <div className="col-md-6 mb-3">
                 <label>Start/Minimal price</label> <small>optional</small>
                 <input type="number" className="form-control" name="start_price" />

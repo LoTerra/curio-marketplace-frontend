@@ -32,7 +32,7 @@ function App() {
                             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
                         />
                         <title>
-                            Rarifact - Decentralized marketplace on Terra blockchain
+                            Curio - Decentralized marketplace on Terra blockchain
                         </title>
                         <link
                             rel="icon"
@@ -44,30 +44,30 @@ function App() {
                             rel="shortcut icon"
                             href="/img/favicon.ico"
                         />
-                        <meta property="og:title" content="Rarifact" />
+                        <meta property="og:title" content="Curio" />
                         <meta
                             property="og:image"
                             content=""
                         />
-                        <meta property="og:image:alt" content="Rarifact icon" />
+                        <meta property="og:image:alt" content="Curio icon" />
                         <meta property="og:type" content="website" />
                         <meta
                             property="og:site_name"
-                            content="Rarifact"
+                            content="Curio"
                         />
                         <meta
                             property="og:description"
-                            content="Rarifact the place to find a rare, unusual, or intriguing NFT."
+                            content="Curio the place to find a rare, unusual, or intriguing NFT."
                         />
                         <meta name="twitter:card" content="summary" />
-                        <meta name="twitter:site" content="Rarifact" />
+                        <meta name="twitter:site" content="Curio" />
                         <meta
                             name="twitter:title "
-                            content="Rarifact - Decentralized marketplace on Terra blockchain"
+                            content="Curio - Decentralized marketplace on Terra blockchain"
                         />
                         <meta
                             name="twitter:description"
-                            content="Rarifact the place to find a rare, unusual, or intriguing NFT."
+                            content="Curio the place to find a rare, unusual, or intriguing NFT."
                         />
                         <meta
                             name="twitter:image"

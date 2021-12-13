@@ -251,7 +251,10 @@ const reloadData = useCallback(async () => {
 
   async function buyNow(){
       try {
-          if (!connectedWallet) return
+          if (!connectedWallet) {
+              toast.error('Connect your wallet')
+            return
+          }
           let final_price = parseInt(bidder.total_bid) > 0 ? parseInt(nftData.instant_buy) - parseInt(bidder.total_bid) : parseInt(nftData.instant_buy)
 
           let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privAuctionContract,{
@@ -528,7 +531,7 @@ const reloadData = useCallback(async () => {
                                 <div className="col-12">
                                     <button className="btn btn-primary btn-lg w-100 mt-3" onClick={() => unlockPrivAuction(imageNftData.private_sale)}>
                                         Unlock private auction
-                                        <small><strong>Costs: </strong>{parseInt(imageNftData.private_sale) / 1000000} RAR</small>
+                                        <small><strong>Costs: </strong>{parseInt(imageNftData.private_sale) / 1000000} SITY</small>
                                     </button>
                                 </div>
                                 }
