@@ -437,16 +437,16 @@ const reloadData = useCallback(async () => {
          
             if (connectedWallet && connectedWallet.walletAddress){
                 
-                // const bidderData = await api.contractQuery(
-                //     state.privAuctionContract,
-                //     {
-                //         bidder:{
-                //             auction_id:testAuctionID,
-                //             address: connectedWallet.walletAddress
-                //         }
-                //     }
-                // )
-                // setBidder(bidderData)     
+                const bidderData = await api.contractQuery(
+                    state.privAuctionContract,
+                    {
+                        bidder:{
+                            auction_id:testAuctionID,
+                            address: connectedWallet.walletAddress
+                        }
+                    }
+                )
+                setBidder(bidderData)     
                 
               if(connectedWallet.walletAddress == nftData.creator){
                   setIsOwner(true)
