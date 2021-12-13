@@ -236,6 +236,8 @@ export default function CreateAuction(props) {
         })
         console.log(result)            
         toast.success('Auction successfully created')
+        window.location.href = window.location.origin;
+
     }catch (e) {
           console.log(e.message)
           console.log(e)
