@@ -470,7 +470,7 @@ export default function CreateAuction(props) {
             </div>
             <div className="col-md-6 mb-3">
                 <label>Private sale amount in SITY</label> <small>optional</small>
-                <p className="info">Open only to owners of SITY play to earn tokens</p>
+                <p className="info"> Private auction is similar to open auction, except creator restrict participation to SITY holders. Unlike open auctions, access to private auction is restricted to token holders to bid on the private auction </p>
                 <input type="number" className="form-control" name="private_sale_privilege" />
             </div>
         </div>
