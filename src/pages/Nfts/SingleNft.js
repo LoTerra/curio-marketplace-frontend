@@ -493,6 +493,8 @@ const reloadData = useCallback(async () => {
       channel.bind('buy-event', function(data) {
         console.log(data)
         console.log('buy event', JSON.parse(data))         
+        toast.success('Auction finished!')
+        reloadData()
        });
       return (() => {
         pusher.unsubscribe('auction-channel')

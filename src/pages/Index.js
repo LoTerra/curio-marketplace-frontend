@@ -337,8 +337,8 @@ export default () => {
                         return a.end_time - b.end_time;
                       }).slice(0,12).map((obj, id) =>{           
                             return (
-                              <SwiperSlide>
-                                <NftCard key={id} data={obj} type={'xs'} index={99}/>
+                              <SwiperSlide style={{opacity:0.6}}>
+                                <NftCard key={id} data={obj} type={'xs'} index={99} />
                               </SwiperSlide>)            
                         })
                       }
