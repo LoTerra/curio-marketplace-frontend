@@ -34,8 +34,8 @@ export default function NftCard(props) {
         
                 <div className={'card text-white nft-card ratio ratio-1x1 ' + type}>
                     {/* <button className="btn btn-plain"><ArrowRight size={24} color={'#fff'}/></button> */}
-                   
-                    <NftBadge data={data}/>
+
+                    { !isEnded && <NftBadge data={data}/>}
                     
                     <img src={data.image_url} className="card-img" alt="..."/>
 
@@ -46,8 +46,8 @@ export default function NftCard(props) {
                                 (
                                     <>
                                         <h5 className="card-title m-0">{data.title}</h5>
-                                        
-                                            <NftPrice data={data}/>
+
+                                        {!isEnded && <NftPrice data={data}/>}
                                         
                                         {data.end_time && data.end_time > 1 &&
                                             <SmallCountdown expiryTimestamp={data.end_time} start={data.start_time} />
