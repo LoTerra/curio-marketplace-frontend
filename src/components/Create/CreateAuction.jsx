@@ -480,7 +480,7 @@ export default function CreateAuction(props) {
 <div className="row">
     <div className="col-md-3">
     <span className="icon"> <Heart size={70} weight="light" /><Heart size={70} weight="light" /></span>
-        <p className="info">Let bidders to win items that they value but also to support a charitable cause in part by driving up the price.</p>
+        <p className="info">Let bidders to win NFTs that they value but also to support a charitable cause in part by driving up the price.</p>
     </div>
     <div className="col-md-9">
         <div className="row">
