@@ -23,7 +23,6 @@ export default function NftPrice(props){
                 { price == 0 && start_price === null &&
                     <p className="m-0">
                         <small className="d-block">START BIDDING</small>
-                        <img src="/img/UST.svg" className="me-1" width="20"/>0 UST</p>
                 }
         </div>
     )
