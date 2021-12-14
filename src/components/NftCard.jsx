@@ -11,7 +11,7 @@ import NftPrice from './NftPrice'
 export default function NftCard(props) {
     const { state, dispatch } = useStore()
 
-    const {index, data, nft, type} = props;
+    const {index, data, nft, type, isEnded} = props;
 
     function nftValidEnd(end){
         let ending = new Date(parseInt(end) * 1000)  
