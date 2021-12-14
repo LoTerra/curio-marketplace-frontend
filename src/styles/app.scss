@@ -259,6 +259,44 @@ text-decoration: none;
     }
 }
 
+.countdown-small {
+    p{
+        opacity:0.5;
+        margin:0;
+        svg {
+            margin-right:4px;
+        }
+        img {
+            margin-right:4px;
+            margin-top:-2px;
+        }
+        small {
+            opacity:0.5;
+            font-size:12px;
+            margin-bottom:-3px;
+            display:block;
+        }
+        font-size:13px;
+    }
+}
+
+.nft-price {
+    p{
+        margin:0;
+        img {
+            margin-right:4px;
+            margin-top:-2px;
+        }
+        small {
+            opacity:0.5;
+            font-size:12px;
+            margin-bottom:-3px;
+        }
+        font-size:16px;
+    }
+    
+}
+
 .nfts-big {
     padding: 130px 0 80px 0;
     background-size: cover !important;
@@ -762,6 +800,11 @@ text-decoration: none;
     font-weight: 800;
     text-transform: uppercase;
     font-style: italic;
+    &:nth-child(2){
+        top: 41px;
+        background: linear-gradient( 
+    45deg, #49fea6, #20ff93);
+    }
 }
 
 .swiper {
@@ -889,19 +932,7 @@ text-decoration: none;
 }
 }
 
-.countdown-small {
-    small {
-        display:block;
-        opacity:0.5;
-        font-size:13px;
-        margin-top:3px;
-        font-weight:600px;
-    }
-    p {
-        margin:0;
-        font-size:13px;
-    }
-}
+
 
 .auctionForm {
     h5 {

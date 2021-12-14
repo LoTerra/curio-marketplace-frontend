@@ -438,16 +438,7 @@ const reloadData = useCallback(async () => {
          
             if (connectedWallet && connectedWallet.walletAddress){
                 
-                const bidderData = await api.contractQuery(
-                    state.privAuctionContract,
-                    {
-                        bidder:{
-                            auction_id:testAuctionID,
-                            address: connectedWallet.walletAddress
-                        }
-                    }
-                )
-                setBidder(bidderData)     
+                  
                 
               if(connectedWallet.walletAddress == nftData.creator){
                   setIsOwner(true)
@@ -456,51 +447,72 @@ const reloadData = useCallback(async () => {
                 setIsOwner(false);
             }
 
+            const bidderData = await api.contractQuery(
+                state.privAuctionContract,
+                {
+                    bidder:{
+                        auction_id:testAuctionID,
+                        address: connectedWallet.walletAddress
+                    }
+                }
+            )
+            setBidder(bidderData)   
+
         }catch (e) {
             console.log(e)
         }
     }, [connectedWallet]);
+    
 
-  useEffect(() => {      
+    useEffect(() => {      
         getNftData()
-       getNftUserData()    
-       
+
+        getNftUserData()    
    
     
-      //Pusher code
-      const pusher = new Pusher('371306b233edc5c8cfb9', {
-        cluster: 'eu'
-      });
-      const channel = pusher.subscribe('auction-channel');
-      channel.bind('bid-event', function(data) {
-          console.log(data)
-          console.log(JSON.parse(data.message)[0].events)          
-    
-        let tx = JSON.parse(data.message)[0]
-        // console.log(tx)
-        tx.events.map(ev => {
-        console.log(ev)
-
-            if (ev.type == 'wasm'){                            
-            console.log(ev.attributes)               
-                if(parseInt(ev.attributes[3].value) == testAuctionID){
-                toast.success('New bid off +'+ (ev.attributes[1].value / 1000000)+'UST')
-                reloadData()
-                }    
-            }
-        })
-      });
-      channel.bind('buy-event', function(data) {
-        console.log(data)
-        console.log('buy event', JSON.parse(data))         
-        toast.success('Auction finished!')
-        reloadData()
-       });
-      return (() => {
-        pusher.unsubscribe('auction-channel')
-    })
+      
   
-}, [getNftData, getNftUserData])
+}, [connectedWallet])
+
+
+
+
+
+//Socket code
+useEffect(() => {   
+//Pusher code
+const pusher = new Pusher('371306b233edc5c8cfb9', {
+    cluster: 'eu'
+  });
+  const channel = pusher.subscribe('auction-channel');
+  channel.bind('bid-event', function(data) {
+      console.log(data)
+      console.log(JSON.parse(data.message)[0].events)          
+
+    let tx = JSON.parse(data.message)[0]
+    // console.log(tx)
+    tx.events.map(ev => {
+    console.log(ev)
+
+        if (ev.type == 'wasm'){                            
+        console.log(ev.attributes)               
+            if(parseInt(ev.attributes[3].value) == testAuctionID){
+            toast.success('New bid off +'+ (ev.attributes[1].value / 1000000)+'UST')
+            reloadData()
+            }    
+        }
+    })
+  });
+  channel.bind('buy-event', function(data) {
+    console.log(data)
+    console.log('buy event', data)         
+    toast.success('Auction finished!')
+    reloadData()
+   });
+  return (() => {
+    pusher.unsubscribe('auction-channel')
+})
+},[])
 
     
 

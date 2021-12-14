@@ -4,6 +4,7 @@ import Tilt from 'react-tilt'
 import { ArrowRight } from 'phosphor-react'
 import SmallCountdown from './SmallCountdown'
 import NftBadge from './NftBadge'
+import NftPrice from './NftPrice'
 
 
 
@@ -47,6 +48,7 @@ export default function NftInfoCard(props) {
                     <div className="card-body">
                     <h5 className="card-title m-0" style={{fontWeight:'bold'}}>{data.title}</h5>
                     <p className="mt-3 text-muted" style={{height:'48px',overflow:'hidden'}}>{data.description ? data.description : 'No description'}</p>
+                    <NftPrice data={data}/>
                                         { data.end_time && data.end_time > 1 &&
                                         <SmallCountdown expiryTimestamp={data.end_time} start={data.start_time} />
                                         }

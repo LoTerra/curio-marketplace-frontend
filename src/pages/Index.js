@@ -264,6 +264,9 @@ export default () => {
                 slidesPerView: 2,
               },
               1000: {    
+                slidesPerView: 5,
+              },
+              1500: {    
                 slidesPerView: 6,
               },
             }}
@@ -318,6 +321,9 @@ export default () => {
                 slidesPerView: 2,
               },
               1000: {    
+                slidesPerView: 5,
+              },
+              1500: {    
                 slidesPerView: 6,
               },
             }}
