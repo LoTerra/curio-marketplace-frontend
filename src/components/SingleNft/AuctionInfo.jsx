@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useStore } from '../../store'
+import numeral from "numeral";
 let bootstrap = {}
 if (typeof document !== 'undefined') {
     bootstrap = require('bootstrap')
@@ -23,7 +24,7 @@ export default function AuctionInfo(props) {
                                 <div className="col-12">
                                     <div className="nft-stats big w-100 my-2">
                                         <h6>Highest bid</h6>
-                                        <p className="highest_bid mb-0">{nftData.highest_bid / 1000000} <span>UST</span></p>
+                                        <p className="highest_bid mb-0">{numeral(nftData.highest_bid / 1000000).format("0,0.00")} <span>UST</span></p>
                                         <small className="text-muted" style={{marginTop:'-8px', display:'block'}}>Total of <strong>{bidInfo.length} bids</strong></small>
                                     </div>
                                 </div>
