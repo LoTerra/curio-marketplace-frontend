@@ -93,7 +93,7 @@ if (typeof document !== 'undefined') {
                                     disabled={nftData && nftValid(nftData.end_time,nftData.start_time) ? false : true}
                                     onChange={(e) => setAmount(e.target.value.replace(',','.'))}                                   
                                     autoComplete="off"
-                                    value={amount > 0 ? amount : nftData.highest_bid ? setAmount(((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000) : nftData.start_price ? setAmount(nftData.start_price / 1000000) : 0}
+                                    value={amount > 0 ? amount : nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100) - parseInt(bidder.total_bid)) / 1000000) : nftData.start_price ? nftData.start_price / 1000000 : 0}
                                     step="1"                                    
                                     // min={nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : nftData.start_price ? nftData.start_price / 1000000 : 0}
                                     placeholder={nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : nftData.start_price ? nftData.start_price / 1000000 : 0}
