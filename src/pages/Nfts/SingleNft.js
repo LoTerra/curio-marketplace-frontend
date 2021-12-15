@@ -475,43 +475,45 @@ const reloadData = useCallback(async () => {
 }, [connectedWallet])
 
 
+function websocket(){
+    //Pusher code
+    const pusher = new Pusher('371306b233edc5c8cfb9', {
+        cluster: 'eu'
+    });
+    const channel = pusher.subscribe('auction-channel');
+    channel.bind('bid-event', function(data) {
+        console.log(data)
+        console.log(JSON.parse(data.message)[0].events)
 
+        let tx = JSON.parse(data.message)[0]
+        // console.log(tx)
+        tx.events.map(async ev => {
+            console.log(ev)
+
+            if (ev.type == 'wasm'){
+                console.log(ev.attributes)
+                if(parseInt(ev.attributes[3].value) == testAuctionID){
+                    toast.success('New bid off +'+ (ev.attributes[1].value / 1000000)+'UST')
+                    await reloadData()
+                }
+            }
+        })
+    });
+    channel.bind('buy-event', async function(data) {
+        console.log(data)
+        console.log('buy event', data)
+        toast.success('Auction finished!')
+        await reloadData()
+    });
+    return (() => {
+        pusher.unsubscribe('auction-channel')
+    })
+}
 
 
 //Socket code
 useEffect(() => {   
-//Pusher code
-const pusher = new Pusher('371306b233edc5c8cfb9', {
-    cluster: 'eu'
-  });
-  const channel = pusher.subscribe('auction-channel');
-  channel.bind('bid-event', function(data) {
-      console.log(data)
-      console.log(JSON.parse(data.message)[0].events)          
-
-    let tx = JSON.parse(data.message)[0]
-    // console.log(tx)
-    tx.events.map(ev => {
-    console.log(ev)
-
-        if (ev.type == 'wasm'){                            
-        console.log(ev.attributes)               
-            if(parseInt(ev.attributes[3].value) == testAuctionID){
-            toast.success('New bid off +'+ (ev.attributes[1].value / 1000000)+'UST')
-            reloadData()
-            }    
-        }
-    })
-  });
-  channel.bind('buy-event', function(data) {
-    console.log(data)
-    console.log('buy event', data)         
-    toast.success('Auction finished!')
-    reloadData()
-   });
-  return (() => {
-    pusher.unsubscribe('auction-channel')
-})
+    websocket()
 },[])
 
     

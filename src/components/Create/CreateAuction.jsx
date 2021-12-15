@@ -3,6 +3,7 @@ import { useStore } from '../../store'
 import toast, { Toaster } from 'react-hot-toast';
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider';
 import contractData from '../../contracts.json';
+import _ from 'lodash'
 
 import debounce from 'lodash.debounce';
 
@@ -18,20 +19,19 @@ import {
 } from '@terra-money/terra.js'
 import { ArrowsClockwise, Check, CheckCircle, CheckSquareOffset, Heart, SlidersHorizontal, WarningCircle, X } from 'phosphor-react';
 
-const  INTERVAL = 1000;
 
 
 export default function CreateAuction(props) {
 
-    const { state, dispatch } = useStore()
+    const {state, dispatch} = useStore()
 
-    const [listView,setListView] = useState(true)   
+    const [listView, setListView] = useState(true)
     const [contract, setContract] = useState({
         contract: {},
         address: ''
     })
 
-    const [manual,setManual] = useState(false)
+    const [manual, setManual] = useState(false)
     const [tokenId, setTokenId] = useState("")
     const [userNfts, setUserNfts] = useState([])
     const [contracts, setContracts] = useState([])
@@ -39,27 +39,23 @@ export default function CreateAuction(props) {
 
     const closeRef = useRef();
 
-    
-    
 
     let network = ''
-    let connectedWallet = '' 
+    let connectedWallet = ''
 
-  
+
     if (typeof document !== 'undefined') {
         network = useWallet().network;
         connectedWallet = useConnectedWallet()
-        
-           
-        
-    }
 
+
+    }
 
 
     const lcd = useMemo(() => {
         if (!connectedWallet) {
             return null
-        } 
+        }
 
         return new LCDClient({
             URL: connectedWallet.network.lcd,
@@ -68,81 +64,88 @@ export default function CreateAuction(props) {
     }, [connectedWallet])
 
 
-    async function getNftProviderData(address){
+    async function getNftProviderData(address) {
         //Clean before new data
-   
+
         setUserNfts([])
         setTokenId("")
 
-        if(address === ''){
+        if (address === '') {
             toast.error('Fill NFT Contract Address')
             setNftLoader(false)
             return
         }
-        
+
         //Spread operator
         let data = [];
-        try{
-      
-            const api = new WasmAPI(lcd.apiRequester)  
+        try {
+
+            const api = new WasmAPI(lcd.apiRequester)
             const tokenData = await api.contractQuery(
-                address, 
+                address,
                 {
                     tokens: {
                         owner: connectedWallet.walletAddress,
                         limit: 30,
                     }
                 }
-                )
-                console.log(tokenData)
-            
-                tokenData.tokens.map(async (obj) => {
-                    const singleToken = await api.contractQuery(
-                        address, 
-                        {
-                            nft_info: {
-                                token_id: obj,                                
-                            }
-                        }
-                        )
-                        singleToken.token_id = obj
-                        data.push(singleToken)
-                        setUserNfts(userNfts => [...userNfts,singleToken])       
-                })             
+            )
+            console.log(tokenData)
 
-                
-                console.log(userNfts)
-                if(tokenData && tokenData.tokens.length === 0){
-                    toast.error('No NFTS found on contract')
-                }
-                setNftLoader(false)
-            } catch(e){
-                setUserNfts([])
-                toast.error('Error')
-                console.log(e)
-                setNftLoader(false)
+            tokenData.tokens.map(async (obj) => {
+                const singleToken = await api.contractQuery(
+                    address,
+                    {
+                        nft_info: {
+                            token_id: obj,
+                        }
+                    }
+                )
+                singleToken.token_id = obj
+                data.push(singleToken)
+                setUserNfts(userNfts => [...userNfts, singleToken])
+            })
+
+
+            console.log(userNfts)
+            if (tokenData && tokenData.tokens.length === 0) {
+                toast.error('No NFTS found on contract')
             }
-            
+            setNftLoader(false)
+        } catch (e) {
+            setUserNfts([])
+            toast.error('Error')
+            console.log(e)
+            setNftLoader(false)
+        }
+
     }
 
-    function selectNftContract(obj){
-        console.log(obj)        
+    function selectNftContract(obj) {
+        console.log(obj)
         // setSelectContract(obj)   
-         
+
         setContract(prevValues => {
-            return {...prevValues,contract:obj,address:obj.contract}
+            return {...prevValues, contract: obj, address: obj.contract}
         })
         closeRef.current.click();
-        getNftProviderData(obj.contract)
-        
+        //getNftProviderData(obj.contract)
+
     }
 
+    const debouncedClick = useCallback(
+            _.debounce(() => {
+                setNftLoader(true)
+                getNftProviderData(contract.address)
+            }, 1000)
+    )
 
 
-    const debouncedClick = useCallback(debounce(() => {
-        setNftLoader(true)
-        getNftProviderData(contract.address)
-      }, INTERVAL));
+        
+      //   useCallback(debounce(() => {
+      //   setNftLoader(true)
+      //   getNftProviderData(contract.address)
+      // }, INTERVAL));
       
 
     function getContractData(){
