@@ -433,46 +433,39 @@ const reloadData = useCallback(async () => {
     }
 }
 
-    const getNftUserData = useCallback(async () => {
-        try {
-         
-            if (connectedWallet && connectedWallet.walletAddress){
-                
-                  
-                
-              if(connectedWallet.walletAddress == nftData.creator){
-                  setIsOwner(true)
-              }            
-            } else {
-                setIsOwner(false);
+//Componentdidmount equivalent
+useEffect(() => {            
+    getNftData()
+}, [])
+
+//Follow connectedwallet
+useEffect(() => {        
+if (connectedWallet && connectedWallet.walletAddress){  
+    if(connectedWallet && connectedWallet.walletAddress == nftData.creator){              
+        setIsOwner(true)
+    } else {
+        setIsOwner(false);
+    }
+    (async () => {            
+    const bidderData = await api.contractQuery(
+        state.privAuctionContract,
+        {
+            bidder:{
+                auction_id:testAuctionID,
+                address: connectedWallet.walletAddress
             }
-
-            const bidderData = await api.contractQuery(
-                state.privAuctionContract,
-                {
-                    bidder:{
-                        auction_id:testAuctionID,
-                        address: connectedWallet.walletAddress
-                    }
-                }
-            )
-            setBidder(bidderData)   
-
-        }catch (e) {
-            console.log(e)
         }
-    }, [connectedWallet]);
+    )
+    setBidder(bidderData)        
+})
+} else {
+setIsOwner(false)
+}
+}, [connectedWallet]);
+    
     
 
-    useEffect(() => {      
-        getNftData()
 
-        getNftUserData()    
-   
-    
-      
-  
-}, [connectedWallet])
 
 
 
