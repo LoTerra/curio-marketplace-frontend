@@ -95,8 +95,7 @@ if (typeof document !== 'undefined') {
                                     autoComplete="off"
                                     value={amount}
                                     step="0.01"                                    
-                                    min={nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : nftData.start_price ? nftData.start_price / 1000000 : 0}
-                                    placeholder={nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : nftData.start_price ? nftData.start_price / 1000000 : 0}
+                                    min={nftData.highest_bid ? ((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000 : nftData.start_price ? nftData.start_price / 1000000 : 0}                               
                                     name="amount"
                                     />
                                 </div>

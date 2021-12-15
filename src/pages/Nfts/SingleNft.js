@@ -31,7 +31,7 @@ import WithdrawNft from '../../components/SingleNft/WithdrawNft';
 
 export default (props) => {
   const { state, dispatch } = useStore()
-  const [amount,setAmount] = useState(0)
+  const [amount,setAmount] = useState()
   const [expiryTimestamp, setExpiryTimestamp] =  useState(1)
   const [nftData,setNftData] = useState(0)
   const [imageNftData,setImageNftData] = useState(0)
