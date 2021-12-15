@@ -8,11 +8,8 @@ import {
 } from '@terra-money/wallet-provider'
 import numeral from 'numeral'
 import { useStore } from '../store'
-import { MagnifyingGlass, Wallet, Check, UserCircle } from "phosphor-react"; 
-import CreateNftModal from './CreateAuction'
+import { MagnifyingGlass, Wallet, Check, UserCircle, List, CirclesThreePlus, PlusCircle } from "phosphor-react"; 
 import UserModal from './UserModal'
-
-
 
 
 
@@ -21,6 +18,8 @@ export default function Navbar(props) {
     let connectedWallet = ''
 
     const [connected, setConnected] = useState(false)
+    const [userBids,setUserBids] = useState(false)
+    const [priv, setPriv] = useState(false);
     const [bank, setBank] = useState(false)
 
     let wallet = ''
@@ -46,19 +45,45 @@ export default function Navbar(props) {
             dispatch({ type: 'setWallet', message: connectedWallet })
 
             let coins;
+            let privToken;
             try{
                 const api = new WasmAPI(lcd.apiRequester)
                 coins = await lcd.bank.balance(connectedWallet.walletAddress)
-                setConnected(true)
+
+                privToken = await api.contractQuery(
+                    state.privTokenCw20Contract, 
+                    {
+                        balance: {
+                            address: connectedWallet.walletAddress,
+                        }
+                    }
+                    )
+                    setPriv(privToken.balance)
+                    // const bidderData = await api.contractQuery(
+                    //     state.privAuctionContract,
+                    //     {
+                    //         bidder:{   
+                    //             auction_id:0,                          
+                    //             address: connectedWallet.walletAddress
+                    //         }
+                    //     }
+                    // )
+                    // setUserBids(bidderData)
+                    // console.log(bidderData)
+                    console.log(privToken)
+                   
+                    console.log(coins)   
+                    let uusd = coins.filter((c) => {                
+                        return c.denom === 'uusd'
+                    })            
+                    let ust = parseInt(uusd) / 1000000
+                    console.log(uusd,'ust bank')
+                    setBank(numeral(ust).format('0,0.00'))
+                    setConnected(true)
             } catch {
                
-            }
-
-            let uusd = coins.filter((c) => {
-                return c.denom === 'uusd'
-            })
-            let ust = parseInt(uusd) / 1000000
-            setBank(numeral(ust).format('0,0.00'))
+            }         
+            
         }
     }
 
@@ -80,14 +105,14 @@ export default function Navbar(props) {
             <>
                 <Wallet
                     size={24}
-                    color="#fff"
+                    color="#000"
                     style={{ display: 'inline-block', marginTop: '-3px' }}
                 />{' '}
                 {bank ? (
                     <>
                         <Check
                             size={16}
-                            color="#fff"
+                            color="#000"
                             weight="bold"
                             style={{
                                 display: 'inline-block',
@@ -95,6 +120,23 @@ export default function Navbar(props) {
                                 marginLeft: '-5px',
                             }}
                         />
+                        {/* {bank} UST */}
+                    </>
+                ) : (
+                    <div className="spinner-border spinner-border-sm" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                )}
+            </>
+        )
+    }
+    
+
+    function rawBank(){
+        return (
+            <>
+            {bank ? (
+                    <>                       
                         {bank} UST
                     </>
                 ) : (
@@ -120,19 +162,25 @@ export default function Navbar(props) {
         lcd     
     ])
 
+    const handleInputChange = (event) => {
+
+    }
+
     return (
         <>
-        <div className="navbar navbar-expand-md">
-            <div className="container-fluid px-5">
+        <div className="navbar navbar-expand-lg">
+            <div className="container-fluid">
                 <div className="navbar-brand">
-                    <a href="/">SomeName</a>
+                    <a href="/"><img src={'/img/logo.svg'}/></a>
                 </div>
+              
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul className="navbar-nav me-auto">
-                    <li className="nav-item">
+                <button className="navbar-toggler btn btn-secondary mobile-toggle mt-3 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">Close</button>
+                    {/* <li className="nav-item">
                         <div className="dropdown">
                         <button className="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" type="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">Select category</button>
+                            data-bs-toggle="dropdown" aria-expanded="false">Categories</button>
                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <button className="dropdown-item">
                                 Category 1
@@ -154,38 +202,48 @@ export default function Navbar(props) {
                             </button>
                         </ul>
                         </div>
-                    </li>
+                    </li> */}
                     { connected &&
                     <li className="nav-item">
-                    <button className="btn btn-primary ms-3" data-bs-toggle="modal" data-bs-target="#createNftModal">
-                        Create NFT auction
-                    </button>
+                    <a className="btn btn-outline-primary ms-md-3" href="/create">
+                        <PlusCircle size={16} weight="bold"/> Auction
+                    </a>
                     </li>
                     }
                 </ul>
-                <ul className="navbar-nav ms-auto">
+                {/* <ul className="navbar-nav ms-auto">
+                
                 <form className="nav-item me-3">
-                    <button type="submit"><MagnifyingGlass size={24} weight="bold" /></button>
+                    <button type="submit"><MagnifyingGlass size={24} color={'#595959'} weight="bold" /></button>
                     <input className="form-control " type="search" placeholder="Search" aria-label="Search"/>
                 </form>
-                { connected &&
-                    <li className="nav-item">
-                    <button className="btn btn-secondary " data-bs-toggle="modal" data-bs-target="#userModal">
-                    <UserCircle size={24} style={{marginTop:'-3px'}}/>
-                    </button>
-                    </li>
-                }
-                    <li className="nav-item">
-                            { !connected &&
+                
+            
+                </ul> */}
+                </div>             
+                <div className="searchForm">
+                    <form>
+                        <input type="text" id="filter" className="rounded-3" placeholder="Search for NFT..."  onChange={handleInputChange}/>
+                    </form>
+                    <div>
+
+                    </div>
+                </div>
+               <div className="d-flex">
+               { !connected &&
                                 <div className="dropdown">
                                 <button
-                                    className="btn btn-primary nav-item dropdown-toggle"
+                                    className="btn btn-primary nav-item dropdown-toggle px-2"
                                     type="button"
                                     id="dropdownMenuButton2"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
                                 >                                    
-                                    Connect
+                                    <Wallet
+                    size={24}
+                    color="#000"
+                    style={{ display: 'inline-block', marginTop: '-3px' }}
+                />
                                 </button>
                                 <ul
                                     className="dropdown-menu dropdown-menu-end"
@@ -207,16 +265,20 @@ export default function Navbar(props) {
                                 </div>
                            
                             }
-                            { connected &&
-                            <>
-                            
-                               <div className="dropdown">
+               { connected &&
+                       <>
+                    <button className="btn btn-secondary px-2" data-bs-toggle="modal" data-bs-target="#userModal">
+                    <UserCircle size={24} style={{marginTop:'-3px'}}/>
+                    </button>
+                   
+                               <div className="dropdown nav-item ms-2">
                                    <button
-                                className="btn btn-primary nav-item dropdown-toggle"
+                                className="btn btn-primary dropdown-toggle px-2"
                                 type="button"
                                 id="dropdownMenuButton2"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
+                        
                            >
                                {returnBank() ? returnBank() : 'loading'}
                            </button>
@@ -232,16 +294,20 @@ export default function Navbar(props) {
                                     </button>
                                     </ul>
                                </div>
+        
+                              
                                </>
                             }
-                                
-                    </li>
-                </ul>
-                </div>
+                
+                 {/* <button className="nav-item navbar-toggler px-2 btn ms-2 btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <List size={24} color={'#fff'}/>
+                </button> */}
+               </div>
+              
+               
             </div>
-        </div>
-        <CreateNftModal/>
-        <UserModal/>
+        </div>   
+        <UserModal rawBank={rawBank()} priv={priv}/>
         </>
     )
 }
