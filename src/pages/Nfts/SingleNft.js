@@ -31,7 +31,7 @@ import WithdrawNft from '../../components/SingleNft/WithdrawNft';
 
 export default (props) => {
   const { state, dispatch } = useStore()
-  const [amount,setAmount] = useState(0)
+  const [amount,setAmount] = useState()
   const [expiryTimestamp, setExpiryTimestamp] =  useState(1)
   const [nftData,setNftData] = useState(0)
   const [imageNftData,setImageNftData] = useState(0)
@@ -433,46 +433,39 @@ const reloadData = useCallback(async () => {
     }
 }
 
-    const getNftUserData = useCallback(async () => {
-        try {
-         
-            if (connectedWallet && connectedWallet.walletAddress){
-                
-                  
-                
-              if(connectedWallet.walletAddress == nftData.creator){
-                  setIsOwner(true)
-              }            
-            } else {
-                setIsOwner(false);
+//Componentdidmount equivalent
+useEffect(() => {            
+    getNftData()
+}, [])
+
+//Follow connectedwallet
+useEffect(() => {        
+if (connectedWallet && connectedWallet.walletAddress){  
+    if(connectedWallet && connectedWallet.walletAddress == nftData.creator){              
+        setIsOwner(true)
+    } else {
+        setIsOwner(false);
+    }
+    (async () => {            
+    const bidderData = await api.contractQuery(
+        state.privAuctionContract,
+        {
+            bidder:{
+                auction_id:testAuctionID,
+                address: connectedWallet.walletAddress
             }
-
-            const bidderData = await api.contractQuery(
-                state.privAuctionContract,
-                {
-                    bidder:{
-                        auction_id:testAuctionID,
-                        address: connectedWallet.walletAddress
-                    }
-                }
-            )
-            setBidder(bidderData)   
-
-        }catch (e) {
-            console.log(e)
         }
-    }, [connectedWallet]);
+    )
+    setBidder(bidderData)        
+})
+} else {
+setIsOwner(false)
+}
+}, [connectedWallet]);
+    
     
 
-    useEffect(() => {      
-        getNftData()
 
-        getNftUserData()    
-   
-    
-      
-  
-}, [connectedWallet])
 
 
 function websocket(){
