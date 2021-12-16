@@ -57,7 +57,7 @@ if (typeof document !== 'undefined') {
                                             <td>  
                                             <div className="row">
                                                 <div className="col-6 text-start">
-                                                <strong>{numeral(obj.amount / 1000000).format("0,0")} <span style={{fontSize: 'small'}}>{numeral(obj.amount / 1000000).format(".000000")}</span> UST</strong>
+                                                <strong>{numeral(obj.amount / 1000000).format("0,0")}<span style={{fontSize: 'small'}}>{numeral(obj.amount / 1000000).format(".000000")}</span> UST</strong>
                                                 <small className="d-block text-muted" style={{fontSize:'10px'}}>{obj.bidder.slice(0, -20) + "**********"}</small>
                                                 </div>
                                                 <div className="col-6 text-end">
