@@ -82,7 +82,7 @@ if (typeof document !== 'undefined') {
                             {nftData && nftValid(nftData.end_time,nftData.start_time) && !isOwner &&
                                 <>
                                 <div className={'col-md-6'}>
-                                <h5>Your bid</h5>
+                                <h5>Bid now</h5>
                             <div className="input-group mb-0">
                                     <span className="input-group-text" id="basic-addon1">
                                         <img src="/img/UST.svg" width="30px" className="img-fluid"/>
@@ -105,27 +105,29 @@ if (typeof document !== 'undefined') {
                                 <div className={'col-md-6'}>
                                     <div className={'nft-bidding d-flex ' + (nftData.highest_bid == bidder.total_bid ? 'success' : 'warning')}>
                                         <div className="align-self-center w-100 text-center">
-                                        <h6>{nftData.highest_bid == bidder.total_bid ? 'You have the highest bid' : bidder.total_bid && bidder.total_bid > 0 ? 'You have been overbid' : 'Start bidding'}</h6>
-                                        <small className="d-block" style={{fontSize:'12px',textTransform:'uppercase', opacity:0.5, fontWeight:200}}>Current amount in bid</small>
-                                        <p>{nftData.highest_bid == bidder.total_bid ? <Check size={18} /> : <Info size={18} color={'#ff36ff'} style={{position:'relative',marginTop:'-3px'}} data-bs-toggle="tooltip" data-bs-placement="top" title="Bids compound, each new bid will be added to your current bid amount." /> } {parseInt(bidder.total_bid) / 1000000} UST</p>
+
+                                        <h6>{nftData.highest_bid == bidder.total_bid ? 'You have the highest bid' : bidder.total_bid && bidder.total_bid > 0 ? 'You\'ve been outbid' : 'Your bid strategy'}</h6>
+                                        <small className="d-block" style={{fontSize:'12px',textTransform:'uppercase', opacity:0.5, fontWeight:200}}>My total bids</small>
+                                        <p>{nftData.highest_bid == bidder.total_bid ? <Check size={18} /> : <Info size={18} color={'#ff36ff'} style={{position:'relative',marginTop:'-3px'}} data-bs-toggle="tooltip" data-bs-placement="top" title="Each new bid will be added to your total bids." /> } {parseInt(bidder.total_bid) / 1000000} UST</p>
+
                                         {nftData.highest_bid != bidder.total_bid && nftData.highest_bid &&
                                         <p 
                                         style={{textDecoration:'underline', fontSize:'12px', fontWeight:300}} 
                                         onClick={() => setAmount(nftData.highest_bid ? (((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000).toFixed(6) : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0)}>
-                                            Add minimal {nftData.highest_bid ? (((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000).toFixed(6) : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0} UST
+                                            minimum overbid price {nftData.highest_bid ? (((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000).toFixed(6) : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0} UST
                                         </p>
                                         }   
                                         {!parseInt(nftData.highest_bid) > 0 && parseInt(nftData.start_price) > 0 &&
                                         <p 
                                         style={{textDecoration:'underline', fontSize:'12px', fontWeight:300}} 
                                         onClick={() => setAmount(nftData.highest_bid ? (((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000).toFixed(6) : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0)}>
-                                            Add minimal {nftData.highest_bid ? (((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000).toFixed(6) : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0} UST
+                                            minimum overbid price {nftData.highest_bid ? (((parseInt(nftData.highest_bid) + (parseInt(nftData.highest_bid) * 5 / 100)) - parseInt(bidder.total_bid)) / 1000000).toFixed(6) : nftData.highest_bid === null && nftData.start_price !== null ? nftData.start_price / 1000000 : 0} UST
                                         </p>
                                         } 
                                         </div>
                                     </div>
                                 </div>
-                                <small className="d-block p-3 text-muted">In order to bid you need to bid <strong>5% above</strong> current bid or min start price, each new bid is counted on top of your previous bids</small>
+                                <small className="d-block p-3 text-muted">Bids must be at least <strong>5% higher</strong> than the previous bid.</small>
                                 {rightsCheck() && !isOwner &&
                                 <>
                                     <div className={nftData && nftValid(nftData.end_time,nftData.start_time) && nftData.instant_buy !== null ? 'col-md-6 mt-3' : 'col-md-12 mt-3'}>
