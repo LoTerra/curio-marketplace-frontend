@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useStore } from '../../store'
 import numeral from "numeral";
+import {Match} from "@reach/router";
 let bootstrap = {}
 if (typeof document !== 'undefined') {
     bootstrap = require('bootstrap')
@@ -24,7 +25,7 @@ export default function AuctionInfo(props) {
                                 <div className="col-12">
                                     <div className="nft-stats big w-100 my-2">
                                         <h6>Highest bid</h6>
-                                        <p className="highest_bid mb-0">{numeral(nftData.highest_bid / 1000000).format("0,0")}<span style={{fontSize: 'small'}}>{numeral(nftData.highest_bid / 1000000).format(".000000")}</span> <span>UST</span></p>
+                                        <p className="highest_bid mb-0">{numeral(Math.floor(nftData.highest_bid / 1000000)).format("0,0")}<span style={{fontSize: 'small'}}>{numeral(nftData.highest_bid / 1000000).format(".000000")}</span> <span>UST</span></p>
                                         <small className="text-muted" style={{marginTop:'-8px', display:'block'}}>Total of <strong>{bidInfo.length} bids</strong></small>
                                     </div>
                                 </div>
@@ -33,7 +34,7 @@ export default function AuctionInfo(props) {
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Reserve price</h6>
-                                        <p className="highest_bid">{nftData.reserve_price ? (<>{numeral(nftData.reserve_price / 1000000).format("0,0")}<span style={{fontSize: 'small'}}>{numeral(nftData.reserve_price / 1000000).format('.000000')}</span></>) : 'No'} {nftData.reserve_price && <span>UST</span>}</p>
+                                        <p className="highest_bid">{nftData.reserve_price ? (<>{numeral(Math.floor(nftData.reserve_price / 1000000)).format("0,0")}<span style={{fontSize: 'small'}}>{numeral(nftData.reserve_price / 1000000).format('.000000')}</span></>) : 'No'} {nftData.reserve_price && <span>UST</span>}</p>
                                     </div>
                                 </div>
                           
@@ -47,14 +48,14 @@ export default function AuctionInfo(props) {
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Opening bid</h6>
-                                        <p className="start-price">{nftData.start_price ? (<>{numeral(nftData.start_price / 1000000).format("0,0")}<span style={{fontSize: 'small'}}>{numeral(nftData.start_price / 1000000).format('.000000')}</span></>) : 'No' } {nftData.start_price && <span>UST</span>}</p>
+                                        <p className="start-price">{nftData.start_price ? (<>{numeral(Math.floor(nftData.start_price / 1000000)).format("0,0")}<span style={{fontSize: 'small'}}>{numeral(nftData.start_price / 1000000).format('.000000')}</span></>) : 'No' } {nftData.start_price && <span>UST</span>}</p>
                                     </div>
                                 </div>
                              
                                 <div className="col-6">
                                     <div className="nft-stats">
                                         <h6>Buyout</h6>
-                                        <p className="start-price">{nftData.instant_buy ? (<>{numeral(nftData.instant_buy / 1000000).format("0,0")}<span style={{fontSize: 'small'}}>{numeral(nftData.instant_buy / 1000000).format('.000000')}</span></>) : 'No'} {nftData.instant_buy && <span>UST</span>}</p>
+                                        <p className="start-price">{nftData.instant_buy ? (<>{numeral(Math.floor(nftData.instant_buy / 1000000)).format("0,0")}<span style={{fontSize: 'small'}}>{numeral(nftData.instant_buy / 1000000).format('.000000')}</span></>) : 'No'} {nftData.instant_buy && <span>UST</span>}</p>
                                     </div>
                                 </div>
                              
