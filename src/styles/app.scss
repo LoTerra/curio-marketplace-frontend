@@ -442,11 +442,9 @@ text-decoration: none;
         margin-bottom:20px;
     }
     h5 {
-        border-left: 2px solid $primary;
-    padding-left: 10px;
-    background: #00000038;
-    padding: 10px 10px;
-    font-weight: 600;
+        border-bottom: 2px solid #1b1b23;
+        font-weight: 600;
+        padding-bottom: 5px;
     }
     .input-group {
         .input-group-text {
