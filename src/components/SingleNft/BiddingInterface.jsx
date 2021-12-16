@@ -105,9 +105,11 @@ if (typeof document !== 'undefined') {
                                 <div className={'col-md-6'}>
                                     <div className={'nft-bidding d-flex ' + (nftData.highest_bid == bidder.total_bid ? 'success' : 'warning')}>
                                         <div className="align-self-center w-100 text-center">
+
                                         <h6>{nftData.highest_bid == bidder.total_bid ? 'You have the highest bid' : bidder.total_bid && bidder.total_bid > 0 ? 'You\'ve been outbid' : 'Your bid strategy'}</h6>
                                         <small className="d-block" style={{fontSize:'12px',textTransform:'uppercase', opacity:0.5, fontWeight:200}}>My total bids</small>
-                                        <p>{nftData.highest_bid == bidder.total_bid ? <Check size={18} /> : <Info size={18} color={'#ff36ff'} style={{position:'relative',marginTop:'-3px'}} data-bs-toggle="tooltip" data-bs-placement="top" title="Each new bid will be added to your total bids." /> } {bidder.total_bid / 1000000} UST</p>
+                                        <p>{nftData.highest_bid == bidder.total_bid ? <Check size={18} /> : <Info size={18} color={'#ff36ff'} style={{position:'relative',marginTop:'-3px'}} data-bs-toggle="tooltip" data-bs-placement="top" title="Each new bid will be added to your total bids." /> } {parseInt(bidder.total_bid) / 1000000} UST</p>
+
                                         {nftData.highest_bid != bidder.total_bid && nftData.highest_bid &&
                                         <p 
                                         style={{textDecoration:'underline', fontSize:'12px', fontWeight:300}} 

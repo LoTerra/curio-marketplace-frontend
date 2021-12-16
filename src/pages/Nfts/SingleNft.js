@@ -460,7 +460,8 @@ if (connectedWallet && connectedWallet.walletAddress){
         }
     )
     setBidder(bidderData)        
-})
+    console.log('bidder',bidder)
+})()
 } else {
 setIsOwner(false)
 }
