@@ -103,6 +103,9 @@ const reloadData = useCallback(async () => {
                 }
             )
             setBidder(bidderData)
+            console.log("bidderData")
+            console.log(bidderData)
+            console.log(bidder)
         }
     
       } catch(e){
@@ -461,7 +464,7 @@ if (connectedWallet && connectedWallet.walletAddress){
 } else {
 setIsOwner(false)
 }
-}, [connectedWallet]);
+}, []);
     
     
 
@@ -507,7 +510,7 @@ function websocket(){
 //Socket code
 useEffect(() => {   
     websocket()
-},[])
+},[connectedWallet])
 
     
 
