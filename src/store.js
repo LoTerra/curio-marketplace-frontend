@@ -1,17 +1,10 @@
-import React, {
-    createContext,
-    useContext,
-    useReducer,
-} from 'react'
-import {
-    LCDClient,
-} from '@terra-money/terra.js'
+import React, { createContext, useContext, useReducer } from 'react'
+import { LCDClient } from '@terra-money/terra.js'
 
 const lcd = new LCDClient({
     URL: 'https://bombay-lcd.terra.dev',
     chainID: 'bombay-12',
-});
-
+})
 
 const StoreContext = createContext()
 
@@ -26,15 +19,27 @@ const StoreContext = createContext()
 //     {id:7,bg:'/img/bull.png',art:'https://pbs.twimg.com/media/FCKxX_IWQAk7vhN?format=jpg&name=medium',logo:'/img/brand.png',name:'LunaBulls', desc:''},
 // ]
 
-let cats = ["All", "Art", "Photography", "Metaverses", "Games", "Music", "Domains", "DeFi", "Memes", "Punks", "Other"]
+let cats = [
+    'All',
+    'Art',
+    'Photography',
+    'Metaverses',
+    'Games',
+    'Music',
+    'Domains',
+    'DeFi',
+    'Memes',
+    'Punks',
+    'Other',
+]
 
 const initialState = {
     privAuctionContract: 'terra12r4sk5xmew9d63r4wfmtg5uw0p0823e9a50g70',
     privTokenCw20Contract: 'terra1zzz6ctwlcjszar7ksvajyy64a439ut3jtgtvcp',
     categories: cats,
     auctions: [],
-    lcd:lcd,
-    wallet:{},
+    lcd: lcd,
+    wallet: {},
 }
 
 const reducer = (state, action) => {
@@ -60,11 +65,10 @@ const reducer = (state, action) => {
                 raffles: action.message,
             }
         default:
-        throw new Error(`Unhandled action type: ${action.type}`)
+            throw new Error(`Unhandled action type: ${action.type}`)
     }
 }
 
- 
 export const StoreProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 

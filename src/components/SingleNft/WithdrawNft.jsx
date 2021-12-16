@@ -9,33 +9,36 @@ import {
     BankAPI,
     Denom,
     CreateTxOptions,
-    MsgSend
+    MsgSend,
 } from '@terra-money/terra.js'
-
 
 export default function WithdrawNft(props) {
     const { state, dispatch } = useStore()
-    const {connectedWallet, auctionId,data} = props;
+    const { connectedWallet, auctionId, data } = props
 
     async function withdrawNFt() {
-        if(!connectedWallet){
-            toast.error('connect wallet');
+        if (!connectedWallet) {
+            toast.error('connect wallet')
             return
         }
         try {
-            let msg = new MsgExecuteContract(connectedWallet.walletAddress, state.privAuctionContract,{
-                withdraw_nft: {auction_id: auctionId}
-            })
+            let msg = new MsgExecuteContract(
+                connectedWallet.walletAddress,
+                state.privAuctionContract,
+                {
+                    withdraw_nft: { auction_id: auctionId },
+                },
+            )
 
             const result = await connectedWallet.post({
-                msgs: [msg]
+                msgs: [msg],
             })
-            console.log(result)            
+            console.log(result)
             toast.success('Withdraw NFT successful')
             //Not needed, we reload on websocket event
             //setTimeout(() => reloadData(),3000)
-        }catch (e) {
-            console.log(e)       
+        } catch (e) {
+            console.log(e)
             toast.error('Withdraw NFT error')
         }
     }
@@ -43,7 +46,16 @@ export default function WithdrawNft(props) {
     ///console.log(data)
     return (
         <>
-            <button className="btn btn-primary btn-lg w-100" type="button" disabled={data.resolved !== true ? false : true} onClick={() => withdrawNFt()}>{data.resolved !== true ? 'Withdraw NFT' : 'NFT Withdrawn succesful'}</button>
+            <button
+                className="btn btn-primary btn-lg w-100"
+                type="button"
+                disabled={data.resolved !== true ? false : true}
+                onClick={() => withdrawNFt()}
+            >
+                {data.resolved !== true
+                    ? 'Withdraw NFT'
+                    : 'NFT Withdrawn succesful'}
+            </button>
         </>
     )
 }
