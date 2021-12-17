@@ -27,6 +27,7 @@ export default function Navbar(props) {
     if (typeof document !== 'undefined') {
         wallet = useWallet()
         connectedWallet = useConnectedWallet()
+        console.log("connectedWallet", connectedWallet, wallet)
     } 
 
     const lcd = useMemo(() => {
