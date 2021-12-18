@@ -489,7 +489,7 @@ export default (props) => {
             } else {
                 setIsOwner(false)
             }
-            ;(async () => {
+            (async () => {
                 const bidderData = await api.contractQuery(
                     state.privAuctionContract,
                     {
@@ -505,7 +505,7 @@ export default (props) => {
         } else {
             setIsOwner(false)
         }
-    }, [])
+    }, [connectedWallet])
 
     function websocket() {
         //Pusher code
