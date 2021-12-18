@@ -203,7 +203,7 @@ export default function CreateAuction(props) {
             if (data.charity_address && data.charity_fee) {
                 auction_msg.create_auction_nft.charity = {
                     address: data.charity_address,
-                    fee_percentage: parseFloat(data.charity_fee),
+                    fee_percentage: String(data.charity_fee),
                 }
             }
             if (data.start_price) {
