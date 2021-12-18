@@ -56,6 +56,7 @@ export default function CreateAuction(props) {
     const [privateSale, setPrivateSale] = useState('')
     const [charityAddress, setCharityAddress] = useState('')
     const [charityFee, setCharityFee] = useState('')
+    const [data, setData] = useState(null)
 
     const closeRef = useRef()
 
@@ -66,6 +67,18 @@ export default function CreateAuction(props) {
         network = useWallet().network
         connectedWallet = useConnectedWallet()
     }
+
+    const style = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 500,
+      background: 'black',
+      border: '2px solid #000',
+      boxShadow: 24,
+      p: 4,
+    };
 
     const lcd = useMemo(() => {
         if (!connectedWallet) {
@@ -164,13 +177,15 @@ export default function CreateAuction(props) {
         }
     }
     const [open, setOpen] = React.useState(false);
-    const handleClose = () => setOpen(false);
-    async function create(e) {
+    const handleClose = () => { setOpen(false) };
+
+    const create = async (e) => {
         e.preventDefault()
-        setOpen(false);
         console.log("result test")
-        const data = Object.fromEntries(new FormData(e.target).entries())
+        console.log(e.target)
+        handleClose();
         if (!confirm) {
+            setOpen(false);
             return
         }
         if (connectedWallet) {
@@ -178,8 +193,9 @@ export default function CreateAuction(props) {
             // In this case network should be testnet bombay
             console.log('network is', connectedWallet.network)
             console.log('connectType is', connectedWallet.connectType)
+            setOpen(false);
+            console.log("sfasdfasdfasdfasdfsadfsadf")
         }
-
         try {
             let auction_msg = {
                 create_auction_nft: {
@@ -252,10 +268,11 @@ export default function CreateAuction(props) {
         }
     }
 
-    async function createModal(e) {
+    const createModal = async (e) => {
         e.preventDefault()
         const data = Object.fromEntries(new FormData(e.target).entries())
         console.log(data)
+        setData(data)
         setContractAddress(data.contract_address)
         setTimeEnd(data.end_time)
         setTimeStart(data.start_time)
@@ -274,8 +291,10 @@ export default function CreateAuction(props) {
             toast.error('NFT Contract Address needs to be filled')
             return false
         }
-
-        setOpen(true);
+        if (data) {
+            setOpen(true);
+        }
+        
 
         // if (tokenId === '') {
         //     toast.error('NFT Token ID needs to be filled')
@@ -297,7 +316,7 @@ export default function CreateAuction(props) {
     return (
         <>
             {connectedWallet && connectedWallet.walletAddress ? (
-                <form className="auctionForm" onSubmit={(e) => createModal(e)}>
+                <form className="auctionForm" onSubmit={createModal}>
                     <div className="row mb-4">
                         <div className="col-md-3">
                             <span className="icon">
@@ -327,8 +346,8 @@ export default function CreateAuction(props) {
                                         </button>
                                     </div>
                                     {/* <div className="col-md-6">
-    <button type="button" className={'btn btn-secondary d-block btn-lg w-100'} onClick={() => setManual(!manual)}>Add NFT Manually</button>
-    </div> */}
+                                            <button type="button" className={'btn btn-secondary d-block btn-lg w-100'} onClick={() => setManual(!manual)}>Add NFT Manually</button>
+                                    </div> */}
                                 </div>
 
                                 <div
@@ -630,14 +649,14 @@ export default function CreateAuction(props) {
                                 )}
                             </div>
                             {/* <div className="col-12 mb-3">
-            <label>NFT Category</label>                        
-            <select className="form-control" name="category" required>
-                <option value="">Select category</option>
-            { state.categories.map((obj,i) => {
-                return <option value={obj}>{obj}</option>
-            })}
-            </select>
-        </div> */}
+                            <label>NFT Category</label>                        
+                            <select className="form-control" name="category" required>
+                                <option value="">Select category</option>
+                            { state.categories.map((obj,i) => {
+                                return <option value={obj}>{obj}</option>
+                            })}
+                            </select>
+                        </div> */}
                         </div>
                     </div>
                     <div className="row mb-4">
@@ -825,20 +844,17 @@ export default function CreateAuction(props) {
                         aria-describedby="modal-modal-description"
                       >
                     <Box>
-                    <div>
-                        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                          <div className="modal-content">
-                            <div className="modal-header">
-                              <h5 className="modal-title" id="createNftModalLabel">Create NFT auction Confirmation</h5>
-                              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div className="modal-body">
-                              <form onSubmit={(e) => create(e)}>
+                        <Box sx={style}>
+                          <Typography id="modal-modal-title" variant="h6" component="h2">
+                            Create NFT auction Confirmation
+                          </Typography>
+                          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                              <div>
                                   <div className="row">
-                                      <div className="col-12 mb-3">
-                                          <label>Nft contract address : </label>{contractAddress}
-                                      </div>
-                                      <div className="col-12 mb-3">
+                                    <div className="col-12 mb-3">
+                                        <label>Nft contract address : </label>{contractAddress}
+                                    </div>
+                                    <div className="col-12 mb-3">
                                             <label>Token ID :</label><label style={{"marginLeft": "32px"}}>{tokenId}</label>
                                       </div>
                                       <div className="col-12 mb-3">
@@ -866,14 +882,12 @@ export default function CreateAuction(props) {
                                           <label>Charity percentage fee</label> <small>optional : </small><label style={{"marginLeft": "32px"}}>{charityFee}</label>
                                       </div>
                                       <div className="col-12 mt-3">
-                                        <button type="button" type="submit" className="btn btn-primary w-100">Confirm Create</button>
+                                        <button onClick={create} className="btn btn-primary w-100">Confirm Create</button>
                                       </div>
                                   </div>
-                                </form>
-                            </div>      
-                          </div>
-                        </div>
-                      </div>
+                              </div>
+                          </Typography>
+                        </Box>
                     </Box>
                     </Modal>
                 </form>
