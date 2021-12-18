@@ -34,8 +34,8 @@ let cats = [
 ]
 
 const initialState = {
-    privAuctionContract: 'terra12402spc420va7v2y398g2930wea0unuthwggfd',
-    privTokenCw20Contract: 'terra1sjjadu4q4pfwwjgvsjseh2cxy5kuc4wzetvgt4',
+    privAuctionContract: 'terra1k94m25whdhmxgcx9jgyrneump82sm0ynvpxae8',
+    privTokenCw20Contract: 'terra1vumuyk4er4t5jeq60ayhghdc6aa48fsrn9s6ns',
     categories: cats,
     auctions: [],
     lcd: lcd,
