@@ -4,6 +4,10 @@ import toast, { Toaster } from 'react-hot-toast'
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider'
 import contractData from '../../contracts.json'
 import _ from 'lodash'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 
 import debounce from 'lodash.debounce'
 
@@ -42,6 +46,16 @@ export default function CreateAuction(props) {
     const [userNfts, setUserNfts] = useState([])
     const [contracts, setContracts] = useState([])
     const [nftLoader, setNftLoader] = useState(false)
+
+    const [contractAddress, setContractAddress] = useState('')
+    const [timeEnd, setTimeEnd] = useState('')
+    const [timeStart, setTimeStart] = useState('')
+    const [startPrice, setStartPrice] = useState('')
+    const [instantBuy, setInstantBuy] = useState('')
+    const [reservePrice, setReservePrice] = useState('')
+    const [privateSale, setPrivateSale] = useState('')
+    const [charityAddress, setCharityAddress] = useState('')
+    const [charityFee, setCharityFee] = useState('')
 
     const closeRef = useRef()
 
@@ -149,34 +163,16 @@ export default function CreateAuction(props) {
             console.log(connectedWallet.network, contracts)
         }
     }
-
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => setOpen(false);
     async function create(e) {
         e.preventDefault()
+        setOpen(false);
+        console.log("result test")
         const data = Object.fromEntries(new FormData(e.target).entries())
-        console.log(data)
-
-        if (!connectedWallet) {
-            toast.error('Connect your wallet')
-            return false
-        }
-
-        if (contract.address === '') {
-            toast.error('NFT Contract Address needs to be filled')
-            return false
-        }
-
-        if (tokenId === '') {
-            toast.error('NFT Token ID needs to be filled')
-            return false
-        }
-
-        let confirm = window.confirm(
-            'Are you sure you want to create this auction?',
-        )
         if (!confirm) {
             return
         }
-
         if (connectedWallet) {
             console.log('walletAddress is', connectedWallet.walletAddress)
             // In this case network should be testnet bombay
@@ -256,6 +252,37 @@ export default function CreateAuction(props) {
         }
     }
 
+    async function createModal(e) {
+        e.preventDefault()
+        const data = Object.fromEntries(new FormData(e.target).entries())
+        console.log(data)
+        setContractAddress(data.contract_address)
+        setTimeEnd(data.end_time)
+        setTimeStart(data.start_time)
+        setInstantBuy(data.instant_buy)
+        setReservePrice(data.reserve_price)
+        setPrivateSale(data.private_sale_privilege)
+        setCharityAddress(data.charity_address)
+        setCharityFee(data.charity_fee)
+        setStartPrice(data.start_price)
+        if (!connectedWallet) {
+            toast.error('Connect your wallet')
+            return false
+        }
+
+        if (contract.address === '') {
+            toast.error('NFT Contract Address needs to be filled')
+            return false
+        }
+
+        setOpen(true);
+
+        // if (tokenId === '') {
+        //     toast.error('NFT Token ID needs to be filled')
+        //     return false
+        // }
+    }
+
     const contractChangeHandler = (e) => {
         setTokenId('')
         setUserNfts([])
@@ -270,7 +297,7 @@ export default function CreateAuction(props) {
     return (
         <>
             {connectedWallet && connectedWallet.walletAddress ? (
-                <form className="auctionForm" onSubmit={(e) => create(e)}>
+                <form className="auctionForm" onSubmit={(e) => createModal(e)}>
                     <div className="row mb-4">
                         <div className="col-md-3">
                             <span className="icon">
@@ -791,6 +818,64 @@ export default function CreateAuction(props) {
                             </div>
                         </div>
                     </div>
+                    <Modal
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                      >
+                    <Box>
+                    <div>
+                        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                          <div className="modal-content">
+                            <div className="modal-header">
+                              <h5 className="modal-title" id="createNftModalLabel">Create NFT auction Confirmation</h5>
+                              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div className="modal-body">
+                              <form onSubmit={(e) => create(e)}>
+                                  <div className="row">
+                                      <div className="col-12 mb-3">
+                                          <label>Nft contract address : </label>{contractAddress}
+                                      </div>
+                                      <div className="col-12 mb-3">
+                                            <label>Token ID :</label><label style={{"marginLeft": "32px"}}>{tokenId}</label>
+                                      </div>
+                                      <div className="col-12 mb-3">
+                                          <label>Time end : </label><label style={{"marginLeft": "32px"}}>{timeEnd}</label>
+                                      </div>
+                                      <div className="col-12 mb-3">
+                                          <label>Time start</label> <small>optional : </small><label style={{"marginLeft": "32px"}}>{timeStart}</label>
+                                      </div>
+                                      <div className="col-12 mb-3">
+                                          <label>Start/Minimal price</label> <small>optional : </small> <label style={{"marginLeft": "32px"}}>{startPrice}</label>
+                                      </div>   
+                                      <div className="col-12 mb-3">
+                                          <label>Instant buy price</label> <small>optional : </small> <label style={{"marginLeft": "32px"}}>{instantBuy}</label>
+                                      </div>
+                                      <div className="col-12 mb-3">
+                                          <label>Reserve price</label> <small>optional : </small><label style={{"marginLeft": "32px"}}>{reservePrice}</label>
+                                      </div>
+                                      <div className="col-12 mb-3">
+                                          <label>Private sale amount</label> <small>optional : </small><label style={{"marginLeft": "32px"}}>{privateSale}</label>
+                                      </div>
+                                      <div className="col-12 mb-3">
+                                          <label>Charity address</label> <small>optional : </small><label style={{"marginLeft": "32px"}}>{charityAddress}</label>
+                                      </div>
+                                      <div className="col-12 mb-3">
+                                          <label>Charity percentage fee</label> <small>optional : </small><label style={{"marginLeft": "32px"}}>{charityFee}</label>
+                                      </div>
+                                      <div className="col-12 mt-3">
+                                        <button type="button" type="submit" className="btn btn-primary w-100">Confirm Create</button>
+                                      </div>
+                                  </div>
+                                </form>
+                            </div>      
+                          </div>
+                        </div>
+                      </div>
+                    </Box>
+                    </Modal>
                 </form>
             ) : (
                 <div className="col-12 p-4 text-center">
