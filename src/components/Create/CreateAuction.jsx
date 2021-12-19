@@ -41,9 +41,11 @@ export default function CreateAuction(props) {
 
     const [manual, setManual] = useState(false)
     const [tokenId, setTokenId] = useState('')
+    const [nftImage, setNftImage] = useState('')
     const [userNfts, setUserNfts] = useState([])
     const [contracts, setContracts] = useState([])
     const [nftLoader, setNftLoader] = useState(false)
+    const [formData, setFormData] = useState();
 
     const closeRef = useRef()
 
@@ -71,6 +73,7 @@ export default function CreateAuction(props) {
 
         setUserNfts([])
         setTokenId('')
+        setNftImage('')
 
         if (address === '') {
             toast.error('Fill NFT Contract Address')
@@ -137,6 +140,7 @@ export default function CreateAuction(props) {
     //   getNftProviderData(contract.address)
     // }, INTERVAL));
 
+
     function getContractData() {
         if (connectedWallet) {
             console.log(connectedWallet.network.name)
@@ -159,47 +163,47 @@ export default function CreateAuction(props) {
             console.log('network is', connectedWallet.network)
             console.log('connectType is', connectedWallet.connectType)
         }
-
+       
         try {
             let auction_msg = {
                 create_auction_nft: {
-                    end_time: new Date(data.end_time).getTime() / 1000,
+                    end_time: new Date(formData.end_time).getTime() / 1000,
                 },
             }
 
-            if (data.start_time) {
+            if (formData.start_time) {
                 auction_msg.create_auction_nft.start_time =
-                    new Date(data.start_time).getTime() / 1000
+                    new Date(formData.start_time).getTime() / 1000
             }
 
             //   if (data.category) {
             //     auction_msg.create_auction_nft.category = String(data.category)
             //   }
 
-            if (data.charity_address && data.charity_fee) {
+            if (formData.charity_address && formData.charity_fee) {
                 auction_msg.create_auction_nft.charity = {
-                    address: data.charity_address,
-                    fee_percentage: parseInt(data.charity_fee),
+                    address: formData.charity_address,
+                    fee_percentage: parseInt(formData.charity_fee),
                 }
             }
-            if (data.start_price) {
+            if (formData.start_price) {
                 auction_msg.create_auction_nft.start_price = String(
-                    data.start_price * 1000000,
+                    formData.start_price * 1000000,
                 )
             }
-            if (data.instant_buy) {
+            if (formData.instant_buy) {
                 auction_msg.create_auction_nft.instant_buy = String(
-                    data.instant_buy * 1000000,
+                    formData.instant_buy * 1000000,
                 )
             }
-            if (data.reserve_price) {
+            if (formData.reserve_price) {
                 auction_msg.create_auction_nft.reserve_price = String(
-                    data.reserve_price * 1000000,
+                    formData.reserve_price * 1000000,
                 )
             }
-            if (data.private_sale_privilege) {
+            if (formData.private_sale_privilege) {
                 auction_msg.create_auction_nft.private_sale_privilege = String(
-                    data.private_sale_privilege * 1000000,
+                    formData.private_sale_privilege * 1000000,
                 )
             }
 
@@ -222,6 +226,7 @@ export default function CreateAuction(props) {
             })
             console.log(result)
             toast.success('Auction successfully created')
+            setConfirm(false)
             setTimeout(() => {
                 window.location.href = window.location.origin
             }, 2000)
@@ -251,13 +256,15 @@ export default function CreateAuction(props) {
             toast.error('NFT Token ID needs to be filled')
             return false
         }
-
+        setFormData(data)
         setConfirm(true)
         
     }
 
     const contractChangeHandler = (e) => {
         setTokenId('')
+        setNftImage('')
+        setConfirm(false)
         setUserNfts([])
         setContract({ contract: null, address: e.target.value })
     }
@@ -265,7 +272,7 @@ export default function CreateAuction(props) {
     useEffect(() => {
         console.log(tokenId)
         console.log(contract)
-    }, [userNfts, contracts, contract, tokenId])
+    }, [userNfts, contracts, contract, tokenId, confirm])
 
     return (
         <>
@@ -557,8 +564,12 @@ export default function CreateAuction(props) {
                                                             ? ' active'
                                                             : '')
                                                     }
-                                                    onClick={() =>
+                                                    onClick={() => {
+                                                        setNftImage(obj.image)
                                                         setTokenId(obj.token_id)
+
+                                                    }
+                                                        
                                                     }
                                                 >
                                                     {tokenId &&
@@ -788,7 +799,7 @@ export default function CreateAuction(props) {
                                         Create
                                     </button>
                                 </div>
-                                <ConfirmationModal confirm={confirm} toggle={() =>setConfirm(!confirm)} finalCreation={() => finalCreation()} />
+                                <ConfirmationModal confirm={confirm} toggleConfirm={() => setConfirm(!confirm)} finalCreation={() => finalCreation()} nftImage={nftImage} formData={formData} />
                             </div>
                         </div>
                     </div>

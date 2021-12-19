@@ -33,16 +33,6 @@ body {
     background-size: cover;
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing: none;
-    &:before {
-        position: fixed;
-        content: '';
-        left: 0;
-        right: 0;
-        top: 0;
-        background: #02023147;
-        z-index: -1;
-        bottom: 0;
-    }
 }
 
 label {
@@ -313,8 +303,7 @@ label {
 .nfts-big {
     padding: 130px 0 80px 0;
     background-size: cover !important;
-    background: linear-gradient(0deg, #1a1a20 22.16%, rgb(26 26 32 / 50%) 90%),
-        url('/img/herobg.jpeg');
+    background:linear-gradient(0deg, #1f1f1f 22.16%, rgb(31 31 31 / 60%) 90%), url('/img/herobg.jpeg');
     @media (max-width: 768px) {
         padding: 100px 0 80px 0;
     }
@@ -364,6 +353,36 @@ label {
     }
 }
 
+.nft-stats {
+    background: #0000004f;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    h6 {
+        margin-bottom: 0;
+        color: $primary;
+        font-size: 14px;
+    }
+    p {
+        margin: 0;
+        font-weight: 700;
+        font-size: 18px;
+    }
+    &.big {
+        background: #191921;
+        text-align: center;
+        border: 0;
+        h6 {
+            color: #fff;
+            opacity: 0.6;
+        }
+        p {
+            font-size: 36px;
+            color: $primary;
+        }
+    }
+}
+
 .single-nft-main {
     color: #fff;
     padding: 130px 0 80px 0;
@@ -375,35 +394,7 @@ label {
     position: relative;
     width: 100%;
     overflow: hidden;
-    .nft-stats {
-        background: #191921;
-        border-radius: 5px;
-        padding: 10px;
-        margin-bottom: 10px;
-        h6 {
-            margin-bottom: 0;
-            color: $primary;
-            font-size: 14px;
-        }
-        p {
-            margin: 0;
-            font-weight: 700;
-            font-size: 18px;
-        }
-        &.big {
-            background: #191921;
-            text-align: center;
-            border: 0;
-            h6 {
-                color: #fff;
-                opacity: 0.6;
-            }
-            p {
-                font-size: 36px;
-                color: $primary;
-            }
-        }
-    }
+   
     .nft-bidding {
         background: #191921;
         border-radius: 5px;
@@ -1165,7 +1156,7 @@ footer {
 
 
 .confirm-background {
-    background:#000;
+    background:#2d2d2d;
     position:fixed;
     top:0;
     left:0;
@@ -1174,15 +1165,23 @@ footer {
     opacity:0;
     visibility: hidden;
     transition: all 200ms linear;
-    .confirm-dialog {
-        position: absolute;
-        top: calc(50% - 40%);
-        left: calc(50% - 40%);
-        background:#fff;
-        width:80%;
-        height:80%;
-        color:#000;
-        overflow:hidden;
+
+    .confirm-dialog {        
+        width:100%;
+        height:auto;
+        color:#fff;        
+        h1 {
+            color:$special;
+            font-weight:600;
+        }
+        h2 {
+
+        }
+        @media(max-width:768px){
+            height: 100%;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
     }
     &.show {
         opacity:1;

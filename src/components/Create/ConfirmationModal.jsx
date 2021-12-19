@@ -1,63 +1,99 @@
 import React, { useState, useEffect } from 'react'
 import { useStore } from '../../store'
+import Card from '../SingleNft/Card';
 
 export default function ConfirmationModal(props) {
-    const {confirm,finalCreation,toggle} = props;
+    const {confirm,toggleConfirm,finalCreation, formData,nftImage} = props;
     const { state, dispatch } = useStore()
 
+   useEffect(() => {
+        if(confirm){
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'visible';
+        }
+   },[confirm])
+
     return (
-        <div className={'confirm-background' + (confirm ? ' show' : '')} onClick={() => toggle()}>
-            <div className="confirm-dialog">
+        <div className={'confirm-background d-flex' + (!confirm ? '' : ' show')}>
+            <div className="confirm-dialog align-self-center">
                 <div className="row">
-                    <div className="col-md-4">
-                        
+                    <div className="col-md-4 mt-4">                        
+                        <Card
+                                key={1}
+                                data={state.auctions}
+                                nft={{image: nftImage}}
+                                type={'xl'}
+                                expiryTimestamp={0}
+                                index={99}
+                            />
                     </div>
                     <div className="col-md-8">
-                        <h2>Confirm setting</h2>
-                        <div className="form-group">
+                        <h1 className="mb-0 mt-4">Almost ready!</h1>
+                        <h2 className="mb-4">Confirm auction settings</h2>                        
+                        { formData &&
+                            <div className="form-group">
                             <div className="row">
                                 <div className="col-md-6">
-                                <label>Scheduled to start</label>
-                            <p>0</p>
+                                    <div className="nft-stats">
+                                <h6>Scheduled to start</h6>
+                                <p className="highest_bid">{formData.start_time ? formData.start_time : 'None'}</p>
                                 </div>
+                                </div>
+                                
                                 <div className="col-md-6">
-                                <label>Auction end</label>
-                            <p>0</p>
+                                <div className="nft-stats">
+                                <h6>Auction end</h6>
+                                <p className="highest_bid">{formData.end_time ? formData.end_time : 'None'}</p>
                                 </div>
+                                </div>        
                                 <div className="col-md-6">
-                                <label>Opening bid price</label>
-                            <p>0</p>
+                                <div className="nft-stats">
+                                <h6>Opening bid price</h6>
+                                <p className="highest_bid">{formData.start_price ? formData.start_price+'UST' : 'None'}</p>
                                 </div>
+                                </div>        
                                 <div className="col-md-6">
-                                <label>Buyout price</label>
-                            <p>0</p>
+                                <div className="nft-stats">
+                                <h6>Buyout price</h6>
+                                <p className="highest_bid">{formData.instant_buy ? formData.instant_buy+'UST' : 'None'}</p>
                                 </div>
+                                </div>        
                                 <div className="col-md-6">
-                                <label>Reserve price</label>
-                            <p>0</p>
+                                <div className="nft-stats">
+                                <h6>Reserve price</h6>
+                                <p className="highest_bid">{formData.reserve_price ? formData.reserve_price+'UST' : 'None'}</p>
                                 </div>
+                                </div>        
                                 <div className="col-md-6">
-                                <label>Private sale amount in SITY</label>
-                            <p>0</p>
+                                <div className="nft-stats">
+                                <h6>Private sale amount in SITY</h6>
+                                <p className="highest_bid">{formData.private_sale_privilege ? formData.private_sale_privilege+'SITY' : 'None'}</p>
                                 </div>
+                                </div>        
                             <div className="col-md-6">
-                            <label>Charity address</label>
-                            <p>0</p>
+                            <div className="nft-stats">
+                            <h6>Charity address</h6>
+                            <p className="highest_bid">{formData.charity_address ? formData.charity_address : 'None'}</p>
                             </div>
+                            </div>        
                             <div className="col-md-6">
-                            <label>Charity percentage fee</label>
-                            <p>0</p>
-                            </div>                
+                            <div className="nft-stats">
+                            <h6>Charity percentage fee</h6>
+                            <p className="highest_bid">{formData.charity_fee ? formData.charity_fee+'%' : 'None'}</p>
+                            </div>     
+                            </div>                   
                             </div>
                         </div>
+                        }
                     </div>
-                    <div className="col-md-12">
+                    <div className="col-md-12 mt-5">
                         <div className="row">
-                            <div className="col-md-6">
-                                <button>Reject</button>
+                            <div className="col-md-6 mb-3">
+                                <button type="button" className="btn btn-secondary btn-lg w-100" onClick={() => toggleConfirm()}>Reject</button>
                             </div>
-                            <div className="col-md-6">
-                                <button>Confirm</button>
+                            <div className="col-md-6 mb-3">
+                                <button type="button" className="btn btn-primary btn-lg w-100" onClick={() => finalCreation()}>Confirmed, create auction</button>
                             </div>
                         </div>
                     </div>
