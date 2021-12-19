@@ -72,8 +72,9 @@ function App() {
                     rel="stylesheet"
                 />
             </Head>
+            <React.Suspense fallback={<MainLoader />}>
             <div className="content">
-                <React.Suspense fallback={<MainLoader />}>
+                
                     <StoreProvider>
                         <Navbar />
                         <Router>
@@ -82,9 +83,9 @@ function App() {
                             <Routes default />
                         </Router>
                         <Footer />
-                    </StoreProvider>
-                </React.Suspense>
+                    </StoreProvider>                
             </div>
+            </React.Suspense>
         </Root>
     )
 }

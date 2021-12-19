@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 
 export default function Footer(props) {
     return (
-        <footer>
+        <footer className="footer mt-auto">
             <p className="m-0 text-muted small">Follow us</p>
             <ul>
                 <li>

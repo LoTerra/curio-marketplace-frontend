@@ -27,11 +27,13 @@ import {
     WarningCircle,
     X,
 } from 'phosphor-react'
+import ConfirmationModal from './ConfirmationModal'
 
 export default function CreateAuction(props) {
     const { state, dispatch } = useStore()
 
     const [listView, setListView] = useState(true)
+    const [confirm, setConfirm] = useState(false)
     const [contract, setContract] = useState({
         contract: {},
         address: '',
@@ -150,33 +152,7 @@ export default function CreateAuction(props) {
         }
     }
 
-    async function create(e) {
-        e.preventDefault()
-        const data = Object.fromEntries(new FormData(e.target).entries())
-        console.log(data)
-
-        if (!connectedWallet) {
-            toast.error('Connect your wallet')
-            return false
-        }
-
-        if (contract.address === '') {
-            toast.error('NFT Contract Address needs to be filled')
-            return false
-        }
-
-        if (tokenId === '') {
-            toast.error('NFT Token ID needs to be filled')
-            return false
-        }
-
-        let confirm = window.confirm(
-            'Are you sure you want to create this auction?',
-        )
-        if (!confirm) {
-            return
-        }
-
+    async function finalCreation(){
         if (connectedWallet) {
             console.log('walletAddress is', connectedWallet.walletAddress)
             // In this case network should be testnet bombay
@@ -254,6 +230,30 @@ export default function CreateAuction(props) {
             console.log(e)
             toast.error('Auction creation error')
         }
+    }
+
+    async function create(e) {
+        e.preventDefault()
+        const data = Object.fromEntries(new FormData(e.target).entries())
+        console.log(data)
+
+        if (!connectedWallet) {
+            toast.error('Connect your wallet')
+            return false
+        }
+
+        if (contract.address === '') {
+            toast.error('NFT Contract Address needs to be filled')
+            return false
+        }
+
+        if (tokenId === '') {
+            toast.error('NFT Token ID needs to be filled')
+            return false
+        }
+
+        setConfirm(true)
+        
     }
 
     const contractChangeHandler = (e) => {
@@ -788,6 +788,7 @@ export default function CreateAuction(props) {
                                         Create
                                     </button>
                                 </div>
+                                <ConfirmationModal confirm={confirm} toggle={() =>setConfirm(!confirm)} finalCreation={() => finalCreation()} />
                             </div>
                         </div>
                     </div>
