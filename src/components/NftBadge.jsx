@@ -9,7 +9,7 @@ export default function NftBadge(props) {
 
             {data.private_sale !== undefined &&
                 data.private_sale !== null &&
-                data.private_sale > 0 && (
+                data.private_sale == true && (
                     <span className="nft-badge">Private Auction</span>
                 )}
 

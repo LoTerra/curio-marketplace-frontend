@@ -202,9 +202,9 @@ export default function CreateAuction(props) {
                 )
             }
             if (formData.private_sale) {
-                auction_msg.create_auction_nft.private_sale = String(
-                    formData.private_sale * 1000000,
-                )
+                auction_msg.create_auction_nft.private_sale = true
+            } else {
+                auction_msg.create_auction_nft.private_sale = false
             }
 
             let msg = new MsgExecuteContract(
@@ -734,7 +734,7 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Private sale amount in SITY</label>
+                                    <label>Private auction</label>
                                     <small className="ms-2">optional</small>
                                     <p className="info">
                                        
@@ -745,11 +745,10 @@ export default function CreateAuction(props) {
                                         is restricted to token holders to bid on
                                         the private auction
                                     </p>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        name="private_sale"
-                                    />
+                                    <label class="switch">
+  <input type="checkbox" name="private_sale"/>
+  <span class="slider round"></span>
+</label>
                                 </div>
                             </div>
                         </div>
