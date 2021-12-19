@@ -1,4 +1,4 @@
-import { Clock } from 'phosphor-react'
+import { Clock, Flag } from 'phosphor-react'
 import React, { useState, useEffect, useMemo } from 'react'
 import { useTimer } from 'react-timer-hook'
 
@@ -31,12 +31,12 @@ export default function SmallCountdown(props) {
         <div className="countdown-small">
             {start * 1000 > Date.now() && expiryTimestamp * 1000 > Date.now() && (
                 <p>
-                    <Clock size={16} style={{ marginTop: '-3px' }} />
+                    <Flag size={16} style={{ marginTop: '-3px' }} />
                     {daysStart}d {hoursStart}h {minutesStart}m {secondsStart}s
                 </p>
             )}
             {start * 1000 <= Date.now() && expiryTimestamp * 1000 > Date.now() && (
-                <p>
+                <p>                    
                     <Clock size={16} style={{ marginTop: '-3px' }} />
                     {days}d {hours}h {minutes}m {seconds}s
                 </p>
