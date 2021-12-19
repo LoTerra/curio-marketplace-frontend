@@ -67,8 +67,8 @@ export default function ConfirmationModal(props) {
                                 </div>        
                                 <div className="col-md-6">
                                 <div className="nft-stats">
-                                <h6>Private sale amount in SITY</h6>
-                                <p className="highest_bid">{formData.private_sale ? formData.private_sale+'SITY' : 'None'}</p>
+                                <h6>Private auction</h6>
+                                <p className="highest_bid">{formData.private_sale ? 'Yes' : 'No'}</p>
                                 </div>
                                 </div>        
                             <div className="col-md-6">

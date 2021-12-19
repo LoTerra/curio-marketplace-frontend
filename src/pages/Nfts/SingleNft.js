@@ -591,7 +591,7 @@ export default (props) => {
                                 {parseInt(nftData.private_sale) >
                                     0 && (
                                     <p className="single-nft-badge">
-                                        Private auction
+                                        Private
                                     </p>
                                 )}
                                 <h3 className="title">{imageNftData.name}</h3>
