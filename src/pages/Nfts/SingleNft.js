@@ -329,7 +329,7 @@ export default (props) => {
                 {
                     place_bid: { auction_id: testAuctionID },
                 },
-                { uusd: String(amount * 1000000) },
+                { uusd: String(Math.floor(amount * 1000000)) },
             )
 
             const result = await connectedWallet.post({
