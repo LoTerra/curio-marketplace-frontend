@@ -549,7 +549,7 @@ export default (props) => {
     //Socket code
     useEffect(() => {
         websocket()
-    }, [connectedWallet])
+    }, [])
 
     return (
         <>
