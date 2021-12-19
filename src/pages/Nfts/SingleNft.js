@@ -42,7 +42,7 @@ export default (props) => {
     const [bidder, setBidder] = useState({
         bid_counter: 0,
         bids: [],
-        privilege_used: null,
+        sity_used: null,
         total_bid: 0,
     })
 
@@ -468,7 +468,7 @@ export default (props) => {
                 nftData.private_sale !== undefined) ||
             null
         ) {
-            if (bidder.privilege_used === nftData.private_sale) {
+            if (parseInt(bidder.sity_used) > 0 ) {
                 console.log('bidder unlocked')
                 return true
             } else {
@@ -706,11 +706,8 @@ export default (props) => {
                                                 }
                                                 isOwner={isOwner}
                                             />
-                                            {!isOwner &&
-                                                bidder.privilege_used !==
-                                                    nftData.private_sale &&
-                                                nftData.private_sale >
-                                                    0 && (
+                                            {!isOwner && nftData.private_sale &&
+                                                parseInt(bidder.sity_used) == 0 && (
                                                     <div className="col-12">
                                                         <button
                                                             className="btn btn-primary btn-lg w-100 mt-3"
