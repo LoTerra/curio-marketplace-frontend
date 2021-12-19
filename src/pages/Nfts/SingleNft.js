@@ -28,6 +28,7 @@ import AuctionInfo from '../../components/SingleNft/AuctionInfo'
 import BiddingInterface from '../../components/SingleNft/BiddingInterface'
 import { ArrowLeft, Eye } from 'phosphor-react'
 import WithdrawNft from '../../components/SingleNft/WithdrawNft'
+import numeral from 'numeral'
 
 export default (props) => {
     const { state, dispatch } = useStore()
@@ -274,6 +275,30 @@ export default (props) => {
             setTimeout(() => reloadData(), 3000)
         } catch (e) {
             console.log(e)
+        }
+    }
+
+    function getAmountToUnlock(){
+        if(nftData.private_sale){
+            if(parseInt(nftData.highest_bid) > 0) {
+                return numeral(nftData.highest_bid / 100 * 2 / 1000000).format('0.00')
+            } else {
+                return 1
+            }
+        } else {
+            return 0
+        }
+    }
+
+    function getRawAmountToUnlock(){
+        if(nftData.private_sale){
+            if(parseInt(nftData.highest_bid) > 0) {
+                return nftData.highest_bid / 100 * 2 
+            } else {
+                return 1000000
+            }
+        } else {
+            return 0
         }
     }
 
@@ -691,7 +716,7 @@ export default (props) => {
                                                             className="btn btn-primary btn-lg w-100 mt-3"
                                                             onClick={() =>
                                                                 unlockPrivAuction(
-                                                                    nftData.private_sale,
+                                                                    getRawAmountToUnlock()
                                                                 )
                                                             }
                                                         >
@@ -701,11 +726,7 @@ export default (props) => {
                                                                 <strong>
                                                                     Costs:{' '}
                                                                 </strong>
-                                                                {parseInt(
-                                                                    nftData.private_sale,
-                                                                ) /
-                                                                    1000000}{' '}
-                                                                SITY
+                                                                {getAmountToUnlock()} UST
                                                             </small>
                                                         </button>
                                                     </div>
