@@ -211,7 +211,8 @@ export default (props) => {
         }
     }, [])
 
-    async function unlockPrivAuction(price) {
+    async function unlockPrivAuction() {
+        let price = getRawAmountToUnlock()
         try {
             if (!connectedWallet) {
                 toast.error('Connect your wallet')
@@ -720,9 +721,7 @@ export default (props) => {
                                                         <button
                                                             className="btn btn-primary btn-lg w-100 mt-3"
                                                             onClick={() =>
-                                                                unlockPrivAuction(
-                                                                    getRawAmountToUnlock()
-                                                                )
+                                                                unlockPrivAuction()
                                                             }
                                                         >
                                                             Unlock private
