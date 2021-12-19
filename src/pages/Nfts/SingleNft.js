@@ -281,7 +281,11 @@ export default (props) => {
     function getAmountToUnlock(){
         if(nftData.private_sale){
             if(parseInt(nftData.highest_bid) > 0) {
-                return numeral(nftData.highest_bid / 100 * 2 / 1000000).format('0.00')
+                let bid = parseInt(nftData.highest_bid) / 100 * 2 / 1000000;
+                if(bid < 1){
+                    bid = 1;
+                }
+                return numeral(bid).format('0,0.00')
             } else {
                 return 1
             }
@@ -293,7 +297,11 @@ export default (props) => {
     function getRawAmountToUnlock(){
         if(nftData.private_sale){
             if(parseInt(nftData.highest_bid) > 0) {
-                return nftData.highest_bid / 100 * 2 
+                let bid = parseInt(nftData.highest_bid) / 100 * 2;
+                if(bid < 1){
+                    bid = 1000000;
+                }
+                return bid; 
             } else {
                 return 1000000
             }
@@ -707,7 +715,7 @@ export default (props) => {
                                                 isOwner={isOwner}
                                             />
                                             {!isOwner && nftData.private_sale &&
-                                                parseInt(bidder.sity_used) == 0 && (
+                                                !parseInt(bidder.sity_used) > 0 && (
                                                     <div className="col-12">
                                                         <button
                                                             className="btn btn-primary btn-lg w-100 mt-3"
