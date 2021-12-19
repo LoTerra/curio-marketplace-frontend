@@ -148,14 +148,14 @@ export default (props) => {
                         image: data.image_url,
                         name: data.title,
                         description: data.description,
-                        private_sale: data.private_sale_privilege,
+                        private_sale: data.private_sale,
                         creator: data.creator.address,
                     })
                     console.log({
                         image: data.image_url,
                         name: data.title,
                         description: data.description,
-                        private_sale: data.private_sale_privilege,
+                        private_sale: data.private_sale,
                     })
                 })
                 .catch(function (error) {
@@ -439,11 +439,11 @@ export default (props) => {
             return false
         }
         if (
-            (nftData.private_sale_privilege > 0 &&
-                nftData.private_sale_privilege !== undefined) ||
+            (nftData.private_sale > 0 &&
+                nftData.private_sale !== undefined) ||
             null
         ) {
-            if (bidder.privilege_used === nftData.private_sale_privilege) {
+            if (bidder.privilege_used === nftData.private_sale) {
                 console.log('bidder unlocked')
                 return true
             } else {
@@ -588,7 +588,7 @@ export default (props) => {
                                     />{' '}
                                     Back to home
                                 </a>
-                                {parseInt(nftData.private_sale_privilege) >
+                                {parseInt(nftData.private_sale) >
                                     0 && (
                                     <p className="single-nft-badge">
                                         Private auction
@@ -683,15 +683,15 @@ export default (props) => {
                                             />
                                             {!isOwner &&
                                                 bidder.privilege_used !==
-                                                    nftData.private_sale_privilege &&
-                                                nftData.private_sale_privilege >
+                                                    nftData.private_sale &&
+                                                nftData.private_sale >
                                                     0 && (
                                                     <div className="col-12">
                                                         <button
                                                             className="btn btn-primary btn-lg w-100 mt-3"
                                                             onClick={() =>
                                                                 unlockPrivAuction(
-                                                                    nftData.private_sale_privilege,
+                                                                    nftData.private_sale,
                                                                 )
                                                             }
                                                         >
@@ -702,7 +702,7 @@ export default (props) => {
                                                                     Costs:{' '}
                                                                 </strong>
                                                                 {parseInt(
-                                                                    nftData.private_sale_privilege,
+                                                                    nftData.private_sale,
                                                                 ) /
                                                                     1000000}{' '}
                                                                 SITY

@@ -201,9 +201,9 @@ export default function CreateAuction(props) {
                     formData.reserve_price * 1000000,
                 )
             }
-            if (formData.private_sale_privilege) {
-                auction_msg.create_auction_nft.private_sale_privilege = String(
-                    formData.private_sale_privilege * 1000000,
+            if (formData.private_sale) {
+                auction_msg.create_auction_nft.private_sale = String(
+                    formData.private_sale * 1000000,
                 )
             }
 
@@ -631,7 +631,7 @@ export default function CreateAuction(props) {
                                 <>
                                     <div className="col-md-3"></div>
                                     <div className="col-md-9">
-                                        <div className="success-message">
+                                        <div className="success-message mb-4">
                                             <p>
                                                 <CheckCircle size={21} /> Nft
                                                 selected, you can now setup the
@@ -641,9 +641,13 @@ export default function CreateAuction(props) {
                                     </div>
                                 </>
                             )}
+                            {contract.address !== '' &&
+                            tokenId !== '' &&
+                            contract.contract && (
+                                <>
                         <div className="col-md-3">
                             <span className="icon">
-                                <SlidersHorizontal size={70} weight="light" />{' '}
+                                <SlidersHorizontal size={70} weight="light" />
                                 <SlidersHorizontal size={70} weight="light" />
                             </span>
                             <p className="info">
@@ -660,8 +664,8 @@ export default function CreateAuction(props) {
                                     <h5>Auction settings</h5>
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Scheduled to start</label>{' '}
-                                    <small>optional</small>
+                                    <label>Scheduled to start</label>
+                                    <small className="ms-2">optional</small>
                                     <p className="info">
                                         Time the auction begins
                                     </p>
@@ -673,6 +677,7 @@ export default function CreateAuction(props) {
                                 </div>
                                 <div className="col-md-6 mb-3">
                                     <label>Auction end</label>
+                                    <small className="ms-2" style={{color:'#ff36ff'}}>required</small>
                                     <p className="info">
                                         Time the auction finishes
                                     </p>
@@ -684,8 +689,8 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Opening bid price</label>{' '}
-                                    <small>optional</small>
+                                    <label>Opening bid price</label>
+                                    <small className="ms-2">optional</small>
                                     <p className="info">
                                         While the reserve price is the minimum
                                         price a seller is willing to accept, the
@@ -699,8 +704,8 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Buyout price</label>{' '}
-                                    <small>optional</small>
+                                    <label>Buyout price</label>
+                                    <small className="ms-2">optional</small>
                                     <p className="info">
                                         This is an auction where the seller sets
                                         a price at which participants can choose
@@ -715,8 +720,8 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Reserve price</label>{' '}
-                                    <small>optional</small>
+                                    <label>Reserve price</label>
+                                    <small className="ms-2">optional</small>
                                     <p className="info">
                                         If the reserve price is not met, the
                                         seller is not required to sell the item,
@@ -729,30 +734,36 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Private sale amount in SITY</label>{' '}
-                                    <small>optional</small>
+                                    <label>Private sale amount in SITY</label>
+                                    <small className="ms-2">optional</small>
                                     <p className="info">
-                                        {' '}
+                                       
                                         Private auction is similar to open
                                         auction, except creator restrict
                                         participation to SITY holders. Unlike
                                         open auctions, access to private auction
                                         is restricted to token holders to bid on
-                                        the private auction{' '}
+                                        the private auction
                                     </p>
                                     <input
                                         type="number"
                                         className="form-control"
-                                        name="private_sale_privilege"
+                                        name="private_sale"
                                     />
                                 </div>
                             </div>
                         </div>
+                        </>
+                            )}
                     </div>
+                    {contract.address !== '' &&
+                            tokenId !== '' &&
+                            contract.contract && (
+                                <>
                     <div className="row">
+                        
                         <div className="col-md-3">
-                            <span className="icon">
-                                {' '}
+                            <span className="icon">                             
                                 <Heart size={70} weight="light" />
                                 <Heart size={70} weight="light" />
                             </span>
@@ -773,8 +784,8 @@ export default function CreateAuction(props) {
                                     </p>
                                 </div>
                                 <div className="col-12 mb-3">
-                                    <label>Charity address</label>{' '}
-                                    <small>optional</small>
+                                    <label>Charity address</label>
+                                    <small className="ms-2">optional</small>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -782,14 +793,15 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-12 mb-3">
-                                    <label>Charity percentage fee</label>{' '}
-                                    <small>optional</small>
+                                    <label>Charity percentage fee</label>
+                                    <small className="ms-2">optional</small>
                                     <input
                                         type="number"
                                         className="form-control"
                                         name="charity_fee"
                                     />
                                 </div>
+                         
                                 <div className="col-12 mt-3 mb-3">
                                     <button
                                         type="button"
@@ -799,10 +811,15 @@ export default function CreateAuction(props) {
                                         Create
                                     </button>
                                 </div>
+                         
                                 <ConfirmationModal confirm={confirm} toggleConfirm={() => setConfirm(!confirm)} finalCreation={() => finalCreation()} nftImage={nftImage} formData={formData} />
                             </div>
+                          
                         </div>
+                      
                     </div>
+                    </>
+                            )}
                 </form>
             ) : (
                 <div className="col-12 p-4 text-center">
