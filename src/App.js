@@ -1,6 +1,6 @@
 import React from 'react'
 import { Root, Routes, addPrefetchExcludes } from 'react-static'
-import { Router, Link } from "@reach/router"
+import { Router, Link } from '@reach/router'
 
 import { Head } from 'react-static'
 import { popper } from '@popperjs/core'
@@ -12,84 +12,83 @@ import { StoreProvider } from './store'
 import './styles/app.scss'
 import Navbar from './components/Navbar'
 import SingleNft from './pages/Nfts/SingleNft'
+import Create from './pages/Create'
+import MainLoader from './components/Loaders/MainLoader'
+import Footer from './components/Footer'
 
 //Dont prerender routes starting with (because of dynamic data)
-addPrefetchExcludes([
-    "nfts"
-])
-  
+addPrefetchExcludes(['nfts'])
 
 function App() {
-  return (
-    <Root>   
-      <Head>
-                        <meta charSet="UTF-8" />
-                        <meta
-                            name="viewport"
-                            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-                        />
-                        <title>
-                            NFT Raffle - by LoTerra
-                        </title>
-                        <link
-                            rel="icon"
-                            type="image/x-icon"
-                            href="https://loterra.io/favicon.ico"
-                        />
-                        <link
-                            data-hid="shortcut-icon"
-                            rel="shortcut icon"
-                            href="https://loterra.io/favicon.ico"
-                        />
-                        <meta property="og:title" content="LoTerra" />
-                        <meta
-                            property="og:image"
-                            content="https://loterra.io/loterra.png"
-                        />
-                        <meta property="og:image:alt" content="LoTerra icon" />
-                        <meta property="og:type" content="website" />
-                        <meta
-                            property="og:site_name"
-                            content="NFT Raffle"
-                        />
-                        <meta
-                            property="og:description"
-                            content="LoTerra is a lottery contract, buy tickets as a player or join the governance! DAO allows making decisions together! Manage the casino 🎰 Set the prize 🏆 Up the ticket price or go cheap 🏷 Extract max profits 🤑 Keep the vault secure at all times!"
-                        />
-                        <meta name="twitter:card" content="summary" />
-                        <meta name="twitter:site" content="LoTerra" />
-                        <meta
-                            name="twitter:title "
-                            content="LoTerra - Decentralized lottery on Terra blockchain"
-                        />
-                        <meta
-                            name="twitter:description"
-                            content="LoTerra is a lottery contract, buy tickets as a player or join the governance! DAO allows making decisions together! Manage the casino 🎰 Set the prize 🏆 Up the ticket price or go cheap 🏷 Extract max profits 🤑 Keep the vault secure at all times!"
-                        />
-                        <meta
-                            name="twitter:image"
-                            content="https://loterra.io/loterra.png"
-                        />
-                        <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"/>
-                    </Head>   
-      <div className="content">
-        <React.Suspense fallback={<em>Loading...</em>}>
-       
+    return (
+        <Root>
+            <Head>
+                <meta charSet="UTF-8" />
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+                />
+                <title>
+                    Curio - Decentralized marketplace on Terra blockchain
+                </title>
+                <link
+                    rel="icon"
+                    type="image/x-icon"
+                    href="/img/apple-touch-icon.png"
+                />
+                <link
+                    data-hid="shortcut-icon"
+                    rel="shortcut icon"
+                    href="/img/favicon.ico"
+                />
+                <meta property="og:title" content="Curio" />
+                <meta property="og:image" content="" />
+                <meta property="og:image:alt" content="Curio icon" />
+                <meta property="og:type" content="website" />
+                <meta property="og:site_name" content="Curio" />
+                <meta
+                    property="og:description"
+                    content="Curio the place to find a rare, unusual, or intriguing NFT."
+                />
+                <meta name="twitter:card" content="summary" />
+                <meta name="twitter:site" content="Curio" />
+                <meta
+                    name="twitter:title "
+                    content="Curio - Decentralized marketplace on Terra blockchain"
+                />
+                <meta
+                    name="twitter:description"
+                    content="Curio the place to find a rare, unusual, or intriguing NFT."
+                />
+                <meta name="twitter:image" content="" />
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link
+                    rel="preconnect"
+                    href="https://fonts.gstatic.com"
+                    crossorigin
+                />
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+                    rel="stylesheet"
+                />
+            </Head>
+            
                     <StoreProvider>
-                        <Navbar/>
-                            <Router>           
-                                <SingleNft path="/nfts/:nftId" />                     
-                                <Routes default />                                
-                            </Router>
-                
-                    </StoreProvider>
-
-        </React.Suspense>
-      </div>
-    </Root>
-  )
+                    <React.Suspense fallback={<MainLoader />}>      
+                        <div className="page-content">
+                        <Navbar />
+                        <Router>
+                            <SingleNft path="/nfts/:nftId" />
+                            <Create path="/create" />
+                            <Routes default />
+                        </Router>
+                        </div>
+                        <Footer />
+                        </React.Suspense>
+                    </StoreProvider>               
+        
+        </Root>
+    )
 }
 
 export default App

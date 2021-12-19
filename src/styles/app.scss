@@ -2,15 +2,16 @@
 @import '../../node_modules/bootstrap/scss/variables';
 @import '../../node_modules/bootstrap/scss/mixins';
 
-$primary: #0075FF;
-$secondary: #1E1E1E;
+$primary: #20ff93;
+$secondary: #1e1e1e;
+$special: #ff36ff;
 
-$theme-colors: (primary: $primary,
+$theme-colors: (
+    primary: $primary,
     secondary: $secondary,
 );
 
 $input-placeholder-color: rgba(255, 255, 255, 0.48);
-
 
 // (Required) Import Bootstrap
 @import '../../node_modules/bootstrap/scss/bootstrap';
@@ -27,267 +28,619 @@ html {
 
 body {
     min-height: 100%;
-    background: #2D2D2D;
-    color:#fff;
-    background-size: cover; 
+    background: #2d2d2d;
+    color: #fff;
+    background-size: cover;
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing: none;
-    &:before {
-        position: fixed;
-    content: '';
-    left: 0;
-    right: 0;
-    top: 0;
-    background: #02023147;
-    z-index: -1;
-    bottom: 0;
+    .page-content {
+        position:relative;
+        min-height:100%;
     }
 }
 
 label {
-    font-weight:700;
+    font-weight: 600;
 }
 
 .form-control {
     border: 1px solid #595959;
-background: #595959;
-border-radius: 0;
-color:#fff;
-box-shadow:0px 0px 0px 0px $primary;
-transition: box-shadow 200ms linear;
-&:focus,&:active {
-    border: 1px solid #595959;
     background: #595959;
-    color:#fff;
-    outline:none;
-    box-shadow:0px 0px 0px 1px $primary;
-}
+    border-radius: 0;
+    color: #fff;
+    box-shadow: 0px 0px 0px 0px $primary;
+    transition: box-shadow 200ms linear;
+    &:focus,
+    &:active {
+        border: 1px solid #595959;
+        background: #595959;
+        color: #fff;
+        outline: none;
+        box-shadow: 0px 0px 0px 1px $primary;
+    }
 }
 
 .navbar {
-    position:fixed;
-    left:0;
-    right:0;
-    top:0;
-    z-index:9;
-    background:linear-gradient(180deg, #000000a3, transparent);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 9;
+    background: linear-gradient(180deg, #000000a3, transparent);
     .navbar-brand {
         a {
             font-weight: bold;
-font-size: 28px;
-color: #FFFFFF;
-text-decoration: none;
-&:hover {
-    color:#fff;
-}
+            font-size: 28px;
+            color: #ffffff;
+            text-decoration: none;
+            span {
+                font-size: 14px;
+                color: $primary;
+                position: relative;
+                margin-left: -140px;
+                top: 16px;
+            }
+            img {
+                width: 185px;
+                max-width: 100%;
+                height: auto;
+            }
+            @media (max-width: 660px) {
+                img {
+                    max-width: 165px;
+                }
+            }
+            @media (max-width: 370px) {
+                img {
+                    max-width: 110px;
+                }
+            }
+            &:hover {
+                color: #fff;
+            }
         }
     }
     form {
-        position:relative;
+        position: relative;
         button {
-            border:0;
-            color:rgba(255, 255, 255, 0.48);
-            background:transparent;
+            border: 0;
+            color: rgba(255, 255, 255, 0.48);
+            background: transparent;
             top: 4px;
-            position:absolute;
+            position: absolute;
         }
         .form-control {
-            border:1px solid #595959;
-            background: #595959;
-            border-radius:0;
-            padding-left:40px;
+            border: 1px solid #595959;
+            background: #1a1a1e;
+            padding-left: 40px;
+            border-radius: 4px;
         }
+    }
+}
+
+.text-primary {
+    color: $primary !important;
+}
+
+.nft-left {
+    background: #00000059;
+    padding: 10em 15px;
+    @media (max-width: 768px) {
+        padding: 5em 0px;
+        padding-bottom: 2em;
+    }
+}
+
+.nft-right {
+    padding: 10em 15px;
+    @media (max-width: 768px) {
+        padding: 2em 15px;
     }
 }
 
 .modal-content {
-    background-color:#151515;
-    border-radius:0;
-    .modal-header{
-        border:0;
+    background-color: #151515;
+    border-radius: 0;
+    .modal-header {
+        border: 0;
     }
     .modal-footer {
-        border:0;
+        border: 0;
     }
 }
 
+.nav-pills {
+    background: #14141766;
+    padding: 10px;
+    border-radius: 5px;
+    .nav-link {
+        color: #ffffff61;
+        &.active {
+            color: $primary;
+            background-color: #141417;
+        }
+    }
+}
 
+.nav-pills-categories {
+    white-space: nowrap;
+    display: block !important;
+    flex-wrap: nowrap;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    .nav-item {
+        display: inline-block;
+    }
+    .nav-link {
+        transition: all 200ms linear;
+        padding: 0 10px;
+        background: none;
+        &.active {
+            color: #fff;
+            font-size: 18px;
+            background: none;
+        }
+    }
+}
 
 .btn {
-    border-radius:0;
-    padding: 0.53rem 1.25rem;
+    border-radius: 4px;
     font-weight: 600;
-        font-size: 14px;
-        line-height: 21px;    
-        align-items: center;
-        text-align: center;     
-        border:0;
+    font-size: 14px;
+    line-height: 21px;
+    align-items: center;
+    text-align: center;
+    border: 0;
+    small {
+        display: block;
+        font-size: 12px;
+        font-weight: 300;
+    }
+    &.btn-plain {
+        background: #00000082;
+        color: #fff;
+    }
     &.btn-primary {
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), #0075FF;
-        font-weight: 600;       
-        color: #FFFFFF;
-  
+        background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0) 100%
+            ),
+            $primary;
+        font-weight: 600;
+        color: #000;
+    }
+    &.btn-special {
+        background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0) 100%
+            ),
+            $special;
+        font-weight: 600;
+        color: #ffffff;
     }
     &.btn-secondary {
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), #1E1E1E;
+        background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0) 100%
+            ),
+            #1e1e1e;
+        &.active {
+            color: #20ff93;
+            background: #0000008f;
+        }
+    }
+    &.btn-outline-primary {
+        color: $special;
+        box-shadow: inset 0px 0px 0px 2px $special;
+        &:hover {
+            background: $special;
+            color: #000;
+        }
     }
     &.btn-default {
-        color:#0075FF;
-        box-shadow:inset 0px 0px 0px 2px #0075FF;
+        color: #0075ff;
+        box-shadow: inset 0px 0px 0px 2px #0075ff;
+    }
+    &.btn-lg {
+        font-size: 18px;
+        padding: 15px 0;
+        font-weight: 700;
     }
 }
 
 .dropdown-menu {
-    background:#000000c9;
-    border-radius:0;
-    border:0;
+    background: #000000c9;
+    border-radius: 0;
+    border: 0;
     .dropdown-item {
-        color:#fff;
-        font-size:14px;
+        color: #fff;
+        font-size: 14px;
         &:hover {
-            color:$primary;
-            background:transparent;
+            color: $primary;
+            background: transparent;
         }
+    }
+}
+
+.countdown-small {
+    p {
+        opacity: 0.5;
+        margin: 0;
+        svg {
+            margin-right: 4px;
+        }
+        img {
+            margin-right: 4px;
+            margin-top: -2px;
+        }
+        small {
+            opacity: 0.5;
+            font-size: 12px;
+            margin-bottom: -3px;
+            display: block;
+        }
+        font-size: 13px;
+    }
+}
+
+.nft-price {
+    p {
+        margin: 0;
+        img {
+            margin-right: 4px;
+            margin-top: -2px;
+        }
+        small {
+            opacity: 0.5;
+            font-size: 12px;
+            margin-bottom: -3px;
+        }
+        font-size: 16px;
     }
 }
 
 .nfts-big {
-    padding:130px 0 80px 0;
-    background: linear-gradient(95.32deg, #1F1F1F 7.16%, rgba(22, 22, 22, 0) 98.85%);
+    padding: 130px 0 80px 0;
+    background-size: cover !important;
+    background:linear-gradient(0deg, #1f1f1f 22.16%, rgb(31 31 31 / 60%) 90%), url('/img/herobg.jpeg');
+    @media (max-width: 768px) {
+        padding: 100px 0 80px 0;
+    }
+    .intro {
+        margin-bottom: 45px;
+        .badge {
+            width: auto;
+            background: #20ff93;
+            color: #000;
+        }
+        .title {
+            margin: 0;
+            font-weight: 700;
+        }
+        .info {
+            margin: 0;
+            opacity: 0.6;
+            font-size: 13px;
+        }
+    }
+    h1 {
+        font-weight: 700;
+        .pink {
+            border-bottom: 4px solid $special;
+        }
+        .green {
+            border-bottom: 4px solid $primary;
+        }
+    }
+    .slogan {
+        margin-top: 15px;
+        margin-bottom: 0;
+        opacity: 0.5;
+        font-size: 28px;
+        font-weight: 500;
+    }
+    .powered {
+        font-size: 12px;
+        text-transform: uppercase;
+        margin-bottom: 35px;
+        opacity: 0.3;
+        font-weight: 200;
+        img {
+            margin-left: 5px;
+            margin-top: -3px;
+        }
+    }
+}
+
+.nft-stats {
+    background: #0000004f;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    h6 {
+        margin-bottom: 0;
+        color: $primary;
+        font-size: 14px;
+    }
+    p {
+        margin: 0;
+        font-weight: 700;
+        font-size: 18px;
+    }
+    &.big {
+        background: #0000004f;
+        text-align: center;
+        border: 0;
+        h6 {
+            color: #fff;
+            opacity: 0.6;
+        }
+        p {
+            font-size: 36px;
+            color: $primary;
+        }
+    }
 }
 
 .single-nft-main {
-    color:#fff;
-    padding:130px 0 80px 0;
-    background: linear-gradient(95.32deg, #1F1F1F 7.16%, rgba(22, 22, 22, 0) 98.85%);
-    position:relative;
-    width:100%;
-    overflow:hidden;
-    .nft-stats {
+    color: #fff;
+    padding: 130px 0 80px 0;
+    background: linear-gradient(
+        95.32deg,
+        #1f1f1f 7.16%,
+        rgba(22, 22, 22, 0) 98.85%
+    );
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+   
+    .nft-bidding {
         background: #191921;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 20px;
+        border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 10px;
+        height: 100%;
         h6 {
             margin-bottom: 0;
-            color: #0778ff;
+            color: $primary;
+            font-size: 14px;
         }
         p {
-            margin:0;
-            font-weight:700;
-            font-size:24px;
+            margin: 0;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        &.success {
+            background: linear-gradient(45deg, #49ffa754, transparent);
+            // box-shadow: inset 0px 0px 0px 2px #2aff9857;
+            h6 {
+                color: $primary;
+            }
+        }
+        &.warning {
+            background: linear-gradient(45deg, #ff36ff4d, transparent);
+            // box-shadow: inset 0px 0px 0px 2px #ff36ff;
+            h6 {
+                color: #ff36ff;
+            }
         }
     }
     table {
-        color:#fff;
+        color: #fff;
         border-color: #595959b0;
     }
     .title {
-        font-weight:700;
-        margin-bottom:0;
+        font-weight: 700;
+        margin-bottom: 0;
         font-size: 38px;
+        @media (max-width: 768px) {
+            font-size: 25px;
+        }
     }
     .author {
-        opacity:0.5;
-        margin-bottom:20px;
+        opacity: 0.5;
+        margin-bottom: 20px;
     }
     .description {
-        margin-bottom:20px;
+        margin-bottom: 20px;
     }
     h5 {
-        border-left: 2px solid #0e7dff;
-    padding-left: 10px;
-    background: #00000038;
-    padding: 10px 10px;
-    font-weight: 600;
+        border-bottom: 2px solid #222223;
+        font-weight: 600;
+        padding-bottom: 5px;
     }
     .input-group {
         .input-group-text {
-            background:#1E1E1E;
-            border-color:#595959;
-            border-radius:0;
+            background: #1e1e1e;
+            border-color: #595959;
+            border-radius: 0;
         }
         .form-control {
             border: 1px solid #595959;
-    background: #595959;
-    border-radius: 0;
-    color:#fff;
-    font-weight:700;
-    font-size:21px;
+            background: #595959;
+            border-radius: 0;
+            color: #fff;
+            font-weight: 700;
+            font-size: 21px;
         }
     }
 }
 
+.heading {
+    // background: #12121287;
+    padding: 15px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 14px;
+    h3 {
+        font-size: 31px;
+        font-weight: 700;
+        margin: 0;
+    }
+}
 
+.small-heading {
+    background: #12121287;
+    padding: 15px;
+    margin-bottom: 25px;
+    h3 {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0;
+        padding-left: 45px;
+    }
+    .icon {
+        position: absolute;
+        left: 9px;
+        margin-top: -6px;
+        svg {
+            position: absolute;
+            &:last-of-type {
+                left: 2px;
+                top: 2px;
+            }
+        }
+    }
+}
+
+.carousel {
+    .control-dots {
+        position: absolute;
+        bottom: -5px;
+        padding: 0;
+        text-align: center;
+        width: 100%;
+        z-index: 1;
+        margin: 0;
+    }
+    .carousel-status {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        padding: 5px;
+        font-size: 10px;
+        text-shadow: 1px 1px 1px rgb(0 0 0 / 90%);
+        color: #fff;
+        background: #00000069;
+        border-radius: 4px;
+        right: unset;
+    }
+}
 
 .nfts {
-    padding:25px 0;
-    margin-top:35px;
-    color:#fff;
+    padding: 25px 0;
+    margin-top: 35px;
+    color: #fff;
     .heading {
         h3 {
-            margin-bottom:0;
+            margin-bottom: 0;
             font-weight: bold;
             font-size: 25px;
-            color: #FFFFFF;
+            color: #ffffff;
         }
         p {
             font-size: 16px;
-            opacity:0.5;
-            margin-bottom:20px;
+            opacity: 0.5;
+            margin-bottom: 20px;
         }
     }
 }
 
+.bidding-table {
+    .highest {
+        color: #20ff93;
+        background: #36fe9d17;
+    }
+}
 
-.nft-card {    
-    background: linear-gradient(157.28deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.034) 45.83%, rgba(255, 255, 255, 0.09375) 48.96%, rgba(255, 255, 255, 0) 100%), url('/img/cardbg.png');   
-    margin-bottom:28px;
+.nft-link {
+    text-decoration: none;
+    &:hover {
+    }
+}
+
+.nft-card {
+    background: #1a1a1e;
+    margin-bottom: 28px;
     border-radius: 15px;
-    border:0;
-    overflow:hidden;
-    position:relative;
+    border: 0;
+    overflow: hidden;
+    position: relative;
     box-shadow: 0px 10px 14px #00000061;
+
+    .btn-plain {
+        position: absolute;
+        right: 20px;
+        left: unset;
+        top: 20px;
+        text-align: center;
+        z-index: 9;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+    }
     .card-img {
         position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
     }
-    
+
     .card-img-overlay {
-        background:linear-gradient(45deg, rgba(0, 0, 0, 0.623), transparent);
-        transition:background 200ms linear;
+        background: linear-gradient(45deg, rgba(0, 0, 0, 0.623), transparent);
+        transition: background 200ms linear;
     }
     &.big {
-        height:462px;
+        height: 462px;
         .nft-info {
             .card-title {
                 font-weight: bold;
                 font-size: 37px;
-                color: #FFFFFF;
+                color: #ffffff;
             }
         }
     }
     &.xl {
-        height:562px;
         .nft-info {
             .card-title {
                 font-weight: bold;
                 font-size: 37px;
-                color: #FFFFFF;
+                color: #ffffff;
+            }
+        }
+        @media (max-width: 768px) {
+            height: 335px;
+            .nft-info {
+                .card-title {
+                    font-weight: bold;
+                    font-size: 24px;
+                    color: #ffffff;
+                }
+            }
+        }
+    }
+    &.xs {
+        .nft-info {
+            .card-title {
+                font-weight: bold;
+                font-size: 18px;
+                color: #ffffff;
             }
         }
     }
     &.small {
-        height:217px;
         .nft-info {
             .card-title {
                 font-weight: bold;
                 font-size: 21px;
-                color: #FFFFFF;
+                color: #ffffff;
             }
         }
     }
@@ -295,24 +648,25 @@ text-decoration: none;
 
 .nft-modal {
     .btn-close {
-        color:#fff;
+        color: #fff;
     }
     .modal-content {
-        color:#fff;
-        border:0;
-        .modal-header {            
-            border:0;
+        color: #fff;
+        border: 0;
+        .modal-header {
+            border: 0;
         }
         .modal-body {
             .nft-art {
-                box-shadow: inset 3px 3px 0px 1px #00000052, inset -3px -3px 0px 1px #ffffff3b;
-                background-size:cover !important;
-                background-position:center center !important;
-                background-repeat:no-repeat !important;
+                box-shadow: inset 3px 3px 0px 1px #00000052,
+                    inset -3px -3px 0px 1px #ffffff3b;
+                background-size: cover !important;
+                background-position: center center !important;
+                background-repeat: no-repeat !important;
                 box-sizing: border-box;
                 border-radius: 4px;
-                background:#000;
-                height:345px;
+                background: #000;
+                height: 345px;
             }
             .nft-counter {
                 color: #fff;
@@ -321,141 +675,585 @@ text-decoration: none;
                 background: #00000091;
                 padding: 10px 0;
                 p {
-                    margin:0;
-                    font-size:36px;
+                    margin: 0;
+                    font-size: 36px;
                     text-shadow: 2px 2px 0px #000;
                 }
             }
             ul {
-                margin:0;
-                padding:0;
+                margin: 0;
+                padding: 0;
                 list-style: none;
                 li {
-                    margin-bottom:5px;
+                    margin-bottom: 5px;
                 }
             }
             p {
-                font-size:14px;
+                font-size: 14px;
                 text-shadow: 2px 2px 0px #000;
                 &.title {
-                    color:$primary;
+                    color: $primary;
                 }
             }
         }
         .modal-footer {
-            border:0;
+            border: 0;
         }
     }
-    
+}
+
+.success-message {
+    color: #20ff93;
+    background: #26ff9629;
+    padding: 15px;
+    border-radius: 5px;
+    p {
+        margin: 0;
+    }
+}
+
+.nft-thumb {
+    box-shadow: inset 0px 0px 0px 0px #ff36ff;
+    position: relative;
+    overflow: hidden;
+    padding: 5px;
+    border-radius: 5px;
+    transition: all 200ms linear;
+    .nft-selected {
+        position: absolute;
+        left: 15px;
+        top: 15px;
+        background: #ff36ff;
+        color: #fff;
+        border-radius: 100px;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 28px;
+    }
+    p {
+        margin: 0;
+    }
+    &.active {
+        box-shadow: inset 0px 0px 0px 2px #ff36ff;
+    }
+}
+
+.nft-contract-thumb {
+    a {
+        text-decoration: none;
+    }
+    img {
+        border-radius: 5px;
+        transition: all 200ms linear;
+    }
+    &:hover {
+        cursor: pointer;
+        img {
+            transform: scale(1.05);
+        }
+    }
+
+    &.list-view {
+        border-bottom: 1px solid #404040;
+        height: 44px;
+        line-height: 44px;
+        transition: all 200ms linear;
+        img {
+            margin-right: 7px;
+        }
+        &:hover {
+            background: #404040;
+        }
+    }
+}
+
+.single-nft-badge {
+    background: linear-gradient(45deg, #ff36ff, #ff77ff);
+    box-shadow: 0px 2px 7px #00000069;
+    color: #000;
+    border-radius: 4px;
+    z-index: 9;
+    display: inline-block;
+    width: auto;
+    height: auto;
+    padding: 3px 13px;
+    font-size: 18px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-style: italic;
+}
+
+.nft-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(45deg, #ff36ff, #ff77ff);
+    box-shadow: 0px 2px 7px #00000069;
+    color: #000;
+    border-radius: 4px;
+    z-index: 9;
+    display: inline-block;
+    width: auto;
+    height: auto;
+    padding: 3px 6px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-style: italic;
+    &:nth-child(2) {
+        top: 41px;
+        background: linear-gradient(45deg, #49fea6, #20ff93);
+    }
+}
+
+.swiper {
+    padding-bottom: 15px !important;
+    .swiper-pagination-bullet {
+        background: #fff;
+        opacity: 0.2;
+        &.swiper-pagination-bullet-active {
+            opacity: 1;
+        }
+    }
+}
+.swiper-button-next {
+    color: #fff;
+}
+.swiper-button-prev {
+    color: #fff;
+}
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+    background: #fff;
+}
+.swiper-button-prev.swiper-button-disabled,
+.swiper-button-next.swiper-button-disabled {
+    opacity: 0;
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+    font-family: swiper-icons;
+    font-size: 18px !important;
+    color: #858585;
+    background: #19191fd9;
+    text-transform: none !important;
+    letter-spacing: 0;
+    text-transform: none;
+    font-variant: initial;
+    line-height: 1;
+    padding: 15px 7px;
+    border-radius: 4px;
+}
+
+.nft-preview {
+    position: relative;
+    // width: 80%;
+    // height: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0px 5px 45px #000;
+    max-width: 600px;
+    max-height: 600px;
+    img {
+        border-radius: 20px;
+    }
 }
 
 .nft-loader {
-    background:#1F1F1F;
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    bottom:0;
-    opacity:0;
+    background: #1f1f1f;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
     visibility: hidden;
-    transition:all 200ms ease-out;
+    transition: all 200ms ease-out;
+    z-index: 999;
     &.show {
-        opacity:1;
-        transition:all 200ms ease-out;
+        opacity: 1;
+        transition: all 200ms ease-out;
         visibility: visible;
     }
 }
 
 .countdown {
-    .time-low {
-        font-size:12px;
-        text-transform:uppercase;
-        opacity:0.6;
-    }
-    .time {
-        font-size:2vw;
-        font-weight:700;
-    }
-}
-
-/*Left*/
-/*Right*/
-.modal.left {
-	.modal-dialog {
-		position: fixed;
-		margin: auto;
-		width: 320px;
-		height: 100%;
-		-webkit-transform: translate3d(0%, 0, 0);
-		-ms-transform: translate3d(0%, 0, 0);
-		-o-transform: translate3d(0%, 0, 0);
-		transform: translate3d(0%, 0, 0);
-	}
-	.modal-content {
-		height: 100%;
-		overflow-y: auto;
-	}
-	.modal-body {
-		padding: 15px 15px 80px;
-	}
-}
-.modal{
-    &.right {
-	.modal-dialog {
-		position: fixed;
-		margin: auto;
-		width: 320px;
-		height: 100%;
-		-webkit-transform: translate3d(0%, 0, 0);
-		-ms-transform: translate3d(0%, 0, 0);
-		-o-transform: translate3d(0%, 0, 0);
-		transform: translate3d(0%, 0, 0);
-	}
-	.modal-content {
-		height: 100%;
-		overflow-y: auto;
-	}
-	.modal-body {
-		padding: 15px 15px 80px;
-	}
-}
-}
-.modal.left.fade {
-	.modal-dialog {
-		left: -320px;
-		-webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
-		-moz-transition: opacity 0.3s linear, left 0.3s ease-out;
-		-o-transition: opacity 0.3s linear, left 0.3s ease-out;
-		transition: opacity 0.3s linear, left 0.3s ease-out;
-	}
-}
-.modal.left.fade.in {
-	.modal-dialog {
-		left: 0;
-	}
-}
-.modal{
-&.right {
-    &.fade {
-	.modal-dialog {
-		right: -320px;
-		-webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
-		-moz-transition: opacity 0.3s linear, right 0.3s ease-out;
-		-o-transition: opacity 0.3s linear, right 0.3s ease-out;
-		transition: opacity 0.3s linear, right 0.3s ease-out;
-	}
-}
-}
-}
-
-.modal{
-    &.right {
-        &.fade { 
-            &.in {
-	.modal-dialog {
-		right: 0;
-	}
-}
+    width: 100%;
+    p {
+        font-size: 24px;
+        font-weight: 700;
+        small {
+            font-size: 12px;
+            opacity: 0.5;
+            margin-right: 5px;
+        }
+        @media (max-width: 768px) {
+            font-size: 17px;
         }
     }
 }
+
+/*Right*/
+.modal {
+    &.right {
+        &.fade {
+            .modal-dialog {
+                position: fixed;
+                margin: auto;
+                width: 320px;
+                height: 100%;
+                right: -320px;
+                -webkit-transform: translate3d(0%, 0, 0);
+                -ms-transform: translate3d(0%, 0, 0);
+                -o-transform: translate3d(0%, 0, 0);
+                transform: translate3d(0%, 0, 0);
+                -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+                -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+                -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+                transition: opacity 0.3s linear, right 0.3s ease-out;
+            }
+            .modal-content {
+                height: 100%;
+                overflow-y: auto;
+            }
+            .modal-body {
+                padding: 15px 15px 80px;
+            }
+
+            &.show {
+                -webkit-transform: translate3d(0%, 0, 0);
+                -ms-transform: translate3d(0%, 0, 0);
+                -o-transform: translate3d(0%, 0, 0);
+                transform: translate3d(0%, 0, 0);
+                .modal-dialog {
+                    right: 0;
+                }
+            }
+        }
+    }
+}
+
+.auctionForm {
+    h5 {
+        padding: 10px 0px;
+        font-weight: 800;
+        color: #ff36ff;
+        font-size: 24px;
+    }
+    small {
+        color: $primary;
+    }
+    .info {
+        font-size: 13px;
+        opacity: 0.6;
+    }
+    .icon {
+        position: relative;
+        float: left;
+        width: 100%;
+        height: 70px;
+        svg {
+            position: absolute;
+            color: #20ff93;
+            &:last-of-type {
+                left: 2px;
+                top: 2px;
+                color: #ff36ff;
+            }
+        }
+    }
+}
+
+.modal {
+    small {
+        font-size: 11px;
+        color: $primary;
+    }
+    .modal-heading {
+        background: #0000005e;
+        margin: 0 -15px;
+        padding: 10px 15px;
+        font-size: 16px;
+        font-weight: 700;
+    }
+    h2 {
+        font-weight: 700;
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .navbar {
+        .navbar-collapse {
+            background: #000000c4;
+            position: fixed;
+            right: -100%;
+            width: 330px;
+            top: 0;
+            height: 100%;
+            bottom: 0;
+            transition: all 200ms linear;
+            padding: 0px 10px;
+            .btn {
+                width: 100%;
+            }
+            .nav-item {
+                padding: 5px 5px;
+                margin: 0 !important;
+                .nav-link {
+                }
+            }
+            @media (max-width: 768px) {
+                top: 69px;
+                bottom: 0;
+            }
+            &.show {
+                right: 0;
+                bottom: 0;
+                height: 100%;
+            }
+            &.collapsing,
+            &.collapse {
+                position: fixed;
+                right: -100%;
+                width: 330px;
+                height: 100%;
+                top: 0;
+                bottom: 0;
+                @media (max-width: 768px) {
+                    top: 0;
+                    bottom: 0;
+                    z-index: 999;
+                    height: 100%;
+                }
+                &.show {
+                    right: 0;
+                    bottom: 0;
+                    height: 100%;
+                }
+            }
+        }
+    }
+}
+
+ol.progtrckr {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+ol.progtrckr li {
+    display: inline-block;
+    text-align: center;
+    line-height: 4.5rem;
+    cursor: pointer;
+    width: 100%;
+    transition: all 200ms linear;
+}
+
+ol.progtrckr li span {
+    padding: 0 1.5rem;
+    transition: all 200ms linear;
+}
+
+@media (max-width: 650px) {
+    .progtrckr li span {
+        display: none;
+    }
+}
+.progtrckr em {
+    display: none;
+    font-weight: 700;
+    padding-left: 1rem;
+}
+
+@media (max-width: 650px) {
+    .progtrckr em {
+        display: inline;
+    }
+}
+
+ol.progtrckr li.progtrckr-todo {
+    color: #858585;
+    border-bottom: 4px solid #19191d;
+}
+
+ol.progtrckr li.progtrckr-doing {
+    color: #ff36ff;
+    border-bottom: 4px solid #19191d;
+}
+
+ol.progtrckr li.progtrckr-done {
+    color: #858585;
+    border-bottom: 4px solid #ff36ff;
+}
+
+ol.progtrckr li:after {
+    content: '\A0\A0';
+}
+
+ol.progtrckr li:before {
+    position: relative;
+    bottom: -3.7rem;
+    float: left;
+    left: 50%;
+}
+
+ol.progtrckr li.progtrckr-todo:before {
+    content: '•';
+    color: #191921;
+    background-color: #191921;
+    width: 1.2em;
+    line-height: 1.2em;
+    border-radius: 100px;
+}
+
+ol.progtrckr li.progtrckr-todo:hover:before {
+    color: #ff36ff;
+}
+
+ol.progtrckr li.progtrckr-doing:before {
+    content: '•';
+    color: #2aff98;
+    background-color: #19191e;
+    width: 1.2em;
+    line-height: 1.2em;
+    border-radius: 1.2em;
+}
+
+ol.progtrckr li.progtrckr-doing:hover:before {
+    color: #ff36ff;
+}
+
+ol.progtrckr li.progtrckr-done:before {
+    content: '\2713';
+    color: white;
+    background-color: #ff36ff;
+    width: 1.2em;
+    line-height: 1.2em;
+    border-radius: 1.2em;
+}
+
+ol.progtrckr li.progtrckr-done:hover:before {
+    color: #333;
+}
+
+footer {
+    background: #1b1b1c;
+    width: 100%;
+    display: block;
+    text-align: center;
+    padding: 25px;
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-align: center;
+        li {
+            display: inline-block;
+        }
+    }
+}
+
+
+.confirm-background {
+    background:#2d2d2d;
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    opacity:0;
+    visibility: hidden;
+    transition: all 200ms linear;
+
+    .confirm-dialog {        
+        width:100%;
+        height:auto;
+        color:#fff;        
+        h1 {
+            color:$special;
+            font-weight:600;
+        }
+        h2 {
+
+        }
+        @media(max-width:768px){
+            height: 100%;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+    }
+    &.show {
+        opacity:1;
+        visibility: visible;
+    }
+}
+
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #595959;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), #1e1e1e;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #ff36ff;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #ff36ff;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  
