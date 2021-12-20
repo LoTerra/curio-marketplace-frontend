@@ -16,6 +16,7 @@ import {
     List,
     CirclesThreePlus,
     PlusCircle,
+    Warning,
 } from 'phosphor-react'
 import UserModal from './UserModal'
 
@@ -160,7 +161,13 @@ export default function Navbar(props) {
 
     return (
         <>
+          <div className="top-notice">
+            <div className="container-fluid">
+                    <p><Warning size={'16'}/> We are in contact with security audit, until a full audit report we recommend to use Curio at your own discretion and risk.</p>
+                </div>
+          </div>
             <div className="navbar navbar-expand-lg">
+                
                 <div className="container-fluid">
                     <div className="navbar-brand">
                         <a href="/">
