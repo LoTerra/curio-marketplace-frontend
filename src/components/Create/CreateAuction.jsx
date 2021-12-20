@@ -27,11 +27,13 @@ import {
     WarningCircle,
     X,
 } from 'phosphor-react'
+import ConfirmationModal from './ConfirmationModal'
 
 export default function CreateAuction(props) {
     const { state, dispatch } = useStore()
 
     const [listView, setListView] = useState(true)
+    const [confirm, setConfirm] = useState(false)
     const [contract, setContract] = useState({
         contract: {},
         address: '',
@@ -39,9 +41,11 @@ export default function CreateAuction(props) {
 
     const [manual, setManual] = useState(false)
     const [tokenId, setTokenId] = useState('')
+    const [nftImage, setNftImage] = useState('')
     const [userNfts, setUserNfts] = useState([])
     const [contracts, setContracts] = useState([])
     const [nftLoader, setNftLoader] = useState(false)
+    const [formData, setFormData] = useState();
 
     const closeRef = useRef()
 
@@ -69,6 +73,7 @@ export default function CreateAuction(props) {
 
         setUserNfts([])
         setTokenId('')
+        setNftImage('')
 
         if (address === '') {
             toast.error('Fill NFT Contract Address')
@@ -135,6 +140,7 @@ export default function CreateAuction(props) {
     //   getNftProviderData(contract.address)
     // }, INTERVAL));
 
+
     function getContractData() {
         if (connectedWallet) {
             console.log(connectedWallet.network.name)
@@ -147,6 +153,87 @@ export default function CreateAuction(props) {
             })
 
             console.log(connectedWallet.network, contracts)
+        }
+    }
+
+    async function finalCreation(){
+        if (connectedWallet) {
+            console.log('walletAddress is', connectedWallet.walletAddress)
+            // In this case network should be testnet bombay
+            console.log('network is', connectedWallet.network)
+            console.log('connectType is', connectedWallet.connectType)
+        }
+       
+        try {
+            let auction_msg = {
+                create_auction_nft: {
+                    end_time: new Date(formData.end_time).getTime() / 1000,
+                },
+            }
+
+            if (formData.start_time) {
+                auction_msg.create_auction_nft.start_time =
+                    new Date(formData.start_time).getTime() / 1000
+            }
+
+            //   if (data.category) {
+            //     auction_msg.create_auction_nft.category = String(data.category)
+            //   }
+
+            if (formData.charity_address && formData.charity_fee) {
+                auction_msg.create_auction_nft.charity = {
+                    address: formData.charity_address,
+                    fee_percentage: parseInt(formData.charity_fee),
+                }
+            }
+            if (formData.start_price) {
+                auction_msg.create_auction_nft.start_price = String(
+                    formData.start_price * 1000000,
+                )
+            }
+            if (formData.instant_buy) {
+                auction_msg.create_auction_nft.instant_buy = String(
+                    formData.instant_buy * 1000000,
+                )
+            }
+            if (formData.reserve_price) {
+                auction_msg.create_auction_nft.reserve_price = String(
+                    formData.reserve_price * 1000000,
+                )
+            }
+            if (formData.private_sale) {
+                auction_msg.create_auction_nft.private_sale = true
+            } else {
+                auction_msg.create_auction_nft.private_sale = false
+            }
+
+            let msg = new MsgExecuteContract(
+                connectedWallet.walletAddress,
+                String(contract.address),
+                {
+                    send_nft: {
+                        contract: state.privAuctionContract,
+                        token_id: tokenId,
+                        msg: Buffer.from(JSON.stringify(auction_msg)).toString(
+                            'base64',
+                        ),
+                    },
+                },
+            )
+
+            const result = await connectedWallet.post({
+                msgs: [msg],
+            })
+            console.log(result)
+            toast.success('Auction successfully created')
+            setConfirm(false)
+            setTimeout(() => {
+                window.location.href = window.location.origin
+            }, 2000)
+        } catch (e) {
+            console.log(e.message)
+            console.log(e)
+            toast.error('Auction creation error')
         }
     }
 
@@ -169,95 +256,15 @@ export default function CreateAuction(props) {
             toast.error('NFT Token ID needs to be filled')
             return false
         }
-
-        let confirm = window.confirm(
-            'Are you sure you want to create this auction?',
-        )
-        if (!confirm) {
-            return
-        }
-
-        if (connectedWallet) {
-            console.log('walletAddress is', connectedWallet.walletAddress)
-            // In this case network should be testnet bombay
-            console.log('network is', connectedWallet.network)
-            console.log('connectType is', connectedWallet.connectType)
-        }
-
-        try {
-            let auction_msg = {
-                create_auction_nft: {
-                    end_time: new Date(data.end_time).getTime() / 1000,
-                },
-            }
-
-            if (data.start_time) {
-                auction_msg.create_auction_nft.start_time =
-                    new Date(data.start_time).getTime() / 1000
-            }
-
-            //   if (data.category) {
-            //     auction_msg.create_auction_nft.category = String(data.category)
-            //   }
-
-            if (data.charity_address && data.charity_fee) {
-                auction_msg.create_auction_nft.charity = {
-                    address: data.charity_address,
-                    fee_percentage: parseInt(data.charity_fee),
-                }
-            }
-            if (data.start_price) {
-                auction_msg.create_auction_nft.start_price = String(
-                    data.start_price * 1000000,
-                )
-            }
-            if (data.instant_buy) {
-                auction_msg.create_auction_nft.instant_buy = String(
-                    data.instant_buy * 1000000,
-                )
-            }
-            if (data.reserve_price) {
-                auction_msg.create_auction_nft.reserve_price = String(
-                    data.reserve_price * 1000000,
-                )
-            }
-            if (data.private_sale_privilege) {
-                auction_msg.create_auction_nft.private_sale_privilege = String(
-                    data.private_sale_privilege * 1000000,
-                )
-            }
-
-            let msg = new MsgExecuteContract(
-                connectedWallet.walletAddress,
-                String(contract.address),
-                {
-                    send_nft: {
-                        contract: state.privAuctionContract,
-                        token_id: tokenId,
-                        msg: Buffer.from(JSON.stringify(auction_msg)).toString(
-                            'base64',
-                        ),
-                    },
-                },
-            )
-
-            const result = await connectedWallet.post({
-                msgs: [msg],
-            })
-            console.log(result)
-            toast.success('Auction successfully created')
-            setTimeout(() => {
-                window.location.href = window.location.origin
-            }, 2000)
-        } catch (e) {
-            console.log(e.message)
-            console.log(e)
-            toast.error('Auction creation error')
-        }
+        setFormData(data)
+        setConfirm(true)
+        
     }
 
     const contractChangeHandler = (e) => {
         setTokenId('')
+        setNftImage('')
+        setConfirm(false)
         setUserNfts([])
         setContract({ contract: null, address: e.target.value })
     }
@@ -265,7 +272,7 @@ export default function CreateAuction(props) {
     useEffect(() => {
         console.log(tokenId)
         console.log(contract)
-    }, [userNfts, contracts, contract, tokenId])
+    }, [userNfts, contracts, contract, tokenId, confirm])
 
     return (
         <>
@@ -557,8 +564,12 @@ export default function CreateAuction(props) {
                                                             ? ' active'
                                                             : '')
                                                     }
-                                                    onClick={() =>
+                                                    onClick={() => {
+                                                        setNftImage(obj.image)
                                                         setTokenId(obj.token_id)
+
+                                                    }
+                                                        
                                                     }
                                                 >
                                                     {tokenId &&
@@ -620,7 +631,7 @@ export default function CreateAuction(props) {
                                 <>
                                     <div className="col-md-3"></div>
                                     <div className="col-md-9">
-                                        <div className="success-message">
+                                        <div className="success-message mb-4">
                                             <p>
                                                 <CheckCircle size={21} /> Nft
                                                 selected, you can now setup the
@@ -630,9 +641,13 @@ export default function CreateAuction(props) {
                                     </div>
                                 </>
                             )}
+                            {contract.address !== '' &&
+                            tokenId !== '' &&
+                            contract.contract && (
+                                <>
                         <div className="col-md-3">
                             <span className="icon">
-                                <SlidersHorizontal size={70} weight="light" />{' '}
+                                <SlidersHorizontal size={70} weight="light" />
                                 <SlidersHorizontal size={70} weight="light" />
                             </span>
                             <p className="info">
@@ -649,8 +664,8 @@ export default function CreateAuction(props) {
                                     <h5>Auction settings</h5>
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Scheduled to start</label>{' '}
-                                    <small>optional</small>
+                                    <label>Scheduled to start</label>
+                                    <small className="ms-2">optional</small>
                                     <p className="info">
                                         Time the auction begins
                                     </p>
@@ -662,6 +677,7 @@ export default function CreateAuction(props) {
                                 </div>
                                 <div className="col-md-6 mb-3">
                                     <label>Auction end</label>
+                                    <small className="ms-2" style={{color:'#ff36ff'}}>required</small>
                                     <p className="info">
                                         Time the auction finishes
                                     </p>
@@ -673,8 +689,8 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Opening bid price</label>{' '}
-                                    <small>optional</small>
+                                    <label>Opening bid price</label>
+                                    <small className="ms-2">optional</small>
                                     <p className="info">
                                         While the reserve price is the minimum
                                         price a seller is willing to accept, the
@@ -688,8 +704,8 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Buyout price</label>{' '}
-                                    <small>optional</small>
+                                    <label>Buyout price</label>
+                                    <small className="ms-2">optional</small>
                                     <p className="info">
                                         This is an auction where the seller sets
                                         a price at which participants can choose
@@ -704,8 +720,8 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Reserve price</label>{' '}
-                                    <small>optional</small>
+                                    <label>Reserve price</label>
+                                    <small className="ms-2">optional</small>
                                     <p className="info">
                                         If the reserve price is not met, the
                                         seller is not required to sell the item,
@@ -718,30 +734,35 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Private sale amount in SITY</label>{' '}
-                                    <small>optional</small>
+                                    <label>Private auction</label>
+                                    <small className="ms-2">optional</small>
                                     <p className="info">
-                                        {' '}
+                                       
                                         Private auction is similar to open
                                         auction, except creator restrict
                                         participation to SITY holders. Unlike
                                         open auctions, access to private auction
                                         is restricted to token holders to bid on
-                                        the private auction{' '}
+                                        the private auction
                                     </p>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        name="private_sale_privilege"
-                                    />
+                                    <label class="switch">
+  <input type="checkbox" name="private_sale"/>
+  <span class="slider round"></span>
+</label>
                                 </div>
                             </div>
                         </div>
+                        </>
+                            )}
                     </div>
+                    {contract.address !== '' &&
+                            tokenId !== '' &&
+                            contract.contract && (
+                                <>
                     <div className="row">
+                        
                         <div className="col-md-3">
-                            <span className="icon">
-                                {' '}
+                            <span className="icon">                             
                                 <Heart size={70} weight="light" />
                                 <Heart size={70} weight="light" />
                             </span>
@@ -762,8 +783,8 @@ export default function CreateAuction(props) {
                                     </p>
                                 </div>
                                 <div className="col-12 mb-3">
-                                    <label>Charity address</label>{' '}
-                                    <small>optional</small>
+                                    <label>Charity address</label>
+                                    <small className="ms-2">optional</small>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -771,14 +792,15 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-12 mb-3">
-                                    <label>Charity percentage fee</label>{' '}
-                                    <small>optional</small>
+                                    <label>Charity percentage fee</label>
+                                    <small className="ms-2">optional</small>
                                     <input
                                         type="number"
                                         className="form-control"
                                         name="charity_fee"
                                     />
                                 </div>
+                         
                                 <div className="col-12 mt-3 mb-3">
                                     <button
                                         type="button"
@@ -788,9 +810,15 @@ export default function CreateAuction(props) {
                                         Create
                                     </button>
                                 </div>
+                         
+                                <ConfirmationModal confirm={confirm} toggleConfirm={() => setConfirm(!confirm)} finalCreation={() => finalCreation()} nftImage={nftImage} formData={formData} />
                             </div>
+                          
                         </div>
+                      
                     </div>
+                    </>
+                            )}
                 </form>
             ) : (
                 <div className="col-12 p-4 text-center">

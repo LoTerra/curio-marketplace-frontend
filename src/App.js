@@ -72,19 +72,21 @@ function App() {
                     rel="stylesheet"
                 />
             </Head>
-            <div className="content">
-                <React.Suspense fallback={<MainLoader />}>
+            
                     <StoreProvider>
+                    <React.Suspense fallback={<MainLoader />}>      
+                        <div className="page-content">
                         <Navbar />
                         <Router>
                             <SingleNft path="/nfts/:nftId" />
                             <Create path="/create" />
                             <Routes default />
                         </Router>
+                        </div>
                         <Footer />
-                    </StoreProvider>
-                </React.Suspense>
-            </div>
+                        </React.Suspense>
+                    </StoreProvider>               
+        
         </Root>
     )
 }

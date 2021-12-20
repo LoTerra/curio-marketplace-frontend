@@ -28,6 +28,7 @@ import AuctionInfo from '../../components/SingleNft/AuctionInfo'
 import BiddingInterface from '../../components/SingleNft/BiddingInterface'
 import { ArrowLeft, Eye } from 'phosphor-react'
 import WithdrawNft from '../../components/SingleNft/WithdrawNft'
+import numeral from 'numeral'
 
 export default (props) => {
     const { state, dispatch } = useStore()
@@ -41,7 +42,7 @@ export default (props) => {
     const [bidder, setBidder] = useState({
         bid_counter: 0,
         bids: [],
-        privilege_used: null,
+        sity_used: null,
         total_bid: 0,
     })
 
@@ -148,14 +149,14 @@ export default (props) => {
                         image: data.image_url,
                         name: data.title,
                         description: data.description,
-                        private_sale: data.private_sale_privilege,
+                        private_sale: data.private_sale,
                         creator: data.creator.address,
                     })
                     console.log({
                         image: data.image_url,
                         name: data.title,
                         description: data.description,
-                        private_sale: data.private_sale_privilege,
+                        private_sale: data.private_sale,
                     })
                 })
                 .catch(function (error) {
@@ -210,7 +211,8 @@ export default (props) => {
         }
     }, [])
 
-    async function unlockPrivAuction(price) {
+    async function unlockPrivAuction() {
+        let price = getRawAmountToUnlock()
         try {
             if (!connectedWallet) {
                 toast.error('Connect your wallet')
@@ -274,6 +276,42 @@ export default (props) => {
             setTimeout(() => reloadData(), 3000)
         } catch (e) {
             console.log(e)
+        }
+    }
+
+    function getAmountToUnlock(){
+        if(nftData.private_sale){
+            if(parseInt(nftData.highest_bid) / 1000000 > 1) {
+                let bid = 1;
+                let highest_bid = parseInt(nftData.highest_bid) / 1000000; 
+                let add_to_bid = parseInt(nftData.highest_bid) / 100 * 2 / 1000000;
+                if(highest_bid > 1){
+                    bid = bid + Math.floor(add_to_bid);
+                } 
+                return numeral(bid).format('0,0.00')
+            } else {
+                return 1
+            }
+        } else {
+            return 0
+        }
+    }
+
+    function getRawAmountToUnlock(){
+        if(nftData.private_sale){
+            if(parseInt(nftData.highest_bid) > 0) {
+                let bid = 1000000;
+                let highest_bid = parseInt(nftData.highest_bid); 
+                let add_to_bid = parseInt(nftData.highest_bid) / 100 * 2;
+                if(highest_bid > bid){
+                    bid = bid + Math.floor(add_to_bid);
+                } 
+                return bid; 
+            } else {
+                return 1000000
+            }
+        } else {
+            return 0
         }
     }
 
@@ -439,11 +477,11 @@ export default (props) => {
             return false
         }
         if (
-            (nftData.private_sale_privilege > 0 &&
-                nftData.private_sale_privilege !== undefined) ||
+            (nftData.private_sale > 0 &&
+                nftData.private_sale !== undefined) ||
             null
         ) {
-            if (bidder.privilege_used === nftData.private_sale_privilege) {
+            if (parseInt(bidder.sity_used) > 0 ) {
                 console.log('bidder unlocked')
                 return true
             } else {
@@ -505,7 +543,7 @@ export default (props) => {
         } else {
             setIsOwner(false)
         }
-    }, [connectedWallet])
+    }, [connectedWallet,lcd])
 
     function websocket() {
         //Pusher code
@@ -549,7 +587,7 @@ export default (props) => {
     //Socket code
     useEffect(() => {
         websocket()
-    }, [connectedWallet])
+    }, [])
 
     return (
         <>
@@ -588,10 +626,10 @@ export default (props) => {
                                     />{' '}
                                     Back to home
                                 </a>
-                                {parseInt(nftData.private_sale_privilege) >
+                                {parseInt(nftData.private_sale) >
                                     0 && (
                                     <p className="single-nft-badge">
-                                        Private auction
+                                        Private
                                     </p>
                                 )}
                                 <h3 className="title">{imageNftData.name}</h3>
@@ -681,18 +719,13 @@ export default (props) => {
                                                 }
                                                 isOwner={isOwner}
                                             />
-                                            {!isOwner &&
-                                                bidder.privilege_used !==
-                                                    nftData.private_sale_privilege &&
-                                                nftData.private_sale_privilege >
-                                                    0 && (
+                                            {!isOwner && nftData.private_sale &&
+                                                !parseInt(bidder.sity_used) > 0 && (
                                                     <div className="col-12">
                                                         <button
                                                             className="btn btn-primary btn-lg w-100 mt-3"
                                                             onClick={() =>
-                                                                unlockPrivAuction(
-                                                                    nftData.private_sale_privilege,
-                                                                )
+                                                                unlockPrivAuction()
                                                             }
                                                         >
                                                             Unlock private
@@ -701,11 +734,7 @@ export default (props) => {
                                                                 <strong>
                                                                     Costs:{' '}
                                                                 </strong>
-                                                                {parseInt(
-                                                                    nftData.private_sale_privilege,
-                                                                ) /
-                                                                    1000000}{' '}
-                                                                SITY
+                                                                {getAmountToUnlock()} SITY
                                                             </small>
                                                         </button>
                                                     </div>

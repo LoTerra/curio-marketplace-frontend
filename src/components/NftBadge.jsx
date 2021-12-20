@@ -7,10 +7,10 @@ export default function NftBadge(props) {
         <>
             {data.restricted && <span className="nft-badge">Restricted</span>}
 
-            {data.private_sale_privilege !== undefined &&
-                data.private_sale_privilege !== null &&
-                data.private_sale_privilege > 0 && (
-                    <span className="nft-badge">Private Auction</span>
+            {data.private_sale !== undefined &&
+                data.private_sale !== null &&
+                data.private_sale == true && (
+                    <span className="nft-badge">Private</span>
                 )}
 
             {data.instant_buy > 0 && (

@@ -33,15 +33,9 @@ body {
     background-size: cover;
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing: none;
-    &:before {
-        position: fixed;
-        content: '';
-        left: 0;
-        right: 0;
-        top: 0;
-        background: #02023147;
-        z-index: -1;
-        bottom: 0;
+    .page-content {
+        position:relative;
+        min-height:100%;
     }
 }
 
@@ -313,8 +307,7 @@ label {
 .nfts-big {
     padding: 130px 0 80px 0;
     background-size: cover !important;
-    background: linear-gradient(0deg, #1a1a20 22.16%, rgb(26 26 32 / 50%) 90%),
-        url('/img/herobg.jpeg');
+    background:linear-gradient(0deg, #1f1f1f 22.16%, rgb(31 31 31 / 60%) 90%), url('/img/herobg.jpeg');
     @media (max-width: 768px) {
         padding: 100px 0 80px 0;
     }
@@ -364,6 +357,36 @@ label {
     }
 }
 
+.nft-stats {
+    background: #0000004f;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    h6 {
+        margin-bottom: 0;
+        color: $primary;
+        font-size: 14px;
+    }
+    p {
+        margin: 0;
+        font-weight: 700;
+        font-size: 18px;
+    }
+    &.big {
+        background: #0000004f;
+        text-align: center;
+        border: 0;
+        h6 {
+            color: #fff;
+            opacity: 0.6;
+        }
+        p {
+            font-size: 36px;
+            color: $primary;
+        }
+    }
+}
+
 .single-nft-main {
     color: #fff;
     padding: 130px 0 80px 0;
@@ -375,35 +398,7 @@ label {
     position: relative;
     width: 100%;
     overflow: hidden;
-    .nft-stats {
-        background: #191921;
-        border-radius: 5px;
-        padding: 10px;
-        margin-bottom: 10px;
-        h6 {
-            margin-bottom: 0;
-            color: $primary;
-            font-size: 14px;
-        }
-        p {
-            margin: 0;
-            font-weight: 700;
-            font-size: 18px;
-        }
-        &.big {
-            background: #191921;
-            text-align: center;
-            border: 0;
-            h6 {
-                color: #fff;
-                opacity: 0.6;
-            }
-            p {
-                font-size: 36px;
-                color: $primary;
-            }
-        }
-    }
+   
     .nft-bidding {
         background: #191921;
         border-radius: 5px;
@@ -455,7 +450,7 @@ label {
         margin-bottom: 20px;
     }
     h5 {
-        border-bottom: 2px solid #1b1b23;
+        border-bottom: 2px solid #222223;
         font-weight: 600;
         padding-bottom: 5px;
     }
@@ -1162,3 +1157,103 @@ footer {
         }
     }
 }
+
+
+.confirm-background {
+    background:#2d2d2d;
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    opacity:0;
+    visibility: hidden;
+    transition: all 200ms linear;
+
+    .confirm-dialog {        
+        width:100%;
+        height:auto;
+        color:#fff;        
+        h1 {
+            color:$special;
+            font-weight:600;
+        }
+        h2 {
+
+        }
+        @media(max-width:768px){
+            height: 100%;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+    }
+    &.show {
+        opacity:1;
+        visibility: visible;
+    }
+}
+
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #595959;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), #1e1e1e;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #ff36ff;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #ff36ff;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  
