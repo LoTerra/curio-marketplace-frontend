@@ -74,7 +74,7 @@ function App() {
             </Head>
             
                     <StoreProvider>
-                    <React.Suspense fallback={<MainLoader />}>      
+                    <React.Suspense fallback={<MainLoader />}>
                         <div className="page-content">
                         <Navbar />
                         <Router>

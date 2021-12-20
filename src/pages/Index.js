@@ -131,7 +131,7 @@ export default () => {
                                             your NFT
                                         </h1>
                                         <p className="slogan">
-                                            Curio a decentralized marketplace to find a rare, unusual, or intriguing NFT.
+                                            Find a rare, unusual, or intriguing NFT on Curio decentralized marketplace.
                                         </p>
                                         <p className="badge">BETA MODE</p>
                                         <p className="powered">
