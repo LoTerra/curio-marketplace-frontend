@@ -281,11 +281,13 @@ export default (props) => {
 
     function getAmountToUnlock(){
         if(nftData.private_sale){
-            if(parseInt(nftData.highest_bid) > 0) {
-                let bid = parseInt(nftData.highest_bid) / 100 * 2 / 1000000;
-                if(bid < 1){
-                    bid = 1;
-                }
+            if(parseInt(nftData.highest_bid) / 1000000 > 1) {
+                let bid = 1;
+                let highest_bid = parseInt(nftData.highest_bid) / 1000000; 
+                let add_to_bid = parseInt(nftData.highest_bid) / 100 * 2 / 1000000;
+                if(highest_bid > 1){
+                    bid = bid + add_to_bid;
+                } 
                 return numeral(bid).format('0,0.00')
             } else {
                 return 1
@@ -298,10 +300,12 @@ export default (props) => {
     function getRawAmountToUnlock(){
         if(nftData.private_sale){
             if(parseInt(nftData.highest_bid) > 0) {
-                let bid = parseInt(nftData.highest_bid) / 100 * 2;
-                if(bid < 1){
-                    bid = 1000000;
-                }
+                let bid = 1000000;
+                let highest_bid = parseInt(nftData.highest_bid); 
+                let add_to_bid = parseInt(nftData.highest_bid) / 100 * 2;
+                if(highest_bid > bid){
+                    bid = bid + add_to_bid;
+                } 
                 return bid; 
             } else {
                 return 1000000
@@ -539,7 +543,7 @@ export default (props) => {
         } else {
             setIsOwner(false)
         }
-    }, [connectedWallet])
+    }, [connectedWallet,lcd])
 
     function websocket() {
         //Pusher code
