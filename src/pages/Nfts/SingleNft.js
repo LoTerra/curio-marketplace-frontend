@@ -730,7 +730,7 @@ export default (props) => {
                                                                 <strong>
                                                                     Costs:{' '}
                                                                 </strong>
-                                                                {getAmountToUnlock()} UST
+                                                                {getAmountToUnlock()} SITY
                                                             </small>
                                                         </button>
                                                     </div>
