@@ -58,20 +58,9 @@ export default (props) => {
     if (typeof document !== 'undefined') {
         wallet = useWallet()
         connectedWallet = useConnectedWallet()
-    }
+    }  
 
-    const lcd = useMemo(() => {
-        if (!connectedWallet) {
-            return null
-        }
-
-        return new LCDClient({
-            URL: connectedWallet.network.lcd,
-            chainID: connectedWallet.network.chainID,
-        })
-    }, [connectedWallet])
-
-    const api = new WasmAPI(lcd.apiRequester)
+    const api = new WasmAPI(state.lcd.apiRequester)
 
     const reloadData = useCallback(async () => {
         try {
