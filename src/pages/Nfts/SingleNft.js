@@ -243,6 +243,7 @@ export default (props) => {
             toast.success('Auction unlocked!')
             setTimeout(() => reloadData(), 1000)
         } catch (e) {
+            toast.error('Something went wrong, try again')
             console.log(e)
         }
     }
@@ -273,7 +274,7 @@ export default (props) => {
                 msgs: [msg],
             })
             toast.success('Instant buy succesful!')
-            setTimeout(() => reloadData(), 3000)
+            setTimeout(() => reloadData(), 1000)
         } catch (e) {
             console.log(e)
         }
@@ -286,7 +287,7 @@ export default (props) => {
                 let highest_bid = parseInt(nftData.highest_bid) / 1000000; 
                 let add_to_bid = parseInt(nftData.highest_bid) / 100 * 2 / 1000000;
                 if(highest_bid > 1){
-                    bid = bid + Math.floor(add_to_bid);
+                    bid = bid + add_to_bid;
                 } 
                 return numeral(bid).format('0,0.00')
             } else {
@@ -304,7 +305,7 @@ export default (props) => {
                 let highest_bid = parseInt(nftData.highest_bid); 
                 let add_to_bid = parseInt(nftData.highest_bid) / 100 * 2;
                 if(highest_bid > bid){
-                    bid = bid + Math.floor(add_to_bid);
+                    bid = bid + add_to_bid;
                 } 
                 return bid; 
             } else {
@@ -543,7 +544,7 @@ export default (props) => {
         } else {
             setIsOwner(false)
         }
-    }, [connectedWallet,lcd])
+    }, [connectedWallet])
 
     function websocket() {
         //Pusher code
