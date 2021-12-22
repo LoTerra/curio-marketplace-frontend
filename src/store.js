@@ -1,9 +1,13 @@
 import React, { createContext, useContext, useReducer } from 'react'
 import { LCDClient } from '@terra-money/terra.js'
 
+// const lcd = new LCDClient({
+//     URL: 'https://bombay-lcd.terra.dev',
+//     chainID: 'bombay-12',
+// })
 const lcd = new LCDClient({
-    URL: 'https://bombay-lcd.terra.dev',
-    chainID: 'bombay-12',
+    URL: 'https://lcd.terra.dev',
+    chainID: 'columbus-5',
 })
 
 const StoreContext = createContext()
@@ -34,8 +38,10 @@ let cats = [
 ]
 
 const initialState = {
-    privAuctionContract: 'terra1vj2w6wny2zrvqy9ytup7k52pa3exl5tj7dqjr0',
-    privTokenCw20Contract: 'terra1rtdeyeyp4jvde4rd5m3q7y2zxat6f5cyul7e8w',
+    privAuctionContract: 'terra19xhnmthp2sf0cgk09a743lnp7wltmgdfe20ug5',
+    privTokenCw20Contract: 'terra1z09gnzufuflz6ckd9k0u456l9dnpgsynu0yyhe',
+    // testnetPrivAuctionContract: 'terra1vj2w6wny2zrvqy9ytup7k52pa3exl5tj7dqjr0',
+    // testnetPrivTokenCw20Contract: 'terra1rtdeyeyp4jvde4rd5m3q7y2zxat6f5cyul7e8w',
     categories: cats,
     auctions: [],
     lcd: lcd,
