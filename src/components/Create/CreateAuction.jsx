@@ -181,7 +181,8 @@ export default function CreateAuction(props) {
             //   }
 
             if (formData.charity_address && formData.charity_fee) {
-                let fee = parseFloat(formData.charity_fee / 100)
+                let num = (parseFloat(formData.charity_fee) / 100).toString()
+                let fee = num.slice(0, (num.indexOf("."))+6);
           
                 auction_msg.create_auction_nft.charity = {
                     address: formData.charity_address,
