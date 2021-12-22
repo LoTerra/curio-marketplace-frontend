@@ -83,9 +83,16 @@ export default function AuctionInfo(props) {
                         {nftData.charity
                             ? (parseFloat(nftData.charity.fee_percentage) * 100).toFixed(2) + '%'
                             : 'No'}
+                               
                     </p>
                 </div>
             </div>
+
+            {nftData.charity
+                            ? <div class="col-12 pb-2">
+                                    <small className="d-block" style={{fontSize:'12px', opacity:0.6, wordBreak:'break-word', fontWeight:300}}>Charity address: {nftData.charity.address}</small>
+                            </div>
+                            : ''}
 
             <div className="col-6">
                 <div className="nft-stats">
