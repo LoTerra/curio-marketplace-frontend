@@ -81,7 +81,7 @@ export default function AuctionInfo(props) {
                     <h6>Charity</h6>
                     <p className="highest_bid">
                         {nftData.charity
-                            ? nftData.charity.fee_percentage + '%'
+                            ? (nftData.charity.fee_percentage * 100) + '%'
                             : 'No'}
                     </p>
                 </div>
