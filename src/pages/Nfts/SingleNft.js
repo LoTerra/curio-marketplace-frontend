@@ -243,6 +243,7 @@ export default (props) => {
             toast.success('Auction unlocked!')
             setTimeout(() => reloadData(), 1000)
         } catch (e) {
+            toast.error('Something went wrong, try again')
             console.log(e)
         }
     }
@@ -273,7 +274,7 @@ export default (props) => {
                 msgs: [msg],
             })
             toast.success('Instant buy succesful!')
-            setTimeout(() => reloadData(), 3000)
+            setTimeout(() => reloadData(), 1000)
         } catch (e) {
             console.log(e)
         }
@@ -543,7 +544,7 @@ export default (props) => {
         } else {
             setIsOwner(false)
         }
-    }, [connectedWallet,lcd])
+    }, [connectedWallet])
 
     function websocket() {
         //Pusher code
