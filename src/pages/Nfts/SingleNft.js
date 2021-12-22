@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import NftCard from '../../components/NftCard'
 import { useStore } from '../../store'
 import toast, { Toaster } from 'react-hot-toast'
@@ -51,18 +51,25 @@ export default (props) => {
     const testAuctionID = parseInt(props.nftId)
 
     console.log(testAuctionID)
-    let network = {}
-    let connectedWallet = {}
+  
+    let wallet = ''
+    let connectedWallet = ''
 
     if (typeof document !== 'undefined') {
-        network = useWallet().network
+        wallet = useWallet()
         connectedWallet = useConnectedWallet()
     }
 
-    const lcd = new LCDClient({
-        URL: network.lcd,
-        chainID: network.chainID,
-    })
+    const lcd = useMemo(() => {
+        if (!connectedWallet) {
+            return null
+        }
+
+        return new LCDClient({
+            URL: connectedWallet.network.lcd,
+            chainID: connectedWallet.network.chainID,
+        })
+    }, [connectedWallet])
 
     const api = new WasmAPI(lcd.apiRequester)
 
