@@ -630,7 +630,7 @@ export default function CreateAuction(props) {
                     <div className="row mb-4">
                         {contract.address !== '' &&
                             tokenId !== '' &&
-                            contract.contract && (
+                           (
                                 <>
                                     <div className="col-md-3"></div>
                                     <div className="col-md-9">
@@ -646,7 +646,7 @@ export default function CreateAuction(props) {
                             )}
                             {contract.address !== '' &&
                             tokenId !== '' &&
-                            contract.contract && (
+                            (
                                 <>
                         <div className="col-md-3">
                             <span className="icon">
@@ -760,7 +760,7 @@ export default function CreateAuction(props) {
                     </div>
                     {contract.address !== '' &&
                             tokenId !== '' &&
-                            contract.contract && (
+                           (
                                 <>
                     <div className="row">
                         
