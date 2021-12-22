@@ -181,9 +181,11 @@ export default function CreateAuction(props) {
             //   }
 
             if (formData.charity_address && formData.charity_fee) {
+                let fee = parseFloat(formData.charity_fee / 100).toFixed(2)
+          
                 auction_msg.create_auction_nft.charity = {
                     address: formData.charity_address,
-                    fee_percentage: parseInt(formData.charity_fee),
+                    fee_percentage: fee,
                 }
             }
             if (formData.start_price) {
@@ -796,6 +798,9 @@ export default function CreateAuction(props) {
                                     <small className="ms-2">optional</small>
                                     <input
                                         type="number"
+                                        step="0.01"
+                                        max="100"
+                                        min="0"
                                         className="form-control"
                                         name="charity_fee"
                                     />
