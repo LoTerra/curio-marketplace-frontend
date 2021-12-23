@@ -164,7 +164,7 @@ export default (props) => {
                             image: data.image_url,
                             image_url: data.extension && data.extension.image ? data.extension.image : null,
                             animation_url: data.extension && data.extension.animation_url ? data.extension.animation_url : null,
-                            name: data.title,
+                            name: data.title ? data.title : data.extension.name,
                             description: data.description,
                             private_sale: data.private_sale,
                             creator: data.creator.address,     
