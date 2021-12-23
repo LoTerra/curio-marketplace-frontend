@@ -114,18 +114,28 @@ export default function CreateAuction(props) {
                     .then(function (response) {
                         console.log(response)
                         singleToken.image = response.data.image;
+                        if(typeof response.data.extension.image !== 'undefined'){
+                            singleToken.image = response.data.extension.image
+                        }
+                        if(typeof response.data.extension.image_data !== 'undefined'){
+                            singleToken.image = response.data.extension.image_data
+                        }
+                        if(typeof response.data.extension.animation_url !== 'undefined'){
+                            singleToken.image = response.data.extension.animation_url
+                            singleToken.type = 'video';
+                        }
                     }).catch(function (error) {
                     console.log(error)
                 })               
                 } else {
-                    if(singleToken.extension && singleToken.extension.length > 0){
-                        if(singleToken.extension.image){
+                    if(singleToken.extension && typeof singleToken.extension.image !== 'undefined'){
+                        if(singleToken.extension.image !== null){
                             singleToken.image = singleToken.extension.image
                         }
-                        if(singleToken.extension.image_data){
+                        if(singleToken.extension.image_data !== null){
                             singleToken.image = singleToken.extension.image_data
                         }
-                        if(singleToken.extension.animation_url){
+                        if(singleToken.extension.animation_url !== null){
                             singleToken.image = singleToken.extension.animation_url
                             singleToken.type = 'video';
                         }
