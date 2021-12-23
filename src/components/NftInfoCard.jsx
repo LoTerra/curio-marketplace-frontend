@@ -27,7 +27,7 @@ export default function NftInfoCard(props) {
                                 className="card-img"
                                 alt="..."
                             />)}
-                            {data.extension && (
+                            {data.extension && data.extension.image && (
                                 <img src={"https://ipfs.io/ipfs/" +data.extension.image.split("/").pop()} className="card-img" />
                             )}
                             <div className="d-flex h-100 w-100">
