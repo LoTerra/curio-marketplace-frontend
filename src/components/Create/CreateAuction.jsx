@@ -639,7 +639,7 @@ export default function CreateAuction(props) {
                                                         className="img-fluid"
                                                     />
                                                     :
-                                                    <video playsinline="" autoplay="" muted loop="" src={"https://ipfs.io/ipfs/" +obj.image.split("/").pop()}></video>
+                                                    <video playsinline="" autoplay="" muted loop style={{maxWidth: "100%"}} src={"https://ipfs.io/ipfs/" +obj.image.split("/").pop()}></video>
                                                     }
                                                     <p>{obj.name}</p>
                                                 </div>
