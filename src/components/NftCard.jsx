@@ -50,7 +50,7 @@ export default function NftCard(props) {
                                 <img src={"https://ipfs.io/ipfs/" +data.extension.image.split("/").pop()} className="card-img" />
                             )}
                             {data.extension && data.extension.animation_url && (                                
-                                <video playsinline="" autoplay="" loop="" muted src={"https://ipfs.io/ipfs/" +data.extension.animation_url.split("/").pop()}></video>
+                                <video playsinline="" autoplay="" loop muted src={"https://ipfs.io/ipfs/" +data.extension.animation_url.split("/").pop()}></video>
                             )}
 
                         <div className="card-img-overlay">
