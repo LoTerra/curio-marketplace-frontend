@@ -23,7 +23,7 @@ export default function Card(props) {
                             <img src={"https://ipfs.io/ipfs/" +nft.image_url.split("/").pop()} />
                             )}
                             {nft.animation_url && (                                
-                                <video playsinline="" autoplay="" loop="" src={"https://ipfs.io/ipfs/" +nft.animation_url.split("/").pop()}></video>
+                                <video playsinline="" autoplay="" muted loop="" src={"https://ipfs.io/ipfs/" +nft.animation_url.split("/").pop()}></video>
                             )}
                     </div>
                 </>

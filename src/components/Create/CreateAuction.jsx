@@ -101,8 +101,9 @@ export default function CreateAuction(props) {
                     },
                 })
                 
+                singleToken.type = 'image';
 
-                if(singleToken.token_uri){
+                if(singleToken.token_uri && typeof singleToken.extension.image == 'undefined'){
 
                     var axios_config = {
                         method: 'get',
@@ -116,7 +117,21 @@ export default function CreateAuction(props) {
                     }).catch(function (error) {
                     console.log(error)
                 })               
+                } else {
+                    if(singleToken.extension && singleToken.extension.length > 0){
+                        if(singleToken.extension.image){
+                            singleToken.image = singleToken.extension.image
+                        }
+                        if(singleToken.extension.image_data){
+                            singleToken.image = singleToken.extension.image_data
+                        }
+                        if(singleToken.extension.animation_url){
+                            singleToken.image = singleToken.extension.animation_url
+                            singleToken.type = 'video';
+                        }
+                    }
                 }
+                
                 singleToken.token_id = obj
                 data.push(singleToken)
                 console.log(singleToken)
@@ -608,10 +623,14 @@ export default function CreateAuction(props) {
                                                                 />{' '}
                                                             </span>
                                                         )}
-                                                    <img
+                                                    { obj.type == 'image' ?
+                                                        <img
                                                         src={obj.image}
                                                         className="img-fluid"
                                                     />
+                                                    :
+                                                    <video playsinline="" autoplay="" muted loop="" src={"https://ipfs.io/ipfs/" +obj.image.split("/").pop()}></video>
+                                                    }
                                                     <p>{obj.name}</p>
                                                 </div>
                                             </div>
