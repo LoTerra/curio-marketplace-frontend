@@ -37,6 +37,8 @@ export default (props) => {
     const [nftData, setNftData] = useState(0)
     const [imageNftData, setImageNftData] = useState({
         image: null,
+        image_url: null,
+        animation_url: null,
         name:  null,
         description: null,
         private_sale: null,
@@ -152,18 +154,16 @@ export default (props) => {
                     
                     const data = response.data.filterItems[0]
 
-                    if(data.image_url){
-                        image = data.image_url
-                    } else {
-                        image = "https://ipfs.io/ipfs/" +data.extension.image.split("/").pop()
-                    }
                     if(data.extension){
                         attributes = data.extension.attributes
                     }     
 
+                  
                     setImageNftData((prevValues) => {
                         return { ...prevValues, 
-                            image: image,
+                            image: data.image_url,
+                            image_url: data.extension && data.extension.image ? data.extension.image : null,
+                            animation_url: data.extension && data.extension.animation_url ? data.extension.animation_url : null,
                             name: data.title,
                             description: data.description,
                             private_sale: data.private_sale,

@@ -11,16 +11,20 @@ export default function Card(props) {
     ///console.log(data)
     return (
         <>
-            {data && (
+            {nft && (
                 <>
+                
                     <div className="nft-preview ratio ratio-1x1">
-                        <img
-                            src={
-                                nft
-                                    ? nft.image
-                                    : 'https://i.pinimg.com/736x/1d/00/6c/1d006cafea4ebb657e1bee4d38043569.jpg'
-                            }
-                        />
+                        {nft.image && (<img
+                            src={nft.image}
+                            alt="..."
+                        />)}
+                            {nft.image_url && (
+                            <img src={"https://ipfs.io/ipfs/" +nft.image_url.split("/").pop()} />
+                            )}
+                            {nft.animation_url && (                                
+                                <video playsinline="" autoplay="" loop="" src={"https://ipfs.io/ipfs/" +nft.animation_url.split("/").pop()}></video>
+                            )}
                     </div>
                 </>
             )}
