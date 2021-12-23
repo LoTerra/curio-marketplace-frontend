@@ -19,7 +19,7 @@ export default function Card(props) {
                             src={nft.image}
                             alt="..."
                         />)}
-                            {nft.image_url && (
+                            {nft.image_url && !nft.animation_url && (
                             <img src={"https://ipfs.io/ipfs/" +nft.image_url.split("/").pop()} />
                             )}
                             {nft.animation_url && (                                
