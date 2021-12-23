@@ -4,6 +4,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider'
 import contractData from '../../contracts.json'
 import _ from 'lodash'
+import axios from 'axios'
 
 import debounce from 'lodash.debounce'
 
@@ -99,8 +100,26 @@ export default function CreateAuction(props) {
                         token_id: obj,
                     },
                 })
+                
+
+                if(singleToken.token_uri){
+
+                    var axios_config = {
+                        method: 'get',
+                        url: singleToken.token_uri,               
+                    }
+
+                    await axios(axios_config)
+                    .then(function (response) {
+                        console.log(response)
+                        singleToken.image = response.data.image;
+                    }).catch(function (error) {
+                    console.log(error)
+                })               
+                }
                 singleToken.token_id = obj
                 data.push(singleToken)
+                console.log(singleToken)
                 setUserNfts((userNfts) => [...userNfts, singleToken])
             })
 
