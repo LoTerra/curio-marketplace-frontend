@@ -10,6 +10,7 @@ if (typeof document !== 'undefined') {
 export default function AuctionInfo(props) {
     const { state, dispatch } = useStore()
 
+
     const {
         nftData,
         bidInfo,
@@ -26,6 +27,8 @@ export default function AuctionInfo(props) {
         let tab = new bootstrap.Tab(pill)
         tab.show()
     }
+
+
     //console.log("data-props")
     ///console.log(data)
     return (
@@ -52,6 +55,49 @@ export default function AuctionInfo(props) {
                     </small>
                 </div>
             </div>
+            {imageNftData.attributes && imageNftData.attributes.length > 0 &&
+            <div clclassNameass="col-12">
+                 <button class="btn w-100 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+                 style={{
+                     color:'#20ff93',
+                     border:'1px solid #20ff93'
+                 }}
+                 >
+    View NFT Attributes ({imageNftData.attributes.length})
+  </button>
+  <div class="collapse" id="collapseExample">
+
+                <div className="row">
+                    { imageNftData.attributes.map(obj => {
+                        return (
+                            <div className="col-6 col-lg-4 mb-2">
+                        <div className="attribute-info"
+                        style={{
+                            background:'#0000004f',
+                            padding:'7px'
+                        }}
+                        >
+                        <p className="m-0"
+                        style={{                        
+                                color: '#20ff93',
+                                fontSize: '14px',
+                        }}
+                        >{obj.trait_type}</p>
+                        <p className="m-0"
+                        style={{
+                            fontSize:'14px'
+                        }}
+                        >{obj.value ? obj.value : 'None'}</p>
+                        </div>
+                        </div>
+                        )
+                    })
+                    }
+                    </div>
+            
+                    </div>
+            </div>
+            }
 
             <div className="col-6">
                 <div className="nft-stats">

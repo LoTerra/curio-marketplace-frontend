@@ -35,7 +35,14 @@ export default (props) => {
     const [amount, setAmount] = useState()
     const [expiryTimestamp, setExpiryTimestamp] = useState(1)
     const [nftData, setNftData] = useState(0)
-    const [imageNftData, setImageNftData] = useState(0)
+    const [imageNftData, setImageNftData] = useState({
+        image: null,
+        name:  null,
+        description: null,
+        private_sale: null,
+        creator:  null,     
+        attributes:  null
+    })
     const [recent, setRecent] = useState(0)
     const [isOwner, setIsOwner] = useState(false)
     const [bidInfo, setBidInfo] = useState([])
@@ -150,24 +157,21 @@ export default (props) => {
                     } else {
                         image = "https://ipfs.io/ipfs/" +data.extension.image.split("/").pop()
                     }
-                    if(data.extension && data.extension.attributes){
+                    if(data.extension){
                         attributes = data.extension.attributes
-                    }
+                    }     
 
-                    setImageNftData({
-                        image: image,
-                        name: data.title,
-                        description: data.description,
-                        private_sale: data.private_sale,
-                        creator: data.creator.address,     
-                        attributes: attributes                   
+                    setImageNftData((prevValues) => {
+                        return { ...prevValues, 
+                            image: image,
+                            name: data.title,
+                            description: data.description,
+                            private_sale: data.private_sale,
+                            creator: data.creator.address,     
+                            attributes: attributes        }
                     })
-                    console.log('imageNftData',{
-                        image: data.image_url,
-                        name: data.title,
-                        description: data.description,
-                        private_sale: data.private_sale,
-                    })
+
+                    console.log('imageNftData',imageNftData)
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -220,6 +224,10 @@ export default (props) => {
             console.log(e)
         }
     }, [])
+
+    useEffect(() => {
+        setImageNftData(imageNftData)
+    },[imageNftData])
 
     async function unlockPrivAuction() {
         let price = getRawAmountToUnlock()
