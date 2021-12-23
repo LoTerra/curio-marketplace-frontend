@@ -633,14 +633,17 @@ export default function CreateAuction(props) {
                                                                 />{' '}
                                                             </span>
                                                         )}
-                                                    { obj.type == 'image' ?
-                                                        <img
+                                                    {obj.image && (<img
                                                         src={obj.image}
-                                                        className="img-fluid"
-                                                    />
-                                                    :
-                                                    <video playsinline="" autoplay="" muted loop style={{maxWidth: "100%"}} src={"https://ipfs.io/ipfs/" +obj.image.split("/").pop()}></video>
-                                                    }
+                                                        alt="..."
+                                                    />)}
+                                                    {obj.image_url && !obj.animation_url && (
+                                                        <img src={"https://ipfs.io/ipfs/" + obj.image_url.split("/").pop()} />
+                                                    )}
+                                                    {obj.animation_url && (
+                                                        <video playsinline="" autoplay="" muted loop src={"https://ipfs.io/ipfs/" +obj.animation_url.split("/").pop()}></video>
+                                                    )}
+
                                                     <p>{obj.name}</p>
                                                 </div>
                                             </div>
