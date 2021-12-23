@@ -140,15 +140,29 @@ export default (props) => {
             await axios(config)
                 .then(function (response) {
                     console.log('repsonse', response.data)
+                    let image = ''
+                    let attributes = null;
+                    
                     const data = response.data.filterItems[0]
+
+                    if(data.image_url){
+                        image = data.image_url
+                    } else {
+                        image = "https://ipfs.io/ipfs/" +data.extension.image.split("/").pop()
+                    }
+                    if(data.extension && data.extension.attributes){
+                        attributes = data.extension.attributes
+                    }
+
                     setImageNftData({
-                        image: data.image_url,
+                        image: image,
                         name: data.title,
                         description: data.description,
                         private_sale: data.private_sale,
-                        creator: data.creator.address,
+                        creator: data.creator.address,     
+                        attributes: attributes                   
                     })
-                    console.log({
+                    console.log('imageNftData',{
                         image: data.image_url,
                         name: data.title,
                         description: data.description,
@@ -474,7 +488,7 @@ export default (props) => {
 
     const rightsCheck = () => {
         if (nftData.start_time * 1000 > Date.now()) {
-            console.log('check not valid start time')
+            // console.log('check not valid start time')
             return false
         }
         if (
@@ -483,14 +497,14 @@ export default (props) => {
             null
         ) {
             if (parseInt(bidder.sity_used) > 0 ) {
-                console.log('bidder unlocked')
+                // console.log('bidder unlocked')
                 return true
             } else {
-                console.log('bidder not unlocked')
+                // console.log('bidder not unlocked')
                 return false
             }
         } else {
-            console.log('no private sale, true')
+            // console.log('no private sale, true')
             return true
         }
     }

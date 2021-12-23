@@ -28,7 +28,7 @@ export default function NftInfoCard(props) {
                                 alt="..."
                             />)}
                             {data.extension && (
-                                <embed src={"https://ipfs.io/ipfs/" +data.extension.image.split("/").pop()} width="200" height="200" />
+                                <img src={"https://ipfs.io/ipfs/" +data.extension.image.split("/").pop()} className="card-img" />
                             )}
                             <div className="d-flex h-100 w-100">
                                 <div className="nft-info align-self-end w-100">
@@ -46,7 +46,7 @@ export default function NftInfoCard(props) {
                                 className="card-title m-0"
                                 style={{ fontWeight: 'bold' }}
                             >
-                                {data.title}
+                                {data.title ? data.title : data.extension.name}
                             </h5>
                             <p
                                 className="mt-3 text-muted"

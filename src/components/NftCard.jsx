@@ -47,7 +47,7 @@ export default function NftCard(props) {
                             alt="..."
                         />)}
                         {data.extension && (
-                            <embed src={"https://ipfs.io/ipfs/" +data.extension.image.split("/").pop()} width="200" height="200" />
+                            <img src={"https://ipfs.io/ipfs/" +data.extension.image.split("/").pop()}  className="card-img" />
                            )}
 
 
@@ -57,7 +57,7 @@ export default function NftCard(props) {
                                     {type != 'xl' && (
                                         <>
                                             <h5 className="card-title m-0">
-                                                {data.title}
+                                            {data.title ? data.title : data.extension.name}
                                             </h5>
 
                                             {!isEnded && (
