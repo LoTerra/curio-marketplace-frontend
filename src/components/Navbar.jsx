@@ -157,7 +157,7 @@ export default function Navbar(props) {
         if (connectedWallet) {
             contactBalance()
         }
-    }, [connectedWallet, lcd])
+    }, [connectedWallet, lcd, bank])
 
     return (
         <>
