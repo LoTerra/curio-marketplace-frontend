@@ -22,11 +22,14 @@ export default function NftInfoCard(props) {
                         <NftBadge data={data} />
 
                         <div className="card-img-overlay  ratio ratio-1x1">
-                            <img
+                            {data.image_url && (<img
                                 src={data.image_url}
                                 className="card-img"
                                 alt="..."
-                            />
+                            />)}
+                            {data.extension && (
+                                <embed src={"https://ipfs.io/ipfs/" +data.extension.image.split("/").pop()} width="200" height="200" />
+                            )}
                             <div className="d-flex h-100 w-100">
                                 <div className="nft-info align-self-end w-100">
                                     {type != 'xl' && (
