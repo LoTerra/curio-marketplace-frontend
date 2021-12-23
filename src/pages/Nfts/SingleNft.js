@@ -235,6 +235,7 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
+                feeDenoms: "uusd"
             })
             toast.success('Auction unlocked!')
             setTimeout(() => reloadData(), 1000)
@@ -268,6 +269,7 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
+                feeDenoms: "uusd"
             })
             toast.success('Instant buy succesful!')
             setTimeout(() => reloadData(), 1000)
@@ -369,6 +371,7 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
+                feeDenoms: "uusd"
             })
             console.log(result)
             toast.success('Bid successful')
@@ -395,6 +398,7 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
+                feeDenoms: "uusd"
             })
             console.log(result)
             toast.success('Retract bids success')

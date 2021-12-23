@@ -226,6 +226,7 @@ export default function CreateAuction(props) {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
+                feeDenoms: "uusd"
             })
             console.log(result)
             toast.success('Auction successfully created')
