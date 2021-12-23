@@ -30,6 +30,9 @@ export default function NftInfoCard(props) {
                             {data.extension && data.extension.image && (
                                 <img src={"https://ipfs.io/ipfs/" +data.extension.image.split("/").pop()} className="card-img" />
                             )}
+                            {data.extension && data.extension.animation_url && (                                
+                                <video playsinline="" autoplay="" loop="" src={"https://ipfs.io/ipfs/" +data.extension.animation_url.split("/").pop()} class="sc-bdvvtL sc-jKTccl sc-bUbRBg ieSfBq Gdkwx sc-tAExr gVkwIA"></video>
+                            )}
                             <div className="d-flex h-100 w-100">
                                 <div className="nft-info align-self-end w-100">
                                     {type != 'xl' && (
