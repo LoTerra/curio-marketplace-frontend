@@ -54,7 +54,7 @@ export default function Card(props) {
                                         <meta property="og:title" content={nft.name}/>
                                         <meta property="og:video" content={nft.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
                                         <meta property="twitter:title" content={nft.name}/>
-                                        <meta property="twitter:image" content={nft.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
+                                        <meta property="twitter:video" content={nft.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
                                     </Head>
                                     <video playsinline="" autoplay="" muted loop src={nft.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"></video>
                                 </>
