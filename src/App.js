@@ -42,7 +42,6 @@ function App() {
                     href="/img/favicon.ico"
                 />
                 <meta property="og:title" content="Curio" />
-                <meta property="og:image" content="" />
                 <meta property="og:image:alt" content="Curio icon" />
                 <meta property="og:type" content="website" />
                 <meta property="og:site_name" content="Curio" />
@@ -60,7 +59,6 @@ function App() {
                     name="twitter:description"
                     content="Curio the place to find a rare, unusual, or intriguing NFT."
                 />
-                <meta name="twitter:image" content="" />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link
                     rel="preconnect"
