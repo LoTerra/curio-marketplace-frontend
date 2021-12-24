@@ -163,7 +163,7 @@ export default function Navbar(props) {
         <>
           <div className="top-notice">
             <div className="container-fluid">
-                    <p><Warning size={'16'}/> We are in contact with security audit, until a full audit report we recommend to use Curio at your own discretion and risk.</p>
+                    <p style={{fontWeight:700}}><Warning size={'16'}/> We are in contact with security audit, until a full audit report we recommend to use Curio at your own discretion and risk.</p>
                 </div>
           </div>
             <div className="navbar navbar-expand-lg">

@@ -19,11 +19,16 @@ export default function Card(props) {
                             src={nft.image}
                             alt="..."
                         />)}
-                            {nft.image_url && !nft.animation_url && (
-                            <img src={"https://ipfs.io/ipfs/" +nft.image_url.split("/").pop()} />
+                            {nft.image_url && !nft.animation_url && (                     
+                            <img src={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"/>
+
                             )}
-                            {nft.animation_url && (                                
-                                <video playsinline="" autoplay="" muted loop src={"https://ipfs.io/ipfs/" +nft.animation_url.split("/").pop()}></video>
+                            {nft.image_url && !nft.animation_url && (                              
+                                <img src={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"/>
+
+                            )}
+                            {nft.animation_url && (                                                                
+                                <video playsinline="" autoplay="" muted loop src={nft.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"></video>
                             )}
                     </div>
                 </>

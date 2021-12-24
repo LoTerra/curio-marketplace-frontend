@@ -103,11 +103,16 @@ export default function CreateAuction(props) {
                 
                 singleToken.type = 'image';
 
-                if(singleToken.token_uri && typeof singleToken.extension.image == 'undefined'){
+                if(singleToken.token_uri && singleToken.extension == null || typeof singleToken.extension.image == 'undefined'){
 
                     var axios_config = {
                         method: 'get',
                         url: singleToken.token_uri,               
+                    }
+
+                    var second_axios_config = {
+                        method: 'get',
+                        url: singleToken.token_uri.replace('ipfs://','https://ipfs.io/ipfs/'),
                     }
 
                     await axios(axios_config)
@@ -124,8 +129,15 @@ export default function CreateAuction(props) {
                             singleToken.image = response.data.extension.animation_url
                             singleToken.type = 'video';
                         }
-                    }).catch(function (error) {
+                    }).catch(async function (error) {
                     console.log(error)
+                    //Turtle scenario fallback
+                    await axios(second_axios_config)
+                    .then(function (response) {
+                        console.log(response)
+                        singleToken.image = response.data.image 
+                        singleToken.type = 'special';
+                    })
                 })               
                 } else {
                     if(singleToken.extension && typeof singleToken.extension.image !== 'undefined'){
@@ -633,15 +645,21 @@ export default function CreateAuction(props) {
                                                                 />{' '}
                                                             </span>
                                                         )}
-                                                    {obj.image && (<img
+                                                    {obj.image && obj.type == 'image' && (<img
                                                         src={obj.image}
                                                         alt="..."
+                                                        className="img-fluid"
                                                     />)}
+
+                                                    {obj.image && obj.type == 'special' &&  (
+                                                         <img src={obj.image.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"/>
+                                                    )}
+
                                                     {obj.image_url && !obj.animation_url && (
-                                                        <img src={"https://ipfs.io/ipfs/" + obj.image_url.split("/").pop()} />
+                                                        <img src={obj.image_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"/>
                                                     )}
                                                     {obj.animation_url && (
-                                                        <video playsinline="" autoplay="" muted loop src={"https://ipfs.io/ipfs/" +obj.animation_url.split("/").pop()}></video>
+                                                        <video playsinline="" autoplay="" muted loop src={obj.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"></video>
                                                     )}
 
                                                     <p>{obj.name}</p>

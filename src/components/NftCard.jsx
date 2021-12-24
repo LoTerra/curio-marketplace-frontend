@@ -46,11 +46,12 @@ export default function NftCard(props) {
                             className="card-img"
                             alt="..."
                         />)}
-                       {data.extension && data.extension.image && (
-                                <img src={"https://ipfs.io/ipfs/" +data.extension.image.split("/").pop()} className="card-img" />
+                            {data.extension && data.extension.image && (                          
+                                <img src={data.extension.image.replace('ipfs://','https://ipfs.io/ipfs/')} className="card-img"/>
                             )}
-                            {data.extension && data.extension.animation_url && (                                
-                                <video playsinline="" autoplay="" loop muted src={"https://ipfs.io/ipfs/" +data.extension.animation_url.split("/").pop()}></video>
+                            {data.extension && data.extension.animation_url && (                                                                
+                                <video playsinline="" autoplay="" muted loop src={data.extension.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"></video>
+
                             )}
 
                         <div className="card-img-overlay">
