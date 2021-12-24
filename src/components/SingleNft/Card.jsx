@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useStore } from '../../store'
 import Tilt from 'react-tilt'
 import Countdown from './Countdown'
+import {Head} from "react-static";
 
 export default function Card(props) {
     const { state, dispatch } = useStore()
@@ -11,6 +12,11 @@ export default function Card(props) {
     ///console.log(data)
     return (
         <>
+            <Head>
+                <meta charSet="UTF-8" />
+                <title>This is my page title!</title>
+                <meta property="og:image" content={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
+            </Head>
             {nft && (
                 <>
                 
