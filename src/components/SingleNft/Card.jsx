@@ -12,30 +12,52 @@ export default function Card(props) {
     ///console.log(data)
     return (
         <>
-            <Head>
-                <meta charSet="UTF-8" />
-                <title>{nft.name}</title>
-                <meta property="og:title" content={nft.name}/>
-                <meta property="og:image" content={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
-            </Head>
             {nft && (
                 <>
-                
                     <div className="nft-preview ratio ratio-1x1">
                         {nft.image && (<img
                             src={nft.image}
                             alt="..."
                         />)}
-                            {nft.image_url && !nft.animation_url && (                     
-                            <img src={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"/>
+                            {nft.image_url && !nft.animation_url && (
+                                <>
+                                    <Head>
+                                        <meta charSet="UTF-8" />
+                                        <title>{nft.name}</title>
+                                        <meta property="og:title" content={nft.name}/>
+                                        <meta property="og:image" content={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
+                                        <meta property="twitter:title" content={nft.name}/>
+                                        <meta property="twitter:image" content={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
+                                    </Head>
+                                    <img src={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"/>
+                                </>
 
                             )}
-                            {nft.image_url && !nft.animation_url && (                              
-                                <img src={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"/>
-
+                            {nft.image_url && !nft.animation_url && (
+                                <>
+                                    <Head>
+                                        <meta charSet="UTF-8" />
+                                        <title>{nft.name}</title>
+                                        <meta property="og:title" content={nft.name}/>
+                                        <meta property="og:image" content={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
+                                        <meta property="twitter:title" content={nft.name}/>
+                                        <meta property="twitter:image" content={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
+                                    </Head>
+                                    <img src={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"/>
+                                </>
                             )}
-                            {nft.animation_url && (                                                                
-                                <video playsinline="" autoplay="" muted loop src={nft.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"></video>
+                            {nft.animation_url && (
+                                <>
+                                    <Head>
+                                        <meta charSet="UTF-8" />
+                                        <title>{nft.name}</title>
+                                        <meta property="og:title" content={nft.name}/>
+                                        <meta property="og:video" content={nft.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
+                                        <meta property="twitter:title" content={nft.name}/>
+                                        <meta property="twitter:image" content={nft.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
+                                    </Head>
+                                    <video playsinline="" autoplay="" muted loop src={nft.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"></video>
+                                </>
                             )}
                     </div>
                 </>
