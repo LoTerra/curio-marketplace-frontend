@@ -15,6 +15,7 @@ export default function Card(props) {
             <Head>
                 <meta charSet="UTF-8" />
                 <title>{nft.name}</title>
+                <meta property="og:title" content={nft.name}/>
                 <meta property="og:image" content={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
             </Head>
             {nft && (
