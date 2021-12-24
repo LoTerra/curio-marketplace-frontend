@@ -744,7 +744,7 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Opening bid price</label>
+                                    <label>Opening bid price (UST)</label>
                                     <small className="ms-2">optional</small>
                                     <p className="info">
                                         While the reserve price is the minimum
@@ -759,7 +759,7 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Buyout price</label>
+                                    <label>Buyout price (UST)</label>
                                     <small className="ms-2">optional</small>
                                     <p className="info">
                                         This is an auction where the seller sets
@@ -775,7 +775,7 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Reserve price</label>
+                                    <label>Reserve price (UST)</label>
                                     <small className="ms-2">optional</small>
                                     <p className="info">
                                         If the reserve price is not met, the
