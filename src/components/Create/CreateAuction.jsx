@@ -100,9 +100,12 @@ export default function CreateAuction(props) {
                     nft_info: {
                         token_id: obj,
                     },
-                })                
-          
-                if(singleToken.token_uri && singleToken.extension == null || typeof singleToken.extension.image == 'undefined'){
+
+                })               
+             
+
+                if(singleToken.token_uri == null && Object.keys(singleToken.extension).length === 0){
+
 
                     var axios_config = {
                         method: 'get',
@@ -138,7 +141,7 @@ export default function CreateAuction(props) {
                     })
                 })               
                 } else {
-                    if(singleToken.extension && typeof singleToken.extension.image !== 'undefined'){
+                    if(Object.keys(singleToken.extension).length === 0){
                         if(singleToken.extension.image !== null){
                             singleToken.image = singleToken.extension.image
                         }
