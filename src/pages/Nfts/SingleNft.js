@@ -162,6 +162,8 @@ export default (props) => {
                     setImageNftData((prevValues) => {
                         return { ...prevValues, 
                             image: data.image_url,
+                            token_uri: data.token_uri ? data.token_uri : null,
+                            extension:{image:null},
                             image_url: data.extension && data.extension.image ? data.extension.image : null,
                             animation_url: data.extension && data.extension.animation_url ? data.extension.animation_url : null,
                             name: data.title ? data.title : data.extension.name,
@@ -618,13 +620,8 @@ export default (props) => {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-6 nft-left">
-                            <Card
-                                key={1}
-                                data={state.auctions}
-                                nft={imageNftData}
-                                type={'xl'}
-                                expiryTimestamp={expiryTimestamp}
-                                index={99}
+                            <Card                                                                            
+                                nft={imageNftData}                            
                             />
                         </div>
 

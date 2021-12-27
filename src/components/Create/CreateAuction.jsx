@@ -29,6 +29,7 @@ import {
     X,
 } from 'phosphor-react'
 import ConfirmationModal from './ConfirmationModal'
+import PreviewImage from './PreviewImage'
 
 export default function CreateAuction(props) {
     const { state, dispatch } = useStore()
@@ -99,10 +100,8 @@ export default function CreateAuction(props) {
                     nft_info: {
                         token_id: obj,
                     },
-                })
-                
-                singleToken.type = 'image';
-
+                })                
+          
                 if(singleToken.token_uri && singleToken.extension == null || typeof singleToken.extension.image == 'undefined'){
 
                     var axios_config = {
@@ -136,7 +135,6 @@ export default function CreateAuction(props) {
                     .then(function (response) {
                         console.log(response)
                         singleToken.image = response.data.image 
-                        singleToken.type = 'special';
                     })
                 })               
                 } else {
@@ -152,6 +150,11 @@ export default function CreateAuction(props) {
                             singleToken.type = 'video';
                         }
                     }
+                }
+
+                //Set name 
+                if(singleToken.extension && singleToken.extension.name){
+                    singleToken.name = singleToken.extension.name;
                 }
                 
                 singleToken.token_id = obj
@@ -616,6 +619,7 @@ export default function CreateAuction(props) {
                                         contract.address &&
                                         userNfts.map((obj, k) => (
                                             <div className="col-md-3" key={k}>
+                                                
                                                 <div
                                                     className={
                                                         'nft-thumb' +
@@ -631,38 +635,8 @@ export default function CreateAuction(props) {
                                                     }
                                                         
                                                     }
-                                                >
-                                                    {tokenId &&
-                                                        tokenId ==
-                                                            obj.token_id && (
-                                                            <span className="nft-selected">
-                                                                {' '}
-                                                                <Check
-                                                                    size={24}
-                                                                    weight={
-                                                                        'bold'
-                                                                    }
-                                                                />{' '}
-                                                            </span>
-                                                        )}
-                                                    {obj.image && obj.type == 'image' && (<img
-                                                        src={obj.image}
-                                                        alt="..."
-                                                        className="img-fluid"
-                                                    />)}
-
-                                                    {obj.image && obj.type == 'special' &&  (
-                                                         <img src={obj.image.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"/>
-                                                    )}
-
-                                                    {obj.image_url && !obj.animation_url && (
-                                                        <img src={obj.image_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"/>
-                                                    )}
-                                                    {obj.animation_url && (
-                                                        <video playsinline="" autoplay="" muted loop src={obj.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"></video>
-                                                    )}
-
-                                                    <p>{obj.name}</p>
+                                                >                                                   
+                                                    <PreviewImage obj={obj} tokenId={tokenId}/>
                                                 </div>
                                             </div>
                                         ))}
