@@ -22,7 +22,7 @@ export default function Card(props) {
 
                    
                             {nft.image_url && !nft.animation_url && (
-                                <>
+                           
                                     <Head>
                                         <meta charSet="UTF-8" />
                                         <title>{nft.name}</title>
@@ -31,25 +31,11 @@ export default function Card(props) {
                                         <meta property="twitter:title" content={nft.name}/>
                                         <meta property="twitter:image" content={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
                                     </Head>
-                                    <img src={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"/>
-                                </>
+                           
 
-                            )}
-                            {nft.image_url && !nft.animation_url && (
-                                <>
-                                    <Head>
-                                        <meta charSet="UTF-8" />
-                                        <title>{nft.name}</title>
-                                        <meta property="og:title" content={nft.name}/>
-                                        <meta property="og:image" content={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
-                                        <meta property="twitter:title" content={nft.name}/>
-                                        <meta property="twitter:image" content={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
-                                    </Head>
-                                    <img src={nft.image_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"/>
-                                </>
-                            )}
+                            )}                         
                             {nft.animation_url && (
-                                <>
+                               
                                     <Head>
                                         <meta charSet="UTF-8" />
                                         <title>{nft.name}</title>
@@ -57,9 +43,8 @@ export default function Card(props) {
                                         <meta property="og:video" content={nft.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
                                         <meta property="twitter:title" content={nft.name}/>
                                         <meta property="twitter:video" content={nft.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')}/>
-                                    </Head>
-                                    <video playsinline="" autoplay="" muted loop src={nft.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"></video>
-                                </>
+                                    </Head>                              
+                             
                             )}
  <Media data={nft}/>      
                     </div>
