@@ -35,6 +35,14 @@ export default function AuctionInfo(props) {
         <>
             <div className="col-12">
                 <div className="nft-stats big w-100 my-2">
+                    <h6>NFT Contract</h6>
+                    <p style={{
+                        fontSize:'14px',
+                        color:'#fff',
+                        opacity:0.6
+                    }}>{nftData.nft_contract}</p>
+                </div>
+                <div className="nft-stats big w-100 my-2">
                     <h6>Highest bid</h6>
                     <p className="highest_bid mb-0">
                         {numeral(
