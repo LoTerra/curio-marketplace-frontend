@@ -163,7 +163,7 @@ export default (props) => {
                         return { ...prevValues, 
                             image: data.image_url,
                             token_uri: data.token_uri ? data.token_uri : null,
-                            extension:{image:null},
+                            extension:data.extension,
                             image_url: data.extension && data.extension.image ? data.extension.image : null,
                             animation_url: data.extension && data.extension.animation_url ? data.extension.animation_url : null,
                             name: data.title ? data.title : data.extension.name,
@@ -622,6 +622,7 @@ export default (props) => {
                         <div className="col-md-6 nft-left">
                             <Card                                                                            
                                 nft={imageNftData}                            
+                                data={nftData}
                             />
                         </div>
 

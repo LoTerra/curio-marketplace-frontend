@@ -46,7 +46,7 @@ export default function Card(props) {
                                     </Head>                              
                              
                             )}
- <Media data={nft}/>      
+                    <Media data={nft}/>      
                     </div>
                 </>
             )}
