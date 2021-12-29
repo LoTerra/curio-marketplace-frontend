@@ -4,6 +4,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import { useWallet, useConnectedWallet } from '@terra-money/wallet-provider'
 import contractData from '../../contracts.json'
 import _ from 'lodash'
+import axios from 'axios'
 
 import debounce from 'lodash.debounce'
 
@@ -28,6 +29,7 @@ import {
     X,
 } from 'phosphor-react'
 import ConfirmationModal from './ConfirmationModal'
+import PreviewImage from './PreviewImage'
 
 export default function CreateAuction(props) {
     const { state, dispatch } = useStore()
@@ -98,9 +100,69 @@ export default function CreateAuction(props) {
                     nft_info: {
                         token_id: obj,
                     },
-                })
+
+                })               
+             
+
+                if(singleToken.token_uri == null && Object.keys(singleToken.extension).length === 0){
+
+
+                    var axios_config = {
+                        method: 'get',
+                        url: singleToken.token_uri,               
+                    }
+
+                    var second_axios_config = {
+                        method: 'get',
+                        url: singleToken.token_uri.replace('ipfs://','https://ipfs.io/ipfs/'),
+                    }
+
+                    await axios(axios_config)
+                    .then(function (response) {
+                        console.log(response)
+                        singleToken.image = response.data.image;
+                        if(typeof response.data.extension.image !== 'undefined'){
+                            singleToken.image = response.data.extension.image
+                        }
+                        if(typeof response.data.extension.image_data !== 'undefined'){
+                            singleToken.image = response.data.extension.image_data
+                        }
+                        if(typeof response.data.extension.animation_url !== 'undefined'){
+                            singleToken.image = response.data.extension.animation_url
+                            singleToken.type = 'video';
+                        }
+                    }).catch(async function (error) {
+                    console.log(error)
+                    //Turtle scenario fallback
+                    await axios(second_axios_config)
+                    .then(function (response) {
+                        console.log(response)
+                        singleToken.image = response.data.image 
+                    })
+                })               
+                } else {
+                    if(Object.keys(singleToken.extension).length === 0){
+                        if(singleToken.extension.image !== null){
+                            singleToken.image = singleToken.extension.image
+                        }
+                        if(singleToken.extension.image_data !== null){
+                            singleToken.image = singleToken.extension.image_data
+                        }
+                        if(singleToken.extension.animation_url !== null){
+                            singleToken.image = singleToken.extension.animation_url
+                            singleToken.type = 'video';
+                        }
+                    }
+                }
+
+                //Set name 
+                if(singleToken.extension && singleToken.extension.name){
+                    singleToken.name = singleToken.extension.name;
+                }
+                
                 singleToken.token_id = obj
                 data.push(singleToken)
+                console.log(singleToken)
                 setUserNfts((userNfts) => [...userNfts, singleToken])
             })
 
@@ -181,9 +243,12 @@ export default function CreateAuction(props) {
             //   }
 
             if (formData.charity_address && formData.charity_fee) {
+                let num = (parseFloat(formData.charity_fee) / 100).toString()
+                let fee = num.slice(0, (num.indexOf("."))+6);
+          
                 auction_msg.create_auction_nft.charity = {
                     address: formData.charity_address,
-                    fee_percentage: parseInt(formData.charity_fee),
+                    fee_percentage: fee,
                 }
             }
             if (formData.start_price) {
@@ -223,6 +288,7 @@ export default function CreateAuction(props) {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
+                feeDenoms: "uusd"
             })
             console.log(result)
             toast.success('Auction successfully created')
@@ -556,6 +622,7 @@ export default function CreateAuction(props) {
                                         contract.address &&
                                         userNfts.map((obj, k) => (
                                             <div className="col-md-3" key={k}>
+                                                
                                                 <div
                                                     className={
                                                         'nft-thumb' +
@@ -571,25 +638,8 @@ export default function CreateAuction(props) {
                                                     }
                                                         
                                                     }
-                                                >
-                                                    {tokenId &&
-                                                        tokenId ==
-                                                            obj.token_id && (
-                                                            <span className="nft-selected">
-                                                                {' '}
-                                                                <Check
-                                                                    size={24}
-                                                                    weight={
-                                                                        'bold'
-                                                                    }
-                                                                />{' '}
-                                                            </span>
-                                                        )}
-                                                    <img
-                                                        src={obj.image}
-                                                        className="img-fluid"
-                                                    />
-                                                    <p>{obj.name}</p>
+                                                >                                                   
+                                                    <PreviewImage obj={obj} tokenId={tokenId}/>
                                                 </div>
                                             </div>
                                         ))}
@@ -627,7 +677,7 @@ export default function CreateAuction(props) {
                     <div className="row mb-4">
                         {contract.address !== '' &&
                             tokenId !== '' &&
-                            contract.contract && (
+                           (
                                 <>
                                     <div className="col-md-3"></div>
                                     <div className="col-md-9">
@@ -643,7 +693,7 @@ export default function CreateAuction(props) {
                             )}
                             {contract.address !== '' &&
                             tokenId !== '' &&
-                            contract.contract && (
+                            (
                                 <>
                         <div className="col-md-3">
                             <span className="icon">
@@ -689,7 +739,7 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Opening bid price</label>
+                                    <label>Opening bid price (UST)</label>
                                     <small className="ms-2">optional</small>
                                     <p className="info">
                                         While the reserve price is the minimum
@@ -704,7 +754,7 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Buyout price</label>
+                                    <label>Buyout price (UST)</label>
                                     <small className="ms-2">optional</small>
                                     <p className="info">
                                         This is an auction where the seller sets
@@ -720,7 +770,7 @@ export default function CreateAuction(props) {
                                     />
                                 </div>
                                 <div className="col-md-6 mb-3">
-                                    <label>Reserve price</label>
+                                    <label>Reserve price (UST)</label>
                                     <small className="ms-2">optional</small>
                                     <p className="info">
                                         If the reserve price is not met, the
@@ -757,7 +807,7 @@ export default function CreateAuction(props) {
                     </div>
                     {contract.address !== '' &&
                             tokenId !== '' &&
-                            contract.contract && (
+                           (
                                 <>
                     <div className="row">
                         
@@ -796,6 +846,9 @@ export default function CreateAuction(props) {
                                     <small className="ms-2">optional</small>
                                     <input
                                         type="number"
+                                        step="0.01"
+                                        max="100"
+                                        min="0"
                                         className="form-control"
                                         name="charity_fee"
                                     />

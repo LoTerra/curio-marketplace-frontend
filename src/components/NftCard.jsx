@@ -5,6 +5,7 @@ import { ArrowRight } from 'phosphor-react'
 import SmallCountdown from './SmallCountdown'
 import NftBadge from './NftBadge'
 import NftPrice from './NftPrice'
+import Media from './Media'
 
 export default function NftCard(props) {
     const { state, dispatch } = useStore()
@@ -38,11 +39,7 @@ export default function NftCard(props) {
 
                         {!isEnded && <NftBadge data={data} />}
 
-                        <img
-                            src={data.image_url}
-                            className="card-img"
-                            alt="..."
-                        />
+                            <Media data={data}/>
 
                         <div className="card-img-overlay">
                             <div className="d-flex h-100 w-100">
@@ -50,7 +47,7 @@ export default function NftCard(props) {
                                     {type != 'xl' && (
                                         <>
                                             <h5 className="card-title m-0">
-                                                {data.title}
+                                            {data.title ? data.title : data.extension.name}
                                             </h5>
 
                                             {!isEnded && (

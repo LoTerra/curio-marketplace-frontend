@@ -49,19 +49,19 @@ export default function ConfirmationModal(props) {
                                 </div>        
                                 <div className="col-md-6">
                                 <div className="nft-stats">
-                                <h6>Opening bid price</h6>
+                                <h6>Opening bid price (UST)</h6>
                                 <p className="highest_bid">{formData.start_price ? formData.start_price+'UST' : 'None'}</p>
                                 </div>
                                 </div>        
                                 <div className="col-md-6">
                                 <div className="nft-stats">
-                                <h6>Buyout price</h6>
+                                <h6>Buyout price (UST)</h6>
                                 <p className="highest_bid">{formData.instant_buy ? formData.instant_buy+'UST' : 'None'}</p>
                                 </div>
                                 </div>        
                                 <div className="col-md-6">
                                 <div className="nft-stats">
-                                <h6>Reserve price</h6>
+                                <h6>Reserve price (UST)</h6>
                                 <p className="highest_bid">{formData.reserve_price ? formData.reserve_price+'UST' : 'None'}</p>
                                 </div>
                                 </div>        

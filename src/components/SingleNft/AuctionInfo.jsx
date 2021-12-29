@@ -10,6 +10,7 @@ if (typeof document !== 'undefined') {
 export default function AuctionInfo(props) {
     const { state, dispatch } = useStore()
 
+
     const {
         nftData,
         bidInfo,
@@ -26,11 +27,21 @@ export default function AuctionInfo(props) {
         let tab = new bootstrap.Tab(pill)
         tab.show()
     }
+
+
     //console.log("data-props")
     ///console.log(data)
     return (
         <>
             <div className="col-12">
+                <div className="nft-stats big w-100 my-2">
+                    <h6>NFT Contract</h6>
+                    <p style={{
+                        fontSize:'14px',
+                        color:'#fff',
+                        opacity:0.6
+                    }}>{nftData.nft_contract}</p>
+                </div>
                 <div className="nft-stats big w-100 my-2">
                     <h6>Highest bid</h6>
                     <p className="highest_bid mb-0">
@@ -52,10 +63,53 @@ export default function AuctionInfo(props) {
                     </small>
                 </div>
             </div>
+            {imageNftData.attributes && imageNftData.attributes.length > 0 &&
+            <div clclassNameass="col-12">
+                 <button class="btn w-100 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+                 style={{
+                     color:'#20ff93',
+                     border:'1px solid #20ff93'
+                 }}
+                 >
+    View NFT Attributes ({imageNftData.attributes.length})
+  </button>
+  <div class="collapse" id="collapseExample">
+
+                <div className="row">
+                    { imageNftData.attributes.map(obj => {
+                        return (
+                            <div className="col-6 col-lg-4 mb-2">
+                        <div className="attribute-info"
+                        style={{
+                            background:'#0000004f',
+                            padding:'7px'
+                        }}
+                        >
+                        <p className="m-0"
+                        style={{                        
+                                color: '#20ff93',
+                                fontSize: '14px',
+                        }}
+                        >{obj.trait_type}</p>
+                        <p className="m-0"
+                        style={{
+                            fontSize:'14px'
+                        }}
+                        >{obj.value ? obj.value : 'None'}</p>
+                        </div>
+                        </div>
+                        )
+                    })
+                    }
+                    </div>
+            
+                    </div>
+            </div>
+            }
 
             <div className="col-6">
                 <div className="nft-stats">
-                    <h6>Reserve price</h6>
+                    <h6>Reserve price (UST)</h6>
                     <p className="highest_bid">
                         {nftData.reserve_price ? (
                             <>
@@ -81,15 +135,22 @@ export default function AuctionInfo(props) {
                     <h6>Charity</h6>
                     <p className="highest_bid">
                         {nftData.charity
-                            ? nftData.charity.fee_percentage + '%'
+                            ? (parseFloat(nftData.charity.fee_percentage) * 100).toFixed(2) + '%'
                             : 'No'}
+                               
                     </p>
                 </div>
             </div>
 
+            {nftData.charity
+                            ? <div class="col-12 pb-2">
+                                    <small className="d-block" style={{fontSize:'12px', opacity:0.6, wordBreak:'break-word', fontWeight:300}}>Charity address: {nftData.charity.address}</small>
+                            </div>
+                            : ''}
+
             <div className="col-6">
                 <div className="nft-stats">
-                    <h6>Opening bid</h6>
+                    <h6>Opening bid (UST)</h6>
                     <p className="start-price">
                         {nftData.start_price ? (
                             <>
@@ -112,7 +173,7 @@ export default function AuctionInfo(props) {
 
             <div className="col-6">
                 <div className="nft-stats">
-                    <h6>Buyout</h6>
+                    <h6>Buyout (UST)</h6>
                     <p className="start-price">
                         {nftData.instant_buy ? (
                             <>

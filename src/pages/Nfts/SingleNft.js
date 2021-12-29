@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useMemo } from 'react'
 import NftCard from '../../components/NftCard'
 import { useStore } from '../../store'
 import toast, { Toaster } from 'react-hot-toast'
@@ -35,7 +35,16 @@ export default (props) => {
     const [amount, setAmount] = useState()
     const [expiryTimestamp, setExpiryTimestamp] = useState(1)
     const [nftData, setNftData] = useState(0)
-    const [imageNftData, setImageNftData] = useState(0)
+    const [imageNftData, setImageNftData] = useState({
+        image: null,
+        image_url: null,
+        animation_url: null,
+        name:  null,
+        description: null,
+        private_sale: null,
+        creator:  null,     
+        attributes:  null
+    })
     const [recent, setRecent] = useState(0)
     const [isOwner, setIsOwner] = useState(false)
     const [bidInfo, setBidInfo] = useState([])
@@ -51,20 +60,16 @@ export default (props) => {
     const testAuctionID = parseInt(props.nftId)
 
     console.log(testAuctionID)
-    let network = {}
-    let connectedWallet = {}
+  
+    let wallet = ''
+    let connectedWallet = ''
 
     if (typeof document !== 'undefined') {
-        network = useWallet().network
+        wallet = useWallet()
         connectedWallet = useConnectedWallet()
-    }
+    }  
 
-    const lcd = new LCDClient({
-        URL: network.lcd,
-        chainID: network.chainID,
-    })
-
-    const api = new WasmAPI(lcd.apiRequester)
+    const api = new WasmAPI(state.lcd.apiRequester)
 
     const reloadData = useCallback(async () => {
         try {
@@ -144,20 +149,31 @@ export default (props) => {
             await axios(config)
                 .then(function (response) {
                     console.log('repsonse', response.data)
+                    let image = ''
+                    let attributes = null;
+                    
                     const data = response.data.filterItems[0]
-                    setImageNftData({
-                        image: data.image_url,
-                        name: data.title,
-                        description: data.description,
-                        private_sale: data.private_sale,
-                        creator: data.creator.address,
+
+                    if(data.extension){
+                        attributes = data.extension.attributes
+                    }     
+
+                  
+                    setImageNftData((prevValues) => {
+                        return { ...prevValues, 
+                            image: data.image_url,
+                            token_uri: data.token_uri ? data.token_uri : null,
+                            extension:{image:null},
+                            image_url: data.extension && data.extension.image ? data.extension.image : null,
+                            animation_url: data.extension && data.extension.animation_url ? data.extension.animation_url : null,
+                            name: data.title ? data.title : data.extension.name,
+                            description: data.description,
+                            private_sale: data.private_sale,
+                            creator: data.creator.address,     
+                            attributes: attributes        }
                     })
-                    console.log({
-                        image: data.image_url,
-                        name: data.title,
-                        description: data.description,
-                        private_sale: data.private_sale,
-                    })
+
+                    console.log('imageNftData',imageNftData)
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -211,6 +227,10 @@ export default (props) => {
         }
     }, [])
 
+    useEffect(() => {
+        setImageNftData(imageNftData)
+    },[imageNftData])
+
     async function unlockPrivAuction() {
         let price = getRawAmountToUnlock()
         try {
@@ -239,10 +259,12 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
+                feeDenoms: "uusd"
             })
             toast.success('Auction unlocked!')
             setTimeout(() => reloadData(), 1000)
         } catch (e) {
+            toast.error('Something went wrong, try again')
             console.log(e)
         }
     }
@@ -271,9 +293,10 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
+                feeDenoms: "uusd"
             })
             toast.success('Instant buy succesful!')
-            setTimeout(() => reloadData(), 3000)
+            setTimeout(() => reloadData(), 1000)
         } catch (e) {
             console.log(e)
         }
@@ -281,11 +304,13 @@ export default (props) => {
 
     function getAmountToUnlock(){
         if(nftData.private_sale){
-            if(parseInt(nftData.highest_bid) > 0) {
-                let bid = parseInt(nftData.highest_bid) / 100 * 2 / 1000000;
-                if(bid < 1){
-                    bid = 1;
-                }
+            if(parseInt(nftData.highest_bid) / 1000000 > 1) {
+                let bid = 1;
+                let highest_bid = parseInt(nftData.highest_bid) / 1000000; 
+                let add_to_bid = parseInt(nftData.highest_bid) / 100 * 2 / 1000000;
+                if(highest_bid > 1){
+                    bid = bid + add_to_bid;
+                } 
                 return numeral(bid).format('0,0.00')
             } else {
                 return 1
@@ -298,10 +323,12 @@ export default (props) => {
     function getRawAmountToUnlock(){
         if(nftData.private_sale){
             if(parseInt(nftData.highest_bid) > 0) {
-                let bid = parseInt(nftData.highest_bid) / 100 * 2;
-                if(bid < 1){
-                    bid = 1000000;
-                }
+                let bid = 1000000;
+                let highest_bid = parseInt(nftData.highest_bid); 
+                let add_to_bid = parseInt(nftData.highest_bid) / 100 * 2;
+                if(highest_bid > bid){
+                    bid = bid + add_to_bid;
+                } 
                 return bid; 
             } else {
                 return 1000000
@@ -368,6 +395,7 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
+                feeDenoms: "uusd"
             })
             console.log(result)
             toast.success('Bid successful')
@@ -394,6 +422,7 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
+                feeDenoms: "uusd"
             })
             console.log(result)
             toast.success('Retract bids success')
@@ -469,7 +498,7 @@ export default (props) => {
 
     const rightsCheck = () => {
         if (nftData.start_time * 1000 > Date.now()) {
-            console.log('check not valid start time')
+            // console.log('check not valid start time')
             return false
         }
         if (
@@ -478,14 +507,14 @@ export default (props) => {
             null
         ) {
             if (parseInt(bidder.sity_used) > 0 ) {
-                console.log('bidder unlocked')
+                // console.log('bidder unlocked')
                 return true
             } else {
-                console.log('bidder not unlocked')
+                // console.log('bidder not unlocked')
                 return false
             }
         } else {
-            console.log('no private sale, true')
+            // console.log('no private sale, true')
             return true
         }
     }
@@ -591,13 +620,8 @@ export default (props) => {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-6 nft-left">
-                            <Card
-                                key={1}
-                                data={state.auctions}
-                                nft={imageNftData}
-                                type={'xl'}
-                                expiryTimestamp={expiryTimestamp}
-                                index={99}
+                            <Card                                                                            
+                                nft={imageNftData}                            
                             />
                         </div>
 
@@ -730,7 +754,7 @@ export default (props) => {
                                                                 <strong>
                                                                     Costs:{' '}
                                                                 </strong>
-                                                                {getAmountToUnlock()} UST
+                                                                {getAmountToUnlock()} SITY
                                                             </small>
                                                         </button>
                                                     </div>
