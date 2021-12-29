@@ -136,22 +136,7 @@ export default function Navbar(props) {
         )
     }
 
-    function rawBank() {
-        return (
-            <>
-                {bank ? (
-                    <>{bank} UST</>
-                ) : (
-                    <div
-                        className="spinner-border spinner-border-sm"
-                        role="status"
-                    >
-                        <span className="visually-hidden">Loading...</span>
-                    </div>
-                )}
-            </>
-        )
-    }
+    
 
     useEffect(() => {
         if (connectedWallet) {
@@ -326,7 +311,7 @@ export default function Navbar(props) {
                     </div>
                 </div>
             </div>
-            <UserModal rawBank={rawBank()} priv={priv} />
+            <UserModal bank={bank} priv={priv} />
         </>
     )
 }

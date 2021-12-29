@@ -3,8 +3,25 @@ import React, { useState, useEffect } from 'react'
 import { useStore } from '../store'
 
 export default function UserModal(props) {
-    const { rawBank, priv } = props
+    const { bank, priv } = props
     const { state, dispatch } = useStore()
+
+    function rawBank() {
+        return (
+            <>
+                {bank ? (
+                    <>{bank} UST</>
+                ) : (
+                    <div
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                    >
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                )}
+            </>
+        )
+    }
 
     return (
         <div
@@ -34,7 +51,7 @@ export default function UserModal(props) {
                         <h5 className="modal-heading">
                             Your balance <small>UST</small>
                         </h5>
-                        <h2>{rawBank}</h2>
+                        <h2>{rawBank()}</h2>
                         <h5 className="modal-heading">
                             Your balance <small>SITY</small>
                         </h5>
