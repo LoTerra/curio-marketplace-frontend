@@ -2,10 +2,9 @@
     "name": "react-static-example-basic",
     "private": true,
     "scripts": {
-        "start": "cross-env NODE_ENV=production react-static start",
-        "dev": "cross-env NODE_ENV=development react-static start",
+        "start": "react-static start",
         "stage": "react-static build --staging",
-        "build": "cross-env NODE_ENV=production react-static build",
+        "build": "react-static build",
         "analyze": "react-static build --analyze",
         "serve": "serve dist -p 3000",
         "lint": "prettier --write ."
