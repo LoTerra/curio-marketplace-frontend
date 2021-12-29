@@ -308,6 +308,7 @@ export default () => {
                                                     <NftInfoCard
                                                         key={id}
                                                         data={obj}
+                                                        auctions={auctions}
                                                         type={'xs'}
                                                         index={99}
                                                     />
@@ -380,6 +381,7 @@ export default () => {
                                                 <NftCard
                                                     key={id}
                                                     data={obj}
+                                                    auctions={auctions}
                                                     type={'xs'}
                                                     index={99}
                                                 />
@@ -451,7 +453,8 @@ export default () => {
                                                 <NftCard
                                                     key={id}
                                                     data={obj}
-                                                    type={'xs'}
+                                                    auctions={auctions}
+                                                    type={'xs'}                                                    
                                                     index={99}
                                                     isEnded={true}
                                                 />
@@ -606,6 +609,7 @@ export default () => {
                                                         <NftCard
                                                             key={id}
                                                             data={obj}
+                                                            auctions={auctions}
                                                             type={'small'}
                                                             index={99}
                                                         />

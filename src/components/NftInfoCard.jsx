@@ -10,7 +10,7 @@ import Media from './Media'
 export default function NftInfoCard(props) {
     const { state, dispatch } = useStore()
 
-    const { index, data, nft, type } = props
+    const { index, data, nft,auctions, type } = props
     //console.log("data-props")
     //console.log(data)
     return (
@@ -50,7 +50,7 @@ export default function NftInfoCard(props) {
                                     ? data.description
                                     : 'No description'}
                             </p>
-                            <NftPrice data={data} />
+                            <NftPrice data={data} auctions={auctions} />
                             {data.end_time && data.end_time > 1 && (
                                 <SmallCountdown
                                     expiryTimestamp={data.end_time}
