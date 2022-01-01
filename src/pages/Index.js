@@ -442,7 +442,7 @@ export default () => {
                                         return false
                                     })
                                     .sort((a, b) => {
-                                        return a.end_time - b.end_time
+                                        return b.end_time - a.end_time
                                     })
                                     .slice(0, 12)
                                     .map((obj, id) => {
