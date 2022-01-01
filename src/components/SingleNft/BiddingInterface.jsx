@@ -500,8 +500,8 @@ export default function BiddingInterface(props) {
                                                 nftData.highest_bidder !=
                                                     connectedWallet.walletAddress &&
                                                 parseInt(bidder.total_bid) > 0
-                                                    ? true
-                                                    : true
+                                                    ? false
+                                                    : false
                                             }
                                             onClick={() => retractBid()}
                                         >
