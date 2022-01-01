@@ -145,7 +145,6 @@ export default function BiddingInterface(props) {
             </div>
 
             {nftData &&
-                nftValid(nftData.end_time, nftData.start_time) &&
                 !isOwner && (
                     <>
                         <div className={'col-md-6'}>
