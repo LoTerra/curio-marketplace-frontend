@@ -500,7 +500,7 @@ export default function BiddingInterface(props) {
                                                 nftData.highest_bidder !=
                                                     connectedWallet.walletAddress &&
                                                 parseInt(bidder.total_bid) > 0
-                                                    ? false
+                                                    ? true
                                                     : true
                                             }
                                             onClick={() => retractBid()}
@@ -510,8 +510,8 @@ export default function BiddingInterface(props) {
                                                 nftData.end_time,
                                                 nftData.start_time,
                                             )
-                                                ? 'Retract bid(s)'
-                                                : 'Retract bid not allowed'}
+                                                ? 'Try retract bid(s)'
+                                                : 'Try retract bid(s)'}
                                         </button>
                                     </div>
                                 )}
