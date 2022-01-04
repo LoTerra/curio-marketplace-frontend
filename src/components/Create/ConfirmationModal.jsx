@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useStore } from '../../store'
 import Card from '../SingleNft/Card';
+import PreviewImage from './PreviewImage';
 
 export default function ConfirmationModal(props) {
     const {confirm,toggleConfirm,finalCreation, formData,nftImage} = props;
@@ -18,15 +19,9 @@ export default function ConfirmationModal(props) {
         <div className={'confirm-background d-flex' + (!confirm ? '' : ' show')}>
             <div className="confirm-dialog align-self-center">
                 <div className="row">
-                    <div className="col-md-4 mt-4">                        
-                        <Card
-                                key={1}
-                                data={state.auctions}
-                                nft={{image: nftImage}}
-                                type={'xl'}
-                                expiryTimestamp={0}
-                                index={99}
-                            />
+                    <div className="col-md-4 mt-4">
+                        <PreviewImage obj={{image: nftImage}}/>                        
+                        
                     </div>
                     <div className="col-md-8">
                         <h1 className="mb-0 mt-4">Almost ready!</h1>

@@ -25,12 +25,12 @@ export default function PreviewImage(props) {
             {obj.image && !obj.image_url && (
             <img
             src={obj.image.replace('ipfs://','https://ipfs.io/ipfs/')}
-            className="img-fluid"
+            className="img-fluid rounded"
             />)}
           
 
             {obj.image_url && !obj.animation_url && (
-            <img src={obj.image_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"/>
+            <img src={obj.image_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid rounded"/>
             )}
 
             {obj.animation_url && (
