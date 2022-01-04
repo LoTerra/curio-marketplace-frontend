@@ -24,6 +24,7 @@ import {
     CheckCircle,
     CheckSquareOffset,
     Heart,
+    PencilLine,
     SlidersHorizontal,
     WarningCircle,
     X,
@@ -40,6 +41,8 @@ export default function CreateAuction(props) {
         contract: {},
         address: '',
     })
+
+    
 
     const [manual, setManual] = useState(false)
     const [tokenId, setTokenId] = useState('')
@@ -104,18 +107,15 @@ export default function CreateAuction(props) {
                 })               
              
 
-                if(singleToken.token_uri == null && Object.keys(singleToken.extension).length === 0){
+                if(singleToken.hasOwnProperty('token_uri') && singleToken.token_uri !== null){
 
 
                     var axios_config = {
                         method: 'get',
-                        url: singleToken.token_uri,               
+                        url: singleToken.token_uri.replace('ipfs://','https://ipfs.io/ipfs/'),               
                     }
 
-                    var second_axios_config = {
-                        method: 'get',
-                        url: singleToken.token_uri.replace('ipfs://','https://ipfs.io/ipfs/'),
-                    }
+                 
 
                     await axios(axios_config)
                     .then(function (response) {
@@ -134,14 +134,14 @@ export default function CreateAuction(props) {
                     }).catch(async function (error) {
                     console.log(error)
                     //Turtle scenario fallback
-                    await axios(second_axios_config)
+                    await axios(axios_config)
                     .then(function (response) {
                         console.log(response)
                         singleToken.image = response.data.image 
                     })
                 })               
                 } else {
-                    if(Object.keys(singleToken.extension).length === 0){
+                    if(singleToken.hasOwnProperty('extension')){
                         if(singleToken.extension.image !== null){
                             singleToken.image = singleToken.extension.image
                         }
@@ -176,6 +176,16 @@ export default function CreateAuction(props) {
             toast.error('Error')
             console.log(e)
             setNftLoader(false)
+        }
+    }
+
+    function toggleSelectedToken(obj){
+        if(tokenId)        {
+            setNftImage()
+            setTokenId('')
+        } else {
+            setNftImage(obj.image)
+            setTokenId(obj.token_id)
         }
     }
 
@@ -345,7 +355,7 @@ export default function CreateAuction(props) {
             {connectedWallet && connectedWallet.walletAddress ? (
                 <form className="auctionForm" onSubmit={(e) => create(e)}>
                     <div className="row mb-4">
-                        <div className="col-md-3">
+                        {/* <div className="col-md-3">
                             <span className="icon">
                                 <CheckSquareOffset size={70} weight="light" />
                                 <CheckSquareOffset size={70} weight="light" />
@@ -354,17 +364,17 @@ export default function CreateAuction(props) {
                                 Select the contract of your NFT in the list or
                                 manually add it
                             </p>
-                        </div>
-                        <div className="col-md-9">
-                            <div className="col-12">
+                        </div> */}
+                        <div className="col-md-12">
+                            {/* <div className="col-12">
                                 <h5>Contract details</h5>
-                            </div>
+                            </div> */}
                             <div className="col-12 mb-3">
                                 <div className="row">
-                                    <div className="col-md-12">
+                                    <div className="col-md-12 text-center">
                                         <button
                                             type="button"
-                                            className="btn btn-primary btn-block btn-lg w-100"
+                                            className="btn btn-primary btn-lg"
                                             onClick={() => getContractData()}
                                             data-bs-toggle="modal"
                                             data-bs-target="#nftContracts"
@@ -526,30 +536,32 @@ export default function CreateAuction(props) {
                                         </div>
                                     </div>
                                 </div>
-
+                                <label className="d-block text-center py-2 manual-label" onClick={() => setManual(!manual)}>
+                                   <PencilLine size={'16px'}/> Or manually fill contract address
+                                </label>
                                 {contract.contract && contract.address !== '' && (
-                                    <div className="card bg-dark">
+                                    <div className="card" style={{
+                                        backgroundColor: '#0000004d'
+                                    }}>
                                         <div className="card-body">
                                             <div className="row">
-                                                <div className="col-3">
+                                                <div className="col-12 text-center text-lg-start col-lg-1">
                                                     <img
                                                         src={
                                                             contract.contract
                                                                 .icon
                                                         }
-                                                        className="img-fluid"
+                                                        className="img-fluid rounded"
                                                     />
                                                 </div>
-                                                <div className="col-9">
-                                                    <p className="m-0">
-                                                        <strong>
-                                                            Selected contract:{' '}
-                                                        </strong>
+                                                <div className="col-12 col-lg-11">
+                                                    <p className="m-0 small fw-normal">                                                      
+                                                            Selected contract:                                               
                                                     </p>
-                                                    <h3>
+                                                    <h3 className="fs-5 mb-0 fw-bold">
                                                         {contract.contract.name}
                                                     </h3>
-                                                    <p>
+                                                    <p className="text-muted">
                                                         {
                                                             contract.contract
                                                                 .contract
@@ -561,21 +573,20 @@ export default function CreateAuction(props) {
                                     </div>
                                 )}
 
-                                <label className="mt-2">
-                                    Manually fill contract address
-                                </label>
+                                
                                 <input
                                     type="text"
-                                    className="form-control mb-2"
+                                    className={'form-control contract-input' + (manual ? ' show' : '')}
                                     value={contract.address}
                                     onChange={(e) => contractChangeHandler(e)}
+                                    placeholder={'YourNftContractAddress'}
                                     name="contract_address"
                                     required
                                 />
 
                                 <button
                                     type="button"
-                                    className="btn btn-secondary btn-lg w-100 my-2"
+                                    className={'btn btn-secondary btn-lg w-100 my-2 get-nfts' + (contract.address !== '' ? ' show' : '')}
                                     onClick={() => debouncedClick()}
                                 >
                                     <ArrowsClockwise
@@ -632,21 +643,23 @@ export default function CreateAuction(props) {
                                                             : '')
                                                     }
                                                     onClick={() => {
-                                                        setNftImage(obj.image)
-                                                        setTokenId(obj.token_id)
-
+                                                        toggleSelectedToken(obj)                                                                                                     
                                                     }
                                                         
                                                     }
                                                 >                                                   
                                                     <PreviewImage obj={obj} tokenId={tokenId}/>
+                                                    <div className="info-text">
+                                                        {tokenId &&
+                                                        tokenId == obj.token_id ? 'Deselect' : 'Select'}
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))}
                                 </div>
                             </div>
 
-                            <div className="col-12 mb-3 mt-2">
+                            {/* <div className="col-12 mb-3 mt-2">
                                 {manual && (
                                     <>
                                         <label>Token ID</label>
@@ -662,7 +675,7 @@ export default function CreateAuction(props) {
                                         />
                                     </>
                                 )}
-                            </div>
+                            </div> */}
                             {/* <div className="col-12 mb-3">
             <label>NFT Category</label>                        
             <select className="form-control" name="category" required>
@@ -678,9 +691,8 @@ export default function CreateAuction(props) {
                         {contract.address !== '' &&
                             tokenId !== '' &&
                            (
-                                <>
-                                    <div className="col-md-3"></div>
-                                    <div className="col-md-9">
+                                <>                                  
+                                    <div className="col-md-12">
                                         <div className="success-message mb-4">
                                             <p>
                                                 <CheckCircle size={21} /> Nft

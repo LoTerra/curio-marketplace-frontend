@@ -32,7 +32,7 @@ import numeral from 'numeral'
 
 export default (props) => {
     const { state, dispatch } = useStore()
-    const [amount, setAmount] = useState()
+    const [amount, setAmount] = useState(0)
     const [expiryTimestamp, setExpiryTimestamp] = useState(1)
     const [nftData, setNftData] = useState(0)
     const [imageNftData, setImageNftData] = useState({

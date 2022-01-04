@@ -39,7 +39,7 @@ export default function ContractVerification(props) {
                 <p style={{
                     fontSize:'14px'
                 }}><CheckCircle size={16}/>{verified.name}</p>
-                <img src={verified.icon} width="25" height="25"/> 
+                <img src={verified.icon} className="me-1 rounded-border" width="25" height="25"/> 
                 <span style={{
                     fontWeight:400
                 }}>{address}</span>
