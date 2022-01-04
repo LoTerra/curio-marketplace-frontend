@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useStore } from '../../store'
 import numeral from 'numeral'
 import { Match } from '@reach/router'
+import ContractVerification from '../ContractVerification'
 let bootstrap = {}
 if (typeof document !== 'undefined') {
     bootstrap = require('bootstrap')
@@ -36,11 +37,9 @@ export default function AuctionInfo(props) {
             <div className="col-12">
                 <div className="nft-stats big w-100 my-2">
                     <h6>NFT Contract</h6>
-                    <p style={{
-                        fontSize:'14px',
-                        color:'#fff',
-                        opacity:0.6
-                    }}>{nftData.nft_contract}</p>
+                    { nftData &&
+                        <ContractVerification contractAddress={nftData.nft_contract} />
+                    }
                 </div>
                 <div className="nft-stats big w-100 my-2">
                     <h6>Highest bid</h6>
