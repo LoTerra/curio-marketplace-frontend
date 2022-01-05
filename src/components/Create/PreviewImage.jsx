@@ -37,7 +37,7 @@ export default function PreviewImage(props) {
             <video playsinline="" autoplay="" muted loop src={obj.animation_url.replace('ipfs://','https://ipfs.io/ipfs/')} className="img-fluid"></video>
             )}
             
-            <p>{obj.name}</p>
+            <p>{obj.name ? obj.name : obj.token_id}</p>
         </>
     )
 

@@ -11,6 +11,16 @@
                     "https://randomearth.io/collections/terra1tv5hu9d2hw4q9tn4x30870ae0e4mrttqj0fcv6",
                     "https://knowhere.art/collection/terra1tv5hu9d2hw4q9tn4x30870ae0e4mrttqj0fcv6"
                 ]
+            },            
+              "terra1lfr4aja5a2xpxvnrl4gyjpru0wwglu7k87jmeq":{
+                  "contract": "terra1lfr4aja5a2xpxvnrl4gyjpru0wwglu7k87jmeq",
+                  "name": "HERO NFT",
+                  "icon": "https://www.heronft.io/static/media/godisgood.d161a64c.png"
+            },
+            "terra1z6taeyvwdy0s9axkqjpvavrk6rt2e7at4dsmtw":{
+                "contract": "terra1z6taeyvwdy0s9axkqjpvavrk6rt2e7at4dsmtw",
+                "name": "UAPx",
+                "icon": "https://pbs.twimg.com/profile_images/1449750135727173634/J-OovCNa_400x400.jpg"
             },
             "terra1sc89k9200ycvpd0cs0ul0qmj98p9n8wjp5sft7": {
                 "contract": "terra1sc89k9200ycvpd0cs0ul0qmj98p9n8wjp5sft7",

@@ -19,6 +19,7 @@ import {
     MsgSend,
 } from '@terra-money/terra.js'
 import {
+    ArchiveBox,
     ArrowsClockwise,
     Check,
     CheckCircle,
@@ -73,24 +74,38 @@ export default function CreateAuction(props) {
         })
     }, [connectedWallet])
 
-    async function getNftProviderData(address) {
+    async function getNftProviderData() {
         //Clean before new data
 
         setUserNfts([])
         setTokenId('')
         setNftImage('')
 
-        if (address === '') {
-            toast.error('Fill NFT Contract Address')
-            setNftLoader(false)
-            return
-        }
+        // if (address === '') {
+        //     toast.error('Fill NFT Contract Address')
+        //     setNftLoader(false)
+        //     return
+        // }
 
         //Spread operator
         let data = []
         try {
             const api = new WasmAPI(lcd.apiRequester)
-            const tokenData = await api.contractQuery(address, {
+            // let static_addresses_test = [
+            //     'terra1sc89k9200ycvpd0cs0ul0qmj98p9n8wjp5sft7',
+            //     'terra1z6taeyvwdy0s9axkqjpvavrk6rt2e7at4dsmtw',
+            //     'terra1lfr4aja5a2xpxvnrl4gyjpru0wwglu7k87jmeq',
+            // ]
+            let parsed =  JSON.parse(JSON.stringify(contractData['mainnet']))
+            let json_contracts = Object.keys(parsed[0])
+
+            // console.log(json_contracts)
+            // return;
+
+            await Promise.all(json_contracts.map(async a => {
+          //Map testing
+          setNftLoader(true)
+            const tokenData = await api.contractQuery(a, {
                 tokens: {
                     owner: connectedWallet.walletAddress,
                     limit: 30,
@@ -98,94 +113,108 @@ export default function CreateAuction(props) {
             })
             console.log(tokenData)
 
-            tokenData.tokens.map(async (obj) => {
-                const singleToken = await api.contractQuery(address, {
-                    nft_info: {
-                        token_id: obj,
-                    },
-
-                })               
-             
-
-                if(singleToken.hasOwnProperty('token_uri') && singleToken.token_uri !== null){
-
-
-                    var axios_config = {
-                        method: 'get',
-                        url: singleToken.token_uri.replace('ipfs://','https://ipfs.io/ipfs/'),               
-                    }
-
+            
+                if(tokenData)
+                tokenData.tokens.map(async (obj) => {
+                    const singleToken = await api.contractQuery(a, {
+                        nft_info: {
+                            token_id: obj,
+                        },
+    
+                    })               
                  
-
-                    await axios(axios_config)
-                    .then(function (response) {
-                        console.log(response)
-                        singleToken.image = response.data.image;
-                        if(typeof response.data.extension.image !== 'undefined'){
-                            singleToken.image = response.data.extension.image
+    
+                    if(singleToken.hasOwnProperty('token_uri') && singleToken.token_uri !== null){
+    
+    
+                        var axios_config = {
+                            method: 'get',
+                            url: singleToken.token_uri.replace('ipfs://','https://ipfs.io/ipfs/'),               
                         }
-                        if(typeof response.data.extension.image_data !== 'undefined'){
-                            singleToken.image = response.data.extension.image_data
-                        }
-                        if(typeof response.data.extension.animation_url !== 'undefined'){
-                            singleToken.image = response.data.extension.animation_url
-                            singleToken.type = 'video';
-                        }
-                    }).catch(async function (error) {
-                    console.log(error)
-                    //Turtle scenario fallback
-                    await axios(axios_config)
-                    .then(function (response) {
-                        console.log(response)
-                        singleToken.image = response.data.image 
-                    })
-                })               
-                } else {
-                    if(singleToken.hasOwnProperty('extension')){
-                        if(singleToken.extension.image !== null){
-                            singleToken.image = singleToken.extension.image
-                        }
-                        if(singleToken.extension.image_data !== null){
-                            singleToken.image = singleToken.extension.image_data
-                        }
-                        if(singleToken.extension.animation_url !== null){
-                            singleToken.image = singleToken.extension.animation_url
-                            singleToken.type = 'video';
+    
+                     
+    
+                        await axios(axios_config)
+                        .then(function (response) {
+                            console.log(response)
+                            singleToken.image = response.data.image;
+                            if(response.data.hasOwnProperty('extension') && response.data.extension.hasOwnProperty('image')){
+                                singleToken.image = response.data.extension.image
+                            }
+                            if(response.data.hasOwnProperty('extension') && response.data.extension.hasOwnProperty('image_data')){
+                                singleToken.image = response.data.extension.image_data
+                            }
+                            if(response.data.hasOwnProperty('extension') && response.data.extension.hasOwnProperty('animation_url')){
+                                singleToken.image = response.data.extension.animation_url
+                                singleToken.type = 'video';
+                            }
+                        }).catch(async function (error) {
+                        console.log(error)
+                        //Turtle scenario fallback
+                        await axios(axios_config)
+                        .then(function (response) {
+                            console.log(response)
+                            singleToken.image = response.data.image 
+                        })
+                    })               
+                    } else {
+                        if(singleToken.hasOwnProperty('extension')){
+                            if(singleToken.extension.image !== null){
+                                singleToken.image = singleToken.extension.image
+                            }
+                            if(singleToken.extension.image_data !== null){
+                                singleToken.image = singleToken.extension.image_data
+                            }
+                            if(singleToken.extension.animation_url !== null){
+                                singleToken.image = singleToken.extension.animation_url
+                                singleToken.type = 'video';
+                            }
                         }
                     }
-                }
+    
+                    //Set name 
+                    if(singleToken.extension && singleToken.extension.name){
+                        singleToken.name = singleToken.extension.name;
+                    }
+                    
+                    singleToken.token_id = obj
+                    singleToken.contract_address = a;
+                    data.push(singleToken)
+                    console.log(singleToken)
+                    setUserNfts((userNfts) => [...userNfts, singleToken])
+                })
 
-                //Set name 
-                if(singleToken.extension && singleToken.extension.name){
-                    singleToken.name = singleToken.extension.name;
+                console.log(userNfts)
+                if (tokenData && tokenData.tokens.length === 0) {
+                    // toast.error('No NFTS found on contract')
                 }
-                
-                singleToken.token_id = obj
-                data.push(singleToken)
-                console.log(singleToken)
-                setUserNfts((userNfts) => [...userNfts, singleToken])
-            })
+            }))
 
-            console.log(userNfts)
-            if (tokenData && tokenData.tokens.length === 0) {
-                toast.error('No NFTS found on contract')
-            }
-            setNftLoader(false)
+           
+         
         } catch (e) {
             setUserNfts([])
             toast.error('Error')
             console.log(e)
             setNftLoader(false)
         }
+        setNftLoader(false)
     }
 
     function toggleSelectedToken(obj){
         if(tokenId)        {
             setNftImage()
             setTokenId('')
+            setContract((prevValues) => {
+                return { ...prevValues, contract: '', address: '' }
+            })
         } else {
             setNftImage(obj.image)
             setTokenId(obj.token_id)
+            setContract((prevValues) => {
+                console.log(obj)
+                return { ...prevValues, contract: obj, address: obj.contract_address }
+            })
         }
     }
 
@@ -203,7 +232,7 @@ export default function CreateAuction(props) {
     const debouncedClick = useCallback(
         _.debounce(() => {
             setNftLoader(true)
-            getNftProviderData(contract.address)
+            getNftProviderData()
         }, 1000),
     )
 
@@ -375,12 +404,14 @@ export default function CreateAuction(props) {
                                         <button
                                             type="button"
                                             className="btn btn-primary btn-lg"
-                                            onClick={() => getContractData()}
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#nftContracts"
+                                            onClick={() => debouncedClick()}
+                                            // data-bs-toggle="modal"
+                                            // data-bs-target="#nftContracts"
                                         >
-                                            Select NFT Contract
+                                          <ArchiveBox size={32} />  Load my NFTs
                                         </button>
+                                        <small className="d-block mt-3" style={{opacity:0.6, color:'#fff', fontSize:'13px'}}>Not showing your NFTs? Contact us on <a href="https://t.me/curio_nft" className="text-white">Telegram</a></small>
+
                                     </div>
                                     {/* <div className="col-md-6">
     <button type="button" className={'btn btn-secondary d-block btn-lg w-100'} onClick={() => setManual(!manual)}>Add NFT Manually</button>
@@ -536,10 +567,10 @@ export default function CreateAuction(props) {
                                         </div>
                                     </div>
                                 </div>
-                                <label className="d-block text-center py-2 manual-label" onClick={() => setManual(!manual)}>
+                                {/* <label className="d-block text-center py-2 manual-label" onClick={() => setManual(!manual)}>
                                    <PencilLine size={'16px'}/> Or manually fill contract address
-                                </label>
-                                {contract.contract && contract.address !== '' && (
+                                </label> */}
+                                {/* {contract.contract && contract.address !== '' && (
                                     <div className="card" style={{
                                         backgroundColor: '#0000004d'
                                     }}>
@@ -571,10 +602,10 @@ export default function CreateAuction(props) {
                                             </div>
                                         </div>
                                     </div>
-                                )}
+                                )} */}
 
                                 
-                                <input
+                                {/* <input
                                     type="text"
                                     className={'form-control contract-input' + (manual ? ' show' : '')}
                                     value={contract.address}
@@ -582,9 +613,9 @@ export default function CreateAuction(props) {
                                     placeholder={'YourNftContractAddress'}
                                     name="contract_address"
                                     required
-                                />
+                                /> */}
 
-                                <button
+                                {/* <button
                                     type="button"
                                     className={'btn btn-secondary btn-lg w-100 my-2 get-nfts' + (contract.address !== '' ? ' show' : '')}
                                     onClick={() => debouncedClick()}
@@ -599,7 +630,7 @@ export default function CreateAuction(props) {
                                         }}
                                     />{' '}
                                     Get nfts from contract
-                                </button>
+                                </button> */}
                             </div>
 
                             <div className="col-12">
@@ -620,8 +651,8 @@ export default function CreateAuction(props) {
                                 <div className="row">
                                     {userNfts &&
                                         userNfts.length > 0 &&
-                                        contract.address && (
-                                            <h4>
+                                         (
+                                            <h4 className="text-center mt-3 mb-4">
                                                 <strong>
                                                     Select NFT You want to
                                                     auction
@@ -629,10 +660,9 @@ export default function CreateAuction(props) {
                                             </h4>
                                         )}
                                     {userNfts &&
-                                        userNfts.length > 0 &&
-                                        contract.address &&
+                                        userNfts.length > 0 &&                                 
                                         userNfts.map((obj, k) => (
-                                            <div className="col-md-3" key={k}>
+                                            <div className="col-md-3 mb-3" key={k}>
                                                 
                                                 <div
                                                     className={
