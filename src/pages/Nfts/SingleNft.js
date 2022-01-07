@@ -39,11 +39,11 @@ export default (props) => {
         image: null,
         image_url: null,
         animation_url: null,
-        name:  null,
+        name: null,
         description: null,
         private_sale: null,
-        creator:  null,     
-        attributes:  null
+        creator: null,
+        attributes: null,
     })
     const [recent, setRecent] = useState(0)
     const [isOwner, setIsOwner] = useState(false)
@@ -60,14 +60,14 @@ export default (props) => {
     const testAuctionID = parseInt(props.nftId)
 
     console.log(testAuctionID)
-  
+
     let wallet = ''
     let connectedWallet = ''
 
     if (typeof document !== 'undefined') {
         wallet = useWallet()
         connectedWallet = useConnectedWallet()
-    }  
+    }
 
     const api = new WasmAPI(state.lcd.apiRequester)
 
@@ -150,30 +150,37 @@ export default (props) => {
                 .then(function (response) {
                     console.log('repsonse', response.data)
                     let image = ''
-                    let attributes = null;
-                    
+                    let attributes = null
+
                     const data = response.data.filterItems[0]
 
-                    if(data.extension){
+                    if (data.extension) {
                         attributes = data.extension.attributes
-                    }     
+                    }
 
-                  
                     setImageNftData((prevValues) => {
-                        return { ...prevValues, 
+                        return {
+                            ...prevValues,
                             image: data.image_url,
                             token_uri: data.token_uri ? data.token_uri : null,
-                            extension:data.extension,
-                            image_url: data.extension && data.extension.image ? data.extension.image : null,
-                            animation_url: data.extension && data.extension.animation_url ? data.extension.animation_url : null,
+                            extension: data.extension,
+                            image_url:
+                                data.extension && data.extension.image
+                                    ? data.extension.image
+                                    : null,
+                            animation_url:
+                                data.extension && data.extension.animation_url
+                                    ? data.extension.animation_url
+                                    : null,
                             name: data.title ? data.title : data.extension.name,
                             description: data.description,
                             private_sale: data.private_sale,
-                            creator: data.creator.address,     
-                            attributes: attributes        }
+                            creator: data.creator.address,
+                            attributes: attributes,
+                        }
                     })
 
-                    console.log('imageNftData',imageNftData)
+                    console.log('imageNftData', imageNftData)
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -229,7 +236,7 @@ export default (props) => {
 
     useEffect(() => {
         setImageNftData(imageNftData)
-    },[imageNftData])
+    }, [imageNftData])
 
     async function unlockPrivAuction() {
         let price = getRawAmountToUnlock()
@@ -259,7 +266,7 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
-                feeDenoms: "uusd"
+                feeDenoms: 'uusd',
             })
             toast.success('Auction unlocked!')
             setTimeout(() => reloadData(), 1000)
@@ -293,7 +300,7 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
-                feeDenoms: "uusd"
+                feeDenoms: 'uusd',
             })
             toast.success('Instant buy succesful!')
             setTimeout(() => reloadData(), 1000)
@@ -302,15 +309,16 @@ export default (props) => {
         }
     }
 
-    function getAmountToUnlock(){
-        if(nftData.private_sale){
-            if(parseInt(nftData.highest_bid) / 1000000 > 1) {
-                let bid = 1;
-                let highest_bid = parseInt(nftData.highest_bid) / 1000000; 
-                let add_to_bid = parseInt(nftData.highest_bid) / 100 * 2 / 1000000;
-                if(highest_bid > 1){
-                    bid = bid + add_to_bid;
-                } 
+    function getAmountToUnlock() {
+        if (nftData.private_sale) {
+            if (parseInt(nftData.highest_bid) / 1000000 > 1) {
+                let bid = 1
+                let highest_bid = parseInt(nftData.highest_bid) / 1000000
+                let add_to_bid =
+                    ((parseInt(nftData.highest_bid) / 100) * 2) / 1000000
+                if (highest_bid > 1) {
+                    bid = bid + add_to_bid
+                }
                 return numeral(bid).format('0,0.00')
             } else {
                 return 1
@@ -320,16 +328,16 @@ export default (props) => {
         }
     }
 
-    function getRawAmountToUnlock(){
-        if(nftData.private_sale){
-            if(parseInt(nftData.highest_bid) > 0) {
-                let bid = 1000000;
-                let highest_bid = parseInt(nftData.highest_bid); 
-                let add_to_bid = parseInt(nftData.highest_bid) / 100 * 2;
-                if(highest_bid > bid){
-                    bid = bid + add_to_bid;
-                } 
-                return bid; 
+    function getRawAmountToUnlock() {
+        if (nftData.private_sale) {
+            if (parseInt(nftData.highest_bid) > 0) {
+                let bid = 1000000
+                let highest_bid = parseInt(nftData.highest_bid)
+                let add_to_bid = (parseInt(nftData.highest_bid) / 100) * 2
+                if (highest_bid > bid) {
+                    bid = bid + add_to_bid
+                }
+                return bid
             } else {
                 return 1000000
             }
@@ -395,7 +403,7 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
-                feeDenoms: "uusd"
+                feeDenoms: 'uusd',
             })
             console.log(result)
             toast.success('Bid successful')
@@ -422,7 +430,7 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
-                feeDenoms: "uusd"
+                feeDenoms: 'uusd',
             })
             console.log(result)
             toast.success('Retract bids success')
@@ -502,11 +510,10 @@ export default (props) => {
             return false
         }
         if (
-            (nftData.private_sale > 0 &&
-                nftData.private_sale !== undefined) ||
+            (nftData.private_sale > 0 && nftData.private_sale !== undefined) ||
             null
         ) {
-            if (parseInt(bidder.sity_used) > 0 ) {
+            if (parseInt(bidder.sity_used) > 0) {
                 // console.log('bidder unlocked')
                 return true
             } else {
@@ -552,7 +559,7 @@ export default (props) => {
             } else {
                 setIsOwner(false)
             }
-            (async () => {
+            ;(async () => {
                 const bidderData = await api.contractQuery(
                     state.privAuctionContract,
                     {
@@ -620,10 +627,7 @@ export default (props) => {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-6 nft-left">
-                            <Card                                                                            
-                                nft={imageNftData}                            
-                                data={nftData}
-                            />
+                            <Card nft={imageNftData} data={nftData} />
                         </div>
 
                         <div className="col-md-6 nft-right px-xl-5 d-flex">
@@ -647,11 +651,8 @@ export default (props) => {
                                     />{' '}
                                     Back to home
                                 </a>
-                                {parseInt(nftData.private_sale) >
-                                    0 && (
-                                    <p className="single-nft-badge">
-                                        Private
-                                    </p>
+                                {parseInt(nftData.private_sale) > 0 && (
+                                    <p className="single-nft-badge">Private</p>
                                 )}
                                 <h3 className="title">{imageNftData.name}</h3>
                                 {isOwner && (
@@ -740,8 +741,10 @@ export default (props) => {
                                                 }
                                                 isOwner={isOwner}
                                             />
-                                            {!isOwner && nftData.private_sale &&
-                                                !parseInt(bidder.sity_used) > 0 && (
+                                            {!isOwner &&
+                                                nftData.private_sale &&
+                                                !parseInt(bidder.sity_used) >
+                                                    0 && (
                                                     <div className="col-12">
                                                         <button
                                                             className="btn btn-primary btn-lg w-100 mt-3"
@@ -755,7 +758,8 @@ export default (props) => {
                                                                 <strong>
                                                                     Costs:{' '}
                                                                 </strong>
-                                                                {getAmountToUnlock()} SITY
+                                                                {getAmountToUnlock()}{' '}
+                                                                SITY
                                                             </small>
                                                         </button>
                                                     </div>

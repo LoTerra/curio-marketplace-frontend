@@ -27,7 +27,7 @@ export default function NftCard(props) {
 
                         {!isEnded && <NftBadge data={data} />}
 
-                            <Media data={data}/>
+                        <Media data={data} />
 
                         <div className="card-img-overlay">
                             <div className="d-flex h-100 w-100">
@@ -35,11 +35,16 @@ export default function NftCard(props) {
                                     {type != 'xl' && (
                                         <>
                                             <h5 className="card-title m-0">
-                                            {data.title ? data.title : data.extension.name}
+                                                {data.title
+                                                    ? data.title
+                                                    : data.extension.name}
                                             </h5>
 
                                             {!isEnded && (
-                                                <NftPrice data={data} auctions={auctions} />
+                                                <NftPrice
+                                                    data={data}
+                                                    auctions={auctions}
+                                                />
                                             )}
 
                                             {data.end_time &&

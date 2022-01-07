@@ -43,15 +43,13 @@ export default function CreateAuction(props) {
         address: '',
     })
 
-    
-
     const [manual, setManual] = useState(false)
     const [tokenId, setTokenId] = useState('')
     const [nftImage, setNftImage] = useState('')
     const [userNfts, setUserNfts] = useState([])
     const [contracts, setContracts] = useState([])
     const [nftLoader, setNftLoader] = useState(false)
-    const [formData, setFormData] = useState();
+    const [formData, setFormData] = useState()
 
     const closeRef = useRef()
 
@@ -96,102 +94,165 @@ export default function CreateAuction(props) {
             //     'terra1z6taeyvwdy0s9axkqjpvavrk6rt2e7at4dsmtw',
             //     'terra1lfr4aja5a2xpxvnrl4gyjpru0wwglu7k87jmeq',
             // ]
-            let parsed =  JSON.parse(JSON.stringify(contractData['mainnet']))
+
+            /*
+                ////////////////////////////////////////////////
+                Please use process.env for mainnet or testnet...
+                ////////////////////////////////////////////////
+             */
+            //let env = process.env == 'production' ? 'mainnet' : 'testnet';
+            let parsed = JSON.parse(JSON.stringify(contractData['mainnet']))
             let json_contracts = Object.keys(parsed[0])
+            console.log(parsed)
+            console.log(json_contracts)
 
             // console.log(json_contracts)
             // return;
 
-            await Promise.all(json_contracts.map(async a => {
-          //Map testing
-          setNftLoader(true)
-            const tokenData = await api.contractQuery(a, {
-                tokens: {
-                    owner: connectedWallet.walletAddress,
-                    limit: 30,
-                },
-            })
-            console.log(tokenData)
+            await Promise.all(
+                json_contracts.map(async (address) => {
+                    //Map testing
+                    setNftLoader(true)
+                    const tokenData = await api.contractQuery(address, {
+                        tokens: {
+                            owner: connectedWallet.walletAddress,
+                            /*
+                                ////////////////////////////////////////////////
+                                limit 30
+                                complete this with
+                                ////////////////////////////////////////////////
 
-            
-                if(tokenData)
-                tokenData.tokens.map(async (obj) => {
-                    const singleToken = await api.contractQuery(a, {
-                        nft_info: {
-                            token_id: obj,
+                             */
+                            //start_after: token_id
+                            limit: 30,
                         },
-    
-                    })               
-                 
-    
-                    if(singleToken.hasOwnProperty('token_uri') && singleToken.token_uri !== null){
-    
-    
-                        var axios_config = {
-                            method: 'get',
-                            url: singleToken.token_uri.replace('ipfs://','https://ipfs.io/ipfs/'),               
-                        }
-    
-                     
-    
-                        await axios(axios_config)
-                        .then(function (response) {
-                            console.log(response)
-                            singleToken.image = response.data.image;
-                            if(response.data.hasOwnProperty('extension') && response.data.extension.hasOwnProperty('image')){
-                                singleToken.image = response.data.extension.image
+                    })
+                    console.log("tokenData")
+                    console.log(tokenData)
+                    console.log("address")
+                    console.log(address)
+                    if (address == "terra1rslpedqv99rs0axw0y6sp0rssq7mma5wsqwmuh"){
+                        console.log(true)
+                    }
+
+                    if (tokenData)
+                        tokenData.tokens.map(async (obj) => {
+                            const singleToken = await api.contractQuery(address, {
+                                nft_info: {
+                                    token_id: obj,
+                                },
+                            })
+
+                            if (
+                                singleToken.hasOwnProperty('token_uri') &&
+                                singleToken.token_uri !== null
+                            ) {
+                                var axios_config = {
+                                    method: 'get',
+                                    url: singleToken.token_uri.replace(
+                                        'ipfs://',
+                                        'https://ipfs.io/ipfs/',
+                                    ),
+                                }
+
+                                await axios(axios_config)
+                                    .then(function (response) {
+                                        console.log(response)
+                                        singleToken.image = response.data.image
+                                        if (
+                                            response.data.hasOwnProperty(
+                                                'extension',
+                                            ) &&
+                                            response.data.extension.hasOwnProperty(
+                                                'image',
+                                            )
+                                        ) {
+                                            singleToken.image =
+                                                response.data.extension.image
+                                        }
+                                        if (
+                                            response.data.hasOwnProperty(
+                                                'extension',
+                                            ) &&
+                                            response.data.extension.hasOwnProperty(
+                                                'image_data',
+                                            )
+                                        ) {
+                                            singleToken.image =
+                                                response.data.extension.image_data
+                                        }
+                                        if (
+                                            response.data.hasOwnProperty(
+                                                'extension',
+                                            ) &&
+                                            response.data.extension.hasOwnProperty(
+                                                'animation_url',
+                                            )
+                                        ) {
+                                            singleToken.image =
+                                                response.data.extension.animation_url
+                                            singleToken.type = 'video'
+                                        }
+                                    })
+                                    .catch(async function (error) {
+                                        console.log(error)
+                                        //Turtle scenario fallback
+                                        await axios(axios_config).then(
+                                            function (response) {
+                                                console.log(response)
+                                                singleToken.image =
+                                                    response.data.image
+                                            },
+                                        )
+                                    })
+                            } else {
+                                if (singleToken.hasOwnProperty('extension')) {
+                                    if (singleToken.extension.image !== null) {
+                                        singleToken.image =
+                                            singleToken.extension.image
+                                    }
+                                    if (
+                                        singleToken.extension.image_data !==
+                                        null
+                                    ) {
+                                        singleToken.image =
+                                            singleToken.extension.image_data
+                                    }
+                                    if (
+                                        singleToken.extension.animation_url !==
+                                        null
+                                    ) {
+                                        singleToken.image =
+                                            singleToken.extension.animation_url
+                                        singleToken.type = 'video'
+                                    }
+                                }
                             }
-                            if(response.data.hasOwnProperty('extension') && response.data.extension.hasOwnProperty('image_data')){
-                                singleToken.image = response.data.extension.image_data
+
+                            //Set name
+                            if (
+                                singleToken.extension &&
+                                singleToken.extension.name
+                            ) {
+                                singleToken.name = singleToken.extension.name
                             }
-                            if(response.data.hasOwnProperty('extension') && response.data.extension.hasOwnProperty('animation_url')){
-                                singleToken.image = response.data.extension.animation_url
-                                singleToken.type = 'video';
-                            }
-                        }).catch(async function (error) {
-                        console.log(error)
-                        //Turtle scenario fallback
-                        await axios(axios_config)
-                        .then(function (response) {
-                            console.log(response)
-                            singleToken.image = response.data.image 
+
+                            singleToken.token_id = obj
+                            singleToken.contract_address = address
+                            data.push(singleToken)
+                            console.log(singleToken)
+                            setUserNfts((userNfts) => [
+                                ...userNfts,
+                                singleToken,
+                            ])
                         })
-                    })               
-                    } else {
-                        if(singleToken.hasOwnProperty('extension')){
-                            if(singleToken.extension.image !== null){
-                                singleToken.image = singleToken.extension.image
-                            }
-                            if(singleToken.extension.image_data !== null){
-                                singleToken.image = singleToken.extension.image_data
-                            }
-                            if(singleToken.extension.animation_url !== null){
-                                singleToken.image = singleToken.extension.animation_url
-                                singleToken.type = 'video';
-                            }
-                        }
-                    }
-    
-                    //Set name 
-                    if(singleToken.extension && singleToken.extension.name){
-                        singleToken.name = singleToken.extension.name;
-                    }
-                    
-                    singleToken.token_id = obj
-                    singleToken.contract_address = a;
-                    data.push(singleToken)
-                    console.log(singleToken)
-                    setUserNfts((userNfts) => [...userNfts, singleToken])
-                })
 
-                console.log(userNfts)
-                if (tokenData && tokenData.tokens.length === 0) {
-                    // toast.error('No NFTS found on contract')
-                }
-            }))
-
-           
-         
+                    console.log(userNfts)
+                    if (tokenData && tokenData.tokens.length === 0) {
+                        // toast.error('No NFTS found on contract')
+                    }
+                }),
+            )
         } catch (e) {
             setUserNfts([])
             toast.error('Error')
@@ -201,8 +262,8 @@ export default function CreateAuction(props) {
         setNftLoader(false)
     }
 
-    function toggleSelectedToken(obj){
-        if(tokenId)        {
+    function toggleSelectedToken(obj) {
+        if (tokenId) {
             setNftImage()
             setTokenId('')
             setContract((prevValues) => {
@@ -213,7 +274,11 @@ export default function CreateAuction(props) {
             setTokenId(obj.token_id)
             setContract((prevValues) => {
                 console.log(obj)
-                return { ...prevValues, contract: obj, address: obj.contract_address }
+                return {
+                    ...prevValues,
+                    contract: obj,
+                    address: obj.contract_address,
+                }
             })
         }
     }
@@ -241,7 +306,6 @@ export default function CreateAuction(props) {
     //   getNftProviderData(contract.address)
     // }, INTERVAL));
 
-
     function getContractData() {
         if (connectedWallet) {
             console.log(connectedWallet.network.name)
@@ -257,14 +321,14 @@ export default function CreateAuction(props) {
         }
     }
 
-    async function finalCreation(){
+    async function finalCreation() {
         if (connectedWallet) {
             console.log('walletAddress is', connectedWallet.walletAddress)
             // In this case network should be testnet bombay
             console.log('network is', connectedWallet.network)
             console.log('connectType is', connectedWallet.connectType)
         }
-       
+
         try {
             let auction_msg = {
                 create_auction_nft: {
@@ -283,8 +347,8 @@ export default function CreateAuction(props) {
 
             if (formData.charity_address && formData.charity_fee) {
                 let num = (parseFloat(formData.charity_fee) / 100).toString()
-                let fee = num.slice(0, (num.indexOf("."))+6);
-          
+                let fee = num.slice(0, num.indexOf('.') + 6)
+
                 auction_msg.create_auction_nft.charity = {
                     address: formData.charity_address,
                     fee_percentage: fee,
@@ -327,7 +391,7 @@ export default function CreateAuction(props) {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
-                feeDenoms: "uusd"
+                feeDenoms: 'uusd',
             })
             console.log(result)
             toast.success('Auction successfully created')
@@ -363,7 +427,6 @@ export default function CreateAuction(props) {
         }
         setFormData(data)
         setConfirm(true)
-        
     }
 
     const contractChangeHandler = (e) => {
@@ -408,10 +471,25 @@ export default function CreateAuction(props) {
                                             // data-bs-toggle="modal"
                                             // data-bs-target="#nftContracts"
                                         >
-                                          <ArchiveBox size={32} />  Load my NFTs
+                                            <ArchiveBox size={32} /> Load my
+                                            NFTs
                                         </button>
-                                        <small className="d-block mt-3" style={{opacity:0.6, color:'#fff', fontSize:'13px'}}>Not showing your NFTs? Contact us on <a href="https://t.me/curio_nft" className="text-white">Telegram</a></small>
-
+                                        <small
+                                            className="d-block mt-3"
+                                            style={{
+                                                opacity: 0.6,
+                                                color: '#fff',
+                                                fontSize: '13px',
+                                            }}
+                                        >
+                                            Not showing your NFTs? Contact us on{' '}
+                                            <a
+                                                href="https://t.me/curio_nft"
+                                                className="text-white"
+                                            >
+                                                Telegram
+                                            </a>
+                                        </small>
                                     </div>
                                     {/* <div className="col-md-6">
     <button type="button" className={'btn btn-secondary d-block btn-lg w-100'} onClick={() => setManual(!manual)}>Add NFT Manually</button>
@@ -604,7 +682,6 @@ export default function CreateAuction(props) {
                                     </div>
                                 )} */}
 
-                                
                                 {/* <input
                                     type="text"
                                     className={'form-control contract-input' + (manual ? ' show' : '')}
@@ -649,21 +726,20 @@ export default function CreateAuction(props) {
                                     </div>
                                 )}
                                 <div className="row">
+                                    {userNfts && userNfts.length > 0 && (
+                                        <h4 className="text-center mt-3 mb-4">
+                                            <strong>
+                                                Select NFT You want to auction
+                                            </strong>
+                                        </h4>
+                                    )}
                                     {userNfts &&
                                         userNfts.length > 0 &&
-                                         (
-                                            <h4 className="text-center mt-3 mb-4">
-                                                <strong>
-                                                    Select NFT You want to
-                                                    auction
-                                                </strong>
-                                            </h4>
-                                        )}
-                                    {userNfts &&
-                                        userNfts.length > 0 &&                                 
                                         userNfts.map((obj, k) => (
-                                            <div className="col-md-3 mb-3" key={k}>
-                                                
+                                            <div
+                                                className="col-md-3 mb-3"
+                                                key={k}
+                                            >
                                                 <div
                                                     className={
                                                         'nft-thumb' +
@@ -673,15 +749,18 @@ export default function CreateAuction(props) {
                                                             : '')
                                                     }
                                                     onClick={() => {
-                                                        toggleSelectedToken(obj)                                                                                                     
-                                                    }
-                                                        
-                                                    }
-                                                >                                                   
-                                                    <PreviewImage obj={obj} tokenId={tokenId}/>
+                                                        toggleSelectedToken(obj)
+                                                    }}
+                                                >
+                                                    <PreviewImage
+                                                        obj={obj}
+                                                        tokenId={tokenId}
+                                                    />
                                                     <div className="info-text">
                                                         {tokenId &&
-                                                        tokenId == obj.token_id ? 'Deselect' : 'Select'}
+                                                        tokenId == obj.token_id
+                                                            ? 'Deselect'
+                                                            : 'Select'}
                                                     </div>
                                                 </div>
                                             </div>
@@ -718,202 +797,240 @@ export default function CreateAuction(props) {
                         </div>
                     </div>
                     <div className="row mb-4">
-                        {contract.address !== '' &&
-                            tokenId !== '' &&
-                           (
-                                <>                                  
-                                    <div className="col-md-12">
-                                        <div className="success-message mb-4">
-                                            <p>
-                                                <CheckCircle size={21} /> Nft
-                                                selected, you can now setup the
-                                                rest of your auction
+                        {contract.address !== '' && tokenId !== '' && (
+                            <>
+                                <div className="col-md-12">
+                                    <div className="success-message mb-4">
+                                        <p>
+                                            <CheckCircle size={21} /> Nft
+                                            selected, you can now setup the rest
+                                            of your auction
+                                        </p>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+                        {contract.address !== '' && tokenId !== '' && (
+                            <>
+                                <div className="col-md-3">
+                                    <span className="icon">
+                                        <SlidersHorizontal
+                                            size={70}
+                                            weight="light"
+                                        />
+                                        <SlidersHorizontal
+                                            size={70}
+                                            weight="light"
+                                        />
+                                    </span>
+                                    <p className="info">
+                                        Selling your NFTs at auctions allows
+                                        bidders to compete for them at a live
+                                        sale – and it’s exciting to watch the
+                                        auction on curio.art to see whether they
+                                        will sell over the auctioneer’s
+                                        estimate.
+                                    </p>
+                                </div>
+                                <div className="col-md-9">
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <h5>Auction settings</h5>
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label>Scheduled to start</label>
+                                            <small className="ms-2">
+                                                optional
+                                            </small>
+                                            <p className="info">
+                                                Time the auction begins
                                             </p>
+                                            <input
+                                                type="datetime-local"
+                                                className="form-control"
+                                                name="start_time"
+                                            />
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label>Auction end</label>
+                                            <small
+                                                className="ms-2"
+                                                style={{ color: '#ff36ff' }}
+                                            >
+                                                required
+                                            </small>
+                                            <p className="info">
+                                                Time the auction finishes
+                                            </p>
+                                            <input
+                                                type="datetime-local"
+                                                className="form-control"
+                                                name="end_time"
+                                                required
+                                            />
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label>
+                                                Opening bid price (UST)
+                                            </label>
+                                            <small className="ms-2">
+                                                optional
+                                            </small>
+                                            <p className="info">
+                                                While the reserve price is the
+                                                minimum price a seller is
+                                                willing to accept, the opening
+                                                bid is the amount suggested to
+                                                start bidding
+                                            </p>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                name="start_price"
+                                            />
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label>Buyout price (UST)</label>
+                                            <small className="ms-2">
+                                                optional
+                                            </small>
+                                            <p className="info">
+                                                This is an auction where the
+                                                seller sets a price at which
+                                                participants can choose to buy
+                                                the item if they wish. If no
+                                                participants choose the 'buyout'
+                                                option, then the highest bidder
+                                                wins the item
+                                            </p>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                name="instant_buy"
+                                            />
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label>Reserve price (UST)</label>
+                                            <small className="ms-2">
+                                                optional
+                                            </small>
+                                            <p className="info">
+                                                If the reserve price is not met,
+                                                the seller is not required to
+                                                sell the item, even to the
+                                                highest bidder
+                                            </p>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                name="reserve_price"
+                                            />
+                                        </div>
+                                        <div className="col-md-6 mb-3">
+                                            <label>Private auction</label>
+                                            <small className="ms-2">
+                                                optional
+                                            </small>
+                                            <p className="info">
+                                                Private auction is similar to
+                                                open auction, except creator
+                                                restrict participation to SITY
+                                                holders. Unlike open auctions,
+                                                access to private auction is
+                                                restricted to token holders to
+                                                bid on the private auction
+                                            </p>
+                                            <label class="switch">
+                                                <input
+                                                    type="checkbox"
+                                                    name="private_sale"
+                                                />
+                                                <span class="slider round"></span>
+                                            </label>
                                         </div>
                                     </div>
-                                </>
-                            )}
-                            {contract.address !== '' &&
-                            tokenId !== '' &&
-                            (
-                                <>
-                        <div className="col-md-3">
-                            <span className="icon">
-                                <SlidersHorizontal size={70} weight="light" />
-                                <SlidersHorizontal size={70} weight="light" />
-                            </span>
-                            <p className="info">
-                                Selling your NFTs at auctions allows bidders to
-                                compete for them at a live sale – and it’s
-                                exciting to watch the auction on curio.art to
-                                see whether they will sell over the auctioneer’s
-                                estimate.
-                            </p>
-                        </div>
-                        <div className="col-md-9">
+                                </div>
+                            </>
+                        )}
+                    </div>
+                    {contract.address !== '' && tokenId !== '' && (
+                        <>
                             <div className="row">
-                                <div className="col-12">
-                                    <h5>Auction settings</h5>
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <label>Scheduled to start</label>
-                                    <small className="ms-2">optional</small>
+                                <div className="col-md-3">
+                                    <span className="icon">
+                                        <Heart size={70} weight="light" />
+                                        <Heart size={70} weight="light" />
+                                    </span>
                                     <p className="info">
-                                        Time the auction begins
+                                        Let bidders to win NFTs that they value
+                                        but also to support a charitable cause
+                                        in part by driving up the price.
                                     </p>
-                                    <input
-                                        type="datetime-local"
-                                        className="form-control"
-                                        name="start_time"
-                                    />
                                 </div>
-                                <div className="col-md-6 mb-3">
-                                    <label>Auction end</label>
-                                    <small className="ms-2" style={{color:'#ff36ff'}}>required</small>
-                                    <p className="info">
-                                        Time the auction finishes
-                                    </p>
-                                    <input
-                                        type="datetime-local"
-                                        className="form-control"
-                                        name="end_time"
-                                        required
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <label>Opening bid price (UST)</label>
-                                    <small className="ms-2">optional</small>
-                                    <p className="info">
-                                        While the reserve price is the minimum
-                                        price a seller is willing to accept, the
-                                        opening bid is the amount suggested to
-                                        start bidding
-                                    </p>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        name="start_price"
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <label>Buyout price (UST)</label>
-                                    <small className="ms-2">optional</small>
-                                    <p className="info">
-                                        This is an auction where the seller sets
-                                        a price at which participants can choose
-                                        to buy the item if they wish. If no
-                                        participants choose the 'buyout' option,
-                                        then the highest bidder wins the item
-                                    </p>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        name="instant_buy"
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <label>Reserve price (UST)</label>
-                                    <small className="ms-2">optional</small>
-                                    <p className="info">
-                                        If the reserve price is not met, the
-                                        seller is not required to sell the item,
-                                        even to the highest bidder
-                                    </p>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        name="reserve_price"
-                                    />
-                                </div>
-                                <div className="col-md-6 mb-3">
-                                    <label>Private auction</label>
-                                    <small className="ms-2">optional</small>
-                                    <p className="info">
-                                       
-                                        Private auction is similar to open
-                                        auction, except creator restrict
-                                        participation to SITY holders. Unlike
-                                        open auctions, access to private auction
-                                        is restricted to token holders to bid on
-                                        the private auction
-                                    </p>
-                                    <label class="switch">
-  <input type="checkbox" name="private_sale"/>
-  <span class="slider round"></span>
-</label>
+                                <div className="col-md-9">
+                                    <div className="row">
+                                        <div className="col-12">
+                                            <h5>Charity options</h5>
+                                            <p className="info">
+                                                Charity auction the winning
+                                                payment can be paid totally or
+                                                partially to benefits a cause
+                                            </p>
+                                        </div>
+                                        <div className="col-12 mb-3">
+                                            <label>Charity address</label>
+                                            <small className="ms-2">
+                                                optional
+                                            </small>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                name="charity_address"
+                                            />
+                                        </div>
+                                        <div className="col-12 mb-3">
+                                            <label>
+                                                Charity percentage fee
+                                            </label>
+                                            <small className="ms-2">
+                                                optional
+                                            </small>
+                                            <input
+                                                type="number"
+                                                step="0.01"
+                                                max="100"
+                                                min="0"
+                                                className="form-control"
+                                                name="charity_fee"
+                                            />
+                                        </div>
+
+                                        <div className="col-12 mt-3 mb-3">
+                                            <button
+                                                type="button"
+                                                type="submit"
+                                                className="btn btn-primary btn-lg w-100"
+                                            >
+                                                Create
+                                            </button>
+                                        </div>
+
+                                        <ConfirmationModal
+                                            confirm={confirm}
+                                            toggleConfirm={() =>
+                                                setConfirm(!confirm)
+                                            }
+                                            finalCreation={() =>
+                                                finalCreation()
+                                            }
+                                            nftImage={nftImage}
+                                            formData={formData}
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         </>
-                            )}
-                    </div>
-                    {contract.address !== '' &&
-                            tokenId !== '' &&
-                           (
-                                <>
-                    <div className="row">
-                        
-                        <div className="col-md-3">
-                            <span className="icon">                             
-                                <Heart size={70} weight="light" />
-                                <Heart size={70} weight="light" />
-                            </span>
-                            <p className="info">
-                                Let bidders to win NFTs that they value but also
-                                to support a charitable cause in part by driving
-                                up the price.
-                            </p>
-                        </div>
-                        <div className="col-md-9">
-                            <div className="row">
-                                <div className="col-12">
-                                    <h5>Charity options</h5>
-                                    <p className="info">
-                                        Charity auction the winning payment can
-                                        be paid totally or partially to benefits
-                                        a cause
-                                    </p>
-                                </div>
-                                <div className="col-12 mb-3">
-                                    <label>Charity address</label>
-                                    <small className="ms-2">optional</small>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="charity_address"
-                                    />
-                                </div>
-                                <div className="col-12 mb-3">
-                                    <label>Charity percentage fee</label>
-                                    <small className="ms-2">optional</small>
-                                    <input
-                                        type="number"
-                                        step="0.01"
-                                        max="100"
-                                        min="0"
-                                        className="form-control"
-                                        name="charity_fee"
-                                    />
-                                </div>
-                         
-                                <div className="col-12 mt-3 mb-3">
-                                    <button
-                                        type="button"
-                                        type="submit"
-                                        className="btn btn-primary btn-lg w-100"
-                                    >
-                                        Create
-                                    </button>
-                                </div>
-                         
-                                <ConfirmationModal confirm={confirm} toggleConfirm={() => setConfirm(!confirm)} finalCreation={() => finalCreation()} nftImage={nftImage} formData={formData} />
-                            </div>
-                          
-                        </div>
-                      
-                    </div>
-                    </>
-                            )}
+                    )}
                 </form>
             ) : (
                 <div className="col-12 p-4 text-center">

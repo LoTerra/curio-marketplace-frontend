@@ -5,7 +5,7 @@ import MintNft from '../components/Create/MintNft'
 export default () => {
     return (
         <>
-            <section className="nfts-big d-flex" style={{minHeight:'100vh'}}>
+            <section className="nfts-big d-flex" style={{ minHeight: '100vh' }}>
                 <div className="container align-self-center w-100">
                     <div className="row">
                         <div className="col-md-10 intro mx-auto text-center">

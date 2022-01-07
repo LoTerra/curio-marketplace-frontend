@@ -131,7 +131,9 @@ export default () => {
                                             your NFT
                                         </h1>
                                         <p className="slogan">
-                                            Find a rare, unusual, or intriguing NFT on Curio decentralized marketplace.
+                                            Find a rare, unusual, or intriguing
+                                            NFT on Curio decentralized
+                                            marketplace.
                                         </p>
                                         <p className="badge">BETA MODE</p>
                                         <p className="powered">
@@ -454,7 +456,7 @@ export default () => {
                                                     key={id}
                                                     data={obj}
                                                     auctions={auctions}
-                                                    type={'xs'}                                                    
+                                                    type={'xs'}
                                                     index={99}
                                                     isEnded={true}
                                                 />

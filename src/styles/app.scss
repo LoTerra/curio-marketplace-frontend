@@ -34,8 +34,8 @@ body {
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing: none;
     .page-content {
-        position:relative;
-        min-height:100%;
+        position: relative;
+        min-height: 100%;
     }
 }
 
@@ -78,7 +78,7 @@ label {
     overflow-x: auto;
     overflow-y: hidden;
     p {
-        margin:0;
+        margin: 0;
     }
 }
 
@@ -272,8 +272,8 @@ label {
         font-size: 18px;
         padding: 15px 20px;
         font-weight: 700;
-        @media(max-width:620px){
-            padding:15px 10px;
+        @media (max-width: 620px) {
+            padding: 15px 10px;
         }
     }
 }
@@ -332,7 +332,8 @@ label {
 .nfts-big {
     padding: 130px 0 80px 0;
     background-size: cover !important;
-    background:linear-gradient(0deg, #1f1f1f 22.16%, rgb(31 31 31 / 60%) 90%), url('/img/herobg.jpeg');
+    background: linear-gradient(0deg, #1f1f1f 22.16%, rgb(31 31 31 / 60%) 90%),
+        url('/img/herobg.jpeg');
     @media (max-width: 768px) {
         padding: 100px 0 80px 0;
     }
@@ -368,8 +369,8 @@ label {
         opacity: 0.5;
         font-size: 28px;
         font-weight: 500;
-        @media(max-width:620px){
-            font-size:16px;
+        @media (max-width: 620px) {
+            font-size: 16px;
         }
     }
     .powered {
@@ -426,7 +427,7 @@ label {
     position: relative;
     width: 100%;
     overflow: hidden;
-   
+
     .nft-bidding {
         background: #191921;
         border-radius: 5px;
@@ -740,8 +741,6 @@ label {
     }
 }
 
-
-
 .nft-contract-thumb {
     a {
         text-decoration: none;
@@ -969,42 +968,42 @@ label {
     }
 
     .contract-input {
-        opacity:0;        
+        opacity: 0;
         visibility: hidden;
-        height:0;
-        transition:all 150ms linear;
+        height: 0;
+        transition: all 150ms linear;
         &.show {
-            opacity:1;
+            opacity: 1;
             visibility: visible;
-            height:100%;
+            height: 100%;
         }
     }
 
-    .manual-label {        
-        opacity:0.5;        
-        color:#fff;
-        transition:all 200ms linear;
-        font-weight:400;
-        font-size:14px;
+    .manual-label {
+        opacity: 0.5;
+        color: #fff;
+        transition: all 200ms linear;
+        font-weight: 400;
+        font-size: 14px;
         &:hover {
-            opacity:1;
+            opacity: 1;
             cursor: pointer;
         }
     }
 
     .get-nfts {
-        opacity:0;        
+        opacity: 0;
         visibility: hidden;
-        transition:all 150ms linear;
+        transition: all 150ms linear;
         &.show {
-            opacity:1;
+            opacity: 1;
             visibility: visible;
         }
     }
 
     .nft-thumb {
         box-shadow: inset 0px 0px 0px 0px #ff36ff;
-        background-color:#000;
+        background-color: #000;
         position: relative;
         overflow: hidden;
         padding: 5px;
@@ -1021,9 +1020,9 @@ label {
             background: #00000059;
             padding: 5px 10px;
             font-size: 13px;
-            position:absolute;
+            position: absolute;
             border-radius: 4px;
-            transition:all 100ms linear;
+            transition: all 100ms linear;
         }
         .nft-selected {
             position: absolute;
@@ -1037,7 +1036,7 @@ label {
             height: 30px;
             text-align: center;
             line-height: 28px;
-            transition:all 100ms linear;
+            transition: all 100ms linear;
         }
         p {
             margin: 0;
@@ -1045,19 +1044,18 @@ label {
         &.active {
             box-shadow: inset 0px 0px 0px 2px #20ff93;
             &:hover {
-                cursor:pointer;
+                cursor: pointer;
                 box-shadow: inset 0px 0px 0px 2px #20ff93;
-                
             }
         }
 
         &:hover {
-            cursor:pointer;
+            cursor: pointer;
             box-shadow: inset 0px 0px 0px 2px #ff36ff;
             .info-text {
-                opacity:1;
-                visibility: visible;              
-                bottom:10px;       
+                opacity: 1;
+                visibility: visible;
+                bottom: 10px;
             }
         }
     }
@@ -1252,70 +1250,67 @@ footer {
         li {
             display: inline-block;
             a {
-                opacity:0.7;
-                color:#fff;
-                transition:all 150ms linear;
+                opacity: 0.7;
+                color: #fff;
+                transition: all 150ms linear;
                 &:hover {
-                    color:rgb(32, 255, 147);
-                    opacity:1;
+                    color: rgb(32, 255, 147);
+                    opacity: 1;
                 }
             }
         }
     }
 }
 
-
 .confirm-background {
-    background:#2d2d2d;
-    position:fixed;
-    top:0;
-    left:0;
-    bottom:0;
-    right:0;
-    opacity:0;
+    background: #2d2d2d;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
     visibility: hidden;
     transition: all 200ms linear;
 
-    .confirm-dialog {        
-        width:100%;
-        height:auto;
-        color:#fff;        
+    .confirm-dialog {
+        width: 100%;
+        height: auto;
+        color: #fff;
         h1 {
-            color:$special;
-            font-weight:600;
+            color: $special;
+            font-weight: 600;
         }
         h2 {
-
         }
-        @media(max-width:768px){
+        @media (max-width: 768px) {
             height: 100%;
             overflow-y: scroll;
             overflow-x: hidden;
         }
     }
     &.show {
-        opacity:1;
+        opacity: 1;
         visibility: visible;
     }
 }
-
 
 .switch {
     position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
-  }
-  
-  /* Hide default HTML checkbox */
-  .switch input {
+}
+
+/* Hide default HTML checkbox */
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
-  }
-  
-  /* The slider */
-  .slider {
+}
+
+/* The slider */
+.slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -1323,43 +1318,46 @@ footer {
     right: 0;
     bottom: 0;
     background-color: #595959;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  .slider:before {
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+.slider:before {
     position: absolute;
-    content: "";
+    content: '';
     height: 26px;
     width: 26px;
     left: 4px;
     bottom: 4px;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), #1e1e1e;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  input:checked + .slider {
+    background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(255, 255, 255, 0) 100%
+        ),
+        #1e1e1e;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
     background-color: #ff36ff;
-  }
-  
-  input:focus + .slider {
+}
+
+input:focus + .slider {
     box-shadow: 0 0 1px #ff36ff;
-  }
-  
-  input:checked + .slider:before {
+}
+
+input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-  
-  .slider.round:before {
-    border-radius: 50%;
-  }
+}
 
-  
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}

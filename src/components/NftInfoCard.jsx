@@ -10,7 +10,7 @@ import Media from './Media'
 export default function NftInfoCard(props) {
     const { state, dispatch } = useStore()
 
-    const { index, data, nft,auctions, type } = props
+    const { index, data, nft, auctions, type } = props
     //console.log("data-props")
     //console.log(data)
     return (
@@ -23,7 +23,7 @@ export default function NftInfoCard(props) {
                         <NftBadge data={data} />
 
                         <div className="card-img-overlay  ratio ratio-1x1">
-                            <Media data={data}/>
+                            <Media data={data} />
                             <div className="d-flex h-100 w-100">
                                 <div className="nft-info align-self-end w-100">
                                     {type != 'xl' && (

@@ -19,7 +19,7 @@ export default {
             template: 'src/pages/Create',
         },
         {
-            path: '/nfts',
+            path: '/token',
             template: 'src/pages/Nfts/Index',
         },
         // A 404 component
