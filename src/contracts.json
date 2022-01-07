@@ -267,6 +267,24 @@
                 "symbol": "TOT",
                 "contract": "terra19auzecsexkyzekcg5r6gvrlm4df3cardccc70w",
                 "icon": "https://images.squarespace-cdn.com/content/v1/613557f834138c745a932b1e/7b2f7758-6a92-4f9c-9bdc-0493b3234778/ToT-Logo-Col-01-COLOURBG.png?format=1500w"
+            },
+            "terra1ycp3azjymqckrdlzpp88zfyk6x09m658c2c63d": {
+                "name": "Space Toadz",
+                "symbol": "TOAD",
+                "contract": "terra1ycp3azjymqckrdlzpp88zfyk6x09m658c2c63d",
+                "icon": "https://spacetoadzterra.com/_next/image?url=%2F_next%2Fstatic%2Fimage%2Fpublic%2Flogo.7f2de9b71f13f8c5a7b67c2d640c58d5.png&w=3840&q=75"
+            },
+            "terra1snja2twmwx656qp6juq8jpah4h80pxvwsgsvev": {
+                "name": "CONGRATS",
+                "symbol": "CONGRATS",
+                "contract": "terra1snja2twmwx656qp6juq8jpah4h80pxvwsgsvev",
+                "icon": "https://gateway.pinata.cloud/ipfs/QmUuuqLSYmTgzMYhM5DVqweais1fmMLmUzenuYWMMxpkuY?preview=1"
+            },
+            "terra1rslpedqv99rs0axw0y6sp0rssq7mma5wsqwmuh": {
+                "name": "Lunar 6 Dragon",
+                "symbol": "6DRAGON",
+                "contract": "terra1rslpedqv99rs0axw0y6sp0rssq7mma5wsqwmuh",
+                "icon": "https://terranft.io/wp-content/uploads/2021/11/bwJhW9ch_400x400.png"
             }
         }
     ],
