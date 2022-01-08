@@ -16,7 +16,7 @@ import {
     BankAPI,
     Denom,
     CreateTxOptions,
-    MsgSend,
+    MsgSend, Coins, Coin,
 } from '@terra-money/terra.js'
 import {
     ArchiveBox,
@@ -391,7 +391,8 @@ export default function CreateAuction(props) {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
-                //feeDenoms: 'uusd',
+                feeDenoms: ['uusd'],
+                gasPrices: new Coin("uusd", "0.15")
             })
             console.log(result)
             toast.success('Auction successfully created')
