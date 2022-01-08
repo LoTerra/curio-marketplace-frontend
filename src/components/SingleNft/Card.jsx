@@ -16,17 +16,14 @@ export default function Card(props) {
             {nft && (
                 <>
                     <div className="nft-preview ratio ratio-1x1">
-                        {nft.image_url && !nft.animation_url && (
+                        {nft.image && !nft.animation_url && (
                             <Head>
                                 <meta charSet="UTF-8" />
                                 <title>{nft.name}</title>
                                 <meta property="og:title" content={nft.name} />
                                 <meta
                                     property="og:image"
-                                    content={nft.image_url.replace(
-                                        'ipfs://',
-                                        'https://ipfs.io/ipfs/',
-                                    )}
+                                    content={nft.image}
                                 />
                                 <meta
                                     property="twitter:title"
@@ -34,10 +31,7 @@ export default function Card(props) {
                                 />
                                 <meta
                                     property="twitter:image"
-                                    content={nft.image_url.replace(
-                                        'ipfs://',
-                                        'https://ipfs.io/ipfs/',
-                                    )}
+                                    content={nft.image}
                                 />
                             </Head>
                         )}
