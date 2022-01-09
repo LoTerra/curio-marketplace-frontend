@@ -20,6 +20,8 @@ import {
     Denom,
     CreateTxOptions,
     MsgSend,
+    Coins,
+    Coin
 } from '@terra-money/terra.js'
 import Countdown from '../../components/SingleNft/Countdown'
 import Card from '../../components/SingleNft/Card'
