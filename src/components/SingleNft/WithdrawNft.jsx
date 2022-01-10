@@ -9,7 +9,7 @@ import {
     BankAPI,
     Denom,
     CreateTxOptions,
-    MsgSend,
+    MsgSend, Coin,
 } from '@terra-money/terra.js'
 
 export default function WithdrawNft(props) {
@@ -32,6 +32,8 @@ export default function WithdrawNft(props) {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
+                feeDenoms: 'uusd',
+                gasPrices: new Coin("uusd", "0.15")
             })
             console.log(result)
             toast.success('Withdraw NFT successful')
