@@ -301,7 +301,13 @@
                 "symbol": "TBOT",
                 "contract": "terra1hj0dga445h3faxu85gm0293608qntsj3a727ck",
                 "icon": "https://d75aawrtvbfp1.cloudfront.net/partners%2Fterrabots%2Flogo.png"
-            }
+            },
+            "terra1x2fkxxmhymdh9w8r42g3amjerez90zwj6ef6yx": {
+                "name": "Squarerians",
+                "symbol": "SQUARE",
+                "contract": "terra1x2fkxxmhymdh9w8r42g3amjerez90zwj6ef6yx",
+                "icon": "https://d75aawrtvbfp1.cloudfront.net/partners%2Fsquarians%2Flogo.png"
+            },
         }
     ],
     "testnet": [
