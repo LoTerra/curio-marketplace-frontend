@@ -20,6 +20,8 @@ import {
     Denom,
     CreateTxOptions,
     MsgSend,
+    Coins,
+    Coin
 } from '@terra-money/terra.js'
 import Countdown from '../../components/SingleNft/Countdown'
 import Card from '../../components/SingleNft/Card'
@@ -267,6 +269,8 @@ export default (props) => {
             const result = await connectedWallet.post({
                 msgs: [msg],
                 feeDenoms: 'uusd',
+                gasPrices: new Coin("uusd", "0.15")
+
             })
             toast.success('Auction unlocked!')
             setTimeout(() => reloadData(), 1000)
@@ -301,6 +305,8 @@ export default (props) => {
             const result = await connectedWallet.post({
                 msgs: [msg],
                 feeDenoms: 'uusd',
+                gasPrices: new Coin("uusd", "0.15")
+
             })
             toast.success('Instant buy succesful!')
             setTimeout(() => reloadData(), 1000)
@@ -404,6 +410,8 @@ export default (props) => {
             const result = await connectedWallet.post({
                 msgs: [msg],
                 feeDenoms: 'uusd',
+                gasPrices: new Coin("uusd", "0.15")
+
             })
             console.log(result)
             toast.success('Bid successful')
@@ -431,6 +439,8 @@ export default (props) => {
             const result = await connectedWallet.post({
                 msgs: [msg],
                 feeDenoms: 'uusd',
+                gasPrices: new Coin("uusd", "0.15")
+
             })
             console.log(result)
             toast.success('Retract bids success')
