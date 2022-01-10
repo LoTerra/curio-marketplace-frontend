@@ -26,7 +26,16 @@ export default function NftPrice(props) {
         }
     }, [auctions])
 
+    /*
+        //////////////
+        Return nothing until we resolve the wrong data displayed issue
+        //////////////
+     */
     return (
+        <></>
+    )
+    /*return (
+
         <div className="nft-price">
             {price > 0 && (
                 <p className="m-0">
@@ -50,5 +59,5 @@ export default function NftPrice(props) {
                 </p>
             )}
         </div>
-    )
+    )*/
 }
