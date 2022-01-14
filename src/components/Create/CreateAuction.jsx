@@ -135,15 +135,16 @@ export default function CreateAuction(props) {
 
                             tokenData.tokens.map(async (obj) => {
                                 let singleToken= {}
-                                const nft_info_talis = await api.contractQuery(
-                                    address,
-                                    {
-                                        metadata_u_r_i: {
-                                            token_id: String(obj)
-                                        }
-                                    }
-                                )
-                                const nft_info = await axios.get(nft_info_talis)
+                                // const nft_info_talis = await api.contractQuery(
+                                //     address,
+                                //     {
+                                //         metadata_u_r_i: {
+                                //             token_id: String(obj.token_id)
+                                //         }
+                                //     }
+                                // )
+                                // const nft_info = await axios.get(nft_info_talis)
+                                const nft_info = await axios.get(obj.metadadata_uri)
 
                                 singleToken.image = nft_info.data.media;
                                 singleToken.name = nft_info.data.title;
