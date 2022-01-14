@@ -139,7 +139,7 @@ export default function CreateAuction(props) {
                                     address,
                                     {
                                         metadata_u_r_i: {
-                                            token_id: obj
+                                            token_id: String(obj)
                                         }
                                     }
                                 )
