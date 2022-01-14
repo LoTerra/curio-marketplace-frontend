@@ -148,7 +148,7 @@ export default function CreateAuction(props) {
 
                                 singleToken.image = nft_info.data.media;
                                 singleToken.name = nft_info.data.title;
-                                singleToken.token_id = obj
+                                singleToken.token_id = obj.token_id
                                 singleToken.contract_address = address
 
                                 data.push(singleToken)
