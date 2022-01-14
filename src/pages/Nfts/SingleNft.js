@@ -166,10 +166,7 @@ export default (props) => {
                             image: data.image_url,
                             token_uri: data.token_uri ? data.token_uri : null,
                             extension: data.extension,
-                            image_url:
-                                data.extension && data.extension.image
-                                    ? data.extension.image
-                                    : null,
+                            image_url: data.image_url,
                             animation_url:
                                 data.extension && data.extension.animation_url
                                     ? data.extension.animation_url
