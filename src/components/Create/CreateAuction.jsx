@@ -113,20 +113,33 @@ export default function CreateAuction(props) {
                 json_contracts.map(async (address) => {
                     //Map testing
                     setNftLoader(true)
-                    const tokenData = await api.contractQuery(address, {
-                        tokens: {
-                            owner: connectedWallet.walletAddress,
-                            /*
-                                ////////////////////////////////////////////////
-                                limit 30
-                                complete this with
-                                ////////////////////////////////////////////////
+                    let tokenData = {tokens:[]};
+                    let loop = true
+                    while (loop){
+                        let query = {
+                            tokens: {
+                                owner: connectedWallet.walletAddress,
+                                /*
+                                    ////////////////////////////////////////////////
+                                    Max limit allowed 30
+                                    ////////////////////////////////////////////////
 
-                             */
-                            //start_after: token_id
-                            limit: 99999,
-                        },
-                    })
+                                 */
+                                limit: 30,
+                            },
+                        }
+                        let last_element = tokenData.tokens.slice(-1).pop();
+                        if (last_element){
+                            query.tokens.start_after = last_element.token_id
+                        }
+
+                        const data = await api.contractQuery(address, query)
+
+                        tokenData.tokens = [...data.tokens]
+                        if (data.tokens.length < 30)
+                            loop = false
+                    }
+
                     let info = await api.contractInfo(address)
                     if (tokenData) {
 
