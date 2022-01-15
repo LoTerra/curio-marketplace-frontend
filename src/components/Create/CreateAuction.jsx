@@ -318,6 +318,9 @@ export default function CreateAuction(props) {
                     address: obj.contract_address,
                 }
             })
+            setTimeout(() => {
+                window.scrollTo({ behavior: 'smooth', top: document.querySelector('.settings-start').offsetTop - 100 })
+            },500)
         }
     }
 
@@ -871,7 +874,7 @@ export default function CreateAuction(props) {
                                         estimate.
                                     </p>
                                 </div>
-                                <div className="col-md-9">
+                                <div className="col-md-9 settings-start">
                                     <div className="row">
                                         <div className="col-12">
                                             <h5>Auction settings</h5>
