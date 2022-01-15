@@ -15,6 +15,7 @@ import SingleNft from './pages/Nfts/SingleNft'
 import Create from './pages/Create'
 import MainLoader from './components/Loaders/MainLoader'
 import Footer from './components/Footer'
+import SingleCollection from './pages/Collections/SingleCollection'
 
 //Dont prerender routes starting with (because of dynamic data)
 addPrefetchExcludes(['nfts'])
@@ -77,6 +78,7 @@ function App() {
                         <Navbar />
                         <Router>
                             <SingleNft path="/nfts/:nftId" />
+                            <SingleCollection path="/collection/:collectionContract"/>
                             <Create path="/create" />
                             <Routes default />
                         </Router>
