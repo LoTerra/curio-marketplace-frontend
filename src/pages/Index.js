@@ -131,7 +131,9 @@ export default () => {
                                             your NFT
                                         </h1>
                                         <p className="slogan">
-                                            Find a rare, unusual, or intriguing NFT on Curio decentralized marketplace.
+                                            Find a rare, unusual, or intriguing
+                                            NFT on Curio decentralized
+                                            marketplace.
                                         </p>
                                         <p className="badge">BETA MODE</p>
                                         <p className="powered">
@@ -308,6 +310,7 @@ export default () => {
                                                     <NftInfoCard
                                                         key={id}
                                                         data={obj}
+                                                        auctions={auctions}
                                                         type={'xs'}
                                                         index={99}
                                                     />
@@ -380,6 +383,7 @@ export default () => {
                                                 <NftCard
                                                     key={id}
                                                     data={obj}
+                                                    auctions={auctions}
                                                     type={'xs'}
                                                     index={99}
                                                 />
@@ -440,7 +444,7 @@ export default () => {
                                         return false
                                     })
                                     .sort((a, b) => {
-                                        return a.end_time - b.end_time
+                                        return b.end_time - a.end_time
                                     })
                                     .slice(0, 12)
                                     .map((obj, id) => {
@@ -451,6 +455,7 @@ export default () => {
                                                 <NftCard
                                                     key={id}
                                                     data={obj}
+                                                    auctions={auctions}
                                                     type={'xs'}
                                                     index={99}
                                                     isEnded={true}
@@ -606,6 +611,7 @@ export default () => {
                                                         <NftCard
                                                             key={id}
                                                             data={obj}
+                                                            auctions={auctions}
                                                             type={'small'}
                                                             index={99}
                                                         />

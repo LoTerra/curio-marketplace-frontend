@@ -136,23 +136,6 @@ export default function Navbar(props) {
         )
     }
 
-    function rawBank() {
-        return (
-            <>
-                {bank ? (
-                    <>{bank} UST</>
-                ) : (
-                    <div
-                        className="spinner-border spinner-border-sm"
-                        role="status"
-                    >
-                        <span className="visually-hidden">Loading...</span>
-                    </div>
-                )}
-            </>
-        )
-    }
-
     useEffect(() => {
         if (connectedWallet) {
             contactBalance()
@@ -161,13 +144,16 @@ export default function Navbar(props) {
 
     return (
         <>
-          <div className="top-notice">
-            <div className="container-fluid">
-                    <p style={{fontWeight:700}}><Warning size={'16'}/> We are in contact with security audit, until a full audit report we recommend to use Curio at your own discretion and risk.</p>
+            <div className="top-notice">
+                <div className="container-fluid">
+                    <p style={{ fontWeight: 700 }}>
+                        <Warning size={'16'} /> We are in contact with security
+                        audit, until a full audit report we recommend to use
+                        Curio at your own discretion and risk.
+                    </p>
                 </div>
-          </div>
+            </div>
             <div className="navbar navbar-expand-lg">
-                
                 <div className="container-fluid">
                     <div className="navbar-brand">
                         <a href="/">
@@ -326,7 +312,7 @@ export default function Navbar(props) {
                     </div>
                 </div>
             </div>
-            <UserModal rawBank={rawBank()} priv={priv} />
+            <UserModal bank={bank} priv={priv} connectedWallet={connectedWallet} />
         </>
     )
 }

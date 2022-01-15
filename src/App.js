@@ -16,6 +16,7 @@ import Create from './pages/Create'
 import MainLoader from './components/Loaders/MainLoader'
 import Footer from './components/Footer'
 import SingleCollection from './pages/Collections/SingleCollection'
+import SellerNfts from './pages/Seller/SellerNfts'
 
 //Dont prerender routes starting with (because of dynamic data)
 addPrefetchExcludes(['nfts'])
@@ -71,22 +72,22 @@ function App() {
                     rel="stylesheet"
                 />
             </Head>
-            
-                    <StoreProvider>
-                    <React.Suspense fallback={<MainLoader />}>
-                        <div className="page-content">
+
+            <StoreProvider>
+                <React.Suspense fallback={<MainLoader />}>
+                    <div className="page-content">
                         <Navbar />
                         <Router>
                             <SingleNft path="/nfts/:nftId" />
                             <SingleCollection path="/collection/:collectionContract"/>
+                            <SellerNfts path="/creator/:sellerAddress" />
                             <Create path="/create" />
                             <Routes default />
                         </Router>
-                        </div>
-                        <Footer />
-                        </React.Suspense>
-                    </StoreProvider>               
-        
+                    </div>
+                    <Footer />
+                </React.Suspense>
+            </StoreProvider>
         </Root>
     )
 }

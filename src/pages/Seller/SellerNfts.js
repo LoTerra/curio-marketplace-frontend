@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import ContractVerification from '../../components/ContractVerification';
 import NftCard from '../../components/NftCard';
-import CollectionHeading from './CollectionHeading';
+import { useStore } from '../../store';
 import MainLoader from '../../components/Loaders/MainLoader';
 
 export default (props) => {
+    const { state, dispatch } = useStore()
 
-    const [collectionItems, setCollectionItems] = useState([]);
+    const [sellerNfts, setSellerNfts] = useState([]);
     const [loading, setLoading] = useState(true)
 
     useEffect(async ()=> {
@@ -15,16 +17,18 @@ export default (props) => {
             method: 'get',
             url: 'https://privilege.digital/api/get-items',
             params: {
-                nftContract: props.collectionContract,
+                creatorAddress: props.sellerAddress,
             },
         }
 
         await axios(config)
             .then(function (response) {
                 console.log(response)
-                setCollectionItems(response.data.filterItems)
+                setSellerNfts(response.data.filterItems)
             });
-            setLoading(false)
+            setTimeout(() => {
+                setLoading(false)
+            },1000)
     },[])
 
     return (
@@ -33,9 +37,15 @@ export default (props) => {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-10 intro mx-auto text-center">
-                            <h1>
-                                <CollectionHeading contractAddress={props.collectionContract} />
-                            </h1>
+                            { props.sellerAddress &&
+                                <h1>
+                                { props.sellerAddress && props.sellerAddress == state.wallet.walletAddress ?
+                                    <span>Your Auctions</span>
+                                    :
+                                    <span>Creator Auctions <span style={{display:'block',fontSize:'14px', fontWeight:400}}>{props.sellerAddress}</span></span>
+                                }                                
+                                </h1>
+                            }
                             <p className="badge">BETA MODE</p>                            
                         </div>
                       
@@ -43,26 +53,24 @@ export default (props) => {
                 </div>
                 <div className="container-fluid">
                     <div className="row">
-                    { collectionItems && collectionItems.map((obj, id) => {
+                    { sellerNfts && sellerNfts.map((obj, id) => {
                         return (
                             <div className={'col-md-3'}>
                                 <NftCard
                                     key={id}
                                     data={obj}
-                                    auctionsData={[]}
+                                    auctions={[]}
                                     type={'small'}
                                     index={99}
                                 />
                             </div>
                         )
                      })}
-                     { collectionItems.length == 0 &&
-                        <p className="w-100 py-3 text-center" style={{opacity:0.6}}>No auctions found for this collection</p>
-                     }
                     </div>                    
                 </div>
             </section>
             <MainLoader loading={loading}/>
+
         </>
     )
 }

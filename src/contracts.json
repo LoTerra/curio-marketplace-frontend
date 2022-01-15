@@ -12,6 +12,26 @@
                     "https://knowhere.art/collection/terra1tv5hu9d2hw4q9tn4x30870ae0e4mrttqj0fcv6"
                 ]
             },
+            "terra1lfr4aja5a2xpxvnrl4gyjpru0wwglu7k87jmeq": {
+                "contract": "terra1lfr4aja5a2xpxvnrl4gyjpru0wwglu7k87jmeq",
+                "name": "HERO NFT",
+                "icon": "https://www.heronft.io/static/media/godisgood.d161a64c.png"
+            },
+            "terra10f6n78sx84937kcqrthf2gkfxgfjgmxpqrlug7": {
+                "contract": "terra10f6n78sx84937kcqrthf2gkfxgfjgmxpqrlug7",
+                "name": "Terrans",
+                "icon": "https://pbs.twimg.com/profile_images/1458305936687198215/kJzGBir4_400x400.jpg"
+            },
+            "terra12vh9ndy6pd7gc638yphpurjvv06urtcynd2hkr": {
+                "contract": "terra12vh9ndy6pd7gc638yphpurjvv06urtcynd2hkr",
+                "name": "Terrans",
+                "icon": "https://pbs.twimg.com/profile_images/1458305936687198215/kJzGBir4_400x400.jpg"
+            },
+            "terra1z6taeyvwdy0s9axkqjpvavrk6rt2e7at4dsmtw": {
+                "contract": "terra1z6taeyvwdy0s9axkqjpvavrk6rt2e7at4dsmtw",
+                "name": "UAPx",
+                "icon": "https://pbs.twimg.com/profile_images/1449750135727173634/J-OovCNa_400x400.jpg"
+            },
             "terra1sc89k9200ycvpd0cs0ul0qmj98p9n8wjp5sft7": {
                 "contract": "terra1sc89k9200ycvpd0cs0ul0qmj98p9n8wjp5sft7",
                 "name": "Terra Turtles",
@@ -286,7 +306,21 @@
                 "contract": "terra1rslpedqv99rs0axw0y6sp0rssq7mma5wsqwmuh",
                 "icon": "https://terranft.io/wp-content/uploads/2021/11/bwJhW9ch_400x400.png"
             },
-             "terra1fnv8f2202zgsnvpju7auehmygmdfj93xls8x0s": {
+
+            "terra1hj0dga445h3faxu85gm0293608qntsj3a727ck": {
+                "name": "TerraBots",
+                "symbol": "TBOT",
+                "contract": "terra1hj0dga445h3faxu85gm0293608qntsj3a727ck",
+                "icon": "https://d75aawrtvbfp1.cloudfront.net/partners%2Fterrabots%2Flogo.png"
+            },
+            "terra1x2fkxxmhymdh9w8r42g3amjerez90zwj6ef6yx": {
+                "name": "Squarerians",
+                "symbol": "SQUARE",
+                "contract": "terra1x2fkxxmhymdh9w8r42g3amjerez90zwj6ef6yx",
+                "icon": "https://d75aawrtvbfp1.cloudfront.net/partners%2Fsquarians%2Flogo.png"
+
+            },
+            "terra1fnv8f2202zgsnvpju7auehmygmdfj93xls8x0s": {
                 "name": "Goochi Goochi",
                 "symbol": "gg",
                 "contract": "terra1fnv8f2202zgsnvpju7auehmygmdfj93xls8x0s",

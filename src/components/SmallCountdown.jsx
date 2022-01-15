@@ -36,7 +36,7 @@ export default function SmallCountdown(props) {
                 </p>
             )}
             {start * 1000 <= Date.now() && expiryTimestamp * 1000 > Date.now() && (
-                <p>                    
+                <p>
                     <Clock size={16} style={{ marginTop: '-3px' }} />
                     {days}d {hours}h {minutes}m {seconds}s
                 </p>

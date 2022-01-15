@@ -144,27 +144,257 @@ export default function BiddingInterface(props) {
                 </div>
             </div>
 
-            {nftData &&
-                nftValid(nftData.end_time, nftData.start_time) &&
-                !isOwner && (
-                    <>
-                        <div className={'col-md-6'}>
-                            <h5>Bid now</h5>
-                            <div className="input-group mb-0">
-                                <span
-                                    className="input-group-text"
-                                    id="basic-addon1"
+            {nftData && !isOwner && (
+                <>
+                    <div className={'col-md-6'}>
+                        <h5>Bid now</h5>
+                        <div className="input-group mb-0">
+                            <span
+                                className="input-group-text"
+                                id="basic-addon1"
+                            >
+                                <img
+                                    src="/img/UST.svg"
+                                    width="30px"
+                                    className="img-fluid"
+                                />
+                            </span>
+                            <input
+                                type="number"
+                                className="form-control amount-input-staking"
+                                required={true}
+                                disabled={
+                                    nftData &&
+                                    nftValid(
+                                        nftData.end_time,
+                                        nftData.start_time,
+                                    )
+                                        ? false
+                                        : true
+                                }
+                                onChange={(e) =>
+                                    setAmount(e.target.value.replace(',', '.'))
+                                }
+                                autoComplete="off"
+                                value={amount}
+                                step="0.01"
+                                min={
+                                    nftData.highest_bid
+                                        ? (parseInt(nftData.highest_bid) +
+                                              (parseInt(nftData.highest_bid) *
+                                                  5) /
+                                                  100 -
+                                              parseInt(bidder.total_bid)) /
+                                          1000000
+                                        : nftData.start_price
+                                        ? nftData.start_price / 1000000
+                                        : 0
+                                }
+                                placeholder={
+                                    nftData.highest_bid
+                                        ? (parseInt(nftData.highest_bid) +
+                                              (parseInt(nftData.highest_bid) *
+                                                  5) /
+                                                  100 -
+                                              parseInt(bidder.total_bid)) /
+                                          1000000
+                                        : nftData.start_price
+                                        ? nftData.start_price / 1000000
+                                        : 0
+                                }
+                                name="amount"
+                            />
+                        </div>
+                    </div>
+                    <div className={'col-md-6'}>
+                        <div
+                            className={
+                                'nft-bidding d-flex ' +
+                                (nftData.highest_bid == bidder.total_bid
+                                    ? 'success'
+                                    : 'warning')
+                            }
+                        >
+                            <div className="align-self-center w-100 text-center">
+                                <h6>
+                                    {nftData.highest_bid == bidder.total_bid
+                                        ? 'You have the highest bid'
+                                        : bidder.total_bid &&
+                                          bidder.total_bid > 0
+                                        ? "You've been outbid"
+                                        : 'Your bid strategy'}
+                                </h6>
+                                <small
+                                    className="d-block"
+                                    style={{
+                                        fontSize: '12px',
+                                        textTransform: 'uppercase',
+                                        opacity: 0.5,
+                                        fontWeight: 200,
+                                    }}
                                 >
-                                    <img
-                                        src="/img/UST.svg"
-                                        width="30px"
-                                        className="img-fluid"
-                                    />
-                                </span>
-                                <input
-                                    type="number"
-                                    className="form-control amount-input-staking"
-                                    required={true}
+                                    My total bids
+                                </small>
+                                <p>
+                                    {nftData.highest_bid == bidder.total_bid ? (
+                                        <Check size={18} />
+                                    ) : (
+                                        <Info
+                                            size={18}
+                                            color={'#ff36ff'}
+                                            style={{
+                                                position: 'relative',
+                                                marginTop: '-3px',
+                                            }}
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="top"
+                                            title="Each new bid will be added to your total bids."
+                                        />
+                                    )}{' '}
+                                    {parseInt(bidder.total_bid) / 1000000} UST
+                                </p>
+
+                                {nftData.highest_bid != bidder.total_bid &&
+                                    nftData.highest_bid && (
+                                        <p
+                                            style={{
+                                                textDecoration: 'underline',
+                                                fontSize: '12px',
+                                                fontWeight: 300,
+                                            }}
+                                            onClick={() =>
+                                                setAmount(
+                                                    nftData.highest_bid
+                                                        ? (
+                                                              (parseInt(
+                                                                  nftData.highest_bid,
+                                                              ) +
+                                                                  (parseInt(
+                                                                      nftData.highest_bid,
+                                                                  ) *
+                                                                      5) /
+                                                                      100 -
+                                                                  parseInt(
+                                                                      bidder.total_bid,
+                                                                  )) /
+                                                              1000000
+                                                          ).toFixed(6)
+                                                        : nftData.highest_bid ===
+                                                              null &&
+                                                          nftData.start_price !==
+                                                              null
+                                                        ? nftData.start_price /
+                                                          1000000
+                                                        : 0,
+                                                )
+                                            }
+                                        >
+                                            minimum overbid price{' '}
+                                            {nftData.highest_bid
+                                                ? (
+                                                      (parseInt(
+                                                          nftData.highest_bid,
+                                                      ) +
+                                                          (parseInt(
+                                                              nftData.highest_bid,
+                                                          ) *
+                                                              5) /
+                                                              100 -
+                                                          parseInt(
+                                                              bidder.total_bid,
+                                                          )) /
+                                                      1000000
+                                                  ).toFixed(6)
+                                                : nftData.highest_bid ===
+                                                      null &&
+                                                  nftData.start_price !== null
+                                                ? nftData.start_price / 1000000
+                                                : 0}{' '}
+                                            UST
+                                        </p>
+                                    )}
+                                {!parseInt(nftData.highest_bid) > 0 &&
+                                    parseInt(nftData.start_price) > 0 && (
+                                        <p
+                                            style={{
+                                                textDecoration: 'underline',
+                                                fontSize: '12px',
+                                                fontWeight: 300,
+                                            }}
+                                            onClick={() =>
+                                                setAmount(
+                                                    nftData.highest_bid
+                                                        ? (
+                                                              (parseInt(
+                                                                  nftData.highest_bid,
+                                                              ) +
+                                                                  (parseInt(
+                                                                      nftData.highest_bid,
+                                                                  ) *
+                                                                      5) /
+                                                                      100 -
+                                                                  parseInt(
+                                                                      bidder.total_bid,
+                                                                  )) /
+                                                              1000000
+                                                          ).toFixed(6)
+                                                        : nftData.highest_bid ===
+                                                              null &&
+                                                          nftData.start_price !==
+                                                              null
+                                                        ? nftData.start_price /
+                                                          1000000
+                                                        : 0,
+                                                )
+                                            }
+                                        >
+                                            minimum overbid price{' '}
+                                            {nftData.highest_bid
+                                                ? (
+                                                      (parseInt(
+                                                          nftData.highest_bid,
+                                                      ) +
+                                                          (parseInt(
+                                                              nftData.highest_bid,
+                                                          ) *
+                                                              5) /
+                                                              100 -
+                                                          parseInt(
+                                                              bidder.total_bid,
+                                                          )) /
+                                                      1000000
+                                                  ).toFixed(6)
+                                                : nftData.highest_bid ===
+                                                      null &&
+                                                  nftData.start_price !== null
+                                                ? nftData.start_price / 1000000
+                                                : 0}{' '}
+                                            UST
+                                        </p>
+                                    )}
+                            </div>
+                        </div>
+                    </div>
+                    <small className="d-block p-3 text-muted">
+                        Bids must be at least <strong>5% higher</strong> than
+                        the previous bid.
+                    </small>
+                    {rightsCheck() && !isOwner && (
+                        <>
+                            <div
+                                className={
+                                    nftData &&
+                                    nftValid(
+                                        nftData.end_time,
+                                        nftData.start_time,
+                                    ) &&
+                                    nftData.instant_buy !== null
+                                        ? 'col-md-6 mt-3'
+                                        : 'col-md-12 mt-3'
+                                }
+                            >
+                                <button
+                                    className="btn btn-primary btn-lg w-100"
                                     disabled={
                                         nftData &&
                                         nftValid(
@@ -174,352 +404,106 @@ export default function BiddingInterface(props) {
                                             ? false
                                             : true
                                     }
-                                    onChange={(e) =>
-                                        setAmount(
-                                            e.target.value.replace(',', '.'),
-                                        )
-                                    }
-                                    autoComplete="off"
-                                    value={amount}
-                                    step="0.01"
-                                    min={
-                                        nftData.highest_bid
-                                            ? (parseInt(nftData.highest_bid) +
-                                                  (parseInt(
-                                                      nftData.highest_bid,
-                                                  ) *
-                                                      5) /
-                                                      100 -
-                                                  parseInt(bidder.total_bid)) /
-                                              1000000
-                                            : nftData.start_price
-                                            ? nftData.start_price / 1000000
-                                            : 0
-                                    }
-                                    placeholder={
-                                        nftData.highest_bid
-                                            ? (parseInt(nftData.highest_bid) +
-                                                  (parseInt(
-                                                      nftData.highest_bid,
-                                                  ) *
-                                                      5) /
-                                                      100 -
-                                                  parseInt(bidder.total_bid)) /
-                                              1000000
-                                            : nftData.start_price
-                                            ? nftData.start_price / 1000000
-                                            : 0
-                                    }
-                                    name="amount"
-                                />
+                                    onClick={() => placeBid()}
+                                >
+                                    {nftData &&
+                                    nftValid(
+                                        nftData.end_time,
+                                        nftData.start_time,
+                                    )
+                                        ? 'Place bid'
+                                        : nftData.start_time * 1000 > Date.now()
+                                        ? 'Auction not started yet'
+                                        : 'Auction finished'}
+                                    {/* <small>{nftData && nftValid(nftData.end_time,nftData.start_time) ? getBiddingInfo(nftData) : ''}</small> */}
+                                </button>
                             </div>
-                        </div>
-                        <div className={'col-md-6'}>
                             <div
                                 className={
-                                    'nft-bidding d-flex ' +
-                                    (nftData.highest_bid == bidder.total_bid
-                                        ? 'success'
-                                        : 'warning')
+                                    nftData &&
+                                    nftValid(
+                                        nftData.end_time,
+                                        nftData.start_time,
+                                    ) &&
+                                    nftData.instant_buy
+                                        ? 'col-md-6 mt-3'
+                                        : 'd-none'
                                 }
                             >
-                                <div className="align-self-center w-100 text-center">
-                                    <h6>
-                                        {nftData.highest_bid == bidder.total_bid
-                                            ? 'You have the highest bid'
-                                            : bidder.total_bid &&
-                                              bidder.total_bid > 0
-                                            ? "You've been outbid"
-                                            : 'Your bid strategy'}
-                                    </h6>
-                                    <small
-                                        className="d-block"
-                                        style={{
-                                            fontSize: '12px',
-                                            textTransform: 'uppercase',
-                                            opacity: 0.5,
-                                            fontWeight: 200,
-                                        }}
-                                    >
-                                        My total bids
-                                    </small>
-                                    <p>
-                                        {nftData.highest_bid ==
-                                        bidder.total_bid ? (
-                                            <Check size={18} />
-                                        ) : (
-                                            <Info
-                                                size={18}
-                                                color={'#ff36ff'}
-                                                style={{
-                                                    position: 'relative',
-                                                    marginTop: '-3px',
-                                                }}
-                                                data-bs-toggle="tooltip"
-                                                data-bs-placement="top"
-                                                title="Each new bid will be added to your total bids."
-                                            />
-                                        )}{' '}
-                                        {parseInt(bidder.total_bid) / 1000000}{' '}
-                                        UST
-                                    </p>
-
-                                    {nftData.highest_bid != bidder.total_bid &&
-                                        nftData.highest_bid && (
-                                            <p
-                                                style={{
-                                                    textDecoration: 'underline',
-                                                    fontSize: '12px',
-                                                    fontWeight: 300,
-                                                }}
-                                                onClick={() =>
-                                                    setAmount(
-                                                        nftData.highest_bid
-                                                            ? (
-                                                                  (parseInt(
-                                                                      nftData.highest_bid,
-                                                                  ) +
-                                                                      (parseInt(
-                                                                          nftData.highest_bid,
-                                                                      ) *
-                                                                          5) /
-                                                                          100 -
-                                                                      parseInt(
-                                                                          bidder.total_bid,
-                                                                      )) /
-                                                                  1000000
-                                                              ).toFixed(6)
-                                                            : nftData.highest_bid ===
-                                                                  null &&
-                                                              nftData.start_price !==
-                                                                  null
-                                                            ? nftData.start_price /
-                                                              1000000
-                                                            : 0,
-                                                    )
-                                                }
-                                            >
-                                                minimum overbid price{' '}
-                                                {nftData.highest_bid
-                                                    ? (
-                                                          (parseInt(
-                                                              nftData.highest_bid,
-                                                          ) +
-                                                              (parseInt(
-                                                                  nftData.highest_bid,
-                                                              ) *
-                                                                  5) /
-                                                                  100 -
-                                                              parseInt(
-                                                                  bidder.total_bid,
-                                                              )) /
-                                                          1000000
-                                                      ).toFixed(6)
-                                                    : nftData.highest_bid ===
-                                                          null &&
-                                                      nftData.start_price !==
-                                                          null
-                                                    ? nftData.start_price /
-                                                      1000000
-                                                    : 0}{' '}
-                                                UST
-                                            </p>
-                                        )}
-                                    {!parseInt(nftData.highest_bid) > 0 &&
-                                        parseInt(nftData.start_price) > 0 && (
-                                            <p
-                                                style={{
-                                                    textDecoration: 'underline',
-                                                    fontSize: '12px',
-                                                    fontWeight: 300,
-                                                }}
-                                                onClick={() =>
-                                                    setAmount(
-                                                        nftData.highest_bid
-                                                            ? (
-                                                                  (parseInt(
-                                                                      nftData.highest_bid,
-                                                                  ) +
-                                                                      (parseInt(
-                                                                          nftData.highest_bid,
-                                                                      ) *
-                                                                          5) /
-                                                                          100 -
-                                                                      parseInt(
-                                                                          bidder.total_bid,
-                                                                      )) /
-                                                                  1000000
-                                                              ).toFixed(6)
-                                                            : nftData.highest_bid ===
-                                                                  null &&
-                                                              nftData.start_price !==
-                                                                  null
-                                                            ? nftData.start_price /
-                                                              1000000
-                                                            : 0,
-                                                    )
-                                                }
-                                            >
-                                                minimum overbid price{' '}
-                                                {nftData.highest_bid
-                                                    ? (
-                                                          (parseInt(
-                                                              nftData.highest_bid,
-                                                          ) +
-                                                              (parseInt(
-                                                                  nftData.highest_bid,
-                                                              ) *
-                                                                  5) /
-                                                                  100 -
-                                                              parseInt(
-                                                                  bidder.total_bid,
-                                                              )) /
-                                                          1000000
-                                                      ).toFixed(6)
-                                                    : nftData.highest_bid ===
-                                                          null &&
-                                                      nftData.start_price !==
-                                                          null
-                                                    ? nftData.start_price /
-                                                      1000000
-                                                    : 0}{' '}
-                                                UST
-                                            </p>
-                                        )}
-                                </div>
-                            </div>
-                        </div>
-                        <small className="d-block p-3 text-muted">
-                            Bids must be at least <strong>5% higher</strong>{' '}
-                            than the previous bid.
-                        </small>
-                        {rightsCheck() && !isOwner && (
-                            <>
-                                <div
-                                    className={
+                                <button
+                                    className="btn btn-special btn-lg w-100"
+                                    disabled={
                                         nftData &&
                                         nftValid(
                                             nftData.end_time,
                                             nftData.start_time,
                                         ) &&
-                                        nftData.instant_buy !== null
-                                            ? 'col-md-6 mt-3'
-                                            : 'col-md-12 mt-3'
+                                        nftData.instant_buy
+                                            ? false
+                                            : true
                                     }
+                                    onClick={() => buyNow()}
                                 >
+                                    {nftData &&
+                                    nftValid(
+                                        nftData.end_time,
+                                        nftData.start_time,
+                                    ) &&
+                                    nftData.instant_buy
+                                        ? 'Buy now'
+                                        : 'Not available'}
+                                    <small>
+                                        {nftData &&
+                                        nftValid(
+                                            nftData.end_time,
+                                            nftData.start_time,
+                                        ) &&
+                                        nftData.instant_buy
+                                            ? (parseInt(bidder.total_bid) > 0
+                                                  ? (parseInt(
+                                                        nftData.instant_buy,
+                                                    ) -
+                                                        parseInt(
+                                                            bidder.total_bid,
+                                                        )) /
+                                                    1000000
+                                                  : parseInt(
+                                                        nftData.instant_buy,
+                                                    ) / 1000000) + 'UST'
+                                            : ''}
+                                    </small>
+                                </button>
+                            </div>
+
+                            {parseInt(bidder.total_bid) > 0 && (
+                                <div className="col-12 mt-5">
                                     <button
-                                        className="btn btn-primary btn-lg w-100"
+                                        className="btn btn-secondary btn-lg w-100"
                                         disabled={
                                             nftData &&
-                                            nftValid(
-                                                nftData.end_time,
-                                                nftData.start_time,
-                                            )
+                                            connectedWallet &&
+                                            nftData.highest_bidder !=
+                                                connectedWallet.walletAddress &&
+                                            parseInt(bidder.total_bid) > 0
                                                 ? false
-                                                : true
+                                                : false
                                         }
-                                        onClick={() => placeBid()}
+                                        onClick={() => retractBid()}
                                     >
                                         {nftData &&
                                         nftValid(
                                             nftData.end_time,
                                             nftData.start_time,
                                         )
-                                            ? 'Place bid'
-                                            : nftData.start_time * 1000 >
-                                              Date.now()
-                                            ? 'Auction not started yet'
-                                            : 'Auction finished'}
-                                        {/* <small>{nftData && nftValid(nftData.end_time,nftData.start_time) ? getBiddingInfo(nftData) : ''}</small> */}
+                                            ? 'Try retract bid(s)'
+                                            : 'Try retract bid(s)'}
                                     </button>
                                 </div>
-                                <div
-                                    className={
-                                        nftData &&
-                                        nftValid(
-                                            nftData.end_time,
-                                            nftData.start_time,
-                                        ) &&
-                                        nftData.instant_buy
-                                            ? 'col-md-6 mt-3'
-                                            : 'd-none'
-                                    }
-                                >
-                                    <button
-                                        className="btn btn-special btn-lg w-100"
-                                        disabled={
-                                            nftData &&
-                                            nftValid(
-                                                nftData.end_time,
-                                                nftData.start_time,
-                                            ) &&
-                                            nftData.instant_buy
-                                                ? false
-                                                : true
-                                        }
-                                        onClick={() => buyNow()}
-                                    >
-                                        {nftData &&
-                                        nftValid(
-                                            nftData.end_time,
-                                            nftData.start_time,
-                                        ) &&
-                                        nftData.instant_buy
-                                            ? 'Buy now'
-                                            : 'Not available'}
-                                        <small>
-                                            {nftData &&
-                                            nftValid(
-                                                nftData.end_time,
-                                                nftData.start_time,
-                                            ) &&
-                                            nftData.instant_buy
-                                                ? (parseInt(bidder.total_bid) >
-                                                  0
-                                                      ? (parseInt(
-                                                            nftData.instant_buy,
-                                                        ) -
-                                                            parseInt(
-                                                                bidder.total_bid,
-                                                            )) /
-                                                        1000000
-                                                      : parseInt(
-                                                            nftData.instant_buy,
-                                                        ) / 1000000) + 'UST'
-                                                : ''}
-                                        </small>
-                                    </button>
-                                </div>
-
-                                {parseInt(bidder.total_bid) > 0 && (
-                                    <div className="col-12 mt-5">
-                                        <button
-                                            className="btn btn-secondary btn-lg w-100"
-                                            disabled={
-                                                nftData &&
-                                                connectedWallet &&
-                                                nftData.highest_bidder !=
-                                                    connectedWallet.walletAddress &&
-                                                parseInt(bidder.total_bid) > 0
-                                                    ? false
-                                                    : true
-                                            }
-                                            onClick={() => retractBid()}
-                                        >
-                                            {nftData &&
-                                            nftValid(
-                                                nftData.end_time,
-                                                nftData.start_time,
-                                            )
-                                                ? 'Retract bid(s)'
-                                                : 'Retract bid not allowed'}
-                                        </button>
-                                    </div>
-                                )}
-                            </>
-                        )}
-                    </>
-                )}
+                            )}
+                        </>
+                    )}
+                </>
+            )}
         </>
     )
 }

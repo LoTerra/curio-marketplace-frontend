@@ -10,20 +10,8 @@ import Media from './Media'
 export default function NftCard(props) {
     const { state, dispatch } = useStore()
 
-    const { index, data, nft, type, isEnded } = props
+    const { index, data, nft, auctions, type, isEnded } = props
 
-    function nftValidEnd(end) {
-        let ending = new Date(parseInt(end) * 1000)
-        let now = new Date()
-
-        //If ending is lower then filter
-        if (ending.getTime() < now.getTime()) {
-            return false
-        }
-
-        //If valid return true
-        return true
-    }
     //console.log("data-props")
     //console.log(data)
     return (
@@ -39,7 +27,7 @@ export default function NftCard(props) {
 
                         {!isEnded && <NftBadge data={data} />}
 
-                            <Media data={data}/>
+                        <Media data={data} />
 
                         <div className="card-img-overlay">
                             <div className="d-flex h-100 w-100">
@@ -47,11 +35,16 @@ export default function NftCard(props) {
                                     {type != 'xl' && (
                                         <>
                                             <h5 className="card-title m-0">
-                                            {data.title ? data.title : data.extension.name}
+                                                {data.title
+                                                    ? data.title
+                                                    : data.extension.name}
                                             </h5>
 
                                             {!isEnded && (
-                                                <NftPrice data={data} />
+                                                <NftPrice
+                                                    data={data}
+                                                    auctions={auctions}
+                                                />
                                             )}
 
                                             {data.end_time &&
