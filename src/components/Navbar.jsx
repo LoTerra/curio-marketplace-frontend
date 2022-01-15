@@ -312,7 +312,7 @@ export default function Navbar(props) {
                     </div>
                 </div>
             </div>
-            <UserModal bank={bank} priv={priv} />
+            <UserModal bank={bank} priv={priv} connectedWallet={connectedWallet} />
         </>
     )
 }

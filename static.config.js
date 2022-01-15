@@ -22,6 +22,10 @@ export default {
             path: '/nfts',
             template: 'src/pages/Nfts/Index',
         },
+        {
+            path: '/collections',
+            template: 'src/pages/Collections',
+        },
         // A 404 component
         {
             path: '404',

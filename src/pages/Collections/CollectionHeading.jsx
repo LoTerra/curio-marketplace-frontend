@@ -1,8 +1,8 @@
 import { CheckCircle, WarningCircle } from 'phosphor-react'
 import React, { useState, useEffect, useMemo } from 'react'
-import contractData from '../contracts.json'
+import contractData from '../../contracts.json'
 
-export default function ContractVerification(props) {
+export default function CollectionHeading(props) {
     const { contractAddress } = props
 
     const verifyAddress = (address) => {
@@ -24,15 +24,34 @@ export default function ContractVerification(props) {
                 <>
                     <p
                         style={{
-                            fontSize: '14px',
+                            fontSize: '18px',
+                            marginBottom:0
                         }}
                     >
                         <WarningCircle size={16} />
                         Unverified contract
+                        <small
+                                            className="d-block mt-3"
+                                            style={{
+                                                opacity: 0.6,
+                                                color: '#fff',
+                                                fontSize: '13px',
+                                                display:'block'
+                                            }}
+                                        >
+                                            Contract not verified? Contact us on{' '}
+                                            <a
+                                                href="https://t.me/curio_nft"
+                                                className="text-white"
+                                            >
+                                                Telegram
+                                            </a>
+                                        </small>
                     </p>
                     <span
                         style={{
                             fontWeight: 400,
+                            fontSize:'21px'
                         }}
                     >
                         {address}
@@ -42,33 +61,15 @@ export default function ContractVerification(props) {
         } else {
             return (
                 <>
-                    <p
-                        style={{
-                            fontSize: '14px',
-                        }}
-                    >
-                        <CheckCircle size={16} />
-                        {verified.name}
-                    </p>
-                   
-                    <a
-                    style={{
-                        display:'block',
-                        wordBreak:'break-all',
-                        color:'#dddddd',
-                        textDecoration:'none',
-                        fontWeight:400,
-                        fontSize:'14px'
-                    }}
-                    href={'/collection/'+contractAddress} >
-                         <img
+                 <img
                         src={verified.icon}
                         className="me-1 rounded-border"
-                        width="25"
-                        height="25"
+
                     />
-                        {address}
-                        </a>
+                    <h1>       
+                        {verified.name}
+                    </h1>                   
+                    
                 </>
             )
         }
@@ -77,15 +78,8 @@ export default function ContractVerification(props) {
     return (
         <>
             {contractAddress && (
-                <div className="contract-verification">
-                    <p
-                        style={{
-                            fontSize: '14px',
-                            color: '#fff',                    
-                        }}
-                    >
-                        {verifyAddress(contractAddress)}
-                    </p>
+                <div className="collection-verification">                   
+                        {verifyAddress(contractAddress)}               
                 </div>
             )}
         </>

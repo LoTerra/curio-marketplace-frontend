@@ -1,9 +1,10 @@
-import { X } from 'phosphor-react'
+import { useConnectedWallet } from '@terra-money/wallet-provider'
+import { Eye, X } from 'phosphor-react'
 import React, { useState, useEffect } from 'react'
 import { useStore } from '../store'
 
 export default function UserModal(props) {
-    const { bank, priv } = props
+    const { bank, priv, connectedWallet } = props
     const { state, dispatch } = useStore()
 
     return (
@@ -31,6 +32,9 @@ export default function UserModal(props) {
                     </div>
 
                     <div className="modal-body">
+                        { connectedWallet && connectedWallet.walletAddress &&
+                            <a className="btn btn-secondary w-100 mb-3" href={'/creator/'+connectedWallet.walletAddress}><Eye size={21}/> Your Auctions</a>
+                        }
                         <h5 className="modal-heading">
                             Your balance <small>UST</small>
                         </h5>

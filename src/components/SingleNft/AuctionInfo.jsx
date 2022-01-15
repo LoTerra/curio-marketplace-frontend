@@ -3,6 +3,7 @@ import { useStore } from '../../store'
 import numeral from 'numeral'
 import { Match } from '@reach/router'
 import ContractVerification from '../ContractVerification'
+import { UserCircle } from 'phosphor-react'
 let bootstrap = {}
 if (typeof document !== 'undefined') {
     bootstrap = require('bootstrap')
@@ -32,15 +33,39 @@ export default function AuctionInfo(props) {
     ///console.log(data)
     return (
         <>
-            <div className="col-12">
-                <div className="nft-stats big w-100 my-2">
-                    <h6>NFT Contract</h6>
+        <div className="col-md-6">
+        <div className="nft-stats big w-100 my-2">                   
                     {nftData && (
                         <ContractVerification
                             contractAddress={nftData.nft_contract}
                         />
                     )}
                 </div>
+        </div>
+        <div className="col-md-6">
+        <div className="nft-stats big w-100 my-2">                   
+                    {nftData && nftData.creator && 
+                        <>
+                        <p style={{
+                            fontSize:'14px'
+                        }}>
+                            <UserCircle size={16} />
+                            Creator</p>
+                        <a href={'/creator/'+nftData.creator}
+                        style={{
+                            display:'block',
+                            wordBreak:'break-all',
+                            textDecoration:'none',
+                            color:'#dddddd',
+                            fontSize:'14px'
+                        }}
+                        >{nftData.creator}</a>
+                        </>
+                    }
+                </div>
+        </div>
+            <div className="col-12">
+                
                 <div className="nft-stats big w-100 my-2">
                     <h6>Highest bid</h6>
                     <p className="highest_bid mb-0">

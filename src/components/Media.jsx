@@ -31,6 +31,7 @@ export default function Media(props) {
                         'ipfs://',
                         'https://ipfs.io/ipfs/',
                     )}
+                    loading="lazy"
                     className="card-img"
                     alt="..."
                 />
@@ -41,6 +42,7 @@ export default function Media(props) {
                         'ipfs://',
                         'https://ipfs.io/ipfs/',
                     )}
+                    loading="lazy"
                     className="card-img"
                 />
             )}
