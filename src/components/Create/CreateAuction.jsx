@@ -124,7 +124,7 @@ export default function CreateAuction(props) {
 
                              */
                             //start_after: token_id
-                            limit: 30,
+                            limit: 99999,
                         },
                     })
                     let info = await api.contractInfo(address)
