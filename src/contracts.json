@@ -313,6 +313,12 @@
                 "contract": "terra1x2fkxxmhymdh9w8r42g3amjerez90zwj6ef6yx",
                 "icon": "https://d75aawrtvbfp1.cloudfront.net/partners%2Fsquarians%2Flogo.png"
 
+            },
+            "terra1fnv8f2202zgsnvpju7auehmygmdfj93xls8x0s": {
+                "name": "Goochi Goochi",
+                "symbol": "gg",
+                "contract": "terra1fnv8f2202zgsnvpju7auehmygmdfj93xls8x0s",
+                "icon": "https://storage.googleapis.com/public-knowhere/collections/goochi.png"
             }
         }
     ],
