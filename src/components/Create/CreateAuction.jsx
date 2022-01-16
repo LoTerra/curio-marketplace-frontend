@@ -76,6 +76,7 @@ export default function CreateAuction(props) {
 
     async function loadMoreNFT(){
         setLoadingMore(true)
+        console.log(offset)
         if (offset.length > 0){
             const api = new WasmAPI(lcd.apiRequester)
             await Promise.all(
@@ -89,6 +90,7 @@ export default function CreateAuction(props) {
                     let query = {
                         tokens: {
                             owner: connectedWallet.walletAddress,
+                            //owner:"terra1jhernq3v3r7v4ak638m4nkky3edvg5uavza9a3",
                             /*
                                 ////////////////////////////////////////////////
                                 Max limit allowed 30
@@ -103,7 +105,7 @@ export default function CreateAuction(props) {
                     //     query.tokens.start_after = last_element.token_id
                     // }
 
-                    const data = await api.contractQuery(item.address, query)
+                    const data = await api.contractQuery(item.contract, query)
 
                     tokenData.tokens = [...data.tokens]
                     // if (data.tokens.length < 30)
@@ -112,14 +114,14 @@ export default function CreateAuction(props) {
 
                     if (data.tokens.length == max_limit){
                         let offset_info = {
-                            contract: item.address,
+                            contract: item.contract,
                             start_after: tokenData.tokens.slice(-1).pop()
                         };
-                        setOffset([new_offset ,...offset_info])
+                        setOffset([...new_offset , offset_info])
                     }
                     //}
 
-                    let info = await api.contractInfo(item.address)
+                    let info = await api.contractInfo(item.contract)
                     if (tokenData) {
 
                         // Check if Talis contract
@@ -313,6 +315,8 @@ export default function CreateAuction(props) {
 
             await Promise.all(
                 json_contracts.map(async (address) => {
+                    console.log("address")
+                    console.log(address)
                     //Map testing
                     setNftLoader(true)
                     let tokenData = {tokens:[]};
@@ -322,6 +326,7 @@ export default function CreateAuction(props) {
                         let query = {
                             tokens: {
                                 owner: connectedWallet.walletAddress,
+                                //owner:"terra1jhernq3v3r7v4ak638m4nkky3edvg5uavza9a3",
                                 /*
                                     ////////////////////////////////////////////////
                                     Max limit allowed 30
@@ -342,12 +347,13 @@ export default function CreateAuction(props) {
                         // if (data.tokens.length < 30)
                         //     loop = false
 
-                        if (data.tokens.length == max_limit){
+                        if (data.tokens.length > max_limit - 1){
+                            console.log("yes")
                             let offset_info = {
                                 contract: address,
                                 start_after: tokenData.tokens.slice(-1).pop()
                             };
-                            setOffset([offset ,...offset_info])
+                            setOffset([...offset , offset_info])
                         }
                     //}
 
@@ -1033,11 +1039,10 @@ export default function CreateAuction(props) {
                                             </div>
                                         ))
                                     }
-                                    { userNfts && userNfts.length > 0 && offset.length > 0 && (
+                                    { userNfts && userNfts.length > 0 && (
                                         <button
                                             type="button"
                                             className="btn btn-primary btn-lg"
-                                            disabled={loadingMore}
                                             onClick={() => loadMoreNFT()}
                                             // data-bs-toggle="modal"
                                             // data-bs-target="#nftContracts"
