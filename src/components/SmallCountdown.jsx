@@ -29,18 +29,22 @@ export default function SmallCountdown(props) {
 
     return (
         <div className="countdown-small">
-            {start * 1000 > Date.now() && expiryTimestamp * 1000 > Date.now() && (
-                <p>
-                    <Flag size={16} style={{ marginTop: '-3px' }} />
-                    {daysStart}d {hoursStart}h {minutesStart}m {secondsStart}s
-                </p>
-            )}
-            {start * 1000 <= Date.now() && expiryTimestamp * 1000 > Date.now() && (
-                <p>
-                    <Clock size={16} style={{ marginTop: '-3px' }} />
-                    {days}d {hours}h {minutes}m {seconds}s
-                </p>
-            )}
+            { start && expiryTimestamp &&
+                start * 1000 > Date.now() && expiryTimestamp * 1000 > Date.now() && (
+                    <p>
+                        <Flag size={16} style={{ marginTop: '-3px' }} />
+                        {daysStart}d {hoursStart}h {minutesStart}m {secondsStart}s
+                    </p>
+                )
+}
+{ start && expiryTimestamp &&
+                start * 1000 <= Date.now() && expiryTimestamp * 1000 > Date.now() && (
+                    <p>
+                        <Clock size={16} style={{ marginTop: '-3px' }} />
+                        {days}d {hours}h {minutes}m {seconds}s
+                    </p>
+                )
+            }
         </div>
     )
 }
