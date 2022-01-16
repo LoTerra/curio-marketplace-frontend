@@ -16,6 +16,7 @@ export default (props) => {
             url: 'https://privilege.digital/api/get-items',
             params: {
                 nftContract: props.collectionContract,
+                inAuction: Date.now()
             },
         }
 
