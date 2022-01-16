@@ -18,6 +18,7 @@ export default (props) => {
             url: 'https://privilege.digital/api/get-items',
             params: {
                 creatorAddress: props.sellerAddress,
+                inAuction: Date.now()
             },
         }
 
