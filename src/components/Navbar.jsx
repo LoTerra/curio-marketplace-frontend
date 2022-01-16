@@ -29,6 +29,8 @@ export default function Navbar(props) {
     const [priv, setPriv] = useState(false)
     const [bank, setBank] = useState(false)
 
+    const [renderModal,setRenderModal] = useState(false)
+
     let wallet = ''
     if (typeof document !== 'undefined') {
         wallet = useWallet()
@@ -270,6 +272,7 @@ export default function Navbar(props) {
                                     className="btn btn-secondary px-2"
                                     data-bs-toggle="modal"
                                     data-bs-target="#userModal"
+                                    onClick={() => setRenderModal(renderModal => !renderModal)}
                                 >
                                     <UserCircle
                                         size={24}
@@ -312,7 +315,9 @@ export default function Navbar(props) {
                     </div>
                 </div>
             </div>
-            <UserModal bank={bank} priv={priv} connectedWallet={connectedWallet} />
+            { connectedWallet && connectedWallet.walletAddress &&                 
+                    <UserModal bank={bank} priv={priv} connectedWallet={connectedWallet} renderModal={renderModal} setRenderModal={() => setRenderModal(renderModal => !renderModal)} />               
+            }
         </>
     )
 }
