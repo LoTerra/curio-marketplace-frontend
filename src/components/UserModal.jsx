@@ -15,11 +15,11 @@ export default function UserModal(props) {
     const getBidData = async () => {
         let array = []
         const res_bids = await axios.get('https://privilege.digital/api/get-user?address='+connectedWallet.walletAddress);
-        console.log(res_bids.data)
+        //console.log(res_bids.data)
         setUserBids([])
         res_bids.data.user.auction.map( async (id) => {
         const bid_auction = await axios.get('https://privilege.digital/api/get-items?auctionId='+id);
-        console.log(bid_auction.data.filterItems[0]) 
+        //console.log(bid_auction.data.filterItems[0]) 
         array.push(bid_auction.data.filterItems[0])      
         setUserBids(userBids => (
             [...userBids,bid_auction.data.filterItems[0]]
@@ -32,9 +32,9 @@ export default function UserModal(props) {
         
     }
 
-    const getAuctionData = async () => {
+    const getAuctionData = async () => { 
         const auction_data = await axios.get('https://privilege.digital/api/get-items?creatorAddress='+connectedWallet.walletAddress);
-        console.log('auctions',auction_data.data.filterItems)
+        //console.log('auctions',auction_data.data.filterItems)
         setUserAuctions(auction_data.data.filterItems)
     }
     
@@ -99,7 +99,8 @@ export default function UserModal(props) {
                         </p>
                         }
                         <div className="nft-list-container">
-                        { userBids.length > 0 && userBids.map(obj => {
+                        { userBids.length > 0 && userBids.sort((a,b) => b.end_time - a.end_time ).map(obj => {
+                            if(obj)
                             return (<NftListItem obj={obj}/>)
                         })                    
                         }
@@ -111,7 +112,8 @@ export default function UserModal(props) {
                         </p>
                         }
                         <div className="nft-list-container">
-                        { userAuctions.length > 0 && userAuctions.map(obj => {
+                        { userAuctions.length > 0 && userAuctions.sort((a,b) => b.end_time - a.end_time ).map(obj => {
+                                    if(obj)
                            return (<NftListItem obj={obj}/>)
                         })
                         }

@@ -35,7 +35,7 @@ export default () => {
             const result = await axios.get(
                 'https://privilege.digital/api/get-items',
             )
-            console.log(result.data)
+            // console.log(result.data)
             setNfts(result.data.filterItems)
             setLoading(false)
         } catch (error) {
@@ -87,9 +87,9 @@ export default () => {
                     state: {},
                 },
             )
-            console.log(contractStateInfo)
+           // console.log(contractStateInfo)
 
-            console.log(nfts, 'nfts')
+           // console.log(nfts, 'nfts')
 
             /// Min is 10 result max is 30
             const firstThirstyAuctionsInfo = await api.contractQuery(
@@ -101,7 +101,7 @@ export default () => {
                     },
                 },
             )
-            console.log(firstThirstyAuctionsInfo.auctions)
+            //console.log(firstThirstyAuctionsInfo.auctions)
             dispatch({
                 type: 'setAuctions',
                 message: firstThirstyAuctionsInfo.auctions,
@@ -272,10 +272,10 @@ export default () => {
                                         disableOnInteraction: false,
                                         pauseOnMouseEnter: true,
                                     }}
-                                    onSlideChange={() =>
-                                        console.log('slide change')
-                                    }
-                                    onSwiper={(swiper) => console.log(swiper)}
+                                    // onSlideChange={() =>
+                                    //     //console.log('slide change')
+                                    // }
+                                    // onSwiper={(swiper) => console.log(swiper)}
                                     breakpoints={{
                                         // when window width is >= 640px
                                         1: {
@@ -359,10 +359,10 @@ export default () => {
                                 }}
                                 pagination={{ clickable: true }}
                                 navigation={false}
-                                onSlideChange={() =>
-                                    console.log('slide change')
-                                }
-                                onSwiper={(swiper) => console.log(swiper)}
+                                // onSlideChange={() =>
+                                //     console.log('slide change')
+                                // }
+                                // onSwiper={(swiper) => console.log(swiper)}
                             >
                                 {nfts
                                     .filter((a) => {
@@ -431,10 +431,10 @@ export default () => {
                                 }}
                                 pagination={{ clickable: true }}
                                 navigation={false}
-                                onSlideChange={() =>
-                                    console.log('slide change')
-                                }
-                                onSwiper={(swiper) => console.log(swiper)}
+                                // onSlideChange={() =>
+                                //     console.log('slide change')
+                                // }
+                                // onSwiper={(swiper) => console.log(swiper)}
                             >
                                 {nfts
                                     .filter((a) => {

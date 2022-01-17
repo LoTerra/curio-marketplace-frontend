@@ -7,6 +7,7 @@ export default function NftListItem(props) {
 
     const {obj} = props
     console.log(obj)
+    
     return (
         <>
         <li className={'list-group-item bg-transparent nft-list-item' + (IsActiveAuction(obj) ? ' active' : ' inactive')}>
