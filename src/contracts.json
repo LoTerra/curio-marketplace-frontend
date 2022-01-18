@@ -320,6 +320,12 @@
                 "symbol": "gg",
                 "contract": "terra1fnv8f2202zgsnvpju7auehmygmdfj93xls8x0s",
                 "icon": "https://storage.googleapis.com/public-knowhere/collections/goochi.png"
+            },
+            "terra13qrc9j00lk3x0rvpptzdmwtckfj64d5g6xnrv9": {
+                "name": "Terra Loot",
+                "symbol": "TLOOT",
+                "contract": "terra13qrc9j00lk3x0rvpptzdmwtckfj64d5g6xnrv9",
+                "icon": "https://pbs.twimg.com/profile_images/1449052281257664515/ruYLgOsE_400x400.jpg"
             }
         }
     ],
