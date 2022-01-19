@@ -82,7 +82,7 @@ export default () => {
                             <div className="col-12 mb-3">
                                 <label>Royalty fee</label>
                                 <small className="ms-2">
-                                    Required (Percentage % amount)
+                                    Required (Percentage amount | From 0 to Max 10 % if you need a custom amount email us at contact@curio.art)
                                 </small>
                                 <input
                                     type="text"
@@ -99,7 +99,7 @@ export default () => {
                                     className="btn btn-primary btn-lg w-100"
                                     onClick={() => update_royalty()}
                                 >
-                                    Update Now
+                                    Update Royalty Now
                                 </button>
                             </div>
                         </div>
