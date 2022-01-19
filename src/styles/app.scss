@@ -90,6 +90,18 @@ label {
     z-index: 9;
     background: linear-gradient(180deg, #000000a3, transparent);
     .navbar-brand {
+        position:relative;
+        .badge {
+            width: auto;
+            background: #20ff93;
+            color: #000;
+            position: absolute;
+            right: 5px;
+            bottom: -5px;
+            font-size: 11px;
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
         a {
             font-weight: bold;
             font-size: 28px;
@@ -365,7 +377,7 @@ label {
     }
     .slogan {
         margin-top: 15px;
-        margin-bottom: 0;
+        margin-bottom: 20px;
         opacity: 0.5;
         font-size: 28px;
         font-weight: 500;
@@ -377,7 +389,7 @@ label {
         font-size: 12px;
         text-transform: uppercase;
         margin-bottom: 35px;
-        opacity: 0.3;
+
         font-weight: 200;
         img {
             margin-left: 5px;

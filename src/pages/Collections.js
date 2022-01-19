@@ -10,7 +10,7 @@ export default () => {
                             <h1>
                                 <span className="pink">Auction</span> your NFT
                             </h1>
-                            <p className="badge">BETA MODE</p>
+                            
                             <p className="slogan">
                                 Choosing to sell your NFTs at curio.art means
                                 that bidders from around the world can bid

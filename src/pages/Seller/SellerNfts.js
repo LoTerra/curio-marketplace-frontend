@@ -47,7 +47,7 @@ export default (props) => {
                                 }                                
                                 </h1>
                             }
-                            <p className="badge">BETA MODE</p>                            
+                                           
                         </div>
                       
                     </div>

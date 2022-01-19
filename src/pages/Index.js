@@ -135,12 +135,12 @@ export default () => {
                                             NFT on Curio decentralized
                                             marketplace.
                                         </p>
-                                        <p className="badge">BETA MODE</p>
+                                  
                                         <p className="powered">
-                                            powered by{' '}
+                                            <span style={{opacity: 0.5}}>powered by</span>{' '}
                                             <img
                                                 src={'img/terralogo.svg'}
-                                                style={{ width: '80px' }}
+                                                style={{ width: '80px', opacity:0.5 }}
                                             />
                                         </p>
                                     </div>

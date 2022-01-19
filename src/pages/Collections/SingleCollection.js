@@ -37,7 +37,7 @@ export default (props) => {
                             <h1>
                                 <CollectionHeading contractAddress={props.collectionContract} />
                             </h1>
-                            <p className="badge">BETA MODE</p>                            
+                                      
                         </div>
                       
                     </div>
