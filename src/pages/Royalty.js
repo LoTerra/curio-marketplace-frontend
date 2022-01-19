@@ -46,7 +46,7 @@ export default () => {
             setUpdateInfo("Successfully updated")
             console.log(result)
         } catch (e) {
-            setUpdateInfo("Error be sure to have enough LUNA to pay fees, fees are only from 0 up to 10% max")
+            setUpdateInfo("Error be sure to have enough LUNA to pay fees, Rayalty fee are only from 0 up to 10% max")
            console.log(e)
         }
     }
@@ -99,7 +99,7 @@ export default () => {
                                     className="btn btn-primary btn-lg w-100"
                                     onClick={() => update_royalty()}
                                 >
-                                    Update Royalty Now
+                                    Update Royalty Now {fee}%
                                 </button>
                             </div>
                         </div>
