@@ -345,7 +345,15 @@
                 "symbol": "TLOOT",
                 "contract": "terra13qrc9j00lk3x0rvpptzdmwtckfj64d5g6xnrv9",
                 "icon": "https://pbs.twimg.com/profile_images/1449052281257664515/ruYLgOsE_400x400.jpg"
-            }
+            },
+            "terra1gel4vett3uety4xzr5dv4dzewup7knc6h3jmqu": {
+                "name": "Galactic Baby Ape Club",
+                "symbol": "SETTLER",
+                "contract": "terra1gel4vett3uety4xzr5dv4dzewup7knc6h3jmqu",
+                "icon": "https://pbs.twimg.com/profile_images/1483509450199629824/VrYviBtb_400x400.jpg"
+            },
+
+             
         }
     ],
     "testnet": [
