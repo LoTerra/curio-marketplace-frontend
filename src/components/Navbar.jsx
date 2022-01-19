@@ -161,6 +161,7 @@ export default function Navbar(props) {
                         <a href="/">
                             <img src={'/img/logo.svg'} />
                         </a>
+                        <p className="badge">BETA</p>
                     </div>
 
                     <div
