@@ -97,6 +97,7 @@ export default function CreateAuction(props) {
                                 ////////////////////////////////////////////////
 
                              */
+                             start_after: item.start_after,
                             limit: max_limit,
                         },
                     }
