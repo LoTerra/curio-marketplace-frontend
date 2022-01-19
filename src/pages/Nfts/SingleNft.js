@@ -333,14 +333,11 @@ export default (props) => {
 
     function getRawAmountToUnlock() {
         if (nftData.private_sale) {
-            if (parseInt(nftData.highest_bid) > 0) {
+            if (parseFloat(nftData.highest_bid) > 0) {
                 let bid = 1000000
-                let highest_bid = parseInt(nftData.highest_bid)
-                let add_to_bid = (parseInt(nftData.highest_bid) / 100) * 2
-                if (highest_bid > bid) {
-                    bid = bid + add_to_bid
-                }
-                return bid
+                let add_to_bid = (parseFloat(nftData.highest_bid) / 100) * 2
+
+                return bid + add_to_bid
             } else {
                 return 1000000
             }
