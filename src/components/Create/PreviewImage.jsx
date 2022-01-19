@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 export default function PreviewImage(props) {
     const { obj, tokenId } = props
 
-    console.log('obj', obj)
 
     return (
         <>

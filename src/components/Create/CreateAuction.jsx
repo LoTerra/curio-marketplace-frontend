@@ -79,8 +79,14 @@ export default function CreateAuction(props) {
         console.log(offset)
         if (offset.length > 0){
             const api = new WasmAPI(lcd.apiRequester)
+            let update_offset = []
             await Promise.all(
                 offset.map(async (item, index) => {
+                    console.log("items")
+                    console.log("////////////////////////////////////////////////")
+                    console.log(item)
+                    console.log(index)
+                    console.log("////////////////////////////////////////////////")
                     //Map testing
                     setNftLoader(true)
                     let tokenData = {tokens:[]};
@@ -89,15 +95,15 @@ export default function CreateAuction(props) {
                     //while (loop){
                     let query = {
                         tokens: {
-                            owner: connectedWallet.walletAddress,
-                            //owner:"terra1jhernq3v3r7v4ak638m4nkky3edvg5uavza9a3",
+                            //owner: connectedWallet.walletAddress,
+                            owner:"terra1jhernq3v3r7v4ak638m4nkky3edvg5uavza9a3",
                             /*
                                 ////////////////////////////////////////////////
                                 Max limit allowed 30
                                 ////////////////////////////////////////////////
 
                              */
-                             start_after: item.start_after,
+                            start_after: item.start_after,
                             limit: max_limit,
                         },
                     }
@@ -111,14 +117,24 @@ export default function CreateAuction(props) {
                     tokenData.tokens = [...data.tokens]
                     // if (data.tokens.length < 30)
                     //     loop = false
-                    let new_offset = offset.splice(index, 1);
+                    let x = offset
+                    let new_offset = x.splice(index, 1);
 
                     if (data.tokens.length == max_limit){
-                        let offset_info = {
-                            contract: item.contract,
-                            start_after: tokenData.tokens.slice(-1).pop()
-                        };
-                        setOffset([...new_offset , offset_info])
+                        let offset_info = {}
+                        if (data.tokens[data.tokens.length-1].token_id){
+                            offset_info = {
+                                contract: item.contract,
+                                start_after: data.tokens[data.tokens.length-1].token_id //tokenData.tokens
+                            };
+                        }else{
+                            offset_info = {
+                                contract: item.contract,
+                                start_after: data.tokens[data.tokens.length-1]
+                            };
+                        }
+                        update_offset.push(offset_info)
+
                     }
                     //}
 
@@ -144,7 +160,7 @@ export default function CreateAuction(props) {
                                 singleToken.image = nft_info.data.media;
                                 singleToken.name = nft_info.data.title;
                                 singleToken.token_id = obj.token_id
-                                singleToken.contract_address = item.address
+                                singleToken.contract_address = item.contract
 
                                 //tokenData.push(singleToken)
                                 console.log(singleToken)
@@ -156,7 +172,7 @@ export default function CreateAuction(props) {
 
                         } else {
                             tokenData.tokens.map(async (obj) => {
-                                const singleToken = await api.contractQuery(item.address, {
+                                const singleToken = await api.contractQuery(item.contract, {
                                     nft_info: {
                                         token_id: obj,
                                     },
@@ -257,9 +273,9 @@ export default function CreateAuction(props) {
                                 }
 
                                 singleToken.token_id = obj
-                                singleToken.contract_address = item.address
+                                singleToken.contract_address = item.contract
                                 //tokenData.push(singleToken)
-                                console.log(singleToken)
+                                // (console.log(singleToken)
                                 setUserNfts((userNfts) => [
                                     ...userNfts,
                                     singleToken,
@@ -270,6 +286,7 @@ export default function CreateAuction(props) {
                     }
                 }),
             )
+            setOffset(update_offset)
         }
         else{
             return (<>No more NFT to load</>)
@@ -308,16 +325,16 @@ export default function CreateAuction(props) {
             //let env = process.env == 'production' ? 'mainnet' : 'testnet';
             let parsed = JSON.parse(JSON.stringify(contractData['mainnet']))
             let json_contracts = Object.keys(parsed[0])
-            console.log(parsed)
-            console.log(json_contracts)
+            //console.log(parsed)
+            //console.log(json_contracts)
 
             // console.log(json_contracts)
             // return;
-
+            let updated_offset = []
             await Promise.all(
                 json_contracts.map(async (address) => {
-                    console.log("address")
-                    console.log(address)
+                    //console.log("address")
+                    //console.log(address)
                     //Map testing
                     setNftLoader(true)
                     let tokenData = {tokens:[]};
@@ -326,8 +343,8 @@ export default function CreateAuction(props) {
                     //while (loop){
                         let query = {
                             tokens: {
-                                owner: connectedWallet.walletAddress,
-                                //owner:"terra1jhernq3v3r7v4ak638m4nkky3edvg5uavza9a3",
+                                //owner: connectedWallet.walletAddress,
+                                owner:"terra1jhernq3v3r7v4ak638m4nkky3edvg5uavza9a3",
                                 /*
                                     ////////////////////////////////////////////////
                                     Max limit allowed 30
@@ -349,12 +366,20 @@ export default function CreateAuction(props) {
                         //     loop = false
 
                         if (data.tokens.length > max_limit - 1){
-                            console.log("yes")
-                            let offset_info = {
-                                contract: address,
-                                start_after: tokenData.tokens.slice(-1).pop()
-                            };
-                            setOffset([...offset , offset_info])
+                            //console.log(address)
+                            let offset_info = {}
+                            if (data.tokens[data.tokens.length-1].token_id){
+                                offset_info = {
+                                    contract: address,
+                                    start_after: data.tokens[data.tokens.length-1].token_id //tokenData.tokens
+                                };
+                            }else{
+                                offset_info = {
+                                    contract: address,
+                                    start_after: data.tokens[data.tokens.length-1] //tokenData.tokens
+                                };
+                            }
+                            updated_offset.push(offset_info)
                         }
                     //}
 
@@ -383,7 +408,7 @@ export default function CreateAuction(props) {
                                 singleToken.contract_address = address
 
                                 //tokenData.push(singleToken)
-                                console.log(singleToken)
+                                //console.log(singleToken)
                                 setUserNfts((userNfts) => [
                                     ...userNfts,
                                     singleToken,
@@ -412,7 +437,7 @@ export default function CreateAuction(props) {
 
                                     await axios(axios_config)
                                         .then(function (response) {
-                                            console.log(response)
+                                            //console.log(response)
                                             singleToken.image = response.data.image
                                             if (
                                                 response.data.hasOwnProperty(
@@ -450,11 +475,11 @@ export default function CreateAuction(props) {
                                             }
                                         })
                                         .catch(async function (error) {
-                                            console.log(error)
+                                            //console.log(error)
                                             //Turtle scenario fallback
                                             await axios(axios_config).then(
                                                 function (response) {
-                                                    console.log(response)
+                                                    //console.log(response)
                                                     singleToken.image =
                                                         response.data.image
                                                 },
@@ -495,7 +520,7 @@ export default function CreateAuction(props) {
                                 singleToken.token_id = obj
                                 singleToken.contract_address = address
                                 //tokenData.push(singleToken)
-                                console.log(singleToken)
+                                //console.log(singleToken)
                                 setUserNfts((userNfts) => [
                                     ...userNfts,
                                     singleToken,
@@ -506,26 +531,23 @@ export default function CreateAuction(props) {
                     }
 
 
-                    console.log("tokenData")
-                    console.log(tokenData)
-                    console.log("address")
-                    console.log(address)
                     if (address == "terra1rslpedqv99rs0axw0y6sp0rssq7mma5wsqwmuh"){
-                        console.log(true)
+                        //console.log(true)
                     }
 
 
 
-                    console.log(userNfts)
+                    //console.log(userNfts)
                     if (tokenData && tokenData.tokens.length === 0) {
                         // toast.error('No NFTS found on contract')
                     }
                 }),
             )
+            setOffset(updated_offset)
         } catch (e) {
             setUserNfts([])
             toast.error('Error')
-            console.log(e)
+            //console.log(e)
             setNftLoader(false)
         }
         setNftLoader(false)
@@ -542,7 +564,7 @@ export default function CreateAuction(props) {
             setNftImage(obj.image)
             setTokenId(obj.token_id)
             setContract((prevValues) => {
-                console.log(obj)
+                //console.log(obj)
                 return {
                     ...prevValues,
                     contract: obj,
@@ -556,7 +578,7 @@ export default function CreateAuction(props) {
     }
 
     function selectNftContract(obj) {
-        console.log(obj)
+        //console.log(obj)
         // setSelectContract(obj)
 
         setContract((prevValues) => {
@@ -666,7 +688,7 @@ export default function CreateAuction(props) {
                 feeDenoms: ['uusd'],
                 gasPrices: new Coin("uusd", "0.15")
             })
-            console.log(result)
+            //console.log(result)
             toast.success('Auction successfully created')
             setConfirm(false)
             setTimeout(() => {
@@ -711,8 +733,8 @@ export default function CreateAuction(props) {
     }
 
     useEffect(() => {
-        console.log(tokenId)
-        console.log(contract)
+        //console.log(tokenId)
+        //console.log(contract)
     }, [userNfts, contracts, contract, tokenId, confirm])
 
     return (
