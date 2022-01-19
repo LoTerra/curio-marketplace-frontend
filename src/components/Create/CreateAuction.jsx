@@ -95,8 +95,8 @@ export default function CreateAuction(props) {
                     //while (loop){
                     let query = {
                         tokens: {
-                            //owner: connectedWallet.walletAddress,
-                            owner:"terra1jhernq3v3r7v4ak638m4nkky3edvg5uavza9a3",
+                            owner: connectedWallet.walletAddress,
+                            //owner:"terra1jhernq3v3r7v4ak638m4nkky3edvg5uavza9a3",
                             /*
                                 ////////////////////////////////////////////////
                                 Max limit allowed 30
@@ -343,8 +343,8 @@ export default function CreateAuction(props) {
                     //while (loop){
                         let query = {
                             tokens: {
-                                //owner: connectedWallet.walletAddress,
-                                owner:"terra1jhernq3v3r7v4ak638m4nkky3edvg5uavza9a3",
+                                owner: connectedWallet.walletAddress,
+                                //owner:"terra1jhernq3v3r7v4ak638m4nkky3edvg5uavza9a3",
                                 /*
                                     ////////////////////////////////////////////////
                                     Max limit allowed 30
