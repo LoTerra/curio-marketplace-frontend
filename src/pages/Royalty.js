@@ -46,6 +46,7 @@ export default () => {
             setUpdateInfo("Successfully updated")
             console.log(result)
         } catch (e) {
+            setUpdateInfo("Error be sure to have enough LUNA to pay fees, fees are only from 0 up to 10% max")
            console.log(e)
         }
     }
@@ -81,7 +82,7 @@ export default () => {
                             <div className="col-12 mb-3">
                                 <label>Royalty fee</label>
                                 <small className="ms-2">
-                                    Required
+                                    Required (Percentage % amount)
                                 </small>
                                 <input
                                     type="text"
