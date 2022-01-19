@@ -26,6 +26,10 @@ export default {
             path: '/collections',
             template: 'src/pages/Collections',
         },
+        {
+            path: '/update-royalty',
+            template: 'src/pages/Royalty',
+        },
         // A 404 component
         {
             path: '404',
