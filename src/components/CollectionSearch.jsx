@@ -17,12 +17,12 @@ export default function CollectionSearch(props) {
   
    
         useEffect(async()=>{
-            console.log('select loaded')
+           // console.log('select loaded')
             const stats = await axios.get('https://privilege.digital/api/get-info-collections');
             setCollectionStats(collectionStats => (
                 [...collectionStats,stats.data.infoCollections]
             ))
-            console.log(stats.data.infoCollections)
+           // console.log(stats.data.infoCollections)
 
             const obj_stats = (address) => stats.data.infoCollections.find((a) => {
                 // console.log(a)
@@ -31,7 +31,7 @@ export default function CollectionSearch(props) {
         Object.values(data).forEach((obj) => {
             Object.values(obj).forEach((a) => {
                 const stats = obj_stats(a.contract);
-                console.log(stats)
+                // console.log(stats)
 
                 const auction_count = stats ? stats.elements : 0;
                 const price_floor = stats ? stats.price_floor : 0;           

@@ -19,6 +19,7 @@ import {
     Warning,
 } from 'phosphor-react'
 import UserModal from './UserModal'
+import LiveFeed from './LiveFeed'
 
 export default function Navbar(props) {
     const { state, dispatch } = useStore()
@@ -28,6 +29,7 @@ export default function Navbar(props) {
     const [userBids, setUserBids] = useState(false)
     const [priv, setPriv] = useState(false)
     const [bank, setBank] = useState(false)
+    const [liveFeed, setLiveFeed] = useState([])
 
     const [renderModal,setRenderModal] = useState(false)
 
@@ -137,6 +139,24 @@ export default function Navbar(props) {
             </>
         )
     }
+
+    useEffect(() => {
+        const pusher = new Pusher('371306b233edc5c8cfb9', {
+            cluster: 'eu',
+        })
+    
+        const channel = pusher.subscribe('auction-channel')
+        channel.bind('bid-event', function (data) {
+            console.log(data)           
+            setLiveFeed(liveFeed => [...liveFeed, {obj:JSON.parse(JSON.stringify(data.message)),type:'bid'}])
+        })
+        channel.bind('buy-event', async function (data) {
+            console.log(data)      
+        })
+        return () => {
+            pusher.unsubscribe('auction-channel')
+        }
+    }, [])
 
     useEffect(() => {
         if (connectedWallet) {
@@ -319,6 +339,7 @@ export default function Navbar(props) {
             { connectedWallet && connectedWallet.walletAddress &&                 
                     <UserModal bank={bank} priv={priv} connectedWallet={connectedWallet} renderModal={renderModal} setRenderModal={() => setRenderModal(renderModal => !renderModal)} />               
             }
+            <LiveFeed data={liveFeed}/>
         </>
     )
 }
