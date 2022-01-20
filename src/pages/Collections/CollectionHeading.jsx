@@ -70,7 +70,7 @@ export default function CollectionHeading(props) {
                     />
                     <h1>       
                         {verified.name}
-                        <span style={{display:'block', fontSize:'14px', fontWeight:'300'}}>Auctions: {auctionStats.auction_count}, Floor: {numeral(auctionStats.price_floor / 1000000).format('0,0.00')} UST, Highest bid: {numeral(auctionStats.highest_bid / 1000000).format('0,0.00')} UST</span>
+                        <span style={{display:'block', fontSize:'14px', fontWeight:'300'}}>Auctions: {auctionStats.auction_count}, Floor: {numeral(auctionStats.price_floor / 1000000).format('0,0.00')} UST</span>
                     </h1>                   
                     
                 </>
@@ -93,14 +93,12 @@ export default function CollectionHeading(props) {
         console.log(stats_data)
 
         const auction_count = stats_data ? stats_data.elements : 0;
-        const price_floor = stats_data ? stats_data.price_floor : 0;
-        const highest_bid = stats_data ? stats_data.highest_bid : 0;
+        const price_floor = stats_data ? stats_data.price_floor : 0;        
 
         setAuctionStats(
             {
             price_floor:price_floor,
-            auction_count:auction_count,
-            highest_bid:highest_bid
+            auction_count:auction_count
             })
 
     },[])
