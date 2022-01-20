@@ -35,6 +35,8 @@ export default (props) => {
     return (
         <>
             <section className="nfts-big" style={{minHeight:'100vh'}}>
+
+                
                 <div className="container">
                     <div className="row">
                         <div className="col-md-10 intro mx-auto text-center">
@@ -56,7 +58,7 @@ export default (props) => {
                     <div className="row">
                     { sellerNfts && sellerNfts.map((obj, id) => {
                         return (
-                            <div className={'col-md-3'}>
+                            <div className={'col-md-4 col-lg-3'}>
                                 <NftCard
                                     key={id}
                                     data={obj}

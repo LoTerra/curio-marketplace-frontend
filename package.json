@@ -34,6 +34,7 @@
         "react-hot-loader": "^4.13.0",
         "react-hot-toast": "^2.1.1",
         "react-responsive-carousel": "^3.2.22",
+        "react-select": "^5.2.2",
         "react-static": "^7.5.1",
         "react-static-plugin-reach-router": "^7.5.1",
         "react-static-plugin-sass": "^7.3.0",

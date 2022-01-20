@@ -18,6 +18,7 @@ import {
     MonitorPlay,
 } from 'phosphor-react'
 import { Navigation, Pagination, Autoplay } from 'swiper'
+import CollectionSearch from '../components/CollectionSearch'
 
 export default () => {
     const [currentSlide, setCurrentSlide] = React.useState(0)
@@ -146,6 +147,9 @@ export default () => {
                                     </div>
                                     <div className="col-xl-8 mx-auto">
                                         <div className="row">
+                                            <div className="col-md-12 mb-3">
+                                                <CollectionSearch/>
+                                            </div>
                                             <div className="col-6 mb-4">
                                                 <button
                                                     className="btn btn-primary btn-lg w-100"
@@ -607,7 +611,7 @@ export default () => {
                                             })
                                             .map((obj, id) => {
                                                 return (
-                                                    <div className={'col-md-3'}>
+                                                    <div className={'col-md-4 col-lg-3'}>
                                                         <NftCard
                                                             key={id}
                                                             data={obj}
