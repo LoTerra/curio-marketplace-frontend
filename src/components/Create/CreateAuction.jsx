@@ -58,6 +58,12 @@ export default function CreateAuction(props) {
     let network = ''
     let connectedWallet = ''
 
+    const talis_ids = [
+        1084,
+        2317,
+        1099
+    ]
+
     if (typeof document !== 'undefined') {
         network = useWallet().network
         connectedWallet = useConnectedWallet()
@@ -139,11 +145,10 @@ export default function CreateAuction(props) {
                     //}
 
                     let info = await api.contractInfo(item.contract)
-                    if (tokenData) {
-
+                    if (tokenData) {                       
                         // Check if Talis contract
-                        if (info.code_id === /*testnet code id Talis: 18723*/ 1084) {
-
+                        // if (parseInt(info.code_id) === /*testnet code id Talis: 18723*/ 1084) {
+                            if(talis_ids.includes(parseInt(info.code_id))){
                             tokenData.tokens.map(async (obj) => {
                                 let singleToken= {}
                                 // const nft_info_talis = await api.contractQuery(
@@ -385,10 +390,10 @@ export default function CreateAuction(props) {
 
                     let info = await api.contractInfo(address)
                     if (tokenData) {
-
+                        // console.log(tokenData, info.code_id)
                         // Check if Talis contract
-                        if (info.code_id === /*testnet code id Talis: 18723*/ 1084) {
-
+                        // if (parseInt(info.code_id) === /*testnet code id Talis: 18723*/ 1084) {
+                        if(talis_ids.includes(parseInt(info.code_id))){                                
                             tokenData.tokens.map(async (obj) => {
                                 let singleToken= {}
                                 // const nft_info_talis = await api.contractQuery(
