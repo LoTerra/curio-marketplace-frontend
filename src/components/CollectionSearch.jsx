@@ -34,21 +34,19 @@ export default function CollectionSearch(props) {
                 console.log(stats)
 
                 const auction_count = stats ? stats.elements : 0;
-                const price_floor = stats ? stats.price_floor : 0;
-                const highest_bid = stats ? stats.highest_bid : 0;
+                const price_floor = stats ? stats.price_floor : 0;           
 
                 const label_html = `<div class="collection-img">
                 <img src="`+a.icon+`"/></div>
                 <div class="collection-info"><span>`+a.name+`</span>
-                <span>Auctions: `+auction_count+`, Floor: `+numeral(price_floor / 1000000).format('0,0.00')+`, Highest bid: `+numeral(highest_bid / 1000000).format('0,0.00')+`</span>
+                <span>Auctions: `+auction_count+`, Floor: `+numeral(price_floor / 1000000).format('0,0.00')+`</span>
                 <div>`
                 setCollections(collections => [...collections,
                     {
                     value:a.contract,
                     label:label_html,
                     price_floor:price_floor,
-                    auction_count:auction_count,
-                    highest_bid:highest_bid
+                    auction_count:auction_count
                 }])
                 
                 // if (a.contract == address) {
