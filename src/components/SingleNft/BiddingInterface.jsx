@@ -23,7 +23,14 @@ export default function BiddingInterface(props) {
     } = props
 
     function format_time(s) {
-        return new Date(s * 1e3).toISOString().slice(-13, -5)
+        var date = new Date(s*1000);
+        const formatted = date.getDate()+
+        "-"+(date.getMonth()+1)+
+        "-"+date.getFullYear()+
+        " "+date.getHours()+
+        ":"+date.getMinutes()+
+        ":"+date.getSeconds();
+        return formatted
     }
 
     let bootstrap = {}

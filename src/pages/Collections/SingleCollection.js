@@ -3,6 +3,7 @@ import axios from 'axios';
 import NftCard from '../../components/NftCard';
 import CollectionHeading from './CollectionHeading';
 import MainLoader from '../../components/Loaders/MainLoader';
+import { ArrowLeft } from 'phosphor-react';
 
 export default (props) => {
 
@@ -29,24 +30,45 @@ export default (props) => {
     },[])
 
     return (
-        <>
-            <section className="nfts-big" style={{minHeight:'100vh'}}>
-                <div className="container">
-                    <div className="row">
-                        <div className="col-md-10 intro mx-auto text-center">
-                            <h1>
-                                <CollectionHeading contractAddress={props.collectionContract} />
-                            </h1>
-                                      
-                        </div>
-                      
-                    </div>
+        <>  
+            
+            <section className="nfts-big" style={{minHeight:'100vh'}}>                
+                <div className="container-fluid">    
+                <div className={'collection-banner'}>        
+                                <div className={'row'}>
+                                    <div className="col-md-6">
+                                    <CollectionHeading contractAddress={props.collectionContract} />                                   
+                                  
+                                    </div>
+                                </div>
+                    </div>                
                 </div>
                 <div className="container-fluid">
                     <div className="row">
+                        <div className="col-12">
+                        <a
+                                    href="/"
+                                    className="btn btn-secondary btn-sm mb-3 px-0 py-2 text-center text-md-start"
+                                    style={{
+                                        fontWeight: 300,
+                                        display: 'block',
+                                        opacity: 0.5,
+                                        background: 'transparent',
+                                    }}
+                                >
+                                    <ArrowLeft
+                                        size={16}
+                                        style={{
+                                            position: 'relative',
+                                            top: '-1px',
+                                        }}
+                                    />{' '}
+                                    Back to home
+                                </a>
+                        </div>
                     { collectionItems && collectionItems.map((obj, id) => {
                         return (
-                            <div className={'col-md-3'}>
+                            <div className={'col-md-4 col-lg-3'}>
                                 <NftCard
                                     key={id}
                                     data={obj}

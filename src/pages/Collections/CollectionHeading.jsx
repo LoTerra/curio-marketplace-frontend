@@ -1,9 +1,12 @@
 import { CheckCircle, WarningCircle } from 'phosphor-react'
 import React, { useState, useEffect, useMemo } from 'react'
 import contractData from '../../contracts.json'
+import axios from 'axios'
+import numeral from 'numeral'
 
 export default function CollectionHeading(props) {
     const { contractAddress } = props
+    const [auctionStats, setAuctionStats] = useState()
 
     const verifyAddress = (address) => {
         let contracts_json = JSON.parse(JSON.stringify(contractData))
@@ -63,11 +66,11 @@ export default function CollectionHeading(props) {
                 <>
                  <img
                         src={verified.icon}
-                        className="me-1 rounded-border"
-
+                        className="rounded-border"
                     />
                     <h1>       
                         {verified.name}
+                        <span style={{display:'block', fontSize:'14px', fontWeight:'300'}}>Auctions: {auctionStats.auction_count}, Floor: {numeral(auctionStats.price_floor / 1000000).format('0,0.00')} UST, Highest bid: {numeral(auctionStats.highest_bid / 1000000).format('0,0.00')} UST</span>
                     </h1>                   
                     
                 </>
@@ -75,9 +78,36 @@ export default function CollectionHeading(props) {
         }
     }
 
+    useEffect(async()=>{
+
+        console.log('select loaded')
+        const stats = await axios.get('https://privilege.digital/api/get-info-collections');
+        console.log(stats.data.infoCollections)
+
+        const obj_stats = (address) => stats.data.infoCollections.find((a) => {
+            // console.log(a)
+            return a._id == address
+        })
+
+        const stats_data = obj_stats(contractAddress);
+        console.log(stats_data)
+
+        const auction_count = stats_data ? stats_data.elements : 0;
+        const price_floor = stats_data ? stats_data.price_floor : 0;
+        const highest_bid = stats_data ? stats_data.highest_bid : 0;
+
+        setAuctionStats(
+            {
+            price_floor:price_floor,
+            auction_count:auction_count,
+            highest_bid:highest_bid
+            })
+
+    },[])
+
     return (
         <>
-            {contractAddress && (
+            {contractAddress && auctionStats && (
                 <div className="collection-verification">                   
                         {verifyAddress(contractAddress)}               
                 </div>

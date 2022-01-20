@@ -155,7 +155,7 @@ export default function CreateAuction(props) {
                                 //     }
                                 // )
                                 // const nft_info = await axios.get(nft_info_talis)
-                                const nft_info = await axios.get(obj.metadadata_uri)
+                                const nft_info = await axios.get(obj.metadata_uri)
 
                                 singleToken.image = nft_info.data.media;
                                 singleToken.name = nft_info.data.title;
@@ -400,7 +400,7 @@ export default function CreateAuction(props) {
                                 //     }
                                 // )
                                 // const nft_info = await axios.get(nft_info_talis)
-                                const nft_info = await axios.get(obj.metadadata_uri)
+                                const nft_info = await axios.get(obj.metadata_uri)
 
                                 singleToken.image = nft_info.data.media;
                                 singleToken.name = nft_info.data.title;

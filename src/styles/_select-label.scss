@@ -1,0 +1,28 @@
+.collection-img {
+    display:inline-block;
+    img {
+        width:35px;
+        height:35px;
+        margin-right:5px;
+        border-radius:4px;
+    }
+}
+.collection-info {
+    display:inline-block;
+    position:relative;
+    top:7px;
+    span {
+        display:block;
+        font-size:14px;
+        line-height:14px;
+        &:nth-child(1) {
+            margin-top:4px;
+            font-weight:700;
+        }
+        &:nth-child(2){
+            opacity:0.6;
+            font-size:13px;
+            font-weight:300;
+        }
+    }
+}

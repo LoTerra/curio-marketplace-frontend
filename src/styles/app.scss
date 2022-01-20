@@ -398,6 +398,84 @@ label {
     }
 }
 
+.alert {
+    &.alert-danger {
+
+    }
+}
+
+
+
+.ui-select {
+    .ui-select__control {
+        background-color: rgb(35 35 35) !important;
+        border-color: rgb(35 35 35) !important;
+    
+    }
+    .ui-select__input {
+        color:#fff !important;
+    }
+    
+    .ui-select__control--is-focused { 
+        border-color:#20ff93 !important;
+        box-shadow:none !important;
+    }
+    
+    .ui-select__control--menu-is-open { 
+        border-color:#20ff93 !important;
+        box-shadow:none !important;
+    }
+    
+    .ui-select__container,.ui-select__menu {
+        z-index:99;
+    }
+    
+    .ui-select__indicator-separator {
+        background-color: #363636 !important;
+    }
+    
+    .ui-select__menu-list {
+        background:#232323;
+        color:#fff;
+    }
+    
+    .ui-select__option {
+        background:#232323;
+        color:#fff;
+        line-height:35px;
+        @import 'select-label';
+        
+        &:hover {
+            background:#131313;
+            color:#20ff93;
+        }
+    }
+    
+    .ui-select__option--is-selected {
+        background-color: #20ff93 !important;
+        color: #000  !important;    
+      }
+    
+      .ui-select__single-value {
+        opacity: 0.75  !important;
+        color:#fff  !important;
+        line-height:35px;
+        @import 'select-label';
+      }
+    
+    .ui-select__value-container {
+        background:#232323;
+        color:#fff !important;
+    }
+    
+    .ui-select__indicator.ui-select__dropdown-indicator {
+        background: #232323;
+        color:rgb(100 100 100);
+    }
+}
+
+
+
 .nft-stats {
     background: #0000004f;
     border-radius: 5px;
@@ -1309,14 +1387,32 @@ footer {
     }
 }
 
+.collection-banner {
+    padding:25px;
+    border-radius: 15px;
+    background:#00000059;
+    p {
+        font-size:14px;
+    }
+}
+
 .collection-verification {
     img {
-        border-radius:100%;
-        width:150px;
-        height:150px;
+        border-radius: 100%;
+        width: 50px;
+        height: 50px;
+        display: inline-block;
+        border: 2px solid white;
+        margin-right: 9px;
+        float: left;
     }
     h1 {
-        
+        font-size: 21px;
+        display: inline-block;
+        margin-top: 4px;
+        span {
+            opacity:0.5;
+        }
     }
 }
 
