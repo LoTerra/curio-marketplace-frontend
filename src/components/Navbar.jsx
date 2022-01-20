@@ -147,11 +147,11 @@ export default function Navbar(props) {
     
         const channel = pusher.subscribe('auction-channel')
         channel.bind('bid-event', function (data) {
-            console.log(data)           
+            // console.log(data)           
             setLiveFeed(liveFeed => [...liveFeed, {obj:JSON.parse(JSON.stringify(data.message)),type:'bid'}])
         })
         channel.bind('buy-event', async function (data) {
-            console.log(data)      
+            // console.log(data)      
         })
         return () => {
             pusher.unsubscribe('auction-channel')
