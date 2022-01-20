@@ -20,6 +20,7 @@ import {
 import { Navigation, Pagination, Autoplay } from 'swiper'
 import CollectionSearch from '../components/CollectionSearch'
 
+
 export default () => {
     const [currentSlide, setCurrentSlide] = React.useState(0)
 
@@ -29,6 +30,7 @@ export default () => {
     const [auctions, setAuction] = useState([])
     const [nfts, setNfts] = useState([])
     const [loading, setLoading] = useState(true)
+
     const exploreDiv = useRef(null)
 
     async function getHomePageData() {
@@ -110,10 +112,22 @@ export default () => {
             setAuction(firstThirstyAuctionsInfo.auctions)
         } catch {}
     }, [])
+
+
+    
+
+
+
+     
+
     useEffect(() => {
         fetchNftData()
         getHomePageData()
     }, [fetchNftData])
+
+  
+    
+
     return (
         <>
             <section className="nfts-big">

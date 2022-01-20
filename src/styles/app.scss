@@ -407,6 +407,8 @@ label {
 
 
 .ui-select {
+    border: 1px solid #646464;
+    border-radius: 4px;
     .ui-select__control {
         background-color: rgb(35 35 35) !important;
         border-color: rgb(35 35 35) !important;
@@ -1515,3 +1517,6 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+
+
+@import 'live-feed';

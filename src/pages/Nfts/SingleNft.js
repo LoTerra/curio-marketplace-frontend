@@ -384,10 +384,10 @@ export default (props) => {
         Here is an example of use for a simple transaction with connect wallet
        */
         if (connectedWallet) {
-            console.log('walletAddress is', connectedWallet.walletAddress)
-            // In this case network should be testnet bombay
-            console.log('network is', connectedWallet.network)
-            console.log('connectType is', connectedWallet.connectType)
+            // console.log('walletAddress is', connectedWallet.walletAddress)
+            // // In this case network should be testnet bombay
+            // console.log('network is', connectedWallet.network)
+            // console.log('connectType is', connectedWallet.connectType)
         }
 
         //Check if bid is highest
@@ -407,7 +407,7 @@ export default (props) => {
                 gasPrices: new Coin("uusd", "0.15")
 
             })
-            console.log(result)
+            // console.log(result)
             toast.success('Bid successful')
             //Not needed, we reload on websocket event
             //setTimeout(() => reloadData(),3000)
@@ -417,7 +417,7 @@ export default (props) => {
         }
     }
     async function retractBid() {
-        console.log(amount, 'retract bid')
+        // console.log(amount, 'retract bid')
         if (!connectedWallet) return
 
         //Check if bid is highest
@@ -436,7 +436,7 @@ export default (props) => {
                 gasPrices: new Coin("uusd", "0.15")
 
             })
-            console.log(result)
+            // console.log(result)
             toast.success('Retract bids success')
             setTimeout(() => reloadData(), 3000)
         } catch (e) {
@@ -574,7 +574,7 @@ export default (props) => {
                     },
                 )
                 setBidder(bidderData)
-                console.log('bidder', bidder)
+                // console.log('bidder', bidder)
             })()
         } else {
             setIsOwner(false)
@@ -586,34 +586,12 @@ export default (props) => {
         const pusher = new Pusher('371306b233edc5c8cfb9', {
             cluster: 'eu',
         })
-        const channel = pusher.subscribe('auction-channel')
-        channel.bind('bid-event', function (data) {
-            console.log(data)
-            console.log(JSON.parse(data.message)[0].events)
-
-            let tx = JSON.parse(data.message)[0]
-            // console.log(tx)
-            tx.events.map(async (ev) => {
-                console.log(ev)
-
-                if (ev.type == 'wasm') {
-                    console.log(ev.attributes)
-                    if (parseInt(ev.attributes[3].value) == testAuctionID) {
-                        toast.success(
-                            'New bid off +' +
-                                ev.attributes[1].value / 1000000 +
-                                'UST',
-                        )
-                        await reloadData()
-                    }
-                }
-            })
+        const auction_live = pusher.subscribe('auction-channel')
+        auction_live.bind('bid-event', function (data) {
+            reloadData()
         })
-        channel.bind('buy-event', async function (data) {
-            console.log(data)
-            console.log('buy event', data)
-            toast.success('Auction finished!')
-            await reloadData()
+        auction_live.bind('buy-event', function (data) {        
+            reloadData()
         })
         return () => {
             pusher.unsubscribe('auction-channel')

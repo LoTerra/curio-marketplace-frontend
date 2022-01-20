@@ -70,7 +70,7 @@ export default function CollectionHeading(props) {
                     />
                     <h1>       
                         {verified.name}
-                        <span style={{display:'block', fontSize:'14px', fontWeight:'300'}}>Auctions: {auctionStats.auction_count}, Floor: {numeral(auctionStats.price_floor / 1000000).format('0,0.00')} UST</span>
+                        <span style={{display:'block', fontSize:'16px', fontWeight:'300'}}>Auctions: {auctionStats.auction_count}, Floor: {numeral(auctionStats.price_floor / 1000000).format('0,0.00')} UST</span>
                     </h1>                   
                     
                 </>
