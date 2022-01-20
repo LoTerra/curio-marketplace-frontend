@@ -351,9 +351,14 @@
                 "symbol": "SETTLER",
                 "contract": "terra1598rvtgufwr7pnpqhrlajjrmvte4l8a6xkty6y",
                 "icon": "https://pbs.twimg.com/profile_images/1483509450199629824/VrYviBtb_400x400.jpg"
+            },
+            "terra15t27qm8pt3cum2yj63quxes22dj7zryncnst35": {
+                "name": "The Krom Brothers",
+                "symbol": "KROM",
+                "contract": "terra15t27qm8pt3cum2yj63quxes22dj7zryncnst35",
+                "icon": ""
             }
 
-             
         }
     ],
     "testnet": [
