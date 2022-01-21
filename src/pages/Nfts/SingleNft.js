@@ -557,12 +557,22 @@ export default (props) => {
                     auction_id: testAuctionID,
                 },
             }
-            let msg = new MsgExecuteContract(
+            let msg
+            if (nftData.highest_bid){
+              msg = new MsgExecuteContract(
                 connectedWallet.walletAddress,
                 state.privAuctionContract,
                 cancel_msg,
                 {"uusd": Math.floor(parseInt(nftData.highest_bid) * 10 / 100)}
-            )
+               )
+            else {
+              msg = new MsgExecuteContract(
+                connectedWallet.walletAddress,
+                state.privAuctionContract,
+                cancel_msg
+               )
+            }
+           
 
             const result = await connectedWallet.post({
                 msgs: [msg],
@@ -755,7 +765,7 @@ export default (props) => {
                                                 isOwner={isOwner}
                                             />
                                             {isOwner && (
-                                                <button className="btn btn-primary btn-lg w-100 mt-3" onClick={()=>cancelAuction()}>Cancel Auction fee: {Math.floor(parseInt(nftData.highest_bid) * 10 / 100) / 1000000}</button>
+                                                <button className="btn btn-primary btn-lg w-100 mt-3" onClick={()=>cancelAuction()}>Cancel Auction fee: {nftData.highest_bid ? Math.floor(parseInt(nftData.highest_bid) * 10 / 100) / 1000000 : 0}</button>
                                             )}
                                             {!isOwner &&
                                                 nftData.private_sale &&
