@@ -144,11 +144,20 @@ export default function Navbar(props) {
         const pusher = new Pusher('371306b233edc5c8cfb9', {
             cluster: 'eu',
         })
+
+        console.log(window.sessionStorage.getItem("liveFeed"))
+
+        // if (typeof(Storage) !== "undefined") {
+        //     dispatch({ type: 'setLiveFeed', message: [...state.liveFeed, window.sessionStorage.getItem("liveFeed")] })
+        // }
+
     
         const channel = pusher.subscribe('auction-channel')
         channel.bind('bid-event', function (data) {
             // console.log(data)           
             setLiveFeed(liveFeed => [...liveFeed, {obj:JSON.parse(JSON.stringify(data.message)),type:'bid'}])
+            //dispatch({ type: 'setLiveFeed', message: liveFeed =>[...state.liveFeed, {obj:JSON.parse(JSON.stringify(data.message)),type:'bid'}] })
+            //window.sessionStorage.setItem('liveFeed', liveFeed );
         })
         channel.bind('buy-event', async function (data) {
             // console.log(data)      

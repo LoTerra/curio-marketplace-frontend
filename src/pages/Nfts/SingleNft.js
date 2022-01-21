@@ -546,6 +546,37 @@ export default (props) => {
             return false
         }
     }
+    async function cancelAuction(){
+        try {
+            if (!connectedWallet) {
+                toast.error('Connect your wallet')
+                return
+            }
+            let cancel_msg = {
+                cancel_auction: {
+                    auction_id: testAuctionID,
+                },
+            }
+            let msg = new MsgExecuteContract(
+                connectedWallet.walletAddress,
+                state.privAuctionContract,
+                cancel_msg,
+                {"uusd": Math.floor(parseInt(nftData.highest_bid) * 10 / 100)}
+            )
+
+            const result = await connectedWallet.post({
+                msgs: [msg],
+                feeDenoms: 'uusd',
+                gasPrices: new Coin("uusd", "0.15")
+
+            }, )
+            toast.success('Auction unlocked!')
+            setTimeout(() => reloadData(), 1000)
+        } catch (e) {
+            toast.error('Something went wrong, try again')
+            console.log(e)
+        }
+    }
 
     //Componentdidmount equivalent
     useEffect(() => {
@@ -723,6 +754,9 @@ export default (props) => {
                                                 }
                                                 isOwner={isOwner}
                                             />
+                                            {isOwner && (
+                                                <button className="btn btn-primary btn-lg w-100 mt-3" onClick={()=>cancelAuction()}>Cancel Auction fee: {Math.floor(parseInt(nftData.highest_bid) * 10 / 100) / 1000000}</button>
+                                            )}
                                             {!isOwner &&
                                                 nftData.private_sale &&
                                                 !parseInt(bidder.sity_used) >

@@ -46,10 +46,16 @@ const initialState = {
     auctions: [],
     lcd: lcd,
     wallet: {},
+    liveFeed: []
 }
 
 const reducer = (state, action) => {
     switch (action.type) {
+        case 'setLiveFeed':
+            return {
+                ...state,
+                liveFeed: action.message,
+            }
         case 'setAuctions':
             return {
                 ...state,

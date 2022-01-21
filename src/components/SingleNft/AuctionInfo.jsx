@@ -4,6 +4,7 @@ import numeral from 'numeral'
 import { Match } from '@reach/router'
 import ContractVerification from '../ContractVerification'
 import { UserCircle } from 'phosphor-react'
+
 let bootstrap = {}
 if (typeof document !== 'undefined') {
     bootstrap = require('bootstrap')
@@ -28,6 +29,7 @@ export default function AuctionInfo(props) {
         let tab = new bootstrap.Tab(pill)
         tab.show()
     }
+
 
     //console.log("data-props")
     ///console.log(data)
