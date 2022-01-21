@@ -565,7 +565,7 @@ export default (props) => {
                 cancel_msg,
                 {"uusd": Math.floor(parseInt(nftData.highest_bid) * 10 / 100)}
                )
-            else {
+            {else {
               msg = new MsgExecuteContract(
                 connectedWallet.walletAddress,
                 state.privAuctionContract,
