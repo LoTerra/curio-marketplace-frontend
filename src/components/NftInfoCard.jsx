@@ -6,6 +6,7 @@ import SmallCountdown from './SmallCountdown'
 import NftBadge from './NftBadge'
 import NftPrice from './NftPrice'
 import Media from './Media'
+import { Link } from 'react-router-dom'
 
 export default function NftInfoCard(props) {
     const { state, dispatch } = useStore()
@@ -16,7 +17,8 @@ export default function NftInfoCard(props) {
     return (
         <>
             {data && (
-                <a href={'/nfts/' + data.auction_id} className="nft-link">
+                <Link to={`/nfts/${ data.auction_id }`} className="nft-link">   
+          
                     <div className={'card text-white nft-card ' + type}>
                         {/* <button className="btn btn-plain"><ArrowRight size={24} color={'#fff'}/></button> */}
 
@@ -59,7 +61,7 @@ export default function NftInfoCard(props) {
                             )}
                         </div>
                     </div>
-                </a>
+                </Link>
             )}
         </>
     )

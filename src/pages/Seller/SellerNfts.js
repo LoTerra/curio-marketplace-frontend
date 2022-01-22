@@ -4,32 +4,40 @@ import ContractVerification from '../../components/ContractVerification';
 import NftCard from '../../components/NftCard';
 import { useStore } from '../../store';
 import MainLoader from '../../components/Loaders/MainLoader';
+import {  
+    Link,
+    useParams
+  } from "react-router-dom";
 
 export default (props) => {
     const { state, dispatch } = useStore()
 
     const [sellerNfts, setSellerNfts] = useState([]);
     const [loading, setLoading] = useState(true)
-
-    useEffect(async ()=> {
+    let { selleraddress } = useParams();
+    useEffect( ()=> {
+        (async () => {
+   
+          //  console.log(selleraddress)
         setLoading(true)
         var config = {
             method: 'get',
             url: 'https://privilege.digital/api/get-items',
             params: {
-                creatorAddress: props.sellerAddress,
+                creatorAddress: selleraddress,
                 inAuction: Date.now()
             },
         }
 
         await axios(config)
             .then(function (response) {
-                console.log(response)
+              //  console.log(response)
                 setSellerNfts(response.data.filterItems)
             });
             setTimeout(() => {
                 setLoading(false)
             },1000)
+        })();
     },[])
 
     return (
@@ -40,12 +48,12 @@ export default (props) => {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-10 intro mx-auto text-center">
-                            { props.sellerAddress &&
+                            { selleraddress &&
                                 <h1>
-                                { props.sellerAddress && props.sellerAddress == state.wallet.walletAddress ?
+                                { selleraddress && selleraddress == state.wallet.walletAddress ?
                                     <span>Your Auctions</span>
                                     :
-                                    <span>Creator Auctions <span style={{display:'block',fontSize:'14px', fontWeight:400}}>{props.sellerAddress}</span></span>
+                                    <span>Creator Auctions <span style={{display:'block',fontSize:'14px', fontWeight:400}}>{selleraddress}</span></span>
                                 }                                
                                 </h1>
                             }

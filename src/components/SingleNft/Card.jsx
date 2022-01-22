@@ -23,7 +23,7 @@ export default function Card(props) {
                                 <meta property="og:title" content={nft.name} />
                                 <meta
                                     property="og:image"
-                                    content={nft.image}
+                                    content={nft.image_url}
                                 />
                                 <meta
                                     property="twitter:title"
@@ -31,7 +31,7 @@ export default function Card(props) {
                                 />
                                 <meta
                                     property="twitter:image"
-                                    content={nft.image}
+                                    content={nft.image_url}
                                 />
                             </Head>
                         )}

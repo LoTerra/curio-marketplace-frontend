@@ -32,8 +32,8 @@ export default function PreviewImage(props) {
 
             {obj.animation_url && (
                 <video
-                    playsinline=""
-                    autoplay=""
+                playsInline=""
+                    autoPlay=""
                     muted
                     loop
                     src={obj.animation_url.replace(

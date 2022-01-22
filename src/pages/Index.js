@@ -3,8 +3,7 @@ import NftCard from '../components/NftCard'
 import { useStore } from '../store'
 import axios from 'axios'
 // import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react/swiper-react'
-import 'swiper/swiper-bundle.css'
+
 
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import MainLoader from '../components/Loaders/MainLoader'
@@ -18,8 +17,13 @@ import {
     MonitorPlay,
 } from 'phosphor-react'
 import { Navigation, Pagination, Autoplay } from 'swiper'
+import { Swiper, SwiperSlide } from "swiper/react";
+import 'swiper/swiper-bundle.min.css'
+import 'swiper/swiper.min.css'
+import 'swiper/swiper-bundle.css'
 import CollectionSearch from '../components/CollectionSearch'
-
+import { Link } from 'react-router-dom'
+ 
 
 export default () => {
     const [currentSlide, setCurrentSlide] = React.useState(0)
@@ -175,12 +179,12 @@ export default () => {
                                                 </button>
                                             </div>
                                             <div className="col-6 mb-4">
-                                                <a
-                                                    href="/create"
+                                                <Link
+                                                    to="/create"
                                                     className="btn btn-lg btn-outline-primary w-100"
                                                 >
                                                     Create auction
-                                                </a>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>

@@ -4,6 +4,7 @@ import numeral from 'numeral'
 import { Match } from '@reach/router'
 import ContractVerification from '../ContractVerification'
 import { UserCircle } from 'phosphor-react'
+import { Link } from 'react-router-dom'
 
 let bootstrap = {}
 if (typeof document !== 'undefined') {
@@ -52,8 +53,8 @@ export default function AuctionInfo(props) {
                             fontSize:'14px'
                         }}>
                             <UserCircle size={16} />
-                            Creator</p>
-                        <a href={'/creator/'+nftData.creator}
+                            Creator</p>                            
+                            <Link to={`/creator/${ nftData.creator }`}                       
                         style={{
                             display:'block',
                             wordBreak:'break-all',
@@ -61,7 +62,7 @@ export default function AuctionInfo(props) {
                             color:'#dddddd',
                             fontSize:'14px'
                         }}
-                        >{nftData.creator}</a>
+                        >{nftData.creator}</Link>
                         </>
                     }
                 </div>
@@ -90,9 +91,9 @@ export default function AuctionInfo(props) {
                 </div>
             </div>
             {imageNftData.attributes && imageNftData.attributes.length > 0 && (
-                <div clclassNameass="col-12">
+                <div className="col-12">
                     <button
-                        class="btn w-100 mb-2"
+                        className="btn w-100 mb-2"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#collapseExample"
@@ -105,11 +106,11 @@ export default function AuctionInfo(props) {
                     >
                         View NFT Attributes ({imageNftData.attributes.length})
                     </button>
-                    <div class="collapse" id="collapseExample">
+                    <div className="collapse" id="collapseExample">
                         <div className="row">
-                            {imageNftData.attributes.map((obj) => {
+                            {imageNftData.attributes.map((obj,i) => {
                                 return (
-                                    <div className="col-6 col-lg-4 mb-2">
+                                    <div className="col-6 col-lg-4 mb-2" key={i}>
                                         <div
                                             className="attribute-info"
                                             style={{
@@ -181,7 +182,7 @@ export default function AuctionInfo(props) {
             </div>
 
             {nftData.charity ? (
-                <div class="col-12 pb-2">
+                <div className="col-12 pb-2">
                     <small
                         className="d-block"
                         style={{

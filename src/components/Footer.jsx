@@ -1,13 +1,14 @@
 import { TelegramLogo, TwitchLogo, TwitterLogo } from 'phosphor-react'
 import React, { useState, useEffect, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Footer(props) {
     return (
         <>
             <footer className="footer mt-auto text-center">
-                <a href="/" className="w-100">
+            <Link to={`/`} className="w-100">                      
                     <img src={'/img/logo.svg'} style={{ width: '160px' }} />
-                </a>
+              </Link>
                 <p
                     className="badge"
                     style={{
