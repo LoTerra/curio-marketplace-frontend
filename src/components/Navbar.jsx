@@ -154,9 +154,10 @@ export default function Navbar(props) {
     
         const channel = pusher.subscribe('auction-channel')
         channel.bind('bid-event', function (data) {
-            // console.log(data)           
-            setLiveFeed(liveFeed => [...liveFeed, {obj:JSON.parse(JSON.stringify(data.message)),type:'bid'}])
-            //dispatch({ type: 'setLiveFeed', message: liveFeed =>[...state.liveFeed, {obj:JSON.parse(JSON.stringify(data.message)),type:'bid'}] })
+            console.log(data)
+            let parsed_data = JSON.parse(JSON.stringify(data.message))
+            //setLiveFeed(liveFeed => [...liveFeed, {obj:JSON.parse(JSON.stringify(data.message)),type:'bid'}])
+            dispatch({ type: 'setLiveFeed', message: [...state.liveFeed, {auction:JSON.parse(parsed_data),type:'bid'}] })
             //window.sessionStorage.setItem('liveFeed', liveFeed );
         })
         channel.bind('buy-event', async function (data) {
@@ -165,7 +166,7 @@ export default function Navbar(props) {
         return () => {
             pusher.unsubscribe('auction-channel')
         }
-    }, [])
+    }, [state.liveFeed])
 
     useEffect(() => {
         if (connectedWallet) {
