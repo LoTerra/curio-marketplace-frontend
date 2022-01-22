@@ -1,4 +1,8 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react'
+import {  
+    Link,
+    useParams
+  } from "react-router-dom";
 import NftCard from '../../components/NftCard'
 import { useStore } from '../../store'
 import toast, { Toaster } from 'react-hot-toast'
@@ -58,10 +62,11 @@ export default (props) => {
     })
 
     const [loading, setLoading] = useState(true)
-    console.log(props)
-    const testAuctionID = parseInt(props.nftId)
-
-    console.log(testAuctionID)
+    // console.log(props)
+    // const testAuctionID = parseInt(props.nftId)
+    let { nftid } = useParams();
+    const testAuctionID = parseInt(nftid);
+  //  console.log(testAuctionID)
 
     let wallet = ''
     let connectedWallet = ''
@@ -106,7 +111,7 @@ export default (props) => {
                 setBidder(bidderData)
             }
         } catch (e) {
-            console.log(e)
+          console.log(e)
         }
     })
 
@@ -119,11 +124,12 @@ export default (props) => {
         })
 
         setBidInfo(clean)
-        console.log('cleaned', clean)
+    //    console.log('cleaned', clean)
     }
 
     const getNftData = useCallback(async () => {
         try {
+            setLoading(true)
             const nftConfigInfo = await api.contractQuery(
                 state.privAuctionContract,
                 {
@@ -133,12 +139,12 @@ export default (props) => {
                 },
             )
 
-            console.log(nftConfigInfo)
+           // console.log(nftConfigInfo)
             setNftData(nftConfigInfo)
 
             setExpiryTimestamp(parseInt(nftConfigInfo.end_time * 1000))
 
-            console.log('timestamp', expiryTimestamp)
+         //   console.log('timestamp', expiryTimestamp)
 
             var config = {
                 method: 'get',
@@ -150,7 +156,7 @@ export default (props) => {
 
             await axios(config)
                 .then(function (response) {
-                    console.log('repsonse', response.data)
+               //     console.log('repsonse', response.data)
                     let image = ''
                     let attributes = null
 
@@ -179,10 +185,10 @@ export default (props) => {
                         }
                     })
 
-                    console.log('imageNftData', imageNftData)
+                   // console.log('imageNftData', imageNftData)
                 })
                 .catch(function (error) {
-                    console.log(error)
+                   // console.log(error)
                 })
 
             var config_recent = {
@@ -195,7 +201,7 @@ export default (props) => {
 
             await axios(config_recent)
                 .then(function (response) {
-                    console.log('repsonse', response.data)
+                   // console.log('repsonse', response.data)
                     setRecent(response.data.filterItems)
                 })
                 .catch(function (error) {
@@ -213,7 +219,7 @@ export default (props) => {
                     },
                 )
 
-                console.log(bids)
+               // console.log(bids)
                 sortBids(bids.bids)
             }
             setTimeout(() => {
@@ -227,11 +233,11 @@ export default (props) => {
                         ? (nftData.start_price / 1000000) * 1.05
                         : 0,
                 )
-            }, 1000)
+            }, 500)
         } catch (e) {
             console.log(e)
         }
-    }, [])
+    }, [nftid])
 
     useEffect(() => {
         setImageNftData(imageNftData)
@@ -590,8 +596,10 @@ export default (props) => {
 
     //Componentdidmount equivalent
     useEffect(() => {
+      
         getNftData()
-    }, [])
+      
+    }, [nftid])
 
     //Follow connectedwallet
     useEffect(() => {
@@ -655,8 +663,8 @@ export default (props) => {
 
                         <div className="col-md-6 nft-right px-xl-5 d-flex">
                             <div className="align-self-center w-100">
-                                <a
-                                    href="/"
+                                <Link
+                                    to="/"
                                     className="btn btn-secondary btn-sm mb-3 px-0 text-center text-md-start"
                                     style={{
                                         fontWeight: 300,
@@ -673,7 +681,7 @@ export default (props) => {
                                         }}
                                     />{' '}
                                     Back to home
-                                </a>
+                                </Link>
                                 {parseInt(nftData.private_sale) > 0 && (
                                     <p className="single-nft-badge">Private</p>
                                 )}
@@ -860,8 +868,8 @@ export default (props) => {
                     <h3>Category name</h3>                 
                 </div>
             </div>
-           <div class="col-md-12">
-               <div class="row">
+           <div className="col-md-12">
+               <div className="row">
                <Swiper
             modules={[Navigation, Pagination]}
             spaceBetween={25}

@@ -1,7 +1,10 @@
 import React from 'react'
-import { Root, Routes, addPrefetchExcludes } from 'react-static'
-import { Router, Link } from '@reach/router'
-
+import { Root, Routes,addPrefetchExcludes } from 'react-static'
+import {
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
 import { Head } from 'react-static'
 import { popper } from '@popperjs/core'
 let bootstrap = {}
@@ -17,6 +20,7 @@ import MainLoader from './components/Loaders/MainLoader'
 import Footer from './components/Footer'
 import SingleCollection from './pages/Collections/SingleCollection'
 import SellerNfts from './pages/Seller/SellerNfts'
+import Index from './pages/Index'
 
 //Dont prerender routes starting with (because of dynamic data)
 addPrefetchExcludes(['nfts'])
@@ -72,22 +76,31 @@ function App() {
                     rel="stylesheet"
                 />
             </Head>
-
+      
             <StoreProvider>
-                <React.Suspense fallback={<MainLoader />}>
+              
                     <div className="page-content">
                         <Navbar />
-                        <Router>
-                            <SingleNft path="/nfts/:nftId" />
-                            <SingleCollection path="/collection/:collectionContract"/>
-                            <SellerNfts path="/creator/:sellerAddress" />
-                            <Create path="/create" />
-                            <Routes default />
-                        </Router>
+                        <React.Suspense fallback={<MainLoader />}>
+                      
+                        <Switch>                       
+                            <Route exact path="/" component={Index} />
+                            <Route exact path="/nfts/:nftid" component={SingleNft} />                               
+                            <Route exact path="/collection/:collectioncontract" component={SingleCollection} />
+                            <Route exact path="/creator/:selleraddress" component={SellerNfts} />                            
+                            <Route exact path="/create">
+                                <Create/>
+                            </Route>
+                            <Route render={() => <Routes/>} />
+
+                        </Switch>
+             
+                        </React.Suspense>
                     </div>
                     <Footer />
-                </React.Suspense>
+               
             </StoreProvider>
+
         </Root>
     )
 }

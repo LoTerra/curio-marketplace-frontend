@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { useStore } from '../store'
 import axios from 'axios'
 import NftListItem from './UserModal/NftListItem'
+import { Link } from 'react-router-dom'
 
 export default function UserModal(props) {
     const { bank, priv, connectedWallet, renderModal, setRenderModal } = props
@@ -28,7 +29,7 @@ export default function UserModal(props) {
     })
               
 
-        console.log('array data',array)
+       // console.log('array data',array)
         
     }
 
@@ -43,7 +44,7 @@ export default function UserModal(props) {
         if(renderModal && connectedWallet && connectedWallet.walletAddress){
             getBidData()
             getAuctionData()
-            console.log(userBids,userAuctions)
+            //console.log(userBids,userAuctions)
         }
     },[renderModal])
 
@@ -76,7 +77,7 @@ export default function UserModal(props) {
                 
                     <div className="modal-body">
                         { connectedWallet && connectedWallet.walletAddress &&
-                            <a className="btn btn-secondary w-100 mb-3" href={'/creator/'+connectedWallet.walletAddress}><Eye size={21}/> Your Auctions</a>
+                            <Link className="btn btn-secondary w-100 mb-3" to={`/creator/${ connectedWallet.walletAddress }`}><Eye size={21}/> Your Auctions</Link>
                         }
 
                         <h5 className="modal-heading">
@@ -101,7 +102,7 @@ export default function UserModal(props) {
                         <div className="nft-list-container">
                         { userBids.length > 0 && userBids.sort((a,b) => b.end_time - a.end_time ).map(obj => {
                             if(obj)
-                            return (<NftListItem obj={obj}/>)
+                            return (<NftListItem key={obj.auction_id+'a'} obj={obj}/>)
                         })                    
                         }
                             </div>
@@ -114,7 +115,7 @@ export default function UserModal(props) {
                         <div className="nft-list-container">
                         { userAuctions.length > 0 && userAuctions.sort((a,b) => b.end_time - a.end_time ).map(obj => {
                                     if(obj)
-                           return (<NftListItem obj={obj}/>)
+                           return (<NftListItem key={obj.auction_id+'b'} obj={obj}/>)
                         })
                         }
                         </div>

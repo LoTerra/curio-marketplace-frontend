@@ -4,19 +4,26 @@ import NftCard from '../../components/NftCard';
 import CollectionHeading from './CollectionHeading';
 import MainLoader from '../../components/Loaders/MainLoader';
 import { ArrowLeft } from 'phosphor-react';
+import {  
+    Link,
+    useParams
+  } from "react-router-dom";
 
 export default (props) => {
 
     const [collectionItems, setCollectionItems] = useState([]);
     const [loading, setLoading] = useState(true)
-
-    useEffect(async ()=> {
+    let { collectioncontract } = useParams();
+    useEffect( ()=> {
+        (async () => {
+   
+         
         setLoading(true)
         var config = {
             method: 'get',
             url: 'https://privilege.digital/api/get-items',
             params: {
-                nftContract: props.collectionContract,
+                nftContract: collectioncontract,
                 inAuction: Date.now()
             },
         }
@@ -27,6 +34,7 @@ export default (props) => {
                 setCollectionItems(response.data.filterItems)
             });
             setLoading(false)
+        })();
     },[])
 
     return (
@@ -37,8 +45,9 @@ export default (props) => {
                 <div className={'collection-banner'}>        
                                 <div className={'row'}>
                                     <div className="col-md-6">
-                                    <CollectionHeading contractAddress={props.collectionContract} />                                   
-                                  
+                                        { collectioncontract &&
+                                    <CollectionHeading contractAddress={collectioncontract} />                                   
+                                        }
                                     </div>
                                 </div>
                     </div>                
@@ -46,8 +55,8 @@ export default (props) => {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-12">
-                        <a
-                                    href="/"
+                        <Link
+                                    to="/"
                                     className="btn btn-secondary btn-sm mb-3 px-0 py-2 text-center text-md-start"
                                     style={{
                                         fontWeight: 300,
@@ -64,7 +73,7 @@ export default (props) => {
                                         }}
                                     />{' '}
                                     Back to home
-                                </a>
+                                </Link>
                         </div>
                     { collectionItems && collectionItems.map((obj, id) => {
                         return (

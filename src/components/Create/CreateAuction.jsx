@@ -82,17 +82,17 @@ export default function CreateAuction(props) {
 
     async function loadMoreNFT(){
         setLoadingMore(true)
-        console.log(offset)
+        //console.log(offset)
         if (offset.length > 0){
             const api = new WasmAPI(lcd.apiRequester)
             let update_offset = []
             await Promise.all(
                 offset.map(async (item, index) => {
-                    console.log("items")
-                    console.log("////////////////////////////////////////////////")
-                    console.log(item)
-                    console.log(index)
-                    console.log("////////////////////////////////////////////////")
+                   // console.log("items")
+                  //  console.log("////////////////////////////////////////////////")
+                 //   console.log(item)
+                 //   console.log(index)
+                 //   console.log("////////////////////////////////////////////////")
                     //Map testing
                     setNftLoader(true)
                     let tokenData = {tokens:[]};
@@ -168,7 +168,7 @@ export default function CreateAuction(props) {
                                 singleToken.contract_address = item.contract
 
                                 //tokenData.push(singleToken)
-                                console.log(singleToken)
+                               // console.log(singleToken)
                                 setUserNfts((userNfts) => [
                                     ...userNfts,
                                     singleToken,
@@ -197,7 +197,7 @@ export default function CreateAuction(props) {
 
                                     await axios(axios_config)
                                         .then(function (response) {
-                                            console.log(response)
+                                        //    console.log(response)
                                             singleToken.image = response.data.image
                                             if (
                                                 response.data.hasOwnProperty(
@@ -235,11 +235,11 @@ export default function CreateAuction(props) {
                                             }
                                         })
                                         .catch(async function (error) {
-                                            console.log(error)
+                                          //  console.log(error)
                                             //Turtle scenario fallback
                                             await axios(axios_config).then(
                                                 function (response) {
-                                                    console.log(response)
+                                                   // console.log(response)
                                                     singleToken.image =
                                                         response.data.image
                                                 },
@@ -607,7 +607,7 @@ export default function CreateAuction(props) {
 
     function getContractData() {
         if (connectedWallet) {
-            console.log(connectedWallet.network.name)
+            //console.log(connectedWallet.network.name)
             setContracts([])
             let contracts_json = JSON.parse(JSON.stringify(contractData))
             let data = contracts_json[connectedWallet.network.name]
@@ -616,16 +616,16 @@ export default function CreateAuction(props) {
                 setContracts((contracts) => [...contracts, data[0][key]])
             })
 
-            console.log(connectedWallet.network, contracts)
+           // console.log(connectedWallet.network, contracts)
         }
     }
 
     async function finalCreation() {
         if (connectedWallet) {
-            console.log('walletAddress is', connectedWallet.walletAddress)
+           // console.log('walletAddress is', connectedWallet.walletAddress)
             // In this case network should be testnet bombay
-            console.log('network is', connectedWallet.network)
-            console.log('connectType is', connectedWallet.connectType)
+           // console.log('network is', connectedWallet.network)
+           // console.log('connectType is', connectedWallet.connectType)
         }
 
         try {
@@ -700,8 +700,8 @@ export default function CreateAuction(props) {
                 window.location.href = window.location.origin
             }, 2000)
         } catch (e) {
-            console.log(e.message)
-            console.log(e)
+           // console.log(e.message)
+         //   console.log(e)
             toast.error('Auction creation error')
         }
     }
@@ -709,7 +709,7 @@ export default function CreateAuction(props) {
     async function create(e) {
         e.preventDefault()
         const data = Object.fromEntries(new FormData(e.target).entries())
-        console.log(data)
+       // console.log(data)
 
         if (!connectedWallet) {
             toast.error('Connect your wallet')
@@ -797,30 +797,30 @@ export default function CreateAuction(props) {
                                 </div>
 
                                 <div
-                                    class="modal fade"
+                                    className="modal fade"
                                     id="nftContracts"
                                     tabindex="-1"
                                     aria-labelledby="nftContractsLabel"
                                     aria-hidden="true"
                                 >
-                                    <div class="modal-dialog modal-xl">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
+                                    <div className="modal-dialog modal-xl">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
                                                 <h5
-                                                    class="modal-title"
+                                                    className="modal-title"
                                                     id="nftContractsLabel"
                                                 >
                                                     Select NFT Contract
                                                 </h5>
                                                 <button
                                                     type="button"
-                                                    class="btn-close"
+                                                    className="btn-close"
                                                     data-bs-dismiss="modal"
                                                     ref={closeRef}
                                                     aria-label="Close"
                                                 ></button>
                                             </div>
-                                            <div class="modal-body">
+                                            <div className="modal-body">
                                                 <div className="row">
                                                     <div className="col-12">
                                                         <div className="btn-group d-block w-100 mb-3">
@@ -933,10 +933,10 @@ export default function CreateAuction(props) {
                                                         )}
                                                 </div>
                                             </div>
-                                            <div class="modal-footer">
+                                            <div className="modal-footer">
                                                 <button
                                                     type="button"
-                                                    class="btn btn-secondary"
+                                                    className="btn btn-secondary"
                                                     data-bs-dismiss="modal"
                                                 >
                                                     Close
@@ -1015,10 +1015,10 @@ export default function CreateAuction(props) {
                                     <div className="row">
                                         <div className="col-12 text-center">
                                             <div
-                                                class="spinner-border text-primary "
+                                                className="spinner-border text-primary "
                                                 role="status"
                                             >
-                                                <span class="visually-hidden">
+                                                <span className="visually-hidden">
                                                     Loading...
                                                 </span>
                                             </div>
@@ -1254,12 +1254,12 @@ export default function CreateAuction(props) {
                                                 restricted to token holders to
                                                 bid on the private auction
                                             </p>
-                                            <label class="switch">
+                                            <label className="switch">
                                                 <input
                                                     type="checkbox"
                                                     name="private_sale"
                                                 />
-                                                <span class="slider round"></span>
+                                                <span className="slider round"></span>
                                             </label>
                                         </div>
                                     </div>
