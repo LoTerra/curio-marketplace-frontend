@@ -35,12 +35,12 @@ export default function WithdrawNft(props) {
                 feeDenoms: 'uusd',
                 gasPrices: new Coin("uusd", "0.15")
             })
-            console.log(result)
+          //  console.log(result)
             toast.success('Withdraw NFT successful')
             //Not needed, we reload on websocket event
             //setTimeout(() => reloadData(),3000)
         } catch (e) {
-            console.log(e)
+           // console.log(e)
             toast.error('Withdraw NFT error')
         }
     }

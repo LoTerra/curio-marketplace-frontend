@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
+import { Switch, Route, Link } from 'react-router-dom'
+
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import {
     useWallet,
@@ -38,7 +40,7 @@ export default function Navbar(props) {
         wallet = useWallet()
         connectedWallet = useConnectedWallet()
     }
-
+ 
     const lcd = useMemo(() => {
         if (!connectedWallet) {
             return null
@@ -145,7 +147,7 @@ export default function Navbar(props) {
             cluster: 'eu',
         })
 
-        console.log(window.sessionStorage.getItem("liveFeed"))
+        //console.log(window.sessionStorage.getItem("liveFeed"))
 
         // if (typeof(Storage) !== "undefined") {
         //     dispatch({ type: 'setLiveFeed', message: [...state.liveFeed, window.sessionStorage.getItem("liveFeed")] })
@@ -188,9 +190,9 @@ export default function Navbar(props) {
             <div className="navbar navbar-expand-lg">
                 <div className="container-fluid">
                     <div className="navbar-brand">
-                        <a href="/">
+                        <Link to="/">
                             <img src={'/img/logo.svg'} />
-                        </a>
+                        </Link>
                         <p className="badge">BETA</p>
                     </div>
 
@@ -238,13 +240,15 @@ export default function Navbar(props) {
                     </li> */}
                             {connected && (
                                 <li className="nav-item">
-                                    <a
+                                    {/* <a
                                         className="btn btn-outline-primary ms-md-3"
                                         href="/create"
-                                    >
+                                    > */}
+                                    <Link to="/create" className="btn btn-outline-primary ms-md-3">
                                         <PlusCircle size={16} weight="bold" />{' '}
                                         Auction
-                                    </a>
+                                    </Link>
+                                    {/* </a> */}
                                 </li>
                             )}
                         </ul>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import numeral from 'numeral';
 import { Rss, X } from 'phosphor-react';
 import {useStore} from "../store";
+import { Link } from 'react-router-dom';
 
 export default function LiveFeed(props) {
     const { state, dispatch } = useStore()
@@ -43,8 +44,9 @@ export default function LiveFeed(props) {
                             <p className="type">New bid</p>
                             <p className="title">{obj.title}</p>
                             <p className="price">{numeral(obj.highest_bid / 1000000).format('0,0.00')} UST</p>                        
-                        </div>          
-                        <a href={'/nfts/'+obj.auction_id} className="btn btn-secondary btn-sm w-100">View Auction</a>              
+                        </div>    
+                        <Link to={`/nfts/${ obj.auction_id }`} className="btn btn-secondary btn-sm w-100">                                 
+                       View Auction</Link>              
                     </li>)
                 })}
                 { state.liveFeed && state.liveFeed.length == 0 &&

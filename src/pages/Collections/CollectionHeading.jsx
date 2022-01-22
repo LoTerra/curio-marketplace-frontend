@@ -78,8 +78,8 @@ export default function CollectionHeading(props) {
         }
     }
 
-    useEffect(async()=>{
-
+    useEffect(()=>{
+        (async () => {
         console.log('select loaded')
         const stats = await axios.get('https://privilege.digital/api/get-info-collections');
         console.log(stats.data.infoCollections)
@@ -100,7 +100,7 @@ export default function CollectionHeading(props) {
             price_floor:price_floor,
             auction_count:auction_count
             })
-
+        })();
     },[])
 
     return (

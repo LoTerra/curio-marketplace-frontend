@@ -1,5 +1,6 @@
 import { CheckCircle, WarningCircle } from 'phosphor-react'
 import React, { useState, useEffect, useMemo } from 'react'
+import { Link } from 'react-router-dom'
 import contractData from '../contracts.json'
 
 export default function ContractVerification(props) {
@@ -51,7 +52,7 @@ export default function ContractVerification(props) {
                         {verified.name}
                     </p>
                    
-                    <a
+                    <Link
                     style={{
                         display:'block',
                         wordBreak:'break-all',
@@ -60,7 +61,7 @@ export default function ContractVerification(props) {
                         fontWeight:400,
                         fontSize:'14px'
                     }}
-                    href={'/collection/'+contractAddress} >
+                    to={'/collection/'+contractAddress} >
                          <img
                         src={verified.icon}
                         className="me-1 rounded-border"
@@ -68,7 +69,7 @@ export default function ContractVerification(props) {
                         height="25"
                     />
                         {address}
-                        </a>
+                        </Link>
                 </>
             )
         }

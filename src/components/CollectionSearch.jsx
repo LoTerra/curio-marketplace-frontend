@@ -5,8 +5,7 @@ import numeral from 'numeral'
 
 import contractData from '../contracts.json'
 
-const contracts_json = JSON.parse(JSON.stringify(contractData))
-const data = JSON.parse(JSON.stringify(contracts_json["mainnet"]))
+
 
 export default function CollectionSearch(props) {
 
@@ -14,10 +13,12 @@ export default function CollectionSearch(props) {
     const [collectionStats,setCollectionStats] = useState([])
     const [loading,setLoading] = useState(true)
       
-  
+    const contracts_json = JSON.parse(JSON.stringify(contractData))
+    const data = JSON.parse(JSON.stringify(contracts_json["mainnet"]))
    
-        useEffect(async()=>{
+        useEffect(()=>{
            // console.log('select loaded')
+           (async () => {
             const stats = await axios.get('https://privilege.digital/api/get-info-collections');
             setCollectionStats(collectionStats => (
                 [...collectionStats,stats.data.infoCollections]
@@ -28,6 +29,9 @@ export default function CollectionSearch(props) {
                 // console.log(a)
                 return a._id == address
             })
+
+           
+
         Object.values(data).forEach((obj) => {
             Object.values(obj).forEach((a) => {
                 const stats = obj_stats(a.contract);
@@ -56,6 +60,7 @@ export default function CollectionSearch(props) {
             })
         })        
         setLoading(false) 
+        })();
         },[])
 
     
