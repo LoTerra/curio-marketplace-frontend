@@ -60,7 +60,7 @@ export default function CollectionSearch(props) {
             })
         })        
         setLoading(false) 
-        });
+        })();
         },[])
 
     
