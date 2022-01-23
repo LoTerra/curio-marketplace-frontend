@@ -21,6 +21,7 @@ import Footer from './components/Footer'
 import SingleCollection from './pages/Collections/SingleCollection'
 import SellerNfts from './pages/Seller/SellerNfts'
 import Index from './pages/Index'
+import ScrollToTop from './components/ScrollToTop';
 
 //Dont prerender routes starting with (because of dynamic data)
 addPrefetchExcludes(['nfts'])
@@ -82,8 +83,10 @@ function App() {
                     <div className="page-content">
                         <Navbar />
                         <React.Suspense fallback={<MainLoader />}>
-                      
-                        <Switch>                       
+                        <ScrollToTop />
+
+                        <Switch>  
+                     
                             <Route exact path="/" component={Index} />
                             <Route exact path="/nfts/:nftid" component={SingleNft} />                               
                             <Route exact path="/collection/:collectioncontract" component={SingleCollection} />
