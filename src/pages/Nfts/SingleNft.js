@@ -695,9 +695,18 @@ export default (props) => {
                                 <p className="description">
                                     {imageNftData.description}
                                 </p>
+                                <div className="col-12">
+                                                <Countdown
+                                                    expiryTimestamp={
+                                                        expiryTimestamp
+                                                    }
+                                                    end={nftData.end_time}
+                                                    start={nftData.start_time}
+                                                />
+                                            </div>
                                 {rightsCheck() && (
                                     <ul
-                                        className="nav nav-pills mb-3"
+                                        className="nav nav-pills nav-fill mb-1"
                                         id="pills-tab"
                                         role="tablist"
                                     >
@@ -747,17 +756,7 @@ export default (props) => {
                                         role="tabpanel"
                                         aria-labelledby="pills-home-tab"
                                     >
-                                        <div className="row">
-                                            <div className="col-12">
-                                                <Countdown
-                                                    expiryTimestamp={
-                                                        expiryTimestamp
-                                                    }
-                                                    end={nftData.end_time}
-                                                    start={nftData.start_time}
-                                                />
-                                            </div>
-
+                                        <div className="row">                        
                                             <AuctionInfo
                                                 nftData={nftData}
                                                 bidInfo={bidInfo}
@@ -820,15 +819,7 @@ export default (props) => {
                                         aria-labelledby="pills-profile-tab"
                                     >
                                         <div className="row">
-                                            <div className="col-12">
-                                                <Countdown
-                                                    expiryTimestamp={
-                                                        expiryTimestamp
-                                                    }
-                                                    end={nftData.end_time}
-                                                    start={nftData.start_time}
-                                                />
-                                            </div>
+                                            
 
                                             <BiddingInterface
                                                 bidInfo={bidInfo}

@@ -53,22 +53,9 @@ export default function ContractVerification(props) {
                     </p>
                    
                     <Link
-                    style={{
-                        display:'block',
-                        wordBreak:'break-all',
-                        color:'#dddddd',
-                        textDecoration:'none',
-                        fontWeight:400,
-                        fontSize:'14px'
-                    }}
+                    className="btn btn-simple mt-2 btn-sm"
                     to={'/collection/'+contractAddress} >
-                         <img
-                        src={verified.icon}
-                        className="me-1 rounded-border"
-                        width="25"
-                        height="25"
-                    />
-                        {address}
+                        View more                      
                         </Link>
                 </>
             )
