@@ -183,15 +183,22 @@ label {
     }
 }
 
+.text-muted {
+    --bs-text-opacity: 1;
+    color: #aaaaaa94 !important;
+}
+
 .nav-pills {
-    background: #14141766;
+    background: #191919bf;
     padding: 10px;
     border-radius: 5px;
     .nav-link {
         color: #ffffff61;
         &.active {
             color: $primary;
-            background-color: #141417;
+            background: linear-gradient(
+45deg
+, #00000059, #00000021);
         }
     }
 }
@@ -228,13 +235,18 @@ label {
     text-align: center;
     border: 0;
     small {
-        display: block;
-        font-size: 12px;
+        margin-left:4px;
+        font-size: 14px;
         font-weight: 300;
     }
     &.btn-plain {
         background: #00000082;
         color: #fff;
+    }
+    &.btn-simple {
+        background: #2c2c2c;
+        color: #aaaaaab5;
+        font-size: 13px;
     }
     &.btn-primary {
         background: linear-gradient(
@@ -318,6 +330,7 @@ label {
         small {
             opacity: 0.5;
             font-size: 12px;
+            font-weight:300;
             margin-bottom: -3px;
             display: block;
         }
@@ -479,22 +492,22 @@ label {
 
 
 .nft-stats {
-    background: #0000004f;
+    background: #00000033;
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
     h6 {
         margin-bottom: 0;
         color: $primary;
-        font-size: 14px;
+        font-size: 12px;
     }
     p {
         margin: 0;
         font-weight: 700;
-        font-size: 18px;
+        font-size: 17px;
     }
     &.big {
-        background: #0000004f;
+        background: #00000033;
         text-align: center;
         border: 0;
         h6 {
@@ -502,8 +515,21 @@ label {
             opacity: 0.6;
         }
         p {
-            font-size: 36px;
+            font-size: 24px;
             color: $primary;
+            span {
+
+            }
+            small {
+                font-size:16px;
+                font-weight:300;
+                color:$primary;
+                opacity:1;
+            }
+        }
+        small {
+            color: #fff;
+            opacity: 0.6;
         }
     }
 }
@@ -982,6 +1008,7 @@ label {
             font-size: 12px;
             opacity: 0.5;
             margin-right: 5px;
+            font-weight:300;
         }
         @media (max-width: 768px) {
             font-size: 17px;

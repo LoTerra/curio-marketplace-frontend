@@ -49,8 +49,8 @@ export default function BiddingInterface(props) {
     ///console.log(data)
     return (
         <>
-            <div className="col-12">
-                <h5 className="mb-0">Current bids ({bidInfo.length})</h5>
+            <div className="col-12 mt-2">
+                <h5 className="mb-2">Current bids ({bidInfo.length})</h5>
                 <div
                     style={{
                         maxHeight: '120px',
@@ -142,7 +142,12 @@ export default function BiddingInterface(props) {
                                         )
                                     })
                             ) : (
-                                <p className="text-muted text-center w-100 py-1 m-0">
+                                <p className="text-center w-100 m-0" style={{
+                                    color: '#595959',
+                                    background: '#1c1c1d63',                                    
+                                    padding: 10,
+                                    borderRadius: 4
+                                }}>
                                     No bids yet
                                 </p>
                             )}
@@ -153,7 +158,7 @@ export default function BiddingInterface(props) {
 
             {nftData && !isOwner && (
                 <>
-                    <div className={'col-md-6'}>
+                    <div className={'col-md-12'}>
                         <h5>Bid now</h5>
                         <div className="input-group mb-0">
                             <span
@@ -211,9 +216,11 @@ export default function BiddingInterface(props) {
                                 }
                                 name="amount"
                             />
+                           
                         </div>
+                       
                     </div>
-                    <div className={'col-md-6'}>
+                    {/* <div className={'col-md-6'}>
                         <div
                             className={
                                 'nft-bidding d-flex ' +
@@ -261,13 +268,17 @@ export default function BiddingInterface(props) {
                                     {parseInt(bidder.total_bid) / 1000000} UST
                                 </p>
 
-                                {nftData.highest_bid != bidder.total_bid &&
+                                
+                            </div>
+                        </div>
+                    </div> */}
+                    <small className="d-block p-3 text-muted">
+                        Bids must be at least <strong>5% higher</strong> than
+                        the previous bid,  {nftData.highest_bid != bidder.total_bid &&
                                     nftData.highest_bid && (
-                                        <p
+                                        <span
                                             style={{
-                                                textDecoration: 'underline',
-                                                fontSize: '12px',
-                                                fontWeight: 300,
+                                                textDecoration: 'underline',                                               
                                             }}
                                             onClick={() =>
                                                 setAmount(
@@ -318,15 +329,13 @@ export default function BiddingInterface(props) {
                                                 ? nftData.start_price / 1000000
                                                 : 0}{' '}
                                             UST
-                                        </p>
+                                        </span>
                                     )}
                                 {!parseInt(nftData.highest_bid) > 0 &&
                                     parseInt(nftData.start_price) > 0 && (
-                                        <p
+                                        <span
                                             style={{
-                                                textDecoration: 'underline',
-                                                fontSize: '12px',
-                                                fontWeight: 300,
+                                                textDecoration: 'underline',                                             
                                             }}
                                             onClick={() =>
                                                 setAmount(
@@ -377,14 +386,8 @@ export default function BiddingInterface(props) {
                                                 ? nftData.start_price / 1000000
                                                 : 0}{' '}
                                             UST
-                                        </p>
+                                        </span>
                                     )}
-                            </div>
-                        </div>
-                    </div>
-                    <small className="d-block p-3 text-muted">
-                        Bids must be at least <strong>5% higher</strong> than
-                        the previous bid.
                     </small>
                     {rightsCheck() && !isOwner && (
                         <>
