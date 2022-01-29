@@ -20,6 +20,7 @@ import MainLoader from './components/Loaders/MainLoader'
 import Footer from './components/Footer'
 import SingleCollection from './pages/Collections/SingleCollection'
 import SellerNfts from './pages/Seller/SellerNfts'
+import PublicMint from './pages/PublicMint';
 import Index from './pages/Index'
 import ScrollToTop from './components/ScrollToTop';
 
@@ -90,7 +91,8 @@ function App() {
                             <Route exact path="/" component={Index} />
                             <Route exact path="/nfts/:nftid" component={SingleNft} />                               
                             <Route exact path="/collection/:collectioncontract" component={SingleCollection} />
-                            <Route exact path="/creator/:selleraddress" component={SellerNfts} />                            
+                            <Route exact path="/creator/:selleraddress" component={SellerNfts} />
+                            <Route exact path="/public-mint/:publicmintid" component={PublicMint} />                            
                             <Route exact path="/create">
                                 <Create/>
                             </Route>

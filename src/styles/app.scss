@@ -601,20 +601,27 @@ label {
         font-weight: 600;
         padding-bottom: 5px;
     }
-    .input-group {
-        .input-group-text {
-            background: #1e1e1e;
-            border-color: #595959;
-            border-radius: 0;
-        }
-        .form-control {
-            border: 1px solid #595959;
-            background: #595959;
-            border-radius: 0;
-            color: #fff;
-            font-weight: 700;
-            font-size: 21px;
-        }
+    
+}
+
+.progress {
+    border-radius:100px;
+    background: #121212;
+}
+
+.input-group {
+    .input-group-text {
+        background: #1e1e1e;
+        border-color: #595959;
+        border-radius: 0;
+    }
+    .form-control {
+        border: 1px solid #595959;
+        background: #595959;
+        border-radius: 0;
+        color: #fff;
+        font-weight: 700;
+        font-size: 21px;
     }
 }
 
