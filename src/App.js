@@ -23,6 +23,7 @@ import SellerNfts from './pages/Seller/SellerNfts'
 import PublicMint from './pages/PublicMint';
 import Index from './pages/Index'
 import ScrollToTop from './components/ScrollToTop';
+import Launchpad from './pages/Launchpad';
 
 //Dont prerender routes starting with (because of dynamic data)
 addPrefetchExcludes(['nfts'])
@@ -93,6 +94,7 @@ function App() {
                             <Route exact path="/collection/:collectioncontract" component={SingleCollection} />
                             <Route exact path="/creator/:selleraddress" component={SellerNfts} />
                             <Route exact path="/public-mint/:publicmintid" component={PublicMint} />                            
+                            <Route exact path="/launchpad" component={Launchpad} />                            
                             <Route exact path="/create">
                                 <Create/>
                             </Route>
