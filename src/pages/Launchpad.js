@@ -1,14 +1,17 @@
 import { Rocket } from 'phosphor-react'
 import React, { useEffect } from 'react'
 import { useStore } from '../store'
+import axios from "axios";
 
 export default (props) => {
 
     const { state, dispatch } = useStore()
-
+    async function get_launchpads(){
+        let res = await axios.get(`https://privilege.digital/api/get-launchpads`);
+    }
     useEffect(() => {
         //Do stuff on mount
-
+        get_launchpads()
     },[])
 
     return (

@@ -1,20 +1,232 @@
-import React, { useEffect } from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import { useStore } from '../store'
 import {  
     useParams
   } from "react-router-dom";
+import axios from "axios";
+import {Coin, LCDClient, MsgExecuteContract, WasmAPI} from "@terra-money/terra.js";
+import {useConnectedWallet, useWallet} from "@terra-money/wallet-provider";
 
 export default (props) => {
 
     const { state, dispatch } = useStore()
+    const [launchpad, SetLaunchpad] = useState(
+        {
+            launchpad_contract: "",
+            cw721_contract: "",
+            title: "",
+            subtitle: "",
+            description: "",
+            restricted: false,
+            logo: "",
+            background_image: "",
+            creator: {
+                address: "",
+                url: "",
+                twitter: "",
+                telegram: "",
+                discord: "",
+                email: "",
+                dribble: ""
+            },
+            opening_time: Date.now(),
+            closing_time: Date.now()
+        }
+    )
+    const [registrationId, SetRegistrationId] = useState()
 
+    let wallet = ''
+    let connectedWallet = ''
+    if (typeof document !== 'undefined') {
+        wallet = useWallet()
+        connectedWallet = useConnectedWallet()
+    }
+    const lcd = useMemo(() => {
+        if (!connectedWallet) {
+            return null
+        }
+
+        return new LCDClient({
+            URL: connectedWallet.network.lcd,
+            chainID: connectedWallet.network.chainID,
+        })
+    }, [connectedWallet])
+    const api = new WasmAPI(lcd.apiRequester)
+
+    // Public mint id is the contract address of the candy machine
     let {publicmintid} = useParams()
-    const pbulicMintId = parseInt(publicmintid);
 
+    async function get_launchpad(){
+        let res = await axios.get(`https://privilege.digital/api/get-launchpad?contract=${publicmintid}`);
+        SetLaunchpad(res.data);
+    }
+
+    async function register(){
+        if (connectedWallet && connectedWallet.walletAddress) {
+
+            try {
+                let msg = new MsgExecuteContract(
+                    connectedWallet.walletAddress,
+                    publicmintid,
+                    {
+                        register: {},
+                    },
+                );
+
+                const result = await connectedWallet.post({
+                    msgs: [msg],
+                    feeDenoms: ['uusd'],
+                    gasPrices: new Coin("uusd", "0.15")
+                })
+                // Query state contract candy machine
+                const state_candy_machine = await api.contractQuery(publicmintid, {
+                    state:{}
+                })
+                // Get the current registration id
+                SetRegistrationId(state_candy_machine.counter_registration)
+
+                /*
+                    TODO: Display a message we are minting your NFT blablabla...
+                    After 30 seconds to 1 mint Display the image of the NFT minted
+                 */
+            }catch (e) {
+                console.log(e)
+            }
+        }
+    }
+
+    async function get_registration_info(){
+        let query = {
+            registration: {
+                registration_id: registrationId
+            },
+        }
+        try {
+            /*
+                @param: RegistrationInfoResponse
+                address: String,
+                terrand_round: u64,
+                expire: u64,
+                is_refunded: bool,
+                amount_sent: Uint128,
+                sity_sent: Option<Uint128>,
+                token_id: Option<String>,
+             */
+            // Query registration
+            const my_registration = await api.contractQuery(publicmintid, query)
+            // Query the NFT info
+            const NFT = await api.contractQuery(launchpad.cw721_contract, {
+                token_info: {
+                    token_id: my_registration.token_id
+                }
+            })
+        }catch (e) {
+            console.log(e)
+        }
+    }
+
+    async function get_all_registration_id(){
+        let query = {
+            registrations: {
+                //start_after: registrationId
+                limit: 30,
+                expired: false // true to get already minted
+            },
+        }
+        try {
+            /*
+                @param: RegistrationInfoResponse
+                address: String,
+                terrand_round: u64,
+                expire: u64,
+                is_refunded: bool,
+                amount_sent: Uint128,
+                sity_sent: Option<Uint128>,
+                token_id: Option<String>,
+             */
+            // Query registration
+            const my_registration = await api.contractQuery(publicmintid, query)
+            // Query the NFT info
+            const NFT = await api.contractQuery(launchpad.cw721_contract, {
+                token_info: {
+                    token_id: my_registration.token_id
+                }
+            })
+        }catch (e) {
+            console.log(e)
+        }
+    // }
+    /*
+        We can just display all registration ?? and show it to all so they also see what others are minting
+     */
+    async function get_all_registration_id(){
+        let query = {
+            registrations: {
+                //start_after: registrationId
+                limit: 30,
+                expired: false // true to get already minted
+            },
+        }
+        try {
+            /*
+                @param: RegistrationInfoResponse
+                address: String,
+                terrand_round: u64,
+                expire: u64,
+                is_refunded: bool,
+                amount_sent: Uint128,
+                sity_sent: Option<Uint128>,
+                token_id: Option<String>,
+             */
+            // Query registration
+            const my_registration = await api.contractQuery(publicmintid, query)
+            // Query the NFT info
+            const NFT = await api.contractQuery(launchpad.cw721_contract, {
+                token_info: {
+                    token_id: my_registration.token_id
+                }
+            })
+        }catch (e) {
+            console.log(e)
+        }
+    }
+
+    // get the config candy machine
+    async function get_config_candy_machine(){
+        let query = {
+            config: {},
+        }
+        try {
+            /*
+                @param: ConfigInfoResponse
+                pub creator: String,
+                pub denom: String,
+                pub collector_fee_address: String,
+                pub terrand_address: String,
+                pub cw721_address: String,
+                pub sity_address: String,
+                pub mint_price: Uint128,
+                pub mint_start: u64,
+                pub mint_end: Option<u64>,
+                pub total_nft_collection: u64,
+                pub sity_token_registration_required: bool,
+                pub sity_apply_fee_mint_price: Decimal,
+                pub penality_time_refund: u64,
+                pub collector_high_fee_public_sale: Decimal,
+                pub collector_low_fee_private_sale: Decimal,
+                pub terrand_fee: Decimal,
+             */
+            // Query config
+            const config = await api.contractQuery(publicmintid, query)
+
+        }catch (e) {
+            console.log(e)
+        }
+    }
 
     useEffect(() => {
         //Do stuff on mount
-
+        get_launchpad()
     },[])
 
     return (
