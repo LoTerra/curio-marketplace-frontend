@@ -686,7 +686,7 @@ export default (props) => {
                                     <p className="single-nft-badge">Private</p>
                                 )}
                                 <h3 className="title">{imageNftData.name}</h3>
-                                {isOwner && (
+                                {connectedWallet && connectedWallet.walletAddress == nftData.creator && (
                                     <p style={{ color: '#ff36ff' }}>
                                         <Eye size={24} /> Viewing your own
                                         auction
@@ -695,9 +695,18 @@ export default (props) => {
                                 <p className="description">
                                     {imageNftData.description}
                                 </p>
+                                <div className="col-12">
+                                                <Countdown
+                                                    expiryTimestamp={
+                                                        expiryTimestamp
+                                                    }
+                                                    end={nftData.end_time}
+                                                    start={nftData.start_time}
+                                                />
+                                            </div>
                                 {rightsCheck() && (
                                     <ul
-                                        className="nav nav-pills mb-3"
+                                        className="nav nav-pills nav-fill mb-1"
                                         id="pills-tab"
                                         role="tablist"
                                     >
@@ -747,17 +756,7 @@ export default (props) => {
                                         role="tabpanel"
                                         aria-labelledby="pills-home-tab"
                                     >
-                                        <div className="row">
-                                            <div className="col-12">
-                                                <Countdown
-                                                    expiryTimestamp={
-                                                        expiryTimestamp
-                                                    }
-                                                    end={nftData.end_time}
-                                                    start={nftData.start_time}
-                                                />
-                                            </div>
-
+                                        <div className="row">                        
                                             <AuctionInfo
                                                 nftData={nftData}
                                                 bidInfo={bidInfo}
@@ -770,12 +769,12 @@ export default (props) => {
                                                 rightsCheck={() =>
                                                     rightsCheck()
                                                 }
-                                                isOwner={isOwner}
+                                                isOwner={connectedWallet && connectedWallet.walletAddress == nftData.creator ? true : false}
                                             />
-                                            {isOwner && (
+                                            {connectedWallet && connectedWallet.walletAddress == nftData.creator && (
                                                 <button className="btn btn-primary btn-lg w-100 mt-3" onClick={()=>cancelAuction()}>Cancel Auction fee: {nftData.highest_bid ? Math.floor(parseInt(nftData.highest_bid) * 10 / 100) / 1000000 : 0}</button>
                                             )}
-                                            {!isOwner &&
+                                            {connectedWallet && connectedWallet.walletAddress != nftData.creator &&
                                                 nftData.private_sale &&
                                                 !parseInt(bidder.sity_used) >
                                                     0 && (
@@ -820,15 +819,7 @@ export default (props) => {
                                         aria-labelledby="pills-profile-tab"
                                     >
                                         <div className="row">
-                                            <div className="col-12">
-                                                <Countdown
-                                                    expiryTimestamp={
-                                                        expiryTimestamp
-                                                    }
-                                                    end={nftData.end_time}
-                                                    start={nftData.start_time}
-                                                />
-                                            </div>
+                                            
 
                                             <BiddingInterface
                                                 bidInfo={bidInfo}
@@ -848,7 +839,7 @@ export default (props) => {
                                                     rightsCheck()
                                                 }
                                                 placeBid={() => placeBid()}
-                                                isOwner={isOwner}
+                                                isOwner={connectedWallet && connectedWallet.walletAddress == nftData.creator? true: false}
                                                 buyNow={() => buyNow()}
                                             />
                                         </div>

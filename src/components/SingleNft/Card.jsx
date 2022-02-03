@@ -16,7 +16,7 @@ export default function Card(props) {
             {nft && (
                 <>
                     <div className="nft-preview ratio ratio-1x1">
-                        {nft.image && !nft.animation_url && (
+                        {nft.image_url && !nft.animation_url && (
                             <Head>
                                 <meta charSet="UTF-8" />
                                 <title>{nft.name}</title>
