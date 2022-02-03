@@ -143,7 +143,7 @@ export default function Navbar(props) {
     }
 
     useEffect(() => {
-        const pusher = new Pusher('371306b233edc5c8cfb9', {
+        const pusher = new Pusher(/* testnet: '371306b233edc5c8cfb9'*/ 'cc01f6108151986beed1', {
             cluster: 'eu',
         })
 
