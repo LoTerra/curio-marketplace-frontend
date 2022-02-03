@@ -357,6 +357,13 @@
                 "symbol": "KROM",
                 "contract": "terra15t27qm8pt3cum2yj63quxes22dj7zryncnst35",
                 "icon": "https://www.cottodeste.fr/media/immagini/185_n_COTTODESTE-BLACK-WHITE-black-minimale.jpg"
+            },
+
+            "terra1l0l94sue40fmutzga4lhszzkyj5pj9e6qjypsh": {
+                "name": "LoT Alpha Card",
+                "symbol": "acLOT",
+                "contract": "terra1l0l94sue40fmutzga4lhszzkyj5pj9e6qjypsh",
+                "icon": "https://www.cottodeste.fr/media/immagini/185_n_COTTODESTE-BLACK-WHITE-black-minimale.jpg"
             }
 
         }
