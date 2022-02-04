@@ -14,6 +14,7 @@ export default (props) => {
 
     const { state, dispatch } = useStore()
     const [launchpad, setLaunchpad] = useState()
+    const [minting,setMinting] = useState(false)
     const [registrationId, setRegistrationId] = useState()
     const [config, setConfig] = useState({
         "admin": "admin",
@@ -342,6 +343,17 @@ export default (props) => {
                 </div>
             </section>
             }
+                <button onClick={() => setMinting(!minting)}>Toggle animation for test</button> 
+                <div className={'minting d-flex' + (minting ? ' show' : '')}>
+                    <div className="align-self-center text-center w-100">
+                    <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+                        <h3 className="mb-0">We are minting now...</h3>
+                        <p className="text-muted">Please wait a few seconds for your nft</p>
+                    </div>
+                </div>
+            
         </>
     )
 }
