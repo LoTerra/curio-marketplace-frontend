@@ -6,7 +6,7 @@ export default function LaunchpadCard(props) {
     const {a} = props;
 
     const formatDate = (date) => {
-        let formatted = new Date(date);
+        let formatted = new Date(date * 1000);
         return formatted.toLocaleString()
     }
 
