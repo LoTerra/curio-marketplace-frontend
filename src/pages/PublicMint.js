@@ -1,39 +1,19 @@
 import React, {useEffect, useMemo, useState} from 'react'
 import { useStore } from '../store'
 import {  
+    Link,
     useParams
   } from "react-router-dom";
 import axios from "axios";
 import {Coin, LCDClient, MsgExecuteContract, WasmAPI} from "@terra-money/terra.js";
 import {useConnectedWallet, useWallet} from "@terra-money/wallet-provider";
 import numeral from "numeral";
+import { ArrowLeft } from 'phosphor-react';
 
 export default (props) => {
 
     const { state, dispatch } = useStore()
-    const [launchpad, SetLaunchpad] = useState(
-        {
-            "launchpad_contract": "",
-            "cw721_contract": "",
-            "title": "Galactic Cookies",
-            "subtitle": "",
-            "description": "Try to eat them all!",
-            "restricted": false,
-            "logo": "",
-            "background_image": "",
-            "creator": {
-                "address": "",
-                "url": "",
-                "twitter": "",
-                "telegram": "",
-                "discord": "",
-                "email": "",
-                "dribble": ""
-            },
-            "opening_time": 1640586391,
-            "closing_time": 1640186391
-        }
-    )
+    const [launchpad, setLaunchpad] = useState()
     const [registrationId, setRegistrationId] = useState()
     const [config, setConfig] = useState({
         "admin": "admin",
@@ -88,7 +68,7 @@ export default (props) => {
 
     async function get_launchpad(){
         let res = await axios.get(`https://privilege.digital/api/get-launchpad?contract=${publicmintid}`);
-        SetLaunchpad(res.data.launchpad[0]);
+        setLaunchpad(res.data.launchpad[0]);
     }
 
     async function register(times){
@@ -264,15 +244,35 @@ export default (props) => {
 
     useEffect(() => {
         //Do stuff on mount
-        //get_launchpad()
+        get_launchpad()
     },[])
 
     return (
         <>
-            <section className="nfts-big d-flex" style={{ minHeight: '100vh' }}>
+            { launchpad &&
+                <section className="nfts-big d-flex" style={{ minHeight: '100vh' }}>
                 <div className="container align-self-center w-100">
                     <div className="row">
                         <div className="col-md-10 mx-auto">
+                        <Link
+                                    to="/launchpad"
+                                    className="btn btn-secondary btn-sm mb-3 px-0 text-center text-md-start"
+                                    style={{
+                                        fontWeight: 300,
+                                        display: 'block',
+                                        opacity: 0.5,
+                                        background: 'transparent',
+                                    }}
+                                >
+                                    <ArrowLeft
+                                        size={16}
+                                        style={{
+                                            position: 'relative',
+                                            top: '-1px',
+                                        }}
+                                    />{' '}
+                                    Back to Launchpad
+                                </Link>
                             <h1>Public mint</h1>
                             <div className="card nft-card">
                                 <div className="card-body">
@@ -296,12 +296,13 @@ export default (props) => {
                                     style={{
                                         marginTop:'-3px'
                                     }}
-                                />{numeral(config.mint_price / 1000000).format("0,0.00")}{config.denom}</h3>
+                                />{numeral(config.mint_price / 1000000).format("0,0.00")} UST</h3>
                                     </div>
                                     </div>
                                 </div>
                             </div>   
-                            <div className="card nft-card">
+                            { launchpad && new Date(launchpad.opening_time) >= Date.now() &&
+                                <div className="card nft-card">
                                 <div className="card-body">
                                     <div className="row">
                                         <div className="col-md-6">
@@ -327,10 +328,19 @@ export default (props) => {
 
                                 </div>
                             </div>
+                            }
+                            { launchpad && new Date(launchpad.opening_time) < Date.now() &&
+                                <div className="card nft-card text-center">
+                                    <div className="card-body">
+                                        <p className="m-0 text-muted">Minting not active yet</p>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
             </section>
+            }
         </>
     )
 }

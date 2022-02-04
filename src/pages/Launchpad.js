@@ -1,13 +1,19 @@
 import { Rocket } from 'phosphor-react'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useStore } from '../store'
 import axios from "axios";
+import Media from '../components/Media';
+import LaunchpadCard from '../components/LaunchpadCard';
 
 export default (props) => {
 
     const { state, dispatch } = useStore()
+    const [launchpads, setLaunchpads] = useState([])
+
     async function get_launchpads(){
         let res = await axios.get(`https://privilege.digital/api/get-launchpads`);
+        setLaunchpads(res.data.launchpads)
+        console.log(res.data.launchpads)
     }
     useEffect(() => {
         //Do stuff on mount
@@ -28,42 +34,40 @@ export default (props) => {
                     <div className="col-12 mt-5">
                         <h4>Active mints</h4>
                         <div className="row">
-                            { [1,2,3,4].map(a => {
+                            { launchpads && launchpads.length > 0 && launchpads.filter(o => new Date(o.opening_time) >= Date.now()).map(a => {
                                 return (
-                                    <div className="col-lg-3">
-                                <div className="card text-white nft-card ratio ratio-1x1">
-                                <div className="card-img-overlay">
-                                    <div className="d-flex h-100 w-100">
-                                        <div className="nft-info align-self-end w-100">
-                                            <h5 className="card-title m-0">Project title</h5>
+                                    <LaunchpadCard a={a}/>
+                                )
+                            })
+                            }
+                            { launchpads && launchpads.filter(o => new Date(o.opening_time) >= Date.now()).length == 0 &&
+                                <div className="col-12">
+                                    <div className="card nft-card text-center">
+                                        <div className="card-body">
+                                            <p className="text-muted m-0">No public mints yet</p>
                                         </div>
                                     </div>
                                 </div>
-                                </div>
-                            </div>
-                                )
-                            })
                             }
                         </div>
                     </div>
                     <div className="col-12 mt-4">
                         <h4>Upcoming projects</h4>
                         <div className="row">
-                            { [1,2,3,4].map(a => {
+                        { launchpads && launchpads.length > 0 && launchpads.filter(o => new Date(o.opening_time) < Date.now()).map(a => {
                                 return (
-                                    <div className="col-lg-3">
-                                <div className="card text-white nft-card ratio ratio-1x1">
-                                <div className="card-img-overlay">
-                                    <div className="d-flex h-100 w-100">
-                                        <div className="nft-info align-self-end w-100">
-                                            <h5 className="card-title m-0">Project title</h5>
+                                  <LaunchpadCard a={a}/>
+                                )
+                            })
+                            }
+                            { launchpads && launchpads.filter(o => new Date(o.opening_time) < Date.now()).length == 0 &&
+                                <div className="col-12">
+                                    <div className="card nft-card text-center">
+                                        <div className="card-body">
+                                            <p className="text-muted m-0">No upcoming projects yet</p>
                                         </div>
                                     </div>
                                 </div>
-                                </div>
-                            </div>
-                                )
-                            })
                             }
                         </div>
                     </div>
