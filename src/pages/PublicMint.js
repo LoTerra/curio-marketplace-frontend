@@ -278,8 +278,7 @@ export default (props) => {
                                 <div className="card-body">
                                     <div className="row">
                                     <div className="col-md-4">
-                                        <img src="https://images.pexels.com/photos/2156881/pexels-photo-2156881.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" className="img-fluid object-fit"/>
-                                      
+                                        <img src={launchpad.background_image} className="img-fluid object-fit"/>                                      
                                     </div>
                                     <div className="col-md-8">
                                         <h2>{launchpad.title}</h2>
