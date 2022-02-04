@@ -9,12 +9,14 @@ import {Coin, LCDClient, MsgExecuteContract, WasmAPI} from "@terra-money/terra.j
 import {useConnectedWallet, useWallet} from "@terra-money/wallet-provider";
 import numeral from "numeral";
 import { ArrowLeft } from 'phosphor-react';
+import Animation from '../components/Minting/Animation';
 
 export default (props) => {
 
     const { state, dispatch } = useStore()
     const [launchpad, setLaunchpad] = useState()
     const [minting,setMinting] = useState(false)
+    const [nftAmount, setNftAmount] = useState(1)
     const [registrationId, setRegistrationId] = useState()
     const [config, setConfig] = useState({
         "admin": "admin",
@@ -78,7 +80,8 @@ export default (props) => {
 
     async function register(times){
         if (connectedWallet && connectedWallet.walletAddress) {
-
+            //Start minting animation
+            setMinting(true)
             try {
                 let msgs = [];
                 // Allows multiple registration max 100 per transactions
@@ -107,13 +110,16 @@ export default (props) => {
                 })
                 // Get the current registration id
                 setRegistrationId(state_candy_machine.counter_registration)
-
+                //End minting animation
+                setMinting(false)
                 /*
                     TODO: Display a message we are minting your NFT blablabla...
                     After 30 seconds to 1 mint Display the image of the NFT minted
                  */
             }catch (e) {
                 console.log(e)
+                //End minting animation
+                setMinting(false)
             }
         }
     }
@@ -315,9 +321,8 @@ export default (props) => {
                                             <div className="progress mb-3">
                                             <div className="progress-bar" role="progressbar" style={{width:'55%'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
-                                        <input className="form-control"/>
-                              <button className="btn btn-primary w-100 mt-3" style={{background:'#ff36ff',color:'#fff'}}>Mint</button>
-                     
+                                        <input className="form-control" value={nftAmount} onChange={(e) => setNftAmount(e.target.value)} type="number" min="1" step="1"/>
+                                        <button className="btn btn-primary w-100 mt-3" onClick={() => register(nftAmount)} style={{background:'#ff36ff',color:'#fff'}}>Mint</button>                     
                                         </div>                                        
                                     </div>
 
@@ -343,16 +348,8 @@ export default (props) => {
                 </div>
             </section>
             }
-                <button onClick={() => setMinting(!minting)}>Toggle animation for test</button> 
-                <div className={'minting d-flex' + (minting ? ' show' : '')}>
-                    <div className="align-self-center text-center w-100">
-                    <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
-                        <h3 className="mb-0">We are minting now...</h3>
-                        <p className="text-muted">Please wait a few seconds for your nft</p>
-                    </div>
-                </div>
+                {/* <button onClick={() => setMinting(!minting)}>Toggle animation for test</button>  */}
+                <Animation minting={minting} />
             
         </>
     )
