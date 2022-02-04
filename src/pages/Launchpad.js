@@ -34,17 +34,17 @@ export default (props) => {
                     <div className="col-12 mt-5">
                         <h4>Active mints</h4>
                         <div className="row">
-                            { launchpads && launchpads.length > 0 && launchpads.filter(o => new Date(o.opening_time * 1000) >= Date.now() && new Date(o.closing_time * 1000) <= Date.now()).map(a => {
+                            { launchpads && launchpads.length > 0 && launchpads.filter(o => o.opening_time < Math.floor(Date.now() / 1000) && o.closing_time > Math.floor(Date.now() / 1000)).map(a => {
                                 return (
                                     <LaunchpadCard a={a}/>
                                 )
                             })
                             }
-                            { launchpads && launchpads.filter(o => new Date(o.opening_time * 1000) >= Date.now() && new Date(o.closing_time * 1000) <= Date.now()).length == 0 &&
+                            { launchpads && launchpads.filter(o => o.opening_time > Math.floor(Date.now() / 1000) || o.closing_time < Math.floor(Date.now() / 1000)).length == 0 &&
                                 <div className="col-12">
                                     <div className="card nft-card text-center">
                                         <div className="card-body">
-                                            <p className="text-muted m-0">No public mints yet</p>
+                                            <p className="text-muted m-0">No mint yet</p>
                                         </div>
                                     </div>
                                 </div>
@@ -54,13 +54,13 @@ export default (props) => {
                     <div className="col-12 mt-4">
                         <h4>Upcoming projects</h4>
                         <div className="row">
-                        { launchpads && launchpads.length > 0 && launchpads.filter(o => new Date(o.opening_time * 1000) < Date.now()).map(a => {
+                        { launchpads && launchpads.length > 0 && launchpads.filter(o => o.opening_time > Math.floor(Date.now() / 1000)).map(a => {
                                 return (
                                   <LaunchpadCard a={a}/>
                                 )
                             })
                             }
-                            { launchpads && launchpads.filter(o => new Date(o.opening_time * 1000) < Date.now()).length == 0 &&
+                            { launchpads && launchpads.filter(o => o.opening_time < Math.floor(Date.now() / 1000)).length == 0 &&
                                 <div className="col-12">
                                     <div className="card nft-card text-center">
                                         <div className="card-body">
@@ -74,13 +74,13 @@ export default (props) => {
                     <div className="col-12 mt-4">
                         <h4>Past launches</h4>
                         <div className="row">
-                        { launchpads && launchpads.length > 0 && launchpads.filter(o => new Date(o.closing_time * 1000) < Date.now()).map(a => {
+                        { launchpads && launchpads.length > 0 && launchpads.filter(o => o.closing_time  < Math.floor(Date.now() / 1000)).map(a => {
                                 return (
                                   <LaunchpadCard a={a}/>
                                 )
                             })
                             }
-                            { launchpads && launchpads.filter(o => new Date(o.closing_time * 1000) < Date.now()).length == 0 &&
+                            { launchpads && launchpads.filter(o => o.closing_time  < Math.floor(Date.now() / 1000) ).length == 0 &&
                                 <div className="col-12">
                                     <div className="card nft-card text-center">
                                         <div className="card-body">
