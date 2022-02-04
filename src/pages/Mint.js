@@ -304,11 +304,11 @@ export default (props) => {
                                     </div>
                                 </div>
                             </div>   
-                            { launchpad && new Date(launchpad.opening_time) >= Date.now() &&
+                            { launchpad && launchpad.opening_time < Math.floor(Date.now() / 1000) && launchpad.closing_time > Math.floor(Date.now() / 1000) &&
                                 <div className="card nft-card">
                                 <div className="card-body">
                                     <div className="row">
-                                        <div className="col-md-6">
+                                        <div className="col-md-12">
                                             <h3 className="mb-1 fw-bold">Mint</h3>
                                             <p className="mb-0 text-muted">You have minted ({user.counter_registration}/{config.total_nft_collection})</p>
                                             <div className="progress mb-3">
@@ -317,25 +317,23 @@ export default (props) => {
                                         <input className="form-control"/>
                               <button className="btn btn-primary w-100 mt-3" style={{background:'#ff36ff',color:'#fff'}}>Mint</button>
                      
-                                        </div>
-                                        <div className="col-md-6">
-                                            <h3 className="mb-1 fw-bold">Claim</h3>
-                                            <p className="mb-0 text-muted">You have claimed (1/3)</p>
-                                            <div className="progress mb-3">
-                                            <div className="progress-bar" role="progressbar" style={{width:'25%'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                            <input className="form-control"/>
-                                            <button className="btn btn-primary w-100 mt-3">Claim</button>
-                                        </div>
+                                        </div>                                        
                                     </div>
 
                                 </div>
                             </div>
                             }
-                            { launchpad && new Date(launchpad.opening_time) < Date.now() &&
+                            { launchpad && Math.floor(Date.now() / 1000) < launchpad.opening_time &&
                                 <div className="card nft-card text-center">
                                     <div className="card-body">
                                         <p className="m-0 text-muted">Minting not active yet</p>
+                                    </div>
+                                </div>
+                            }
+                            { launchpad && Math.floor(Date.now() / 1000) > launchpad.closing_time &&
+                                <div className="card nft-card text-center">
+                                    <div className="card-body">
+                                        <p className="m-0 text-muted">Minting done</p>
                                     </div>
                                 </div>
                             }
