@@ -6,34 +6,60 @@ import {
 import axios from "axios";
 import {Coin, LCDClient, MsgExecuteContract, WasmAPI} from "@terra-money/terra.js";
 import {useConnectedWallet, useWallet} from "@terra-money/wallet-provider";
+import numeral from "numeral";
 
 export default (props) => {
 
     const { state, dispatch } = useStore()
     const [launchpad, SetLaunchpad] = useState(
         {
-            launchpad_contract: "",
-            cw721_contract: "",
-            title: "",
-            subtitle: "",
-            description: "",
-            restricted: false,
-            logo: "",
-            background_image: "",
-            creator: {
-                address: "",
-                url: "",
-                twitter: "",
-                telegram: "",
-                discord: "",
-                email: "",
-                dribble: ""
+            "launchpad_contract": "",
+            "cw721_contract": "",
+            "title": "Galactic Cookies",
+            "subtitle": "",
+            "description": "Try to eat them all!",
+            "restricted": false,
+            "logo": "",
+            "background_image": "",
+            "creator": {
+                "address": "",
+                "url": "",
+                "twitter": "",
+                "telegram": "",
+                "discord": "",
+                "email": "",
+                "dribble": ""
             },
-            opening_time: Date.now(),
-            closing_time: Date.now()
+            "opening_time": 1640586391,
+            "closing_time": 1640186391
         }
     )
-    const [registrationId, SetRegistrationId] = useState()
+    const [registrationId, setRegistrationId] = useState()
+    const [config, setConfig] = useState({
+        "admin": "admin",
+        "creator": "creator",
+        "collector_fee_address": "collector_fee_address",
+        "terrand_contract": "terrand_contract",
+        "cw721_address": "cw721_address",
+        "sity_address": "sity_address",
+        "denom": "uusd",
+        "mint_price": "100000000",
+        "mint_start": 1643294735,
+        "mint_end": null,
+        "total_nft_collection": 1000,
+        "sity_token_registration_required": false,
+        "sity_apply_fee_mint_price": "0.02",
+        "penality_time_refund": 600,
+        "collector_high_fee_public_sale": "0.05",
+        "collector_low_fee_private_sale": "0.015",
+        "terrand_fee": "0.005"
+    })
+    const [_state, setState] = useState({
+        "counter_minted": 3,
+        "counter_registration": 3,
+        "highest_token_id": 1000,
+        "total_terrand_worker_fees": "1500000"
+    });
 
     let wallet = ''
     let connectedWallet = ''
@@ -51,30 +77,42 @@ export default (props) => {
             chainID: connectedWallet.network.chainID,
         })
     }, [connectedWallet])
-    const api = new WasmAPI(lcd.apiRequester)
+    let api;
+    if (lcd){
+        api = new WasmAPI(lcd.apiRequester)
+    }
+
 
     // Public mint id is the contract address of the candy machine
     let {publicmintid} = useParams()
 
     async function get_launchpad(){
         let res = await axios.get(`https://privilege.digital/api/get-launchpad?contract=${publicmintid}`);
-        SetLaunchpad(res.data);
+        SetLaunchpad(res.data.launchpad[0]);
     }
 
-    async function register(){
+    async function register(times){
         if (connectedWallet && connectedWallet.walletAddress) {
 
             try {
-                let msg = new MsgExecuteContract(
-                    connectedWallet.walletAddress,
-                    publicmintid,
-                    {
-                        register: {},
-                    },
-                );
+                let msgs = [];
+                // Allows multiple registration max 100 per transactions
+                if (times >= 100){
+                    return
+                }
+                for (let x = 0; x < times; x++){
+                    let msg = new MsgExecuteContract(
+                        connectedWallet.walletAddress,
+                        publicmintid,
+                        {
+                            register: {},
+                        },
+                    );
+                    msgs.push(msg)
+                }
 
                 const result = await connectedWallet.post({
-                    msgs: [msg],
+                    msgs: msgs,
                     feeDenoms: ['uusd'],
                     gasPrices: new Coin("uusd", "0.15")
                 })
@@ -83,7 +121,7 @@ export default (props) => {
                     state:{}
                 })
                 // Get the current registration id
-                SetRegistrationId(state_candy_machine.counter_registration)
+                setRegistrationId(state_candy_machine.counter_registration)
 
                 /*
                     TODO: Display a message we are minting your NFT blablabla...
@@ -155,7 +193,7 @@ export default (props) => {
         }catch (e) {
             console.log(e)
         }
-    // }
+    }
     /*
         We can just display all registration ?? and show it to all so they also see what others are minting
      */
@@ -218,7 +256,7 @@ export default (props) => {
              */
             // Query config
             const config = await api.contractQuery(publicmintid, query)
-
+            setConfig(config)
         }catch (e) {
             console.log(e)
         }
@@ -226,7 +264,7 @@ export default (props) => {
 
     useEffect(() => {
         //Do stuff on mount
-        get_launchpad()
+        //get_launchpad()
     },[])
 
     return (
@@ -244,9 +282,9 @@ export default (props) => {
                                       
                                     </div>
                                     <div className="col-md-8">
-                                        <h2>Project title</h2>
-                                        <p className="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tincidunt porta feugiat. Vestibulum suscipit sollicitudin odio, vitae interdum massa placerat vitae. Etiam leo nibh, hendrerit tempor orci non, auctor feugiat tellus. </p>
-                                        <h4>Globally minted <small>(300/400)</small></h4>
+                                        <h2>{launchpad.title}</h2>
+                                        <p className="text-muted">{launchpad.description} </p>
+                                        <h4>Globally minted <small>({_state.counter_minted}/{config.total_nft_collection})</small></h4>
                                         <div className="progress">
                                             <div className="progress-bar" role="progressbar" style={{width:'75%'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
@@ -258,7 +296,7 @@ export default (props) => {
                                     style={{
                                         marginTop:'-3px'
                                     }}
-                                />140 UST</h3>
+                                />{numeral(config.mint_price / 1000000).format("0,0.00")}{config.denom}</h3>
                                     </div>
                                     </div>
                                 </div>
