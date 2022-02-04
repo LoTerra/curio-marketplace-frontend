@@ -93,7 +93,7 @@ function App() {
                             <Route exact path="/nfts/:nftid" component={SingleNft} />                               
                             <Route exact path="/collection/:collectioncontract" component={SingleCollection} />
                             <Route exact path="/creator/:selleraddress" component={SellerNfts} />
-                            <Route exact path="/public-mint/:publicmintid" component={Mint} />
+                            <Route exact path="/mint/:publicmintid" component={Mint} />
                             <Route exact path="/launchpad" component={Launchpad} />                            
                             <Route exact path="/create">
                                 <Create/>

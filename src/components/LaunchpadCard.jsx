@@ -12,7 +12,7 @@ export default function LaunchpadCard(props) {
 
   return (
     <div className="col-lg-3">
-    <a href={'/public-mint/'+a.launchpad_contract} className="card text-white nft-card ratio ratio-1x1">
+    <a href={'/mint/'+a.launchpad_contract} className="card text-white nft-card ratio ratio-1x1">
     <Media data={{image_url:a.background_image}} />
     <div className="card-img-overlay">
         <div className="d-flex h-100 w-100">

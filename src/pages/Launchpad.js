@@ -54,7 +54,7 @@ export default (props) => {
                     <div className="col-12 mt-4">
                         <h4>Upcoming projects</h4>
                         <div className="row">
-                        { launchpads && launchpads.length > 0 && launchpads.filter(o => new Date(o.opening_time * 1000) < Date.now()).map(a => {
+                        { launchpads && launchpads.length > 0 && launchpads.filter(o => new Date(o.opening_time * 1000) > Date.now()).map(a => {
                                 return (
                                   <LaunchpadCard a={a}/>
                                 )
