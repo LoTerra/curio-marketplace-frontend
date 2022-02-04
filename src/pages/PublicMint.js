@@ -40,6 +40,10 @@ export default (props) => {
         "highest_token_id": 1000,
         "total_terrand_worker_fees": "1500000"
     });
+    const [user, setUser] = useState({
+        sity_sent: "50",
+        counter_registration: 5,
+    });
 
     let wallet = ''
     let connectedWallet = ''
@@ -306,7 +310,7 @@ export default (props) => {
                                     <div className="row">
                                         <div className="col-md-6">
                                             <h3 className="mb-1 fw-bold">Mint</h3>
-                                            <p className="mb-0 text-muted">You have minted (1/3)</p>
+                                            <p className="mb-0 text-muted">You have minted ({user.counter_registration}/{config.total_nft_collection})</p>
                                             <div className="progress mb-3">
                                             <div className="progress-bar" role="progressbar" style={{width:'55%'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
