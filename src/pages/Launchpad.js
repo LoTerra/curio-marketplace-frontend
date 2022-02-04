@@ -29,7 +29,7 @@ export default (props) => {
                         <Rocket size={'45'} className="d-block mx-auto"/>
                         <h1>Launchpad</h1>
                         <p className="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tellus turpis, pellentesque eget nunc non, vestibulum malesuada odio. Aenean mattis sodales commodo. Vestibulum malesuada egestas bibendum. </p>
-                        <button className="btn btn-primary btn-lg">Join launchpad</button>
+                        <a target="_blank" href="https://forms.gle/8oNPQXvynbZwHcsx9" className="btn btn-primary btn-lg">Join launchpad</a>
                     </div>                   
                     <div className="col-12 mt-5">
                         <h4>Active mints</h4>
