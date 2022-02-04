@@ -16,6 +16,7 @@ import {
     Check,
     UserCircle,
     List,
+    Rocket,
     CirclesThreePlus,
     PlusCircle,
     Warning,
@@ -239,6 +240,7 @@ export default function Navbar(props) {
                         </div>
                     </li> */}
                             {connected && (
+                                <>
                                 <li className="nav-item">
                                     {/* <a
                                         className="btn btn-outline-primary ms-md-3"
@@ -250,6 +252,18 @@ export default function Navbar(props) {
                                     </Link>
                                     {/* </a> */}
                                 </li>
+                                <li className="nav-item">
+                                {/* <a
+                                    className="btn btn-outline-primary ms-md-3"
+                                    href="/create"
+                                > */}
+                                <Link to="/launchpad" className="btn btn-outline-primary ms-md-3">
+                                    <Rocket size={16} weight="bold" />{' '}
+                                    Launchpad
+                                </Link>
+                                {/* </a> */}
+                            </li>
+                                </>
                             )}
                         </ul>
                         {/* <ul className="navbar-nav ms-auto">
