@@ -224,8 +224,8 @@ export default function Navbar(props) {
                         id="collectionSearchContainer"
                     >
                     <div className="navbar-nav nav-selector me-auto">
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collectionSearchContainer" aria-controls="collectionSearchContainer" aria-expanded="false" aria-label="Toggle navigation">
-                    <X size={24}  color={'#fff'} weight="bold"/>
+                    <button className="navbar-toggler w-100 text-center" type="button" data-bs-toggle="collapse" data-bs-target="#collectionSearchContainer" aria-controls="collectionSearchContainer" aria-expanded="false" aria-label="Toggle navigation">
+                    <X size={21}  color={'#fff'} weight="bold"/>
                     </button>
                         <CollectionSearch />
                     </div>
@@ -235,8 +235,8 @@ export default function Navbar(props) {
                         className="collapse navbar-collapse"
                         id="navbarSupportedContent"
                     >
-                                          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <X size={24}  color={'#fff'} weight="bold"/>
+                                          <button className="navbar-toggler w-100 text-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <X size={21}  color={'#fff'} weight="bold"/>
                     </button>
                         <ul className="navbar-nav main-nav ms-auto">
                            { !connected && (
