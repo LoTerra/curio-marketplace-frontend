@@ -17,7 +17,7 @@ export default (props) => {
     }
     useEffect(() => {
         //Do stuff on mount
-        //get_launchpads()
+        get_launchpads()
     },[])
 
     return (
