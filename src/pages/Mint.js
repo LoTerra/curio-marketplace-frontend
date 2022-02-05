@@ -1,0 +1,356 @@
+import React, {useEffect, useMemo, useState} from 'react'
+import { useStore } from '../store'
+import {  
+    Link,
+    useParams
+  } from "react-router-dom";
+import axios from "axios";
+import {Coin, LCDClient, MsgExecuteContract, WasmAPI} from "@terra-money/terra.js";
+import {useConnectedWallet, useWallet} from "@terra-money/wallet-provider";
+import numeral from "numeral";
+import { ArrowLeft } from 'phosphor-react';
+import Animation from '../components/Minting/Animation';
+
+export default (props) => {
+
+    const { state, dispatch } = useStore()
+    const [launchpad, setLaunchpad] = useState()
+    const [minting,setMinting] = useState(false)
+    const [nftAmount, setNftAmount] = useState(1)
+    const [registrationId, setRegistrationId] = useState()
+    const [config, setConfig] = useState({
+        "admin": "admin",
+        "creator": "creator",
+        "collector_fee_address": "collector_fee_address",
+        "terrand_contract": "terrand_contract",
+        "cw721_address": "cw721_address",
+        "sity_address": "sity_address",
+        "denom": "uusd",
+        "mint_price": "100000000",
+        "mint_start": 1643294735,
+        "mint_end": null,
+        "total_nft_collection": 1000,
+        "sity_token_registration_required": false,
+        "sity_apply_fee_mint_price": "0.02",
+        "penality_time_refund": 600,
+        "collector_high_fee_public_sale": "0.05",
+        "collector_low_fee_private_sale": "0.015",
+        "terrand_fee": "0.005"
+    })
+    const [_state, setState] = useState({
+        "counter_minted": 3,
+        "counter_registration": 3,
+        "highest_token_id": 1000,
+        "total_terrand_worker_fees": "1500000"
+    });
+    const [user, setUser] = useState({
+        sity_sent: "50",
+        counter_registration: 5,
+    });
+
+    let wallet = ''
+    let connectedWallet = ''
+    if (typeof document !== 'undefined') {
+        wallet = useWallet()
+        connectedWallet = useConnectedWallet()
+    }
+    const lcd = useMemo(() => {
+        if (!connectedWallet) {
+            return null
+        }
+
+        return new LCDClient({
+            URL: connectedWallet.network.lcd,
+            chainID: connectedWallet.network.chainID,
+        })
+    }, [connectedWallet])
+    let api;
+    if (lcd){
+        api = new WasmAPI(lcd.apiRequester)
+    }
+
+
+    // Public mint id is the contract address of the candy machine
+    let {publicmintid} = useParams()
+
+    async function get_launchpad(){
+        let res = await axios.get(`https://privilege.digital/api/get-launchpad?contract=${publicmintid}`);
+        setLaunchpad(res.data.launchpad[0]);
+    }
+
+    async function register(times){
+        if (connectedWallet && connectedWallet.walletAddress) {
+            //Start minting animation
+            setMinting(true)
+            try {
+                let msgs = [];
+                // Allows multiple registration max 100 per transactions
+                if (times >= 100){
+                    return
+                }
+                for (let x = 0; x < times; x++){
+                    let msg = new MsgExecuteContract(
+                        connectedWallet.walletAddress,
+                        publicmintid,
+                        {
+                            register: {},
+                        },
+                    );
+                    msgs.push(msg)
+                }
+
+                const result = await connectedWallet.post({
+                    msgs: msgs,
+                    feeDenoms: ['uusd'],
+                    gasPrices: new Coin("uusd", "0.15")
+                })
+                // Query state contract candy machine
+                const state_candy_machine = await api.contractQuery(publicmintid, {
+                    state:{}
+                })
+                // Get the current registration id
+                setRegistrationId(state_candy_machine.counter_registration)
+                //End minting animation
+                setMinting(false)
+                /*
+                    TODO: Display a message we are minting your NFT blablabla...
+                    After 30 seconds to 1 mint Display the image of the NFT minted
+                 */
+            }catch (e) {
+                console.log(e)
+                //End minting animation
+                setMinting(false)
+            }
+        }
+    }
+
+    async function get_registration_info(){
+        let query = {
+            registration: {
+                registration_id: registrationId
+            },
+        }
+        try {
+            /*
+                @param: RegistrationInfoResponse
+                address: String,
+                terrand_round: u64,
+                expire: u64,
+                is_refunded: bool,
+                amount_sent: Uint128,
+                sity_sent: Option<Uint128>,
+                token_id: Option<String>,
+             */
+            // Query registration
+            const my_registration = await api.contractQuery(publicmintid, query)
+            // Query the NFT info
+            const NFT = await api.contractQuery(launchpad.cw721_contract, {
+                token_info: {
+                    token_id: my_registration.token_id
+                }
+            })
+        }catch (e) {
+            console.log(e)
+        }
+    }
+
+    async function get_all_registration_id(){
+        let query = {
+            registrations: {
+                //start_after: registrationId
+                limit: 30,
+                expired: false // true to get already minted
+            },
+        }
+        try {
+            /*
+                @param: RegistrationInfoResponse
+                address: String,
+                terrand_round: u64,
+                expire: u64,
+                is_refunded: bool,
+                amount_sent: Uint128,
+                sity_sent: Option<Uint128>,
+                token_id: Option<String>,
+             */
+            // Query registration
+            const my_registration = await api.contractQuery(publicmintid, query)
+            // Query the NFT info
+            const NFT = await api.contractQuery(launchpad.cw721_contract, {
+                token_info: {
+                    token_id: my_registration.token_id
+                }
+            })
+        }catch (e) {
+            console.log(e)
+        }
+    }
+    /*
+        We can just display all registration ?? and show it to all so they also see what others are minting
+     */
+    async function get_all_registration_id(){
+        let query = {
+            registrations: {
+                //start_after: registrationId
+                limit: 30,
+                expired: false // true to get already minted
+            },
+        }
+        try {
+            /*
+                @param: RegistrationInfoResponse
+                address: String,
+                terrand_round: u64,
+                expire: u64,
+                is_refunded: bool,
+                amount_sent: Uint128,
+                sity_sent: Option<Uint128>,
+                token_id: Option<String>,
+             */
+            // Query registration
+            const my_registration = await api.contractQuery(publicmintid, query)
+            // Query the NFT info
+            const NFT = await api.contractQuery(launchpad.cw721_contract, {
+                token_info: {
+                    token_id: my_registration.token_id
+                }
+            })
+        }catch (e) {
+            console.log(e)
+        }
+    }
+
+    // get the config candy machine
+    async function get_config_candy_machine(){
+        let query = {
+            config: {},
+        }
+        try {
+            /*
+                @param: ConfigInfoResponse
+                pub creator: String,
+                pub denom: String,
+                pub collector_fee_address: String,
+                pub terrand_address: String,
+                pub cw721_address: String,
+                pub sity_address: String,
+                pub mint_price: Uint128,
+                pub mint_start: u64,
+                pub mint_end: Option<u64>,
+                pub total_nft_collection: u64,
+                pub sity_token_registration_required: bool,
+                pub sity_apply_fee_mint_price: Decimal,
+                pub penality_time_refund: u64,
+                pub collector_high_fee_public_sale: Decimal,
+                pub collector_low_fee_private_sale: Decimal,
+                pub terrand_fee: Decimal,
+             */
+            // Query config
+            const config = await api.contractQuery(publicmintid, query)
+            setConfig(config)
+        }catch (e) {
+            console.log(e)
+        }
+    }
+
+    useEffect(() => {
+        //Do stuff on mount
+        get_launchpad()
+    },[])
+
+    return (
+        <>
+            { launchpad &&
+                <section className="nfts-big d-flex" style={{ minHeight: '100vh' }}>
+                <div className="container align-self-center w-100">
+                    <div className="row">
+                        <div className="col-md-10 mx-auto">
+                        <Link
+                                    to="/launchpad"
+                                    className="btn btn-secondary btn-sm mb-3 px-0 text-center text-md-start"
+                                    style={{
+                                        fontWeight: 300,
+                                        display: 'block',
+                                        opacity: 0.5,
+                                        background: 'transparent',
+                                    }}
+                                >
+                                    <ArrowLeft
+                                        size={16}
+                                        style={{
+                                            position: 'relative',
+                                            top: '-1px',
+                                        }}
+                                    />{' '}
+                                    Back to Launchpad
+                                </Link>
+                            <h1>Public mint</h1>
+                            <div className="card nft-card">
+                                <div className="card-body">
+                                    <div className="row">
+                                    <div className="col-md-4">
+                                        <img src={launchpad.background_image} className="img-fluid object-fit"/>                                      
+                                    </div>
+                                    <div className="col-md-8">
+                                        <h2>{launchpad.title}</h2>
+                                        <p className="text-muted">{launchpad.description} </p>
+                                        <h4>Globally minted <small>({_state.counter_minted}/{config.total_nft_collection})</small></h4>
+                                        <div className="progress">
+                                            <div className="progress-bar" role="progressbar" style={{width:'75%'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <p className="text-muted mt-3 mb-0">Minting cost</p>
+                                        <h3 className="mt-0 fw-bold">     <img
+                                    src="/img/UST.svg"
+                                    width="35px"
+                                    className="img-fluid"
+                                    style={{
+                                        marginTop:'-3px'
+                                    }}
+                                />{numeral(config.mint_price / 1000000).format("0,0.00")} UST</h3>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>   
+                            { launchpad && launchpad.opening_time < Math.floor(Date.now() / 1000) && launchpad.closing_time > Math.floor(Date.now() / 1000) &&
+                                <div className="card nft-card">
+                                <div className="card-body">
+                                    <div className="row">
+                                        <div className="col-md-12">
+                                            <h3 className="mb-1 fw-bold">Mint</h3>
+                                            <p className="mb-0 text-muted">You have minted ({user.counter_registration}/{config.total_nft_collection})</p>
+                                            <div className="progress mb-3">
+                                            <div className="progress-bar" role="progressbar" style={{width:'55%'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <input className="form-control" value={nftAmount} onChange={(e) => setNftAmount(e.target.value)} type="number" min="1" step="1"/>
+                                        <button className="btn btn-primary w-100 mt-3" onClick={() => register(nftAmount)}>Mint</button>                     
+                                        </div>                                        
+                                    </div>
+
+                                </div>
+                            </div>
+                            }
+                            { launchpad && Math.floor(Date.now() / 1000) < launchpad.opening_time &&
+                                <div className="card nft-card text-center">
+                                    <div className="card-body">
+                                        <p className="m-0 text-muted">Minting not active yet</p>
+                                    </div>
+                                </div>
+                            }
+                            { launchpad && Math.floor(Date.now() / 1000) > launchpad.closing_time &&
+                                <div className="card nft-card text-center">
+                                    <div className="card-body">
+                                        <p className="m-0 text-muted">Minting done</p>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+            }
+                {/* <button onClick={() => setMinting(!minting)}>Toggle animation for test</button>  */}
+                <Animation minting={minting} />
+            
+        </>
+    )
+}

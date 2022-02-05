@@ -16,12 +16,16 @@ import {
     Check,
     UserCircle,
     List,
+    Rocket,
     CirclesThreePlus,
     PlusCircle,
     Warning,
+    House,
+    X,
 } from 'phosphor-react'
 import UserModal from './UserModal'
 import LiveFeed from './LiveFeed'
+import CollectionSearch from './CollectionSearch'
 
 export default function Navbar(props) {
     const { state, dispatch } = useStore()
@@ -108,19 +112,39 @@ export default function Navbar(props) {
         setConnected(!connected)
     }
 
+    function returnTogglers(){
+        return(
+            <>
+            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collectionSearchContainer" aria-controls="collectionSearchContainer" aria-expanded="false" aria-label="Toggle navigation">
+            <MagnifyingGlass size={21}  color={'#fff'} weight="bold"  style={{
+                                            display: 'inline-block',
+                                            marginTop: '-3px',
+                                        }}/>
+            </button>
+                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <List size={21}  color={'#fff'} weight="bold"  style={{
+                                            display: 'inline-block',
+                                            marginTop: '-3px',
+                                        }}/>
+            </button>
+            </>
+        )
+    }
+
     function returnBank() {
         return (
             <>
                 <Wallet
-                    size={24}
-                    color="#000"
+                    size={21}
+                    weight={'bold'}
+                    color="#fff"
                     style={{ display: 'inline-block', marginTop: '-3px' }}
                 />{' '}
                 {bank ? (
                     <>
                         <Check
-                            size={16}
-                            color="#000"
+                            size={14}
+                            color="#fff"
                             weight="bold"
                             style={{
                                 display: 'inline-block',
@@ -143,7 +167,7 @@ export default function Navbar(props) {
     }
 
     useEffect(() => {
-        const pusher = new Pusher('cc01f6108151986beed1', {
+        const pusher = new Pusher(/* testnet: '371306b233edc5c8cfb9'*/ 'cc01f6108151986beed1', {
             cluster: 'eu',
         })
 
@@ -195,61 +219,89 @@ export default function Navbar(props) {
                         </Link>
                         <p className="badge">BETA</p>
                     </div>
-
+                    <div
+                        className="collapse navbar-collapse"
+                        id="collectionSearchContainer"
+                    >
+                    <div className="navbar-nav nav-selector me-auto">
+                    <button className="navbar-toggler w-100 text-center" type="button" data-bs-toggle="collapse" data-bs-target="#collectionSearchContainer" aria-controls="collectionSearchContainer" aria-expanded="false" aria-label="Toggle navigation">
+                    <X size={21}  color={'#fff'} weight="bold"/>
+                    </button>
+                        <CollectionSearch />
+                    </div>
+                    </div>
+                
                     <div
                         className="collapse navbar-collapse"
                         id="navbarSupportedContent"
                     >
-                        <ul className="navbar-nav me-auto">
-                            <button
-                                className="navbar-toggler btn btn-secondary mobile-toggle mt-3 mb-2"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target="#navbarSupportedContent"
-                                aria-controls="navbarSupportedContent"
-                                aria-expanded="false"
-                                aria-label="Toggle navigation"
-                            >
-                                Close
-                            </button>
-                            {/* <li className="nav-item">
-                        <div className="dropdown">
-                        <button className="btn btn-secondary dropdown-toggle" id="dropdownMenuButton1" type="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">Categories</button>
-                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <button className="dropdown-item">
-                                Category 1
-                            </button>
-                            <button className="dropdown-item">
-                                Category 2
-                            </button>
-                            <button className="dropdown-item">
-                                Category 3
-                            </button>
-                            <button className="dropdown-item">
-                                Category 4
-                            </button>
-                            <button className="dropdown-item">
-                                Category 5
-                            </button>
-                            <button className="dropdown-item">
-                                Category 6
-                            </button>
-                        </ul>
-                        </div>
-                    </li> */}
+                                          <button className="navbar-toggler w-100 text-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <X size={21}  color={'#fff'} weight="bold"/>
+                    </button>
+                        <ul className="navbar-nav main-nav ms-auto">
+                           { !connected && (
+                            <>
+                           <li className="nav-item">
+                                    {/* <a
+                                        className="btn btn-outline-primary ms-md-3"
+                                        href="/create"
+                                    > */}
+                                    <Link to="/" className="nav-link">
+                                        <House size={16} weight="bold" />{' '}
+                                        Home
+                                    </Link>
+                                    {/* </a> */}
+                                </li>
+                            <li className="nav-item">
+                            {/* <a
+                                className="btn btn-outline-primary ms-md-3"
+                                href="/create"
+                            > */}
+                            <Link to="/launchpad" className="nav-link">
+                                <Rocket size={16} weight="bold" />{' '}
+                                Launchpad
+                            </Link>
+                            {/* </a> */}
+                        </li>
+                            </>
+                           )
+                           }
                             {connected && (
+                                <>
                                 <li className="nav-item">
                                     {/* <a
                                         className="btn btn-outline-primary ms-md-3"
                                         href="/create"
                                     > */}
-                                    <Link to="/create" className="btn btn-outline-primary ms-md-3">
-                                        <PlusCircle size={16} weight="bold" />{' '}
-                                        Auction
+                                    <Link to="/" className="nav-link">
+                                        <House size={16} weight="bold" />{' '}
+                                        Home
                                     </Link>
                                     {/* </a> */}
-                                </li>
+                                </li>                            
+                                <li className="nav-item">
+                                {/* <a
+                                    className="btn btn-outline-primary ms-md-3"
+                                    href="/create"
+                                > */}
+                                <Link to="/launchpad" className="nav-link">
+                                    <Rocket size={16} weight="bold" />{' '}
+                                    Launchpad
+                                </Link>
+                                {/* </a> */}
+                            </li>
+                            <li className="nav-item">
+                                {/* <a
+                                    className="btn btn-outline-primary ms-md-3"
+                                    href="/create"
+                                > */}
+                                <Link to="/create" className="nav-link">
+                                    <PlusCircle size={16} weight="bold" />{' '}
+                                    Create Auction
+                                </Link>
+                                {/* </a> */}
+                            </li>
+                                </>
                             )}
                         </ul>
                         {/* <ul className="navbar-nav ms-auto">
@@ -267,15 +319,15 @@ export default function Navbar(props) {
                         {!connected && (
                             <div className="dropdown">
                                 <button
-                                    className="btn btn-primary nav-item dropdown-toggle px-2"
+                                    className="btn nav-item text-white dropdown-toggle px-2"
                                     type="button"
                                     id="dropdownMenuButton2"
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
                                 >
                                     <Wallet
-                                        size={24}
-                                        color="#000"
+                                        size={21}
+                                        color="#fff"
                                         style={{
                                             display: 'inline-block',
                                             marginTop: '-3px',
@@ -299,25 +351,29 @@ export default function Navbar(props) {
                                         Terra Station (mobile for desktop)
                                     </button>
                                 </ul>
+                                {returnTogglers()}
+                
                             </div>
                         )}
                         {connected && (
                             <>
                                 <button
-                                    className="btn btn-secondary px-2"
+                                    className="btn px-2"
                                     data-bs-toggle="modal"
                                     data-bs-target="#userModal"
                                     onClick={() => setRenderModal(renderModal => !renderModal)}
                                 >
                                     <UserCircle
-                                        size={24}
+                                        size={21}
+                                        color={'#fff'}
+                                        weight={'bold'}
                                         style={{ marginTop: '-3px' }}
                                     />
                                 </button>
 
                                 <div className="dropdown nav-item ms-2">
                                     <button
-                                        className="btn btn-primary dropdown-toggle px-2"
+                                        className="btn dropdown-toggle text-white px-2"
                                         type="button"
                                         id="dropdownMenuButton2"
                                         data-bs-toggle="dropdown"
@@ -341,6 +397,8 @@ export default function Navbar(props) {
                                         </button>
                                     </ul>
                                 </div>
+                          {returnTogglers()}
+                 
                             </>
                         )}
 
