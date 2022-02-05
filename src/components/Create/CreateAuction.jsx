@@ -61,7 +61,8 @@ export default function CreateAuction(props) {
     const talis_ids = [
         1084,
         2317,
-        1099
+        1099,
+        2272
     ]
 
     if (typeof document !== 'undefined') {
