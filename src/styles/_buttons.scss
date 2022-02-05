@@ -1,0 +1,61 @@
+.btn {
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 21px;
+    align-items: center;
+    text-align: center;
+    small {
+        margin-left:4px;
+        font-size: 14px;
+        font-weight: 300;
+    }
+    &.btn-plain {
+        background: #00000082;
+        color: #fff;
+    }
+    &.btn-simple {
+        background: #2c2c2c;
+        color: #aaaaaab5;
+        font-size: 13px;
+    }
+    &.btn-primary {
+        background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0) 100%
+            ),
+            $primary;
+        font-weight: 600;
+        color: #000;
+    }    
+    &.btn-secondary {
+        background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0) 100%
+            ),
+            #1e1e1e;
+        &.active {
+            color: #20ff93;
+            background: #0000008f;
+        }
+    }    
+    &.btn-default {
+        color: #0075ff;
+        box-shadow: inset 0px 0px 0px 2px #0075ff;
+    }
+    &.btn-lg {
+        font-size: 18px;
+        padding: 15px 20px;
+        font-weight: 700;
+        @media (max-width: 620px) {
+            padding: 15px 10px;
+        }
+    }
+}
+
+.navbar-toggler {
+    padding: 0.25rem 0.45rem;
+    
+}

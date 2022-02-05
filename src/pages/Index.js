@@ -166,7 +166,7 @@ export default () => {
                                     <div className="col-xl-8 mx-auto">
                                         <div className="row">
                                             <div className="col-md-12 mb-3">
-                                                <CollectionSearch/>
+                                                {/* <CollectionSearch/> */}
                                             </div>
                                             <div className="col-6 mb-4">
                                                 <button

@@ -441,7 +441,7 @@ export default function BiddingInterface(props) {
                                 }
                             >
                                 <button
-                                    className="btn btn-special btn-lg w-100"
+                                    className="btn btn-outline-primary btn-lg w-100"
                                     disabled={
                                         nftData &&
                                         nftValid(

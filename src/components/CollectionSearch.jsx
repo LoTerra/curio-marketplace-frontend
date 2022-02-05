@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useMemo,Component  } from 'react'
-import Select from 'react-select'
+import Select, { components, DropdownIndicatorProps } from 'react-select';
+
 import axios from 'axios'
 import numeral from 'numeral'
 
 import contractData from '../contracts.json'
+import { FileSearch, MagnifyingGlass } from 'phosphor-react'
 
 
 
@@ -63,8 +65,16 @@ export default function CollectionSearch(props) {
         })();
         },[])
 
-    
-
+        const DropdownIndicator = (
+           props
+          ) => {
+            return (
+              <components.DropdownIndicator {...props}>
+                <MagnifyingGlass size={21}/>
+              </components.DropdownIndicator>
+            );
+          };
+       
 
     return (
     <>
@@ -80,7 +90,9 @@ export default function CollectionSearch(props) {
             return (
               <span dangerouslySetInnerHTML={{ __html: data.label }} />
             );
-          }} defaultValue={''} isSearchable={true} isClearable={true} options={collections.sort((a,b) => { return b.auction_count - a.auction_count;})}  classNamePrefix={'ui-select'}/>       
+          }} defaultValue={''}     components={{ DropdownIndicator }}
+
+                isSearchable={true} isClearable={true} options={collections.sort((a,b) => { return b.auction_count - a.auction_count;})}  classNamePrefix={'ui-select'}/>       
     }     
     </>        
     )

@@ -11,6 +11,7 @@ $theme-colors: (
     secondary: $secondary,
 );
 
+
 $input-placeholder-color: rgba(255, 255, 255, 0.48);
 
 // (Required) Import Bootstrap
@@ -32,6 +33,7 @@ body {
     color: #fff;
     background-size: cover;
     font-family: 'Poppins', sans-serif;
+    -webkit-tap-highlight-color: transparent;
     .page-content {
         position: relative;
         min-height: 100%;
@@ -100,6 +102,17 @@ label {
             font-size: 11px;
             padding: 2px 4px;
             border-radius: 2px;
+            @media(max-width:660px){
+                width: auto;
+                background: #20ff93;
+                color: #000;
+                position: absolute;
+                right: 15px;
+                bottom: 17px;
+                font-size: 9px;
+                padding: 2px 4px;
+                border-radius: 2px;
+            }
         }
         a {
             font-weight: bold;
@@ -120,7 +133,8 @@ label {
             }
             @media (max-width: 660px) {
                 img {
-                    max-width: 165px;
+                    max-width: 140px;
+                    margin-top: -8px;
                 }
             }
             @media (max-width: 370px) {
@@ -225,81 +239,8 @@ label {
     }
 }
 
-.btn {
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 21px;
-    align-items: center;
-    text-align: center;
-    border: 0;
-    small {
-        margin-left:4px;
-        font-size: 14px;
-        font-weight: 300;
-    }
-    &.btn-plain {
-        background: #00000082;
-        color: #fff;
-    }
-    &.btn-simple {
-        background: #2c2c2c;
-        color: #aaaaaab5;
-        font-size: 13px;
-    }
-    &.btn-primary {
-        background: linear-gradient(
-                90deg,
-                rgba(255, 255, 255, 0.2) 0%,
-                rgba(255, 255, 255, 0) 100%
-            ),
-            $primary;
-        font-weight: 600;
-        color: #000;
-    }
-    &.btn-special {
-        background: linear-gradient(
-                90deg,
-                rgba(255, 255, 255, 0.2) 0%,
-                rgba(255, 255, 255, 0) 100%
-            ),
-            $special;
-        font-weight: 600;
-        color: #ffffff;
-    }
-    &.btn-secondary {
-        background: linear-gradient(
-                90deg,
-                rgba(255, 255, 255, 0.2) 0%,
-                rgba(255, 255, 255, 0) 100%
-            ),
-            #1e1e1e;
-        &.active {
-            color: #20ff93;
-            background: #0000008f;
-        }
-    }
-    &.btn-outline-primary {
-        color: $special;
-        box-shadow: inset 0px 0px 0px 2px $special;
-        &:hover {
-            background: $special;
-            color: #000;
-        }
-    }
-    &.btn-default {
-        color: #0075ff;
-        box-shadow: inset 0px 0px 0px 2px #0075ff;
-    }
-    &.btn-lg {
-        font-size: 18px;
-        padding: 15px 20px;
-        font-weight: 700;
-        @media (max-width: 620px) {
-            padding: 15px 10px;
-        }
-    }
-}
+@import 'buttons';
+@import 'main-nav';
 
 .dropdown-menu {
     background: #000000c9;
@@ -1204,14 +1145,14 @@ label {
     }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 990px) {
     .navbar {
         .navbar-collapse {
             background: #000000c4;
             position: fixed;
             right: -100%;
             width: 330px;
-            top: 0;
+            top: 39.5px;
             height: 100%;
             bottom: 0;
             transition: all 200ms linear;
@@ -1227,9 +1168,11 @@ label {
             }
             @media (max-width: 768px) {
                 top: 69px;
+                height: 100%;
                 bottom: 0;
             }
             &.show {
+                top: 39.5px;
                 right: 0;
                 bottom: 0;
                 height: 100%;
@@ -1240,10 +1183,10 @@ label {
                 right: -100%;
                 width: 330px;
                 height: 100%;
-                top: 0;
+                top: 39.5px;
                 bottom: 0;
                 @media (max-width: 768px) {
-                    top: 0;
+                    top: 39.5px;
                     bottom: 0;
                     z-index: 999;
                     height: 100%;

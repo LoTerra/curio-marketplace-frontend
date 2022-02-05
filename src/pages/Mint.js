@@ -322,7 +322,7 @@ export default (props) => {
                                             <div className="progress-bar" role="progressbar" style={{width:'55%'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                         <input className="form-control" value={nftAmount} onChange={(e) => setNftAmount(e.target.value)} type="number" min="1" step="1"/>
-                                        <button className="btn btn-primary w-100 mt-3" onClick={() => register(nftAmount)} style={{background:'#ff36ff',color:'#fff'}}>Mint</button>                     
+                                        <button className="btn btn-primary w-100 mt-3" onClick={() => register(nftAmount)}>Mint</button>                     
                                         </div>                                        
                                     </div>
 
