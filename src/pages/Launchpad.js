@@ -17,7 +17,7 @@ export default (props) => {
     }
     useEffect(() => {
         //Do stuff on mount
-        get_launchpads()
+        //get_launchpads()
     },[])
 
     return (
@@ -28,7 +28,8 @@ export default (props) => {
                     <div className="col-lg-8 mx-auto text-center py-4">
                         <Rocket size={'45'} className="d-block mx-auto"/>
                         <h1>Launchpad</h1>
-                        <p className="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tellus turpis, pellentesque eget nunc non, vestibulum malesuada odio. Aenean mattis sodales commodo. Vestibulum malesuada egestas bibendum. </p>
+                        <p className="text-muted">Apply now to Curio launchpad!
+                            Why use Curio for launching your NFT collection? We offer a fully decentralized experience, uploading to ipfs and minting on Blockchain your collection will be available for a first launch on our candy machine 🍭 ! What are you waiting for?! Apply now and allow random minting for a fair distribution of your NFT collection.  </p>
                         <a target="_blank" href="https://forms.gle/8oNPQXvynbZwHcsx9" className="btn btn-primary btn-lg">Join launchpad</a>
                     </div>                   
                     <div className="col-12 mt-5">
