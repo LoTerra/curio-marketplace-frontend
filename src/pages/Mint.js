@@ -88,6 +88,10 @@ export default (props) => {
                 if (times >= 100){
                     return
                 }
+                let denom_to_key = config.denom;
+                let coins = {};
+                coins[denom_to_key] = config.mint_price;
+
                 for (let x = 0; x < times; x++){
                     let msg = new MsgExecuteContract(
                         connectedWallet.walletAddress,
@@ -95,6 +99,7 @@ export default (props) => {
                         {
                             register: {},
                         },
+                        coins
                     );
                     msgs.push(msg)
                 }

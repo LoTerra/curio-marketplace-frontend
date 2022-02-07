@@ -14,7 +14,7 @@ if (typeof document !== 'undefined') {
 import { StoreProvider } from './store'
 import './styles/app.scss'
 import Navbar from './components/Navbar'
-import SingleNft from './pages/Nfts/SingleNft'
+import SingleNft from './pages/Token/SingleNft'
 import Create from './pages/Create'
 import MainLoader from './components/Loaders/MainLoader'
 import Footer from './components/Footer'
@@ -26,7 +26,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Launchpad from './pages/Launchpad';
 
 //Dont prerender routes starting with (because of dynamic data)
-addPrefetchExcludes(['nfts'])
+addPrefetchExcludes(['token'])
 
 function App() {
     return (
@@ -90,7 +90,7 @@ function App() {
                         <Switch>  
                      
                             <Route exact path="/" component={Index} />
-                            <Route exact path="/nfts/:nftid" component={SingleNft} />                               
+                            <Route exact path="/token/:nftid" component={SingleNft} />
                             <Route exact path="/collection/:collectioncontract" component={SingleCollection} />
                             <Route exact path="/creator/:selleraddress" component={SellerNfts} />
                             <Route exact path="/mint/:publicmintid" component={Mint} />
