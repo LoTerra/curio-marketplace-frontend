@@ -85,7 +85,7 @@ export default (props) => {
             try {
                 let msgs = [];
                 // Allows multiple registration max 100 per transactions
-                if (times >= 100){
+                if (times > 100){
                     return
                 }
                 let denom_to_key = config.denom;
