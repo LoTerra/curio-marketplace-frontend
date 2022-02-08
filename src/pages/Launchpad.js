@@ -33,11 +33,11 @@ export default (props) => {
                         <a target="_blank" href="https://forms.gle/8oNPQXvynbZwHcsx9" className="btn btn-primary btn-lg">Join launchpad</a>
                     </div>                   
                     <div className="col-12 mt-5">
-                        <h4>Active mints</h4>
+                        <h4 className={'fw-bold mb-2'}>Active mints</h4>
                         <div className="row">
                             { launchpads && launchpads.length > 0 && launchpads.filter(o => o.opening_time < Math.floor(Date.now() / 1000) && o.closing_time > Math.floor(Date.now() / 1000)).map(a => {
                                 return (
-                                    <LaunchpadCard a={a}/>
+                                    <LaunchpadCard a={a} link={true}/>
                                 )
                             })
                             }
@@ -53,11 +53,11 @@ export default (props) => {
                         </div>
                     </div>
                     <div className="col-12 mt-4">
-                        <h4>Upcoming projects</h4>
+                        <h4 className={'fw-bold mb-2'}>Upcoming projects</h4>
                         <div className="row">
                         { launchpads && launchpads.length > 0 && launchpads.filter(o => o.opening_time > Math.floor(Date.now() / 1000)).map(a => {
                                 return (
-                                  <LaunchpadCard a={a}/>
+                                  <LaunchpadCard a={a} link={false}/>
                                 )
                             })
                             }
@@ -73,11 +73,11 @@ export default (props) => {
                         </div>
                     </div>
                     <div className="col-12 mt-4">
-                        <h4>Past launches</h4>
+                        <h4 className={'fw-bold mb-2'}>Past launches</h4>
                         <div className="row">
                         { launchpads && launchpads.length > 0 && launchpads.filter(o => o.closing_time && o.closing_time  < Math.floor(Date.now() / 1000)).map(a => {
                                 return (
-                                  <LaunchpadCard a={a}/>
+                                  <LaunchpadCard a={a} link={true}/>
                                 )
                             })
                             }
