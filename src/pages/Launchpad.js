@@ -75,7 +75,7 @@ export default (props) => {
                     <div className="col-12 mt-4">
                         <h4>Past launches</h4>
                         <div className="row">
-                        { launchpads && launchpads.length > 0 && launchpads.filter(o => o.closing_time  < Math.floor(Date.now() / 1000)).map(a => {
+                        { launchpads && launchpads.length > 0 && launchpads.filter(o => o.closing_time && o.closing_time  < Math.floor(Date.now() / 1000)).map(a => {
                                 return (
                                   <LaunchpadCard a={a}/>
                                 )
