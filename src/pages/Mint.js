@@ -45,7 +45,7 @@ export default (props) => {
     });
     const [user, setUser] = useState({
         sity_sent: "50",
-        counter_registration: 5,
+        counter_registration: 0,
     });
 
     let wallet = ''
@@ -85,9 +85,13 @@ export default (props) => {
             try {
                 let msgs = [];
                 // Allows multiple registration max 100 per transactions
-                if (times >= 100){
+                if (times > 100){
                     return
                 }
+                let denom_to_key = config.denom;
+                let coins = {};
+                coins[denom_to_key] = config.mint_price;
+
                 for (let x = 0; x < times; x++){
                     let msg = new MsgExecuteContract(
                         connectedWallet.walletAddress,
@@ -95,6 +99,7 @@ export default (props) => {
                         {
                             register: {},
                         },
+                        coins
                     );
                     msgs.push(msg)
                 }
@@ -252,11 +257,49 @@ export default (props) => {
             console.log(e)
         }
     }
+    // get the config candy machine
+    async function get_state_candy_machine(){
+        let query = {
+            state: {},
+        }
+        try {
+
+            // Query config
+            const state = await api.contractQuery(publicmintid, query)
+            setState(state)
+        }catch (e) {
+            console.log(e)
+        }
+    }
+    // get user info candy machine
+    async function get_user_candy_machine(){
+        if (connectedWallet && connectedWallet.walletAddress) {
+            let query = {
+                user: {
+                    address: connectedWallet.walletAddress
+                },
+            }
+            try {
+                // Query user
+                const user = await api.contractQuery(publicmintid, query)
+                setUser(user)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    }
+
 
     useEffect(() => {
         //Do stuff on mount
         get_launchpad()
-    },[])
+        if (lcd){
+            get_config_candy_machine()
+            get_state_candy_machine()
+        }
+
+
+    },[_state, config])
 
     return (
         <>

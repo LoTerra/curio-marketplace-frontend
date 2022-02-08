@@ -45,7 +45,7 @@ export default function LiveFeed(props) {
                             <p className="title">{obj.title}</p>
                             <p className="price">{numeral(obj.highest_bid / 1000000).format('0,0.00')} UST</p>                        
                         </div>    
-                        <Link to={`/nfts/${ obj.auction_id }`} className="btn btn-secondary btn-sm w-100">                                 
+                        <Link to={`/token/${ obj.auction_id }`} className="btn btn-secondary btn-sm w-100">
                        View Auction</Link>              
                     </li>)
                 })}

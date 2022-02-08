@@ -19,10 +19,6 @@ export default {
             template: 'src/pages/Create',
         },
         {
-            path: '/nfts',
-            template: 'src/pages/Nfts/Index',
-        },
-        {
             path: '/collections',
             template: 'src/pages/Collections',
         },
