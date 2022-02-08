@@ -45,7 +45,7 @@ export default (props) => {
     });
     const [user, setUser] = useState({
         sity_sent: "50",
-        counter_registration: 5,
+        counter_registration: 0,
     });
 
     let wallet = ''
@@ -257,11 +257,49 @@ export default (props) => {
             console.log(e)
         }
     }
+    // get the config candy machine
+    async function get_state_candy_machine(){
+        let query = {
+            state: {},
+        }
+        try {
+
+            // Query config
+            const state = await api.contractQuery(publicmintid, query)
+            setState(state)
+        }catch (e) {
+            console.log(e)
+        }
+    }
+    // get user info candy machine
+    async function get_user_candy_machine(){
+        if (connectedWallet && connectedWallet.walletAddress) {
+            let query = {
+                user: {
+                    address: connectedWallet.walletAddress
+                },
+            }
+            try {
+                // Query user
+                const user = await api.contractQuery(publicmintid, query)
+                setUser(user)
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    }
+
 
     useEffect(() => {
         //Do stuff on mount
         get_launchpad()
-    },[])
+        if (lcd){
+            get_config_candy_machine()
+            get_state_candy_machine()
+        }
+
+
+    },[_state, config])
 
     return (
         <>
