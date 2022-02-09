@@ -109,7 +109,7 @@ export default function CollectionHeading(props) {
         <>
             <Head>
                 <meta charSet="UTF-8" />
-                <title>{contract.mainnet[0][contractAddress]}</title>
+                <title>{contract.mainnet[0][contractAddress].name}</title>
                 <meta property="og:title" content={contract.mainnet[0][contractAddress].name} />
                 <meta property="og:description" content="Hey! Take a look at this NFT collection on Curio!" />
                 <meta
