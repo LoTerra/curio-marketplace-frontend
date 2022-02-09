@@ -45,7 +45,7 @@ export default (props) => {
                 <meta charSet="UTF-8" />
                 <title>{contract.mainnet[0][collectioncontract]}</title>
                 <meta property="og:title" content={contract.mainnet[0][collectioncontract].name} />
-                <meta property="og:description" content="Take a look at Curio NFT collection!" />
+                <meta property="og:description" content="Hey! Take a look at this NFT collection on Curio!" />
                 <meta
                     property="og:image"
                     content={contract.mainnet[0][collectioncontract].icon}
