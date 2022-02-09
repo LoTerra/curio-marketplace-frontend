@@ -8,12 +8,15 @@ import {
     Link,
     useParams
   } from "react-router-dom";
+import { useStore } from '../../store';
 
 export default (props) => {
-
+    const {state,dispatch} = useStore()
     const [collectionItems, setCollectionItems] = useState([]);
     const [loading, setLoading] = useState(true)
     let { collectioncontract } = useParams();
+    let api_url = state.network == 'mainnet' ? state.liveApi : state.testnetApi
+
     useEffect( ()=> {
         (async () => {
    
@@ -21,7 +24,7 @@ export default (props) => {
         setLoading(true)
         var config = {
             method: 'get',
-            url: 'https://privilege.digital/api/get-items',
+            url: api_url+'/get-items',
             params: {
                 nftContract: collectioncontract,
                 inAuction: Date.now()

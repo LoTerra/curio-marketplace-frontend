@@ -71,10 +71,11 @@ export default (props) => {
 
 
     // Public mint id is the contract address of the candy machine
+    let api_url = state.network == 'mainnet' ? state.liveApi : state.testnetApi
     let {publicmintid} = useParams()
 
     async function get_launchpad(){
-        let res = await axios.get(`https://privilege.digital/api/get-launchpad?contract=${publicmintid}`);
+        let res = await axios.get(api_url+`/get-launchpad?contract=${publicmintid}`);
         setLaunchpad(res.data.launchpad[0]);
     }
 

@@ -75,12 +75,13 @@ export default (props) => {
         wallet = useWallet()
         connectedWallet = useConnectedWallet()
     }
+    let api_url = state.network == 'mainnet' ? state.liveApi : state.testnetApi
 
     const api = new WasmAPI(state.lcd.apiRequester)
 
     const reloadData = useCallback(async () => {
         try {
-            const bids = await api.contractQuery(state.privAuctionContract, {
+            const bids = await api.contractQuery(state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract, {
                 history_bids: {
                     auction_id: testAuctionID,
                 },
@@ -88,7 +89,7 @@ export default (props) => {
             sortBids(bids.bids)
 
             const nftConfigInfo = await api.contractQuery(
-                state.privAuctionContract,
+                state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,
                 {
                     auction: {
                         auction_id: testAuctionID,
@@ -100,7 +101,7 @@ export default (props) => {
 
             if (connectedWallet && connectedWallet.walletAddress) {
                 const bidderData = await api.contractQuery(
-                    state.privAuctionContract,
+                    state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,
                     {
                         bidder: {
                             auction_id: testAuctionID,
@@ -131,7 +132,7 @@ export default (props) => {
         try {
             setLoading(true)
             const nftConfigInfo = await api.contractQuery(
-                state.privAuctionContract,
+                state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,
                 {
                     auction: {
                         auction_id: testAuctionID,
@@ -148,7 +149,7 @@ export default (props) => {
 
             var config = {
                 method: 'get',
-                url: 'https://privilege.digital/api/get-items',
+                url: api_url+'/get-items',
                 params: {
                     auctionId: testAuctionID,
                 },
@@ -193,7 +194,7 @@ export default (props) => {
 
             var config_recent = {
                 method: 'get',
-                url: 'https://privilege.digital/api/get-items',
+                url: api_url+'/get-items',
                 params: {
                     limit: 5,
                 },
@@ -211,7 +212,7 @@ export default (props) => {
             //Final check for bids
             if (nftConfigInfo.total_bids > 0) {
                 const bids = await api.contractQuery(
-                    state.privAuctionContract,
+                    state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,
                     {
                         history_bids: {
                             auction_id: testAuctionID,
@@ -257,10 +258,10 @@ export default (props) => {
             }
             let msg = new MsgExecuteContract(
                 connectedWallet.walletAddress,
-                String(state.privTokenCw20Contract),
+                String(state.network == 'mainnet' ? state.privTokenCw20Contract : state.testnetPrivTokenCw20Contract),
                 {
                     send: {
-                        contract: state.privAuctionContract,
+                        contract: state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,
                         amount: String(price),
                         msg: Buffer.from(JSON.stringify(priv_msg)).toString(
                             'base64',
@@ -296,7 +297,7 @@ export default (props) => {
 
             let msg = new MsgExecuteContract(
                 connectedWallet.walletAddress,
-                state.privAuctionContract,
+                state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,
                 {
                     instant_buy: {
                         auction_id: testAuctionID,
@@ -400,7 +401,7 @@ export default (props) => {
         try {
             let msg = new MsgExecuteContract(
                 connectedWallet.walletAddress,
-                state.privAuctionContract,
+                state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,
                 {
                     place_bid: { auction_id: testAuctionID },
                 },
@@ -430,7 +431,7 @@ export default (props) => {
         try {
             let msg = new MsgExecuteContract(
                 connectedWallet.walletAddress,
-                state.privAuctionContract,
+                state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,
                 {
                     retract_bids: { auction_id: testAuctionID },
                 },
@@ -567,14 +568,14 @@ export default (props) => {
             if (nftData.highest_bid){
               msg = new MsgExecuteContract(
                 connectedWallet.walletAddress,
-                state.privAuctionContract,
+                state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,
                 cancel_msg,
                 {"uusd": Math.floor(parseInt(nftData.highest_bid) * 10 / 100)}
                )
             }else {
               msg = new MsgExecuteContract(
                 connectedWallet.walletAddress,
-                state.privAuctionContract,
+                state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,
                 cancel_msg
                )
             }
@@ -614,7 +615,7 @@ export default (props) => {
             }
             ;(async () => {
                 const bidderData = await api.contractQuery(
-                    state.privAuctionContract,
+                    state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,
                     {
                         bidder: {
                             auction_id: testAuctionID,

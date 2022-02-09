@@ -87,8 +87,7 @@ function App() {
                         <React.Suspense fallback={<MainLoader />}>
                         <ScrollToTop />
 
-                        <Switch>  
-                     
+                        <Switch>                       
                             <Route exact path="/" component={Index} />
                             <Route exact path="/token/:nftid" component={SingleNft} />
                             <Route exact path="/collection/:collectioncontract" component={SingleCollection} />

@@ -5,10 +5,13 @@ import axios from 'axios'
 import numeral from 'numeral'
 import contract from "../../contracts.json";
 import {Head} from "react-static";
+import { useStore } from '../../store'
 
 export default function CollectionHeading(props) {
     const { contractAddress } = props
     const [auctionStats, setAuctionStats] = useState()
+ const {state,dispatch} = useStore()
+ let api_url = state.network == 'mainnet' ? state.liveApi : state.testnetApi
 
     const verifyAddress = (address) => {
         let contracts_json = JSON.parse(JSON.stringify(contractData))
@@ -83,7 +86,7 @@ export default function CollectionHeading(props) {
     useEffect(()=>{
         (async () => {
         console.log('select loaded')
-        const stats = await axios.get('https://privilege.digital/api/get-info-collections');
+        const stats = await axios.get(api_url+'/get-info-collections');
         console.log(stats.data.infoCollections)
 
         const obj_stats = (address) => stats.data.infoCollections.find((a) => {

@@ -681,7 +681,7 @@ export default function CreateAuction(props) {
                 String(contract.address),
                 {
                     send_nft: {
-                        contract: state.privAuctionContract,
+                        contract: state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,
                         token_id: tokenId,
                         msg: Buffer.from(JSON.stringify(auction_msg)).toString(
                             'base64',

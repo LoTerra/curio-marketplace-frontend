@@ -9,9 +9,10 @@ export default (props) => {
 
     const { state, dispatch } = useStore()
     const [launchpads, setLaunchpads] = useState([])
+    let api_url = state.network == 'mainnet' ? state.liveApi : state.testnetApi
 
     async function get_launchpads(){
-        let res = await axios.get(`https://privilege.digital/api/get-launchpads`);
+        let res = await axios.get(api_url+`/get-launchpads`);
         setLaunchpads(res.data.launchpads)
         console.log(res.data.launchpads)
     }

@@ -6,6 +6,7 @@ import numeral from 'numeral'
 
 import contractData from '../contracts.json'
 import { FileSearch, MagnifyingGlass } from 'phosphor-react'
+import { useStore } from '../store';
 
 
 
@@ -14,14 +15,16 @@ export default function CollectionSearch(props) {
     const [collections,setCollections] = useState([])
     const [collectionStats,setCollectionStats] = useState([])
     const [loading,setLoading] = useState(true)
-      
+    const{state,dispatch} = useStore()
+    let api_url = state.network == 'mainnet' ? state.liveApi : state.testnetApi
+
     const contracts_json = JSON.parse(JSON.stringify(contractData))
     const data = JSON.parse(JSON.stringify(contracts_json["mainnet"]))
    
         useEffect(()=>{
            // console.log('select loaded')
            (async () => {
-            const stats = await axios.get('https://privilege.digital/api/get-info-collections');
+            const stats = await axios.get(api_url+'/get-info-collections');
             setCollectionStats(collectionStats => (
                 [...collectionStats,stats.data.infoCollections]
             ))

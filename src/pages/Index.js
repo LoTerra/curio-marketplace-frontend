@@ -34,13 +34,14 @@ export default () => {
     const [auctions, setAuction] = useState([])
     const [nfts, setNfts] = useState([])
     const [loading, setLoading] = useState(true)
+    let api_url = state.network == 'mainnet' ? state.liveApi : state.testnetApi
 
     const exploreDiv = useRef(null)
 
     async function getHomePageData() {
         try {
             const result = await axios.get(
-                'https://privilege.digital/api/get-items',
+                api_url+'/get-items',
             )
             // console.log(result.data)
             setNfts(result.data.filterItems)
@@ -89,7 +90,7 @@ export default () => {
     const fetchNftData = useCallback(async () => {
         try {
             const contractStateInfo = await api.contractQuery(
-                state.privAuctionContract,
+                state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,                
                 {
                     state: {},
                 },
@@ -100,7 +101,7 @@ export default () => {
 
             /// Min is 10 result max is 30
             const firstThirstyAuctionsInfo = await api.contractQuery(
-                state.privAuctionContract,
+                state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,       
                 {
                     all_auctions: {
                         // start_after: 0, // For pagination you can set the id you want here and receive next 30 auctions

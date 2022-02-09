@@ -12,14 +12,15 @@ export default function UserModal(props) {
     const [userAuctions, setUserAuctions] = useState([]);
     const { state, dispatch } = useStore()
 
+    let api_url = state.network == 'mainnet' ? state.liveApi : state.testnetApi
 
     const getBidData = async () => {
         let array = []
-        const res_bids = await axios.get('https://privilege.digital/api/get-user?address='+connectedWallet.walletAddress);
+        const res_bids = await axios.get(api_url+'/get-user?address='+connectedWallet.walletAddress);
         //console.log(res_bids.data)
         setUserBids([])
         res_bids.data.user.auction.map( async (id) => {
-        const bid_auction = await axios.get('https://privilege.digital/api/get-items?auctionId='+id);
+        const bid_auction = await axios.get(api_url+'/get-items?auctionId='+id);
         //console.log(bid_auction.data.filterItems[0]) 
         array.push(bid_auction.data.filterItems[0])      
         setUserBids(userBids => (
@@ -34,7 +35,7 @@ export default function UserModal(props) {
     }
 
     const getAuctionData = async () => { 
-        const auction_data = await axios.get('https://privilege.digital/api/get-items?creatorAddress='+connectedWallet.walletAddress);
+        const auction_data = await axios.get(api_url+'/get-items?creatorAddress='+connectedWallet.walletAddress);
         //console.log('auctions',auction_data.data.filterItems)
         setUserAuctions(auction_data.data.filterItems)
     }

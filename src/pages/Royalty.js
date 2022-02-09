@@ -34,7 +34,7 @@ export default () => {
 
             let msg = new MsgExecuteContract(
                 connectedWallet.walletAddress,
-                state.privAuctionContract,
+                state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,
                 exec_msg
             )
 

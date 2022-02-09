@@ -24,7 +24,7 @@ export default function WithdrawNft(props) {
         try {
             let msg = new MsgExecuteContract(
                 connectedWallet.walletAddress,
-                state.privAuctionContract,
+                state.network == 'mainnet' ? state.privAuctionContract : state.testnetPrivAuctionContract,
                 {
                     withdraw_nft: { auction_id: auctionId },
                 },

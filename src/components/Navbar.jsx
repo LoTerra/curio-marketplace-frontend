@@ -29,7 +29,7 @@ import CollectionSearch from './CollectionSearch'
 
 export default function Navbar(props) {
     const { state, dispatch } = useStore()
-    let connectedWallet = ''
+
 
     const [connected, setConnected] = useState(false)
     const [userBids, setUserBids] = useState(false)
@@ -40,16 +40,17 @@ export default function Navbar(props) {
     const [renderModal,setRenderModal] = useState(false)
 
     let wallet = ''
+    let connectedWallet = ''
     if (typeof document !== 'undefined') {
         wallet = useWallet()
-        connectedWallet = useConnectedWallet()
+        connectedWallet = useConnectedWallet()  
     }
  
     const lcd = useMemo(() => {
         if (!connectedWallet) {
             return null
         }
-
+        dispatch({ type: 'setNetwork', message: connectedWallet.network.name })
         return new LCDClient({
             URL: connectedWallet.network.lcd,
             chainID: connectedWallet.network.chainID,
@@ -67,7 +68,7 @@ export default function Navbar(props) {
                 coins = await lcd.bank.balance(connectedWallet.walletAddress)
 
                 privToken = await api.contractQuery(
-                    state.privTokenCw20Contract,
+                    connectedWallet.network.name == 'mainnet' ? state.privTokenCw20Contract : state.testnetPrivTokenCw20Contract,
                     {
                         balance: {
                             address: connectedWallet.walletAddress,
