@@ -368,6 +368,12 @@
                 "contract": "terra15t27qm8pt3cum2yj63quxes22dj7zryncnst35",
                 "icon": "https://www.cottodeste.fr/media/immagini/185_n_COTTODESTE-BLACK-WHITE-black-minimale.jpg"
             },
+            "terra12es7j0klnkuszye7u8ycu0qefd5ycpcs2satmy": {
+                "name": "TerraKongs",
+                "symbol": "TK",
+                "contract": "terra12es7j0klnkuszye7u8ycu0qefd5ycpcs2satmy",
+                "icon": "https://pbs.twimg.com/profile_images/1484457467304153088/McfVlA_F_400x400.jpg"
+            }
         }
     ],
     "testnet": [

@@ -62,7 +62,7 @@ export default function CreateAuction(props) {
         1084,
         2317,
         1099,
-        2272
+        2272,
     ]
 
     if (typeof document !== 'undefined') {
