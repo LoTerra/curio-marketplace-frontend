@@ -3,6 +3,8 @@ import React, { useState, useEffect, useMemo } from 'react'
 import contractData from '../../contracts.json'
 import axios from 'axios'
 import numeral from 'numeral'
+import contract from "../../contracts.json";
+import {Head} from "react-static";
 
 export default function CollectionHeading(props) {
     const { contractAddress } = props
@@ -105,6 +107,25 @@ export default function CollectionHeading(props) {
 
     return (
         <>
+            <Head>
+                <meta charSet="UTF-8" />
+                <title>{contract.mainnet[0][contractAddress]}</title>
+                <meta property="og:title" content={contract.mainnet[0][contractAddress].name} />
+                <meta property="og:description" content="Hey! Take a look at this NFT collection on Curio!" />
+                <meta
+                    property="og:image"
+                    content={contract.mainnet[0][contractAddress].icon}
+                />
+                <meta
+                    property="twitter:title"
+                    content={contract.mainnet[0][contractAddress].name}
+                />
+                <meta
+                    property="twitter:image"
+                    content={contract.mainnet[0][contractAddress].icon}
+                />
+                <meta property="twitter:description" content="Hey! Take a look at this NFT collection on Curio!" />
+            </Head>
             {contractAddress && auctionStats && (
                 <div className="collection-verification">                   
                         {verifyAddress(contractAddress)}               
