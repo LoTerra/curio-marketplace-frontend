@@ -58,6 +58,7 @@ export default (props) => {
                     property="twitter:image"
                     content={contract.mainnet[0][collectioncontract].icon}
                 />
+                <meta property="twitter:description" content="Hey! Take a look at this NFT collection on Curio!" />
             </Head>
             <section className="nfts-big" style={{minHeight:'100vh'}}>                
                 <div className="container-fluid">    
