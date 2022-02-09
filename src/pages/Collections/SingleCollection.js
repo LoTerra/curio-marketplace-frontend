@@ -8,6 +8,8 @@ import {
     Link,
     useParams
   } from "react-router-dom";
+import {Head} from "react-static";
+import contract from '../../contracts.json'
 
 export default (props) => {
 
@@ -38,8 +40,25 @@ export default (props) => {
     },[])
 
     return (
-        <>  
-            
+        <>
+            <Head>
+                <meta charSet="UTF-8" />
+                <title>{contract.mainnet[0][collectioncontract]}</title>
+                <meta property="og:title" content={contract.mainnet[0][collectioncontract].name} />
+                <meta property="og:description" content="Take a look at Curio NFT collection!" />
+                <meta
+                    property="og:image"
+                    content={contract.mainnet[0][collectioncontract].icon}
+                />
+                <meta
+                    property="twitter:title"
+                    content={contract.mainnet[0][collectioncontract].name}
+                />
+                <meta
+                    property="twitter:image"
+                    content={contract.mainnet[0][collectioncontract].icon}
+                />
+            </Head>
             <section className="nfts-big" style={{minHeight:'100vh'}}>                
                 <div className="container-fluid">    
                 <div className={'collection-banner'}>        
