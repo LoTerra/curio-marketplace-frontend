@@ -107,7 +107,7 @@ export default function CollectionHeading(props) {
 
     return (
         <>
-            {contractAddress && auctionStats && (
+            {contractAddress && (
                 <Head>
                     <meta charSet="UTF-8" />
                     <title>{contract.mainnet[0][contractAddress]['name']} | {contract.mainnet[0][contractAddress]["symbol"]}</title>
