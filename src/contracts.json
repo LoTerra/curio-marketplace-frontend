@@ -259,6 +259,16 @@
                     "https://knowhere.art/collection/terra1q7jnhm5ju8zqua47yu3007879jncevt9ev4kk6"
                 ]
             },
+            "terra1l0l94sue40fmutzga4lhszzkyj5pj9e6qjypsh": {
+                "contract": "terra1l0l94sue40fmutzga4lhszzkyj5pj9e6qjypsh",
+                "name": "Legends Of Terra",
+                "symbol": "LOT",
+                "icon": "https://playlot.io/wp-content/uploads/2022/01/LOT-Symbol110.png"
+                "homepage": "https://playlot.io/",
+                "marketplace": [
+                    "https://knowhere.art/collection/terra1l0l94sue40fmutzga4lhszzkyj5pj9e6qjypsh"
+                ]
+            },
             "terra1f89xq3qhu98v4jch4y5xcrkhl9gytrne99x74t": {
                 "contract": "terra1f89xq3qhu98v4jch4y5xcrkhl9gytrne99x74t",
                 "name": "Terrapins on Terra",
