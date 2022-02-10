@@ -17,6 +17,7 @@ export default (props) => {
     const [launchpad, setLaunchpad] = useState()
     const [minting,setMinting] = useState(false)
     const [nftAmount, setNftAmount] = useState(1)
+    const [mintedNfts, setMintedNfts] = useState([])
     const [registrationId, setRegistrationId] = useState()
     const [config, setConfig] = useState({
         "admin": "admin",
@@ -78,6 +79,44 @@ export default (props) => {
         let api_url = state.network == 'mainnet' ? state.liveApi : state.testnetApi
         let res = await axios.get(api_url+`/get-launchpad?contract=${publicmintid}`);
         setLaunchpad(res.data.launchpad[0]);
+        console.log(res.data.launchpad[0].cw721_address)
+        get_minted_nfts(res.data.launchpad[0].cw721_address)
+    }
+
+    async function get_minted_nfts(c){
+        if (connectedWallet && connectedWallet.walletAddress) {
+            try{
+                const max_limit = 30;
+                let query = {
+                    tokens: {
+                        owner: connectedWallet.walletAddress,                       
+                        limit: max_limit,
+                    },
+                }
+                console.log('get get',c);
+                const data = await api.contractQuery(c, query)
+                console.log('mintednfts',data)
+
+                data.tokens.map( async id => {
+                    const singleToken = await api.contractQuery(c, {
+                        nft_info: {
+                            token_id: id,
+                        },
+                    })
+                    console.log(singleToken)
+                    setMintedNfts((mintedNfts) => [
+                        ...mintedNfts,
+                        singleToken,
+                    ])
+                })
+
+                
+              
+                // setMintedNfts()
+            } catch(e){
+                console.log(e)
+            }
+        }
     }
 
     async function register(times){
@@ -291,17 +330,26 @@ export default (props) => {
         }
     }
 
+    function getPercentage(a,b){
+        const one = b / 100;
+        const percentage = a / one;
+        return percentage+'%'
+    }
+
 
     useEffect(() => {
         //Do stuff on mount
         get_launchpad()
+       
         if (lcd){
+        
             get_config_candy_machine()
             get_state_candy_machine()
-        }
-
+        }        
 
     },[])
+
+  
 
     return (
         <>
@@ -334,14 +382,14 @@ export default (props) => {
                                 <div className="card-body">
                                     <div className="row">
                                     <div className="col-md-4">
-                                        <img src={launchpad.background_image} className="img-fluid object-fit"/>                                      
+                                        <img src={launchpad.background_image} className="img-fluid object-fit rounded"/>                                      
                                     </div>
                                     <div className="col-md-8">
                                         <h2>{launchpad.title}</h2>
                                         <p className="text-muted">{launchpad.description} </p>
                                         <h4>Globally minted <small>({_state.counter_minted}/{config.total_nft_collection})</small></h4>
                                         <div className="progress">
-                                            <div className="progress-bar" role="progressbar" style={{width:'75%'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div className="progress-bar" role="progressbar" style={{width:getPercentage(_state.counter_minted,config.total_nft_collection), backgroundColor: '#ff36ff59'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                         <p className="text-muted mt-3 mb-0">Minting cost</p>
                                         <h3 className="mt-0 fw-bold">     <img
@@ -357,22 +405,41 @@ export default (props) => {
                                 </div>
                             </div>   
                             { launchpad && launchpad.opening_time < Math.floor(Date.now() / 1000) && launchpad.closing_time > Math.floor(Date.now() / 1000) &&
-                                <div className="card nft-card">
-                                <div className="card-body">
+                                
                                     <div className="row">
-                                        <div className="col-md-12">
+                                        <div className="col-md-6">
+                                        <div className="card nft-card">
+                                <div className="card-body">
                                             <h3 className="mb-1 fw-bold">Mint</h3>
-                                            <p className="mb-0 text-muted">You have minted ({user.counter_registration}/{config.total_nft_collection})</p>
+                                            <p className="mb-0 text-muted">You have minted ({mintedNfts.length}/{config.total_nft_collection})</p>
                                             <div className="progress mb-3">
-                                            <div className="progress-bar" role="progressbar" style={{width:'55%'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
+                                            <div className="progress-bar" role="progressbar" style={{width:getPercentage(mintedNfts.length,config.total_nft_collection),backgroundColor:'#e131e1'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                         
                                         <input className="form-control" value={nftAmount} onChange={(e) => setNftAmount(e.target.value)} type="number" min="1" step="1"/>
-                                        <button className="btn btn-primary w-100 mt-3" onClick={() => register(nftAmount)}>Mint</button>                     
-                                        </div>                                        
+                                        <button className="btn btn-primary w-100 mt-3" onClick={() => register(nftAmount)}>Mint</button>         
+                                        </div>
+                                        </div>            
+                                        </div>  
+                                        <div className="col-md-6">
+                                        <div className="card nft-card">
+                                <div className="card-body">
+                                            <h3>Minted nfts <small className="text-muted">({mintedNfts.length})</small></h3>
+                                            <div className="row">
+                                                { mintedNfts && mintedNfts.length > 0 && mintedNfts.map(obj => {
+                                                    return (
+                                                    <div className="col-4 mb-3">
+                                                        <img src={obj.image} className="img-fluid rounded" />
+                                                    </div>
+                                                    )
+                                                })
+                                                }
+                                            </div>
+                                            </div>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                </div>
-                            </div>
                             }
                             { launchpad && Math.floor(Date.now() / 1000) < launchpad.opening_time &&
                                 <div className="card nft-card text-center">
