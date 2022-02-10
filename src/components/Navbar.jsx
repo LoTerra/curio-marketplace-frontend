@@ -413,6 +413,21 @@ export default function Navbar(props) {
                     <UserModal bank={bank} priv={priv} connectedWallet={connectedWallet} renderModal={renderModal} setRenderModal={() => setRenderModal(renderModal => !renderModal)} />               
             }
             <LiveFeed data={liveFeed}/>
+            { state.network == 'testnet' &&
+            <div style={{
+                position:'fixed',
+                bottom:0,
+                left:0,
+                right:0,
+                background:'#fc9803',
+                textTransform:'uppercase',
+                textAlign:'center',
+                fontWeight:'bold',
+                color:'#fff',
+            }}>
+                Testnet active
+                </div>
+            }
         </>
     )
 }

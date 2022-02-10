@@ -51,7 +51,7 @@ const initialState = {
     lcd: lcd,
     network: 'mainnet',
     liveApi: 'https://privilege.digital/api',
-    testnetApi: 'http://testnet.privilege.digital/api',
+    testnetApi: 'https://testnet.privilege.digital/api',
     wallet: {},
     liveFeed: []
 }
