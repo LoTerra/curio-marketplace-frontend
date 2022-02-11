@@ -3,8 +3,6 @@ import NftCard from '../components/NftCard'
 import { useStore } from '../store'
 import axios from 'axios'
 // import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react/swiper-react'
-import 'swiper/swiper-bundle.css'
 
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import MainLoader from '../components/Loaders/MainLoader'
@@ -18,6 +16,12 @@ import {
     MonitorPlay,
 } from 'phosphor-react'
 import { Navigation, Pagination, Autoplay } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/swiper-bundle.min.css'
+import 'swiper/swiper.min.css'
+import 'swiper/swiper-bundle.css'
+import CollectionSearch from '../components/CollectionSearch'
+import { Link } from 'react-router-dom'
 
 export default () => {
     const [currentSlide, setCurrentSlide] = React.useState(0)
@@ -28,14 +32,14 @@ export default () => {
     const [auctions, setAuction] = useState([])
     const [nfts, setNfts] = useState([])
     const [loading, setLoading] = useState(true)
+    let api_url = state.network == 'mainnet' ? state.liveApi : state.testnetApi
+
     const exploreDiv = useRef(null)
 
     async function getHomePageData() {
         try {
-            const result = await axios.get(
-                'https://privilege.digital/api/get-items',
-            )
-            console.log(result.data)
+            const result = await axios.get(api_url + '/get-items')
+            // console.log(result.data)
             setNfts(result.data.filterItems)
             setLoading(false)
         } catch (error) {
@@ -82,18 +86,22 @@ export default () => {
     const fetchNftData = useCallback(async () => {
         try {
             const contractStateInfo = await api.contractQuery(
-                state.privAuctionContract,
+                state.network == 'mainnet'
+                    ? state.privAuctionContract
+                    : state.testnetPrivAuctionContract,
                 {
                     state: {},
                 },
             )
-            console.log(contractStateInfo)
+            // console.log(contractStateInfo)
 
-            console.log(nfts, 'nfts')
+            // console.log(nfts, 'nfts')
 
             /// Min is 10 result max is 30
             const firstThirstyAuctionsInfo = await api.contractQuery(
-                state.privAuctionContract,
+                state.network == 'mainnet'
+                    ? state.privAuctionContract
+                    : state.testnetPrivAuctionContract,
                 {
                     all_auctions: {
                         // start_after: 0, // For pagination you can set the id you want here and receive next 30 auctions
@@ -101,7 +109,7 @@ export default () => {
                     },
                 },
             )
-            console.log(firstThirstyAuctionsInfo.auctions)
+            //console.log(firstThirstyAuctionsInfo.auctions)
             dispatch({
                 type: 'setAuctions',
                 message: firstThirstyAuctionsInfo.auctions,
@@ -109,10 +117,12 @@ export default () => {
             setAuction(firstThirstyAuctionsInfo.auctions)
         } catch {}
     }, [])
+
     useEffect(() => {
         fetchNftData()
         getHomePageData()
     }, [fetchNftData])
+
     return (
         <>
             <section className="nfts-big">
@@ -131,19 +141,29 @@ export default () => {
                                             your NFT
                                         </h1>
                                         <p className="slogan">
-                                            Find a rare, unusual, or intriguing NFT on Curio decentralized marketplace.
+                                            Find a rare, unusual, or intriguing
+                                            NFT on Curio decentralized
+                                            marketplace.
                                         </p>
-                                        <p className="badge">BETA MODE</p>
+
                                         <p className="powered">
-                                            powered by{' '}
+                                            <span style={{ opacity: 0.5 }}>
+                                                powered by
+                                            </span>{' '}
                                             <img
                                                 src={'img/terralogo.svg'}
-                                                style={{ width: '80px' }}
+                                                style={{
+                                                    width: '80px',
+                                                    opacity: 0.5,
+                                                }}
                                             />
                                         </p>
                                     </div>
                                     <div className="col-xl-8 mx-auto">
                                         <div className="row">
+                                            <div className="col-md-12 mb-3">
+                                                {/* <CollectionSearch/> */}
+                                            </div>
                                             <div className="col-6 mb-4">
                                                 <button
                                                     className="btn btn-primary btn-lg w-100"
@@ -155,12 +175,12 @@ export default () => {
                                                 </button>
                                             </div>
                                             <div className="col-6 mb-4">
-                                                <a
-                                                    href="/create"
+                                                <Link
+                                                    to="/create"
                                                     className="btn btn-lg btn-outline-primary w-100"
                                                 >
                                                     Create auction
-                                                </a>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -270,10 +290,10 @@ export default () => {
                                         disableOnInteraction: false,
                                         pauseOnMouseEnter: true,
                                     }}
-                                    onSlideChange={() =>
-                                        console.log('slide change')
-                                    }
-                                    onSwiper={(swiper) => console.log(swiper)}
+                                    // onSlideChange={() =>
+                                    //     //console.log('slide change')
+                                    // }
+                                    // onSwiper={(swiper) => console.log(swiper)}
                                     breakpoints={{
                                         // when window width is >= 640px
                                         1: {
@@ -308,6 +328,7 @@ export default () => {
                                                     <NftInfoCard
                                                         key={id}
                                                         data={obj}
+                                                        auctions={auctions}
                                                         type={'xs'}
                                                         index={99}
                                                     />
@@ -356,10 +377,10 @@ export default () => {
                                 }}
                                 pagination={{ clickable: true }}
                                 navigation={false}
-                                onSlideChange={() =>
-                                    console.log('slide change')
-                                }
-                                onSwiper={(swiper) => console.log(swiper)}
+                                // onSlideChange={() =>
+                                //     console.log('slide change')
+                                // }
+                                // onSwiper={(swiper) => console.log(swiper)}
                             >
                                 {nfts
                                     .filter((a) => {
@@ -380,6 +401,7 @@ export default () => {
                                                 <NftCard
                                                     key={id}
                                                     data={obj}
+                                                    auctions={auctions}
                                                     type={'xs'}
                                                     index={99}
                                                 />
@@ -427,10 +449,10 @@ export default () => {
                                 }}
                                 pagination={{ clickable: true }}
                                 navigation={false}
-                                onSlideChange={() =>
-                                    console.log('slide change')
-                                }
-                                onSwiper={(swiper) => console.log(swiper)}
+                                // onSlideChange={() =>
+                                //     console.log('slide change')
+                                // }
+                                // onSwiper={(swiper) => console.log(swiper)}
                             >
                                 {nfts
                                     .filter((a) => {
@@ -440,7 +462,7 @@ export default () => {
                                         return false
                                     })
                                     .sort((a, b) => {
-                                        return a.end_time - b.end_time
+                                        return b.end_time - a.end_time
                                     })
                                     .slice(0, 12)
                                     .map((obj, id) => {
@@ -451,6 +473,7 @@ export default () => {
                                                 <NftCard
                                                     key={id}
                                                     data={obj}
+                                                    auctions={auctions}
                                                     type={'xs'}
                                                     index={99}
                                                     isEnded={true}
@@ -602,10 +625,15 @@ export default () => {
                                             })
                                             .map((obj, id) => {
                                                 return (
-                                                    <div className={'col-md-3'}>
+                                                    <div
+                                                        className={
+                                                            'col-md-4 col-lg-3'
+                                                        }
+                                                    >
                                                         <NftCard
                                                             key={id}
                                                             data={obj}
+                                                            auctions={auctions}
                                                             type={'small'}
                                                             index={99}
                                                         />

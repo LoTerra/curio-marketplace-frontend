@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import NftCard from '../../components/NftCard'
 import { useStore } from '../../store'
 import toast, { Toaster } from 'react-hot-toast'
@@ -20,6 +21,8 @@ import {
     Denom,
     CreateTxOptions,
     MsgSend,
+    Coins,
+    Coin,
 } from '@terra-money/terra.js'
 import Countdown from '../../components/SingleNft/Countdown'
 import Card from '../../components/SingleNft/Card'
@@ -32,18 +35,18 @@ import numeral from 'numeral'
 
 export default (props) => {
     const { state, dispatch } = useStore()
-    const [amount, setAmount] = useState()
+    const [amount, setAmount] = useState(0)
     const [expiryTimestamp, setExpiryTimestamp] = useState(1)
     const [nftData, setNftData] = useState(0)
     const [imageNftData, setImageNftData] = useState({
         image: null,
         image_url: null,
         animation_url: null,
-        name:  null,
+        name: null,
         description: null,
         private_sale: null,
-        creator:  null,     
-        attributes:  null
+        creator: null,
+        attributes: null,
     })
     const [recent, setRecent] = useState(0)
     const [isOwner, setIsOwner] = useState(false)
@@ -56,32 +59,41 @@ export default (props) => {
     })
 
     const [loading, setLoading] = useState(true)
-    console.log(props)
-    const testAuctionID = parseInt(props.nftId)
+    // console.log(props)
+    // const testAuctionID = parseInt(props.nftId)
+    let { nftid } = useParams()
+    const testAuctionID = parseInt(nftid)
+    //  console.log(testAuctionID)
 
-    console.log(testAuctionID)
-  
     let wallet = ''
     let connectedWallet = ''
 
     if (typeof document !== 'undefined') {
         wallet = useWallet()
         connectedWallet = useConnectedWallet()
-    }  
+    }
+    let api_url = state.network == 'mainnet' ? state.liveApi : state.testnetApi
 
     const api = new WasmAPI(state.lcd.apiRequester)
 
     const reloadData = useCallback(async () => {
         try {
-            const bids = await api.contractQuery(state.privAuctionContract, {
-                history_bids: {
-                    auction_id: testAuctionID,
+            const bids = await api.contractQuery(
+                state.network == 'mainnet'
+                    ? state.privAuctionContract
+                    : state.testnetPrivAuctionContract,
+                {
+                    history_bids: {
+                        auction_id: testAuctionID,
+                    },
                 },
-            })
+            )
             sortBids(bids.bids)
 
             const nftConfigInfo = await api.contractQuery(
-                state.privAuctionContract,
+                state.network == 'mainnet'
+                    ? state.privAuctionContract
+                    : state.testnetPrivAuctionContract,
                 {
                     auction: {
                         auction_id: testAuctionID,
@@ -93,7 +105,9 @@ export default (props) => {
 
             if (connectedWallet && connectedWallet.walletAddress) {
                 const bidderData = await api.contractQuery(
-                    state.privAuctionContract,
+                    state.network == 'mainnet'
+                        ? state.privAuctionContract
+                        : state.testnetPrivAuctionContract,
                     {
                         bidder: {
                             auction_id: testAuctionID,
@@ -117,13 +131,16 @@ export default (props) => {
         })
 
         setBidInfo(clean)
-        console.log('cleaned', clean)
+        //    console.log('cleaned', clean)
     }
 
     const getNftData = useCallback(async () => {
         try {
+            setLoading(true)
             const nftConfigInfo = await api.contractQuery(
-                state.privAuctionContract,
+                state.network == 'mainnet'
+                    ? state.privAuctionContract
+                    : state.testnetPrivAuctionContract,
                 {
                     auction: {
                         auction_id: testAuctionID,
@@ -131,16 +148,16 @@ export default (props) => {
                 },
             )
 
-            console.log(nftConfigInfo)
+            // console.log(nftConfigInfo)
             setNftData(nftConfigInfo)
 
             setExpiryTimestamp(parseInt(nftConfigInfo.end_time * 1000))
 
-            console.log('timestamp', expiryTimestamp)
+            //   console.log('timestamp', expiryTimestamp)
 
             var config = {
                 method: 'get',
-                url: 'https://privilege.digital/api/get-items',
+                url: api_url + '/get-items',
                 params: {
                     auctionId: testAuctionID,
                 },
@@ -148,40 +165,44 @@ export default (props) => {
 
             await axios(config)
                 .then(function (response) {
-                    console.log('repsonse', response.data)
+                    //     console.log('repsonse', response.data)
                     let image = ''
-                    let attributes = null;
-                    
+                    let attributes = null
+
                     const data = response.data.filterItems[0]
 
-                    if(data.extension){
+                    if (data.extension) {
                         attributes = data.extension.attributes
-                    }     
+                    }
 
-                  
                     setImageNftData((prevValues) => {
-                        return { ...prevValues, 
+                        return {
+                            ...prevValues,
                             image: data.image_url,
                             token_uri: data.token_uri ? data.token_uri : null,
-                            extension:{image:null},
-                            image_url: data.extension && data.extension.image ? data.extension.image : null,
-                            animation_url: data.extension && data.extension.animation_url ? data.extension.animation_url : null,
+                            extension: data.extension,
+                            image_url: data.image_url,
+                            animation_url:
+                                data.extension && data.extension.animation_url
+                                    ? data.extension.animation_url
+                                    : null,
                             name: data.title ? data.title : data.extension.name,
                             description: data.description,
                             private_sale: data.private_sale,
-                            creator: data.creator.address,     
-                            attributes: attributes        }
+                            creator: data.creator.address,
+                            attributes: attributes,
+                        }
                     })
 
-                    console.log('imageNftData',imageNftData)
+                    // console.log('imageNftData', imageNftData)
                 })
                 .catch(function (error) {
-                    console.log(error)
+                    // console.log(error)
                 })
 
             var config_recent = {
                 method: 'get',
-                url: 'https://privilege.digital/api/get-items',
+                url: api_url + '/get-items',
                 params: {
                     limit: 5,
                 },
@@ -189,7 +210,7 @@ export default (props) => {
 
             await axios(config_recent)
                 .then(function (response) {
-                    console.log('repsonse', response.data)
+                    // console.log('repsonse', response.data)
                     setRecent(response.data.filterItems)
                 })
                 .catch(function (error) {
@@ -199,7 +220,9 @@ export default (props) => {
             //Final check for bids
             if (nftConfigInfo.total_bids > 0) {
                 const bids = await api.contractQuery(
-                    state.privAuctionContract,
+                    state.network == 'mainnet'
+                        ? state.privAuctionContract
+                        : state.testnetPrivAuctionContract,
                     {
                         history_bids: {
                             auction_id: testAuctionID,
@@ -207,7 +230,7 @@ export default (props) => {
                     },
                 )
 
-                console.log(bids)
+                // console.log(bids)
                 sortBids(bids.bids)
             }
             setTimeout(() => {
@@ -221,15 +244,15 @@ export default (props) => {
                         ? (nftData.start_price / 1000000) * 1.05
                         : 0,
                 )
-            }, 1000)
+            }, 500)
         } catch (e) {
             console.log(e)
         }
-    }, [])
+    }, [nftid])
 
     useEffect(() => {
         setImageNftData(imageNftData)
-    },[imageNftData])
+    }, [imageNftData])
 
     async function unlockPrivAuction() {
         let price = getRawAmountToUnlock()
@@ -245,10 +268,17 @@ export default (props) => {
             }
             let msg = new MsgExecuteContract(
                 connectedWallet.walletAddress,
-                String(state.privTokenCw20Contract),
+                String(
+                    state.network == 'mainnet'
+                        ? state.privTokenCw20Contract
+                        : state.testnetPrivTokenCw20Contract,
+                ),
                 {
                     send: {
-                        contract: state.privAuctionContract,
+                        contract:
+                            state.network == 'mainnet'
+                                ? state.privAuctionContract
+                                : state.testnetPrivAuctionContract,
                         amount: String(price),
                         msg: Buffer.from(JSON.stringify(priv_msg)).toString(
                             'base64',
@@ -259,7 +289,8 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
-                feeDenoms: "uusd"
+                feeDenoms: 'uusd',
+                gasPrices: new Coin('uusd', '0.15'),
             })
             toast.success('Auction unlocked!')
             setTimeout(() => reloadData(), 1000)
@@ -282,7 +313,9 @@ export default (props) => {
 
             let msg = new MsgExecuteContract(
                 connectedWallet.walletAddress,
-                state.privAuctionContract,
+                state.network == 'mainnet'
+                    ? state.privAuctionContract
+                    : state.testnetPrivAuctionContract,
                 {
                     instant_buy: {
                         auction_id: testAuctionID,
@@ -293,7 +326,8 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
-                feeDenoms: "uusd"
+                feeDenoms: 'uusd',
+                gasPrices: new Coin('uusd', '0.15'),
             })
             toast.success('Instant buy succesful!')
             setTimeout(() => reloadData(), 1000)
@@ -302,15 +336,16 @@ export default (props) => {
         }
     }
 
-    function getAmountToUnlock(){
-        if(nftData.private_sale){
-            if(parseInt(nftData.highest_bid) / 1000000 > 1) {
-                let bid = 1;
-                let highest_bid = parseInt(nftData.highest_bid) / 1000000; 
-                let add_to_bid = parseInt(nftData.highest_bid) / 100 * 2 / 1000000;
-                if(highest_bid > 1){
-                    bid = bid + add_to_bid;
-                } 
+    function getAmountToUnlock() {
+        if (nftData.private_sale) {
+            if (parseInt(nftData.highest_bid) / 1000000 > 1) {
+                let bid = 1
+                let highest_bid = parseInt(nftData.highest_bid) / 1000000
+                let add_to_bid =
+                    ((parseInt(nftData.highest_bid) / 100) * 2) / 1000000
+                if (highest_bid > 1) {
+                    bid = bid + add_to_bid
+                }
                 return numeral(bid).format('0,0.00')
             } else {
                 return 1
@@ -320,16 +355,13 @@ export default (props) => {
         }
     }
 
-    function getRawAmountToUnlock(){
-        if(nftData.private_sale){
-            if(parseInt(nftData.highest_bid) > 0) {
-                let bid = 1000000;
-                let highest_bid = parseInt(nftData.highest_bid); 
-                let add_to_bid = parseInt(nftData.highest_bid) / 100 * 2;
-                if(highest_bid > bid){
-                    bid = bid + add_to_bid;
-                } 
-                return bid; 
+    function getRawAmountToUnlock() {
+        if (nftData.private_sale) {
+            if (parseInt(nftData.highest_bid) > 0) {
+                let bid = 1000000
+                let add_to_bid = (parseInt(nftData.highest_bid) / 100) * 2
+
+                return bid + add_to_bid
             } else {
                 return 1000000
             }
@@ -376,17 +408,19 @@ export default (props) => {
         Here is an example of use for a simple transaction with connect wallet
        */
         if (connectedWallet) {
-            console.log('walletAddress is', connectedWallet.walletAddress)
-            // In this case network should be testnet bombay
-            console.log('network is', connectedWallet.network)
-            console.log('connectType is', connectedWallet.connectType)
+            // console.log('walletAddress is', connectedWallet.walletAddress)
+            // // In this case network should be testnet bombay
+            // console.log('network is', connectedWallet.network)
+            // console.log('connectType is', connectedWallet.connectType)
         }
 
         //Check if bid is highest
         try {
             let msg = new MsgExecuteContract(
                 connectedWallet.walletAddress,
-                state.privAuctionContract,
+                state.network == 'mainnet'
+                    ? state.privAuctionContract
+                    : state.testnetPrivAuctionContract,
                 {
                     place_bid: { auction_id: testAuctionID },
                 },
@@ -395,9 +429,10 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
-                feeDenoms: "uusd"
+                feeDenoms: 'uusd',
+                gasPrices: new Coin('uusd', '0.15'),
             })
-            console.log(result)
+            // console.log(result)
             toast.success('Bid successful')
             //Not needed, we reload on websocket event
             //setTimeout(() => reloadData(),3000)
@@ -407,14 +442,16 @@ export default (props) => {
         }
     }
     async function retractBid() {
-        console.log(amount, 'retract bid')
+        // console.log(amount, 'retract bid')
         if (!connectedWallet) return
 
         //Check if bid is highest
         try {
             let msg = new MsgExecuteContract(
                 connectedWallet.walletAddress,
-                state.privAuctionContract,
+                state.network == 'mainnet'
+                    ? state.privAuctionContract
+                    : state.testnetPrivAuctionContract,
                 {
                     retract_bids: { auction_id: testAuctionID },
                 },
@@ -422,9 +459,10 @@ export default (props) => {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
-                feeDenoms: "uusd"
+                feeDenoms: 'uusd',
+                gasPrices: new Coin('uusd', '0.15'),
             })
-            console.log(result)
+            // console.log(result)
             toast.success('Retract bids success')
             setTimeout(() => reloadData(), 3000)
         } catch (e) {
@@ -502,11 +540,10 @@ export default (props) => {
             return false
         }
         if (
-            (nftData.private_sale > 0 &&
-                nftData.private_sale !== undefined) ||
+            (nftData.private_sale > 0 && nftData.private_sale !== undefined) ||
             null
         ) {
-            if (parseInt(bidder.sity_used) > 0 ) {
+            if (parseInt(bidder.sity_used) > 0) {
                 // console.log('bidder unlocked')
                 return true
             } else {
@@ -535,11 +572,58 @@ export default (props) => {
             return false
         }
     }
+    async function cancelAuction() {
+        try {
+            if (!connectedWallet) {
+                toast.error('Connect your wallet')
+                return
+            }
+            let cancel_msg = {
+                cancel_auction: {
+                    auction_id: testAuctionID,
+                },
+            }
+            let msg
+            if (nftData.highest_bid) {
+                msg = new MsgExecuteContract(
+                    connectedWallet.walletAddress,
+                    state.network == 'mainnet'
+                        ? state.privAuctionContract
+                        : state.testnetPrivAuctionContract,
+                    cancel_msg,
+                    {
+                        uusd: Math.floor(
+                            (parseInt(nftData.highest_bid) * 10) / 100,
+                        ),
+                    },
+                )
+            } else {
+                msg = new MsgExecuteContract(
+                    connectedWallet.walletAddress,
+                    state.network == 'mainnet'
+                        ? state.privAuctionContract
+                        : state.testnetPrivAuctionContract,
+                    cancel_msg,
+                )
+            }
+
+            const result = await connectedWallet.post({
+                msgs: [msg],
+                feeDenoms: 'uusd',
+                gasPrices: new Coin('uusd', '0.15'),
+            })
+            toast.success('Auction unlocked!')
+            setTimeout(() => reloadData(), 1000)
+        } catch (e) {
+            toast.error('Something went wrong, try again')
+            console.log(e)
+        }
+    }
 
     //Componentdidmount equivalent
     useEffect(() => {
         getNftData()
-    }, [])
+    }, [nftid])
 
     //Follow connectedwallet
     useEffect(() => {
@@ -552,9 +636,11 @@ export default (props) => {
             } else {
                 setIsOwner(false)
             }
-            (async () => {
+            ;(async () => {
                 const bidderData = await api.contractQuery(
-                    state.privAuctionContract,
+                    state.network == 'mainnet'
+                        ? state.privAuctionContract
+                        : state.testnetPrivAuctionContract,
                     {
                         bidder: {
                             auction_id: testAuctionID,
@@ -563,7 +649,7 @@ export default (props) => {
                     },
                 )
                 setBidder(bidderData)
-                console.log('bidder', bidder)
+                // console.log('bidder', bidder)
             })()
         } else {
             setIsOwner(false)
@@ -575,34 +661,12 @@ export default (props) => {
         const pusher = new Pusher('371306b233edc5c8cfb9', {
             cluster: 'eu',
         })
-        const channel = pusher.subscribe('auction-channel')
-        channel.bind('bid-event', function (data) {
-            console.log(data)
-            console.log(JSON.parse(data.message)[0].events)
-
-            let tx = JSON.parse(data.message)[0]
-            // console.log(tx)
-            tx.events.map(async (ev) => {
-                console.log(ev)
-
-                if (ev.type == 'wasm') {
-                    console.log(ev.attributes)
-                    if (parseInt(ev.attributes[3].value) == testAuctionID) {
-                        toast.success(
-                            'New bid off +' +
-                                ev.attributes[1].value / 1000000 +
-                                'UST',
-                        )
-                        await reloadData()
-                    }
-                }
-            })
+        const auction_live = pusher.subscribe('auction-channel')
+        auction_live.bind('bid-event', function (data) {
+            reloadData()
         })
-        channel.bind('buy-event', async function (data) {
-            console.log(data)
-            console.log('buy event', data)
-            toast.success('Auction finished!')
-            await reloadData()
+        auction_live.bind('buy-event', function (data) {
+            reloadData()
         })
         return () => {
             pusher.unsubscribe('auction-channel')
@@ -620,15 +684,13 @@ export default (props) => {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-6 nft-left">
-                            <Card                                                                            
-                                nft={imageNftData}                            
-                            />
+                            <Card nft={imageNftData} data={nftData} />
                         </div>
 
                         <div className="col-md-6 nft-right px-xl-5 d-flex">
                             <div className="align-self-center w-100">
-                                <a
-                                    href="/"
+                                <Link
+                                    to="/"
                                     className="btn btn-secondary btn-sm mb-3 px-0 text-center text-md-start"
                                     style={{
                                         fontWeight: 300,
@@ -645,26 +707,32 @@ export default (props) => {
                                         }}
                                     />{' '}
                                     Back to home
-                                </a>
-                                {parseInt(nftData.private_sale) >
-                                    0 && (
-                                    <p className="single-nft-badge">
-                                        Private
-                                    </p>
+                                </Link>
+                                {parseInt(nftData.private_sale) > 0 && (
+                                    <p className="single-nft-badge">Private</p>
                                 )}
                                 <h3 className="title">{imageNftData.name}</h3>
-                                {isOwner && (
-                                    <p style={{ color: '#ff36ff' }}>
-                                        <Eye size={24} /> Viewing your own
-                                        auction
-                                    </p>
-                                )}
+                                {connectedWallet &&
+                                    connectedWallet.walletAddress ==
+                                        nftData.creator && (
+                                        <p style={{ color: '#ff36ff' }}>
+                                            <Eye size={24} /> Viewing your own
+                                            auction
+                                        </p>
+                                    )}
                                 <p className="description">
                                     {imageNftData.description}
                                 </p>
+                                <div className="col-12">
+                                    <Countdown
+                                        expiryTimestamp={expiryTimestamp}
+                                        end={nftData.end_time}
+                                        start={nftData.start_time}
+                                    />
+                                </div>
                                 {rightsCheck() && (
                                     <ul
-                                        className="nav nav-pills mb-3"
+                                        className="nav nav-pills nav-fill mb-1"
                                         id="pills-tab"
                                         role="tablist"
                                     >
@@ -715,16 +783,6 @@ export default (props) => {
                                         aria-labelledby="pills-home-tab"
                                     >
                                         <div className="row">
-                                            <div className="col-12">
-                                                <Countdown
-                                                    expiryTimestamp={
-                                                        expiryTimestamp
-                                                    }
-                                                    end={nftData.end_time}
-                                                    start={nftData.start_time}
-                                                />
-                                            </div>
-
                                             <AuctionInfo
                                                 nftData={nftData}
                                                 bidInfo={bidInfo}
@@ -737,10 +795,41 @@ export default (props) => {
                                                 rightsCheck={() =>
                                                     rightsCheck()
                                                 }
-                                                isOwner={isOwner}
+                                                isOwner={
+                                                    connectedWallet &&
+                                                    connectedWallet.walletAddress ==
+                                                        nftData.creator
+                                                        ? true
+                                                        : false
+                                                }
                                             />
-                                            {!isOwner && nftData.private_sale &&
-                                                !parseInt(bidder.sity_used) > 0 && (
+                                            {connectedWallet &&
+                                                connectedWallet.walletAddress ==
+                                                    nftData.creator && (
+                                                    <button
+                                                        className="btn btn-primary btn-lg w-100 mt-3"
+                                                        onClick={() =>
+                                                            cancelAuction()
+                                                        }
+                                                    >
+                                                        Cancel Auction fee:{' '}
+                                                        {nftData.highest_bid
+                                                            ? Math.floor(
+                                                                  (parseInt(
+                                                                      nftData.highest_bid,
+                                                                  ) *
+                                                                      10) /
+                                                                      100,
+                                                              ) / 1000000
+                                                            : 0}
+                                                    </button>
+                                                )}
+                                            {connectedWallet &&
+                                                connectedWallet.walletAddress !=
+                                                    nftData.creator &&
+                                                nftData.private_sale &&
+                                                !parseInt(bidder.sity_used) >
+                                                    0 && (
                                                     <div className="col-12">
                                                         <button
                                                             className="btn btn-primary btn-lg w-100 mt-3"
@@ -754,7 +843,8 @@ export default (props) => {
                                                                 <strong>
                                                                     Costs:{' '}
                                                                 </strong>
-                                                                {getAmountToUnlock()} SITY
+                                                                {getAmountToUnlock()}{' '}
+                                                                SITY
                                                             </small>
                                                         </button>
                                                     </div>
@@ -781,16 +871,6 @@ export default (props) => {
                                         aria-labelledby="pills-profile-tab"
                                     >
                                         <div className="row">
-                                            <div className="col-12">
-                                                <Countdown
-                                                    expiryTimestamp={
-                                                        expiryTimestamp
-                                                    }
-                                                    end={nftData.end_time}
-                                                    start={nftData.start_time}
-                                                />
-                                            </div>
-
                                             <BiddingInterface
                                                 bidInfo={bidInfo}
                                                 nftData={nftData}
@@ -809,7 +889,13 @@ export default (props) => {
                                                     rightsCheck()
                                                 }
                                                 placeBid={() => placeBid()}
-                                                isOwner={isOwner}
+                                                isOwner={
+                                                    connectedWallet &&
+                                                    connectedWallet.walletAddress ==
+                                                        nftData.creator
+                                                        ? true
+                                                        : false
+                                                }
                                                 buyNow={() => buyNow()}
                                             />
                                         </div>
@@ -829,8 +915,8 @@ export default (props) => {
                     <h3>Category name</h3>                 
                 </div>
             </div>
-           <div class="col-md-12">
-               <div class="row">
+           <div className="col-md-12">
+               <div className="row">
                <Swiper
             modules={[Navigation, Pagination]}
             spaceBetween={25}

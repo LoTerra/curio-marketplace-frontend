@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { useStore } from '../../store'
 import numeral from 'numeral'
 import { Match } from '@reach/router'
+import ContractVerification from '../ContractVerification'
+import { UserCircle } from 'phosphor-react'
+import { Link } from 'react-router-dom'
+
 let bootstrap = {}
 if (typeof document !== 'undefined') {
     bootstrap = require('bootstrap')
@@ -9,7 +13,6 @@ if (typeof document !== 'undefined') {
 
 export default function AuctionInfo(props) {
     const { state, dispatch } = useStore()
-
 
     const {
         nftData,
@@ -28,84 +31,31 @@ export default function AuctionInfo(props) {
         tab.show()
     }
 
-
     //console.log("data-props")
     ///console.log(data)
     return (
         <>
-            <div className="col-12">
-                <div className="nft-stats big w-100 my-2">
-                    <h6>NFT Contract</h6>
-                    <p style={{
-                        fontSize:'14px',
-                        color:'#fff',
-                        opacity:0.6
-                    }}>{nftData.nft_contract}</p>
-                </div>
+            <div className="col-md-12">
                 <div className="nft-stats big w-100 my-2">
                     <h6>Highest bid</h6>
                     <p className="highest_bid mb-0">
                         {numeral(
                             Math.floor(nftData.highest_bid / 1000000),
                         ).format('0,0')}
-                        <span style={{ fontSize: 'small' }}>
+                        <span>
                             {numeral(nftData.highest_bid / 1000000).format(
                                 '.000000',
                             )}
                         </span>{' '}
-                        <span>UST</span>
+                        <small>UST</small>
                     </p>
-                    <small
-                        className="text-muted"
-                        style={{ marginTop: '-8px', display: 'block' }}
-                    >
+                    <small style={{ marginTop: '-4px', display: 'block' }}>
                         Total of <strong>{bidInfo.length} bids</strong>
                     </small>
                 </div>
             </div>
-            {imageNftData.attributes && imageNftData.attributes.length > 0 &&
-            <div clclassNameass="col-12">
-                 <button class="btn w-100 mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
-                 style={{
-                     color:'#20ff93',
-                     border:'1px solid #20ff93'
-                 }}
-                 >
-    View NFT Attributes ({imageNftData.attributes.length})
-  </button>
-  <div class="collapse" id="collapseExample">
 
-                <div className="row">
-                    { imageNftData.attributes.map(obj => {
-                        return (
-                            <div className="col-6 col-lg-4 mb-2">
-                        <div className="attribute-info"
-                        style={{
-                            background:'#0000004f',
-                            padding:'7px'
-                        }}
-                        >
-                        <p className="m-0"
-                        style={{                        
-                                color: '#20ff93',
-                                fontSize: '14px',
-                        }}
-                        >{obj.trait_type}</p>
-                        <p className="m-0"
-                        style={{
-                            fontSize:'14px'
-                        }}
-                        >{obj.value ? obj.value : 'None'}</p>
-                        </div>
-                        </div>
-                        )
-                    })
-                    }
-                    </div>
-            
-                    </div>
-            </div>
-            }
+            <div className="col-12"></div>
 
             <div className="col-6">
                 <div className="nft-stats">
@@ -135,18 +85,32 @@ export default function AuctionInfo(props) {
                     <h6>Charity</h6>
                     <p className="highest_bid">
                         {nftData.charity
-                            ? (parseFloat(nftData.charity.fee_percentage) * 100).toFixed(2) + '%'
+                            ? (
+                                  parseFloat(nftData.charity.fee_percentage) *
+                                  100
+                              ).toFixed(2) + '%'
                             : 'No'}
-                               
                     </p>
                 </div>
             </div>
 
-            {nftData.charity
-                            ? <div class="col-12 pb-2">
-                                    <small className="d-block" style={{fontSize:'12px', opacity:0.6, wordBreak:'break-word', fontWeight:300}}>Charity address: {nftData.charity.address}</small>
-                            </div>
-                            : ''}
+            {nftData.charity ? (
+                <div className="col-12 pb-2">
+                    <small
+                        className="d-block"
+                        style={{
+                            fontSize: '12px',
+                            opacity: 0.6,
+                            wordBreak: 'break-word',
+                            fontWeight: 300,
+                        }}
+                    >
+                        Charity address: {nftData.charity.address}
+                    </small>
+                </div>
+            ) : (
+                ''
+            )}
 
             <div className="col-6">
                 <div className="nft-stats">
@@ -193,6 +157,89 @@ export default function AuctionInfo(props) {
                     </p>
                 </div>
             </div>
+            {imageNftData.attributes && imageNftData.attributes.length > 0 && (
+                <div className="col-12">
+                    <button
+                        className="btn btn-simple w-100 mb-2"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseExample"
+                        aria-expanded="false"
+                        aria-controls="collapseExample"
+                    >
+                        View NFT Attributes ({imageNftData.attributes.length})
+                    </button>
+                    <div className="collapse" id="collapseExample">
+                        <div className="row">
+                            {imageNftData.attributes.map((obj, i) => {
+                                return (
+                                    <div
+                                        className="col-6 col-lg-4 mb-2"
+                                        key={i}
+                                    >
+                                        <div
+                                            className="attribute-info"
+                                            style={{
+                                                background: '#0000004f',
+                                                padding: '7px',
+                                            }}
+                                        >
+                                            <p
+                                                className="m-0"
+                                                style={{
+                                                    color: '#20ff93',
+                                                    fontSize: '14px',
+                                                }}
+                                            >
+                                                {obj.trait_type}
+                                            </p>
+                                            <p
+                                                className="m-0"
+                                                style={{
+                                                    fontSize: '14px',
+                                                }}
+                                            >
+                                                {obj.value ? obj.value : 'None'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                </div>
+            )}
+            <div className="col-md-6">
+                <div className="nft-stats big w-100 my-2 mb-1">
+                    {nftData && (
+                        <ContractVerification
+                            contractAddress={nftData.nft_contract}
+                        />
+                    )}
+                </div>
+            </div>
+            <div className="col-md-6">
+                <div className="nft-stats big w-100 my-2">
+                    {nftData && nftData.creator && (
+                        <>
+                            <p
+                                style={{
+                                    fontSize: '14px',
+                                }}
+                            >
+                                <UserCircle size={16} />
+                                {nftData.creator.substring(0, 15).concat('...')}
+                            </p>
+                            <Link
+                                to={`/creator/${nftData.creator}`}
+                                className="btn btn-simple mt-2 btn-sm"
+                            >
+                                View more
+                            </Link>
+                        </>
+                    )}
+                </div>
+            </div>
 
             {rightsCheck() && !isOwner && (
                 <div
@@ -231,7 +278,7 @@ export default function AuctionInfo(props) {
                 !isOwner && (
                     <div className="col-md-6 mt-3">
                         <button
-                            className="btn btn-special btn-lg w-100"
+                            className="btn btn-outline-primary btn-lg w-100"
                             disabled={
                                 nftData &&
                                 nftValid(

@@ -2,7 +2,7 @@
     "name": "react-static-example-basic",
     "private": true,
     "scripts": {
-        "start": "cross-env NODE_ENV=production react-static start",
+        "start": "cross-env NODE_ENV=production react-static start prettier --write .",
         "dev": "cross-env NODE_ENV=development react-static start",
         "stage": "react-static build --staging",
         "build": "cross-env NODE_ENV=production react-static build",
@@ -34,15 +34,18 @@
         "react-hot-loader": "^4.13.0",
         "react-hot-toast": "^2.1.1",
         "react-responsive-carousel": "^3.2.22",
+        "react-router": "^5.2.1",
+        "react-router-dom": "^5.3.0",
+        "react-select": "^5.2.2",
         "react-static": "^7.5.1",
         "react-static-plugin-reach-router": "^7.5.1",
+        "react-static-plugin-react-router": "^7.6.2",
         "react-static-plugin-sass": "^7.3.0",
         "react-static-plugin-sitemap": "^7.5.1",
         "react-static-plugin-source-filesystem": "^7.5.1",
-        "react-stepzilla": "^7.0.0",
         "react-tilt": "^0.1.4",
         "react-timer-hook": "^3.0.5",
-        "swiper": "^7.3.0",
+        "swiper": "^6.8.4",
         "websocket": "^1.0.34"
     },
     "devDependencies": {
@@ -55,8 +58,8 @@
         "eslint-plugin-jsx-a11y": "^6.4.1",
         "eslint-plugin-react": "^7.22.0",
         "eslint-plugin-react-hooks": "^4.2.0",
-        "serve": "^11.3.2",
         "onchange": "^7.1.0",
-        "prettier": "^2.5.1"
+        "prettier": "^2.5.1",
+        "serve": "^11.3.2"
     }
 }

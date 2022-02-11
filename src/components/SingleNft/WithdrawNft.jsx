@@ -10,6 +10,7 @@ import {
     Denom,
     CreateTxOptions,
     MsgSend,
+    Coin,
 } from '@terra-money/terra.js'
 
 export default function WithdrawNft(props) {
@@ -24,7 +25,9 @@ export default function WithdrawNft(props) {
         try {
             let msg = new MsgExecuteContract(
                 connectedWallet.walletAddress,
-                state.privAuctionContract,
+                state.network == 'mainnet'
+                    ? state.privAuctionContract
+                    : state.testnetPrivAuctionContract,
                 {
                     withdraw_nft: { auction_id: auctionId },
                 },
@@ -32,13 +35,15 @@ export default function WithdrawNft(props) {
 
             const result = await connectedWallet.post({
                 msgs: [msg],
+                feeDenoms: 'uusd',
+                gasPrices: new Coin('uusd', '0.15'),
             })
-            console.log(result)
+            //  console.log(result)
             toast.success('Withdraw NFT successful')
             //Not needed, we reload on websocket event
             //setTimeout(() => reloadData(),3000)
         } catch (e) {
-            console.log(e)
+            // console.log(e)
             toast.error('Withdraw NFT error')
         }
     }

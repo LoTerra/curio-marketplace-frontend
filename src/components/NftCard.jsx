@@ -6,30 +6,19 @@ import SmallCountdown from './SmallCountdown'
 import NftBadge from './NftBadge'
 import NftPrice from './NftPrice'
 import Media from './Media'
+import { Link } from 'react-router-dom'
 
 export default function NftCard(props) {
     const { state, dispatch } = useStore()
 
-    const { index, data, nft, type, isEnded } = props
+    const { index, data, nft, auctions, type, isEnded } = props
 
-    function nftValidEnd(end) {
-        let ending = new Date(parseInt(end) * 1000)
-        let now = new Date()
-
-        //If ending is lower then filter
-        if (ending.getTime() < now.getTime()) {
-            return false
-        }
-
-        //If valid return true
-        return true
-    }
     //console.log("data-props")
     //console.log(data)
     return (
         <>
             {data && (
-                <a href={'/nfts/' + data.auction_id}>
+                <Link to={`/token/${data.auction_id}`}>
                     <div
                         className={
                             'card text-white nft-card ratio ratio-1x1 ' + type
@@ -39,7 +28,7 @@ export default function NftCard(props) {
 
                         {!isEnded && <NftBadge data={data} />}
 
-                            <Media data={data}/>
+                        <Media data={data} />
 
                         <div className="card-img-overlay">
                             <div className="d-flex h-100 w-100">
@@ -47,11 +36,16 @@ export default function NftCard(props) {
                                     {type != 'xl' && (
                                         <>
                                             <h5 className="card-title m-0">
-                                            {data.title ? data.title : data.extension.name}
+                                                {data.title
+                                                    ? data.title
+                                                    : data.extension.name}
                                             </h5>
 
                                             {!isEnded && (
-                                                <NftPrice data={data} />
+                                                <NftPrice
+                                                    data={data}
+                                                    auctions={auctions}
+                                                />
                                             )}
 
                                             {data.end_time &&
@@ -71,7 +65,7 @@ export default function NftCard(props) {
                             </div>
                         </div>
                     </div>
-                </a>
+                </Link>
             )}
         </>
     )

@@ -1,0 +1,120 @@
+.live-feed-toggle {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 999;
+    background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(255, 255, 255, 0) 100%
+        ),
+        #1e1e1e;
+    border: 0;
+    padding: 7px 10px;
+    border-top-left-radius: 5px;
+    box-shadow: 1px 1px 15px #000;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 150ms linear;
+    span {
+        margin-right: 5px;
+        background: #20ff93;
+        color: #000;
+        font-size: 12px;
+        width: 17px;
+        height: 17px;
+        line-height: 17px;
+        display: inline-block;
+        font-weight: 700;
+        border-radius: 100px;
+    }
+
+    &.new {
+        background: linear-gradient(
+                90deg,
+                rgb(6 82 45) 0%,
+                rgba(255, 255, 255, 0) 100%
+            ),
+            #1e1e1e;
+        transform: scale(1.05);
+    }
+}
+
+.live-feed-screen {
+    position: fixed;
+    bottom: 50px;
+    top: 50px;
+    height: auto;
+    right: -300px;
+    width: 300px;
+    z-index: 999;
+    box-shadow: -2px 0px 9px #00000085;
+    background: #1f1f1f;
+    color: #fff;
+    visibility: hidden;
+    opacity: 0;
+    border-radius: 5px;
+    padding: 5px;
+    transition: all 150ms linear;
+    .live-feed-screen-body {
+        padding: 5px;
+        overflow-y: auto;
+        h3 {
+            font-size: 21px;
+            font-weight: 600;
+        }
+        li {
+            list-style-type: none;
+            display: block;
+            width: 100%;
+            margin-bottom: 5px;
+            background: #0000003d;
+            border-radius: 5px;
+            padding: 3px;
+            .image {
+                display: inline-block;
+                float: left;
+                width: 15%;
+                img {
+                    max-width: 100%;
+                    height: auto;
+                    border-radius: 5px;
+                }
+            }
+            .information {
+                display: inline-block;
+                width: 85%;
+                padding: 0px 10px;
+                p {
+                    margin: 0;
+                    &.type {
+                        color: #000000;
+                        font-size: 11px;
+                        background: #20ff93;
+                        text-transform: uppercase;
+                        float: right;
+                        font-weight: 600;
+                        padding: 1px 5px;
+                        margin-top: -9px;
+                        border-radius: 4px;
+                        margin-right: -12px;
+                    }
+                    &.title {
+                        font-weight: 600;
+                        font-size: 14px;
+                    }
+                    &.price {
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+
+    &.show {
+        visibility: visible;
+        opacity: 1;
+        right: 0;
+    }
+}

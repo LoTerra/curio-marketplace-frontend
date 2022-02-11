@@ -40,20 +40,39 @@ let cats = [
 const initialState = {
     privAuctionContract: 'terra19xhnmthp2sf0cgk09a743lnp7wltmgdfe20ug5',
     privTokenCw20Contract: 'terra1z09gnzufuflz6ckd9k0u456l9dnpgsynu0yyhe',
-    // testnetPrivAuctionContract: 'terra1vj2w6wny2zrvqy9ytup7k52pa3exl5tj7dqjr0',
-    // testnetPrivTokenCw20Contract: 'terra1rtdeyeyp4jvde4rd5m3q7y2zxat6f5cyul7e8w',
+    // Testnet addresses
+    //privAuctionContract: 'terra1vj2w6wny2zrvqy9ytup7k52pa3exl5tj7dqjr0',
+    //privTokenCw20Contract: 'terra1rtdeyeyp4jvde4rd5m3q7y2zxat6f5cyul7e8w',
+
+    testnetPrivAuctionContract: 'terra1vj2w6wny2zrvqy9ytup7k52pa3exl5tj7dqjr0',
+    testnetPrivTokenCw20Contract:
+        'terra1rtdeyeyp4jvde4rd5m3q7y2zxat6f5cyul7e8w',
     categories: cats,
     auctions: [],
     lcd: lcd,
+    network: 'mainnet',
+    liveApi: 'https://privilege.digital/api',
+    testnetApi: 'https://testnet.privilege.digital/api',
     wallet: {},
+    liveFeed: [],
 }
 
 const reducer = (state, action) => {
     switch (action.type) {
+        case 'setLiveFeed':
+            return {
+                ...state,
+                liveFeed: action.message,
+            }
         case 'setAuctions':
             return {
                 ...state,
                 auctions: action.message,
+            }
+        case 'setNetwork':
+            return {
+                ...state,
+                network: action.message,
             }
         case 'setPrivAuctionContract':
             return {

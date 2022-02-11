@@ -8,11 +8,13 @@ import { AppContainer } from 'react-hot-loader'
 
 // Your top level component
 import App from './App'
+import { Coin } from '@terra-money/terra.js'
 
 const mainnet = {
     name: 'mainnet',
     chainID: 'columbus-5',
     lcd: 'https://lcd.terra.dev',
+    gasPrices: new Coin('uusd', '0.15'),
 }
 
 const testnet = {

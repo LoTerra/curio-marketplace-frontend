@@ -1,0 +1,26 @@
+.main-nav {
+    margin-right: 15px;
+    .nav-item {
+        .nav-link {
+            color: #a3a3a3;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 10px 15px;
+            transition: all 150ms linear;
+            &:hover {
+                color: #fff;
+            }
+        }
+    }
+}
+
+.nav-selector {
+    .ui-select {
+        width: 300px;
+    }
+    @media (max-width: 1200px) {
+        .ui-select {
+            width: 100%;
+        }
+    }
+}

@@ -6,24 +6,25 @@ import SmallCountdown from './SmallCountdown'
 import NftBadge from './NftBadge'
 import NftPrice from './NftPrice'
 import Media from './Media'
+import { Link } from 'react-router-dom'
 
 export default function NftInfoCard(props) {
     const { state, dispatch } = useStore()
 
-    const { index, data, nft, type } = props
+    const { index, data, nft, auctions, type } = props
     //console.log("data-props")
     //console.log(data)
     return (
         <>
             {data && (
-                <a href={'/nfts/' + data.auction_id} className="nft-link">
+                <Link to={`/token/${data.auction_id}`} className="nft-link">
                     <div className={'card text-white nft-card ' + type}>
                         {/* <button className="btn btn-plain"><ArrowRight size={24} color={'#fff'}/></button> */}
 
                         <NftBadge data={data} />
 
                         <div className="card-img-overlay  ratio ratio-1x1">
-                            <Media data={data}/>
+                            <Media data={data} />
                             <div className="d-flex h-100 w-100">
                                 <div className="nft-info align-self-end w-100">
                                     {type != 'xl' && (
@@ -50,7 +51,7 @@ export default function NftInfoCard(props) {
                                     ? data.description
                                     : 'No description'}
                             </p>
-                            <NftPrice data={data} />
+                            <NftPrice data={data} auctions={auctions} />
                             {data.end_time && data.end_time > 1 && (
                                 <SmallCountdown
                                     expiryTimestamp={data.end_time}
@@ -59,7 +60,7 @@ export default function NftInfoCard(props) {
                             )}
                         </div>
                     </div>
-                </a>
+                </Link>
             )}
         </>
     )

@@ -1,0 +1,17 @@
+.minting {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover !important;
+    background: linear-gradient(0deg, #1f1f1f 22.16%, rgba(31, 31, 31, 0.6) 90%),
+        url('/img/herobg.jpeg');
+    opacity: 0;
+    visibility: hidden;
+
+    &.show {
+        opacity: 1;
+        visibility: visible;
+    }
+}

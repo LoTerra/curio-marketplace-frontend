@@ -32,10 +32,10 @@ body {
     color: #fff;
     background-size: cover;
     font-family: 'Poppins', sans-serif;
-    -webkit-font-smoothing: none;
+    -webkit-tap-highlight-color: transparent;
     .page-content {
-        position:relative;
-        min-height:100%;
+        position: relative;
+        min-height: 100%;
     }
 }
 
@@ -78,7 +78,7 @@ label {
     overflow-x: auto;
     overflow-y: hidden;
     p {
-        margin:0;
+        margin: 0;
     }
 }
 
@@ -90,6 +90,29 @@ label {
     z-index: 9;
     background: linear-gradient(180deg, #000000a3, transparent);
     .navbar-brand {
+        position: relative;
+        .badge {
+            width: auto;
+            background: #20ff93;
+            color: #000;
+            position: absolute;
+            right: 5px;
+            bottom: -5px;
+            font-size: 11px;
+            padding: 2px 4px;
+            border-radius: 2px;
+            @media (max-width: 660px) {
+                width: auto;
+                background: #20ff93;
+                color: #000;
+                position: absolute;
+                right: 15px;
+                bottom: 17px;
+                font-size: 9px;
+                padding: 2px 4px;
+                border-radius: 2px;
+            }
+        }
         a {
             font-weight: bold;
             font-size: 28px;
@@ -109,7 +132,8 @@ label {
             }
             @media (max-width: 660px) {
                 img {
-                    max-width: 165px;
+                    max-width: 140px;
+                    margin-top: -8px;
                 }
             }
             @media (max-width: 370px) {
@@ -171,15 +195,20 @@ label {
     }
 }
 
+.text-muted {
+    --bs-text-opacity: 1;
+    color: #aaaaaa94 !important;
+}
+
 .nav-pills {
-    background: #14141766;
+    background: #191919bf;
     padding: 10px;
     border-radius: 5px;
     .nav-link {
         color: #ffffff61;
         &.active {
             color: $primary;
-            background-color: #141417;
+            background: linear-gradient(45deg, #00000059, #00000021);
         }
     }
 }
@@ -207,73 +236,8 @@ label {
     }
 }
 
-.btn {
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 21px;
-    align-items: center;
-    text-align: center;
-    border: 0;
-    small {
-        display: block;
-        font-size: 12px;
-        font-weight: 300;
-    }
-    &.btn-plain {
-        background: #00000082;
-        color: #fff;
-    }
-    &.btn-primary {
-        background: linear-gradient(
-                90deg,
-                rgba(255, 255, 255, 0.2) 0%,
-                rgba(255, 255, 255, 0) 100%
-            ),
-            $primary;
-        font-weight: 600;
-        color: #000;
-    }
-    &.btn-special {
-        background: linear-gradient(
-                90deg,
-                rgba(255, 255, 255, 0.2) 0%,
-                rgba(255, 255, 255, 0) 100%
-            ),
-            $special;
-        font-weight: 600;
-        color: #ffffff;
-    }
-    &.btn-secondary {
-        background: linear-gradient(
-                90deg,
-                rgba(255, 255, 255, 0.2) 0%,
-                rgba(255, 255, 255, 0) 100%
-            ),
-            #1e1e1e;
-        &.active {
-            color: #20ff93;
-            background: #0000008f;
-        }
-    }
-    &.btn-outline-primary {
-        color: $special;
-        box-shadow: inset 0px 0px 0px 2px $special;
-        &:hover {
-            background: $special;
-            color: #000;
-        }
-    }
-    &.btn-default {
-        color: #0075ff;
-        box-shadow: inset 0px 0px 0px 2px #0075ff;
-    }
-    &.btn-lg {
-        font-size: 18px;
-        padding: 15px 0;
-        font-weight: 700;
-    }
-}
+@import 'buttons';
+@import 'main-nav';
 
 .dropdown-menu {
     background: #000000c9;
@@ -303,6 +267,7 @@ label {
         small {
             opacity: 0.5;
             font-size: 12px;
+            font-weight: 300;
             margin-bottom: -3px;
             display: block;
         }
@@ -329,7 +294,8 @@ label {
 .nfts-big {
     padding: 130px 0 80px 0;
     background-size: cover !important;
-    background:linear-gradient(0deg, #1f1f1f 22.16%, rgb(31 31 31 / 60%) 90%), url('/img/herobg.jpeg');
+    background: linear-gradient(0deg, #1f1f1f 22.16%, rgb(31 31 31 / 60%) 90%),
+        url('/img/herobg.jpeg');
     @media (max-width: 768px) {
         padding: 100px 0 80px 0;
     }
@@ -361,16 +327,19 @@ label {
     }
     .slogan {
         margin-top: 15px;
-        margin-bottom: 0;
+        margin-bottom: 20px;
         opacity: 0.5;
         font-size: 28px;
         font-weight: 500;
+        @media (max-width: 620px) {
+            font-size: 16px;
+        }
     }
     .powered {
         font-size: 12px;
         text-transform: uppercase;
         margin-bottom: 35px;
-        opacity: 0.3;
+
         font-weight: 200;
         img {
             margin-left: 5px;
@@ -379,23 +348,98 @@ label {
     }
 }
 
+.alert {
+    &.alert-danger {
+    }
+}
+
+.ui-select {
+    border: 1px solid #646464;
+    border-radius: 4px;
+    .ui-select__control {
+        background-color: rgb(35 35 35) !important;
+        border-color: rgb(35 35 35) !important;
+    }
+    .ui-select__input {
+        color: #fff !important;
+    }
+
+    .ui-select__control--is-focused {
+        border-color: #20ff93 !important;
+        box-shadow: none !important;
+    }
+
+    .ui-select__control--menu-is-open {
+        border-color: #20ff93 !important;
+        box-shadow: none !important;
+    }
+
+    .ui-select__container,
+    .ui-select__menu {
+        z-index: 99;
+    }
+
+    .ui-select__indicator-separator {
+        background-color: #363636 !important;
+    }
+
+    .ui-select__menu-list {
+        background: #232323;
+        color: #fff;
+    }
+
+    .ui-select__option {
+        background: #232323;
+        color: #fff;
+        line-height: 35px;
+        @import 'select-label';
+
+        &:hover {
+            background: #131313;
+            color: #20ff93;
+        }
+    }
+
+    .ui-select__option--is-selected {
+        background-color: #20ff93 !important;
+        color: #000 !important;
+    }
+
+    .ui-select__single-value {
+        opacity: 0.75 !important;
+        color: #fff !important;
+        line-height: 35px;
+        @import 'select-label';
+    }
+
+    .ui-select__value-container {
+        background: #232323;
+        color: #fff !important;
+    }
+
+    .ui-select__indicator.ui-select__dropdown-indicator {
+        background: #232323;
+        color: rgb(100 100 100);
+    }
+}
+
 .nft-stats {
-    background: #0000004f;
+    background: #00000033;
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
     h6 {
         margin-bottom: 0;
         color: $primary;
-        font-size: 14px;
+        font-size: 12px;
     }
     p {
         margin: 0;
         font-weight: 700;
-        font-size: 18px;
+        font-size: 17px;
     }
     &.big {
-        background: #0000004f;
+        background: #00000033;
         text-align: center;
         border: 0;
         h6 {
@@ -403,8 +447,20 @@ label {
             opacity: 0.6;
         }
         p {
-            font-size: 36px;
+            font-size: 24px;
             color: $primary;
+            span {
+            }
+            small {
+                font-size: 16px;
+                font-weight: 300;
+                color: $primary;
+                opacity: 1;
+            }
+        }
+        small {
+            color: #fff;
+            opacity: 0.6;
         }
     }
 }
@@ -420,7 +476,7 @@ label {
     position: relative;
     width: 100%;
     overflow: hidden;
-   
+
     .nft-bidding {
         background: #191921;
         border-radius: 5px;
@@ -476,20 +532,26 @@ label {
         font-weight: 600;
         padding-bottom: 5px;
     }
-    .input-group {
-        .input-group-text {
-            background: #1e1e1e;
-            border-color: #595959;
-            border-radius: 0;
-        }
-        .form-control {
-            border: 1px solid #595959;
-            background: #595959;
-            border-radius: 0;
-            color: #fff;
-            font-weight: 700;
-            font-size: 21px;
-        }
+}
+
+.progress {
+    border-radius: 100px;
+    background: #121212;
+}
+
+.input-group {
+    .input-group-text {
+        background: #1e1e1e;
+        border-color: #595959;
+        border-radius: 0;
+    }
+    .form-control {
+        border: 1px solid #595959;
+        background: #595959;
+        border-radius: 0;
+        color: #fff;
+        font-weight: 700;
+        font-size: 21px;
     }
 }
 
@@ -587,7 +649,7 @@ label {
 }
 
 .nft-card {
-    background: #1a1a1e;
+    background: #1a1a1a;
     margin-bottom: 28px;
     border-radius: 15px;
     border: 0;
@@ -731,34 +793,6 @@ label {
     border-radius: 5px;
     p {
         margin: 0;
-    }
-}
-
-.nft-thumb {
-    box-shadow: inset 0px 0px 0px 0px #ff36ff;
-    background-color:#000;
-    position: relative;
-    overflow: hidden;
-    padding: 5px;
-    border-radius: 5px;
-    transition: all 200ms linear;
-    .nft-selected {
-        position: absolute;
-        left: 15px;
-        top: 15px;
-        background: #ff36ff;
-        color: #fff;
-        border-radius: 100px;
-        width: 30px;
-        height: 30px;
-        text-align: center;
-        line-height: 28px;
-    }
-    p {
-        margin: 0;
-    }
-    &.active {
-        box-shadow: inset 0px 0px 0px 2px #ff36ff;
     }
 }
 
@@ -911,6 +945,7 @@ label {
             font-size: 12px;
             opacity: 0.5;
             margin-right: 5px;
+            font-weight: 300;
         }
         @media (max-width: 768px) {
             font-size: 17px;
@@ -987,6 +1022,99 @@ label {
             }
         }
     }
+
+    .contract-input {
+        opacity: 0;
+        visibility: hidden;
+        height: 0;
+        transition: all 150ms linear;
+        &.show {
+            opacity: 1;
+            visibility: visible;
+            height: 100%;
+        }
+    }
+
+    .manual-label {
+        opacity: 0.5;
+        color: #fff;
+        transition: all 200ms linear;
+        font-weight: 400;
+        font-size: 14px;
+        &:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+    }
+
+    .get-nfts {
+        opacity: 0;
+        visibility: hidden;
+        transition: all 150ms linear;
+        &.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+
+    .nft-thumb {
+        box-shadow: inset 0px 0px 0px 0px #ff36ff;
+        background-color: #000;
+        position: relative;
+        overflow: hidden;
+        padding: 5px;
+        border-radius: 5px;
+        transition: all 200ms linear;
+        .info-text {
+            opacity: 0;
+            visibility: hidden;
+            bottom: -10px;
+            width: 100px;
+            text-align: center;
+            margin-left: 50%;
+            left: -50px;
+            background: #00000059;
+            padding: 5px 10px;
+            font-size: 13px;
+            position: absolute;
+            border-radius: 4px;
+            transition: all 100ms linear;
+        }
+        .nft-selected {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            background: #20ff93;
+            box-shadow: 1px 1px 7px #00000059;
+            color: #000;
+            border-radius: 100px;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 28px;
+            transition: all 100ms linear;
+        }
+        p {
+            margin: 0;
+        }
+        &.active {
+            box-shadow: inset 0px 0px 0px 2px #20ff93;
+            &:hover {
+                cursor: pointer;
+                box-shadow: inset 0px 0px 0px 2px #20ff93;
+            }
+        }
+
+        &:hover {
+            cursor: pointer;
+            box-shadow: inset 0px 0px 0px 2px #ff36ff;
+            .info-text {
+                opacity: 1;
+                visibility: visible;
+                bottom: 10px;
+            }
+        }
+    }
 }
 
 .modal {
@@ -1007,14 +1135,14 @@ label {
     }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 990px) {
     .navbar {
         .navbar-collapse {
             background: #000000c4;
             position: fixed;
             right: -100%;
             width: 330px;
-            top: 0;
+            top: 39.5px;
             height: 100%;
             bottom: 0;
             transition: all 200ms linear;
@@ -1030,9 +1158,11 @@ label {
             }
             @media (max-width: 768px) {
                 top: 69px;
+                height: 100%;
                 bottom: 0;
             }
             &.show {
+                top: 39.5px;
                 right: 0;
                 bottom: 0;
                 height: 100%;
@@ -1043,10 +1173,10 @@ label {
                 right: -100%;
                 width: 330px;
                 height: 100%;
-                top: 0;
+                top: 39.5px;
                 bottom: 0;
                 @media (max-width: 768px) {
-                    top: 0;
+                    top: 39.5px;
                     bottom: 0;
                     z-index: 999;
                     height: 100%;
@@ -1170,69 +1300,139 @@ footer {
     display: block;
     text-align: center;
     padding: 25px;
-    ul {
+    .social {
         margin: 0;
         padding: 0;
         list-style: none;
         text-align: center;
         li {
             display: inline-block;
+            a {
+                opacity: 0.7;
+                color: #fff;
+                transition: all 150ms linear;
+                &:hover {
+                    color: rgb(32, 255, 147);
+                    opacity: 1;
+                }
+            }
         }
     }
 }
 
+.nft-list-container {
+    height: auto;
+    max-height: 225px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    box-shadow: inset 0 -20px 14px #00000052;
+    margin: 0 -15px;
+    .nft-list-item {
+        margin: 0 0;
+        padding: 5px 10px;
+        a {
+            text-decoration: none;
+            margin-left: 7px;
+            font-size: 13px;
+            color: #fff;
+            transition: all 150ms linear;
+            &:hover {
+                color: rgb(32, 255, 147);
+            }
+        }
+        img {
+            border-radius: 4px;
+            width: 30px;
+            height: 30px;
+        }
+        &.active {
+            border: 0;
+            border-left: 3px solid #20ff93;
+        }
+        &.inactive {
+            opacity: 0.5;
+        }
+    }
+}
+
+.collection-banner {
+    padding: 25px;
+    border-radius: 15px;
+    background: #00000059;
+    p {
+        font-size: 14px;
+    }
+}
+
+.collection-verification {
+    img {
+        border-radius: 100%;
+        width: 50px;
+        height: 50px;
+        display: inline-block;
+        border: 2px solid white;
+        margin-right: 9px;
+        float: left;
+    }
+    h1 {
+        font-size: 21px;
+        display: inline-block;
+        margin-top: 4px;
+        span {
+            opacity: 0.5;
+        }
+    }
+}
 
 .confirm-background {
-    background:#2d2d2d;
-    position:fixed;
-    top:0;
-    left:0;
-    bottom:0;
-    right:0;
-    opacity:0;
+    background: #2d2d2d;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
     visibility: hidden;
     transition: all 200ms linear;
 
-    .confirm-dialog {        
-        width:100%;
-        height:auto;
-        color:#fff;        
+    .confirm-dialog {
+        width: 100%;
+        height: auto;
+        color: #fff;
         h1 {
-            color:$special;
-            font-weight:600;
+            color: $special;
+            font-weight: 600;
         }
         h2 {
-
         }
-        @media(max-width:768px){
+        @media (max-width: 768px) {
             height: 100%;
             overflow-y: scroll;
             overflow-x: hidden;
         }
     }
     &.show {
-        opacity:1;
+        opacity: 1;
         visibility: visible;
     }
 }
-
 
 .switch {
     position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
-  }
-  
-  /* Hide default HTML checkbox */
-  .switch input {
+}
+
+/* Hide default HTML checkbox */
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
-  }
-  
-  /* The slider */
-  .slider {
+}
+
+/* The slider */
+.slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -1240,43 +1440,49 @@ footer {
     right: 0;
     bottom: 0;
     background-color: #595959;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  .slider:before {
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+.slider:before {
     position: absolute;
-    content: "";
+    content: '';
     height: 26px;
     width: 26px;
     left: 4px;
     bottom: 4px;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 100%), #1e1e1e;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-  
-  input:checked + .slider {
+    background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(255, 255, 255, 0) 100%
+        ),
+        #1e1e1e;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
     background-color: #ff36ff;
-  }
-  
-  input:focus + .slider {
+}
+
+input:focus + .slider {
     box-shadow: 0 0 1px #ff36ff;
-  }
-  
-  input:checked + .slider:before {
+}
+
+input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
-  }
-  
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-  
-  .slider.round:before {
-    border-radius: 50%;
-  }
+}
 
-  
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+@import 'live-feed';
+@import 'minting';

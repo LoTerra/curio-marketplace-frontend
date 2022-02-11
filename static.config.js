@@ -19,8 +19,12 @@ export default {
             template: 'src/pages/Create',
         },
         {
-            path: '/nfts',
-            template: 'src/pages/Nfts/Index',
+            path: '/collections',
+            template: 'src/pages/Collections',
+        },
+        {
+            path: '/update-royalty',
+            template: 'src/pages/Royalty',
         },
         // A 404 component
         {
@@ -30,13 +34,15 @@ export default {
     ],
     plugins: [
         ['react-static-plugin-sass'],
+        ['react-static-plugin-react-router'],
         [
             require.resolve('react-static-plugin-source-filesystem'),
             {
                 location: path.resolve('./src/pages'),
             },
         ],
-        require.resolve('react-static-plugin-reach-router'),
+
+        // require.resolve('react-static-plugin-reach-router'),
         require.resolve('react-static-plugin-sitemap'),
     ],
 }
