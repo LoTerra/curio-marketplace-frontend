@@ -11,7 +11,6 @@ $theme-colors: (
     secondary: $secondary,
 );
 
-
 $input-placeholder-color: rgba(255, 255, 255, 0.48);
 
 // (Required) Import Bootstrap
@@ -91,7 +90,7 @@ label {
     z-index: 9;
     background: linear-gradient(180deg, #000000a3, transparent);
     .navbar-brand {
-        position:relative;
+        position: relative;
         .badge {
             width: auto;
             background: #20ff93;
@@ -102,7 +101,7 @@ label {
             font-size: 11px;
             padding: 2px 4px;
             border-radius: 2px;
-            @media(max-width:660px){
+            @media (max-width: 660px) {
                 width: auto;
                 background: #20ff93;
                 color: #000;
@@ -209,9 +208,7 @@ label {
         color: #ffffff61;
         &.active {
             color: $primary;
-            background: linear-gradient(
-45deg
-, #00000059, #00000021);
+            background: linear-gradient(45deg, #00000059, #00000021);
         }
     }
 }
@@ -270,7 +267,7 @@ label {
         small {
             opacity: 0.5;
             font-size: 12px;
-            font-weight:300;
+            font-weight: 300;
             margin-bottom: -3px;
             display: block;
         }
@@ -353,11 +350,8 @@ label {
 
 .alert {
     &.alert-danger {
-
     }
 }
-
-
 
 .ui-select {
     border: 1px solid #646464;
@@ -365,71 +359,69 @@ label {
     .ui-select__control {
         background-color: rgb(35 35 35) !important;
         border-color: rgb(35 35 35) !important;
-    
     }
     .ui-select__input {
-        color:#fff !important;
+        color: #fff !important;
     }
-    
-    .ui-select__control--is-focused { 
-        border-color:#20ff93 !important;
-        box-shadow:none !important;
+
+    .ui-select__control--is-focused {
+        border-color: #20ff93 !important;
+        box-shadow: none !important;
     }
-    
-    .ui-select__control--menu-is-open { 
-        border-color:#20ff93 !important;
-        box-shadow:none !important;
+
+    .ui-select__control--menu-is-open {
+        border-color: #20ff93 !important;
+        box-shadow: none !important;
     }
-    
-    .ui-select__container,.ui-select__menu {
-        z-index:99;
+
+    .ui-select__container,
+    .ui-select__menu {
+        z-index: 99;
     }
-    
+
     .ui-select__indicator-separator {
         background-color: #363636 !important;
     }
-    
+
     .ui-select__menu-list {
-        background:#232323;
-        color:#fff;
+        background: #232323;
+        color: #fff;
     }
-    
+
     .ui-select__option {
-        background:#232323;
-        color:#fff;
-        line-height:35px;
+        background: #232323;
+        color: #fff;
+        line-height: 35px;
         @import 'select-label';
-        
+
         &:hover {
-            background:#131313;
-            color:#20ff93;
+            background: #131313;
+            color: #20ff93;
         }
     }
-    
+
     .ui-select__option--is-selected {
         background-color: #20ff93 !important;
-        color: #000  !important;    
-      }
-    
-      .ui-select__single-value {
-        opacity: 0.75  !important;
-        color:#fff  !important;
-        line-height:35px;
-        @import 'select-label';
-      }
-    
-    .ui-select__value-container {
-        background:#232323;
-        color:#fff !important;
+        color: #000 !important;
     }
-    
+
+    .ui-select__single-value {
+        opacity: 0.75 !important;
+        color: #fff !important;
+        line-height: 35px;
+        @import 'select-label';
+    }
+
+    .ui-select__value-container {
+        background: #232323;
+        color: #fff !important;
+    }
+
     .ui-select__indicator.ui-select__dropdown-indicator {
         background: #232323;
-        color:rgb(100 100 100);
+        color: rgb(100 100 100);
     }
 }
-
-
 
 .nft-stats {
     background: #00000033;
@@ -458,13 +450,12 @@ label {
             font-size: 24px;
             color: $primary;
             span {
-
             }
             small {
-                font-size:16px;
-                font-weight:300;
-                color:$primary;
-                opacity:1;
+                font-size: 16px;
+                font-weight: 300;
+                color: $primary;
+                opacity: 1;
             }
         }
         small {
@@ -541,11 +532,10 @@ label {
         font-weight: 600;
         padding-bottom: 5px;
     }
-    
 }
 
 .progress {
-    border-radius:100px;
+    border-radius: 100px;
     background: #121212;
 }
 
@@ -955,7 +945,7 @@ label {
             font-size: 12px;
             opacity: 0.5;
             margin-right: 5px;
-            font-weight:300;
+            font-weight: 300;
         }
         @media (max-width: 768px) {
             font-size: 17px;
@@ -1332,45 +1322,45 @@ footer {
 
 .nft-list-container {
     height: auto;
-    max-height:225px;
+    max-height: 225px;
     overflow-y: scroll;
     overflow-x: hidden;
     box-shadow: inset 0 -20px 14px #00000052;
-    margin:0 -15px;
+    margin: 0 -15px;
     .nft-list-item {
-        margin:0 0;
-        padding:5px 10px;
+        margin: 0 0;
+        padding: 5px 10px;
         a {
-            text-decoration:none;
-            margin-left:7px;
-            font-size:13px;
-            color:#fff;
-            transition:all 150ms linear;
+            text-decoration: none;
+            margin-left: 7px;
+            font-size: 13px;
+            color: #fff;
+            transition: all 150ms linear;
             &:hover {
                 color: rgb(32, 255, 147);
             }
         }
         img {
-            border-radius:4px;
-            width:30px;
-            height:30px;
+            border-radius: 4px;
+            width: 30px;
+            height: 30px;
         }
         &.active {
-            border:0;
+            border: 0;
             border-left: 3px solid #20ff93;
         }
         &.inactive {
-            opacity:0.5;
+            opacity: 0.5;
         }
     }
 }
 
 .collection-banner {
-    padding:25px;
+    padding: 25px;
     border-radius: 15px;
-    background:#00000059;
+    background: #00000059;
     p {
-        font-size:14px;
+        font-size: 14px;
     }
 }
 
@@ -1389,7 +1379,7 @@ footer {
         display: inline-block;
         margin-top: 4px;
         span {
-            opacity:0.5;
+            opacity: 0.5;
         }
     }
 }
@@ -1493,7 +1483,6 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
-
 
 @import 'live-feed';
 @import 'minting';

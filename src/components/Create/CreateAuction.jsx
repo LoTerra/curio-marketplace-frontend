@@ -16,7 +16,9 @@ import {
     BankAPI,
     Denom,
     CreateTxOptions,
-    MsgSend, Coins, Coin,
+    MsgSend,
+    Coins,
+    Coin,
 } from '@terra-money/terra.js'
 import {
     ArchiveBox,
@@ -58,12 +60,7 @@ export default function CreateAuction(props) {
     let network = ''
     let connectedWallet = ''
 
-    const talis_ids = [
-        1084,
-        2317,
-        1099,
-        2272,
-    ]
+    const talis_ids = [1084, 2317, 1099, 2272]
 
     if (typeof document !== 'undefined') {
         network = useWallet().network
@@ -81,24 +78,24 @@ export default function CreateAuction(props) {
         })
     }, [connectedWallet])
 
-    async function loadMoreNFT(){
+    async function loadMoreNFT() {
         setLoadingMore(true)
         //console.log(offset)
-        if (offset.length > 0){
+        if (offset.length > 0) {
             const api = new WasmAPI(lcd.apiRequester)
             let update_offset = []
             await Promise.all(
                 offset.map(async (item, index) => {
-                   // console.log("items")
-                  //  console.log("////////////////////////////////////////////////")
-                 //   console.log(item)
-                 //   console.log(index)
-                 //   console.log("////////////////////////////////////////////////")
+                    // console.log("items")
+                    //  console.log("////////////////////////////////////////////////")
+                    //   console.log(item)
+                    //   console.log(index)
+                    //   console.log("////////////////////////////////////////////////")
                     //Map testing
                     setNftLoader(true)
-                    let tokenData = {tokens:[]};
+                    let tokenData = { tokens: [] }
                     //let loop = true
-                    const max_limit = 30;
+                    const max_limit = 30
                     //while (loop){
                     let query = {
                         tokens: {
@@ -125,64 +122,68 @@ export default function CreateAuction(props) {
                     // if (data.tokens.length < 30)
                     //     loop = false
                     let x = offset
-                    let new_offset = x.splice(index, 1);
+                    let new_offset = x.splice(index, 1)
 
-                    if (data.tokens.length == max_limit){
+                    if (data.tokens.length == max_limit) {
                         let offset_info = {}
-                        if (data.tokens[data.tokens.length-1].token_id){
+                        if (data.tokens[data.tokens.length - 1].token_id) {
                             offset_info = {
                                 contract: item.contract,
-                                start_after: data.tokens[data.tokens.length-1].token_id //tokenData.tokens
-                            };
-                        }else{
+                                start_after:
+                                    data.tokens[data.tokens.length - 1]
+                                        .token_id, //tokenData.tokens
+                            }
+                        } else {
                             offset_info = {
                                 contract: item.contract,
-                                start_after: data.tokens[data.tokens.length-1]
-                            };
+                                start_after:
+                                    data.tokens[data.tokens.length - 1],
+                            }
                         }
                         update_offset.push(offset_info)
-
                     }
                     //}
 
                     let info = await api.contractInfo(item.contract)
-                    if (tokenData) {                       
+                    if (tokenData) {
                         // Check if Talis contract
                         // if (parseInt(info.code_id) === /*testnet code id Talis: 18723*/ 1084) {
-                            if(talis_ids.includes(parseInt(info.code_id))){
+                        if (talis_ids.includes(parseInt(info.code_id))) {
                             tokenData.tokens.map(async (obj) => {
-                                let singleToken= {}
+                                let singleToken = {}
                                 const nft_info_talis = await api.contractQuery(
                                     item.contract,
                                     {
                                         metadata_u_r_i: {
-                                            token_id: String(obj.token_id)
-                                        }
-                                    }
+                                            token_id: String(obj.token_id),
+                                        },
+                                    },
                                 )
                                 const nft_info = await axios.get(nft_info_talis)
                                 //const nft_info = await axios.get(obj.metadata_uri)
 
-                                singleToken.image = nft_info.data.media;
-                                singleToken.name = nft_info.data.title;
+                                singleToken.image = nft_info.data.media
+                                singleToken.name = nft_info.data.title
                                 singleToken.token_id = obj.token_id
                                 singleToken.contract_address = item.contract
 
                                 //tokenData.push(singleToken)
-                               // console.log(singleToken)
+                                // console.log(singleToken)
                                 setUserNfts((userNfts) => [
                                     ...userNfts,
                                     singleToken,
                                 ])
                             })
-
                         } else {
                             tokenData.tokens.map(async (obj) => {
-                                const singleToken = await api.contractQuery(item.contract, {
-                                    nft_info: {
-                                        token_id: obj,
+                                const singleToken = await api.contractQuery(
+                                    item.contract,
+                                    {
+                                        nft_info: {
+                                            token_id: obj,
+                                        },
                                     },
-                                })
+                                )
 
                                 if (
                                     singleToken.hasOwnProperty('token_uri') &&
@@ -198,8 +199,9 @@ export default function CreateAuction(props) {
 
                                     await axios(axios_config)
                                         .then(function (response) {
-                                        //    console.log(response)
-                                            singleToken.image = response.data.image
+                                            //    console.log(response)
+                                            singleToken.image =
+                                                response.data.image
                                             if (
                                                 response.data.hasOwnProperty(
                                                     'extension',
@@ -236,19 +238,23 @@ export default function CreateAuction(props) {
                                             }
                                         })
                                         .catch(async function (error) {
-                                          //  console.log(error)
+                                            //  console.log(error)
                                             //Turtle scenario fallback
                                             await axios(axios_config).then(
                                                 function (response) {
-                                                   // console.log(response)
+                                                    // console.log(response)
                                                     singleToken.image =
                                                         response.data.image
                                                 },
                                             )
                                         })
                                 } else {
-                                    if (singleToken.hasOwnProperty('extension')) {
-                                        if (singleToken.extension.image !== null) {
+                                    if (
+                                        singleToken.hasOwnProperty('extension')
+                                    ) {
+                                        if (
+                                            singleToken.extension.image !== null
+                                        ) {
                                             singleToken.image =
                                                 singleToken.extension.image
                                         }
@@ -260,8 +266,8 @@ export default function CreateAuction(props) {
                                                 singleToken.extension.image_data
                                         }
                                         if (
-                                            singleToken.extension.animation_url !==
-                                            null
+                                            singleToken.extension
+                                                .animation_url !== null
                                         ) {
                                             singleToken.image =
                                                 singleToken.extension.animation_url
@@ -275,7 +281,8 @@ export default function CreateAuction(props) {
                                     singleToken.extension &&
                                     singleToken.extension.name
                                 ) {
-                                    singleToken.name = singleToken.extension.name
+                                    singleToken.name =
+                                        singleToken.extension.name
                                 }
 
                                 singleToken.token_id = obj
@@ -287,15 +294,13 @@ export default function CreateAuction(props) {
                                     singleToken,
                                 ])
                             })
-
                         }
                     }
                 }),
             )
             setOffset(update_offset)
-        }
-        else{
-            return (<>No more NFT to load</>)
+        } else {
+            return <>No more NFT to load</>
         }
         setLoadingMore(false)
     }
@@ -343,50 +348,53 @@ export default function CreateAuction(props) {
                     //console.log(address)
                     //Map testing
                     setNftLoader(true)
-                    let tokenData = {tokens:[]};
+                    let tokenData = { tokens: [] }
                     //let loop = true
-                    const max_limit = 30;
+                    const max_limit = 30
                     //while (loop){
-                        let query = {
-                            tokens: {
-                                owner: connectedWallet.walletAddress,
-                                //owner:"terra1jhernq3v3r7v4ak638m4nkky3edvg5uavza9a3",
-                                /*
+                    let query = {
+                        tokens: {
+                            owner: connectedWallet.walletAddress,
+                            //owner:"terra1jhernq3v3r7v4ak638m4nkky3edvg5uavza9a3",
+                            /*
                                     ////////////////////////////////////////////////
                                     Max limit allowed 30
                                     ////////////////////////////////////////////////
 
                                  */
-                                limit: max_limit,
-                            },
-                        }
-                        //let last_element = tokenData.tokens.slice(-1).pop();
-                        // if (last_element){
-                        //     query.tokens.start_after = last_element.token_id
-                        // }
+                            limit: max_limit,
+                        },
+                    }
+                    //let last_element = tokenData.tokens.slice(-1).pop();
+                    // if (last_element){
+                    //     query.tokens.start_after = last_element.token_id
+                    // }
 
-                        const data = await api.contractQuery(address, query)
+                    const data = await api.contractQuery(address, query)
 
-                        tokenData.tokens = [...data.tokens]
-                        // if (data.tokens.length < 30)
-                        //     loop = false
+                    tokenData.tokens = [...data.tokens]
+                    // if (data.tokens.length < 30)
+                    //     loop = false
 
-                        if (data.tokens.length > max_limit - 1){
-                            //console.log(address)
-                            let offset_info = {}
-                            if (data.tokens[data.tokens.length-1].token_id){
-                                offset_info = {
-                                    contract: address,
-                                    start_after: data.tokens[data.tokens.length-1].token_id //tokenData.tokens
-                                };
-                            }else{
-                                offset_info = {
-                                    contract: address,
-                                    start_after: data.tokens[data.tokens.length-1] //tokenData.tokens
-                                };
+                    if (data.tokens.length > max_limit - 1) {
+                        //console.log(address)
+                        let offset_info = {}
+                        if (data.tokens[data.tokens.length - 1].token_id) {
+                            offset_info = {
+                                contract: address,
+                                start_after:
+                                    data.tokens[data.tokens.length - 1]
+                                        .token_id, //tokenData.tokens
                             }
-                            updated_offset.push(offset_info)
+                        } else {
+                            offset_info = {
+                                contract: address,
+                                start_after:
+                                    data.tokens[data.tokens.length - 1], //tokenData.tokens
+                            }
                         }
+                        updated_offset.push(offset_info)
+                    }
                     //}
 
                     let info = await api.contractInfo(address)
@@ -394,22 +402,22 @@ export default function CreateAuction(props) {
                         // console.log(tokenData, info.code_id)
                         // Check if Talis contract
                         // if (parseInt(info.code_id) === /*testnet code id Talis: 18723*/ 1084) {
-                        if(talis_ids.includes(parseInt(info.code_id))){                                
+                        if (talis_ids.includes(parseInt(info.code_id))) {
                             tokenData.tokens.map(async (obj) => {
-                                let singleToken= {}
+                                let singleToken = {}
                                 const nft_info_talis = await api.contractQuery(
                                     address,
                                     {
                                         metadata_u_r_i: {
-                                            token_id: String(obj.token_id)
-                                        }
-                                    }
+                                            token_id: String(obj.token_id),
+                                        },
+                                    },
                                 )
                                 const nft_info = await axios.get(nft_info_talis)
                                 //const nft_info = await axios.get(obj.metadata_uri)
 
-                                singleToken.image = nft_info.data.media;
-                                singleToken.name = nft_info.data.title;
+                                singleToken.image = nft_info.data.media
+                                singleToken.name = nft_info.data.title
                                 singleToken.token_id = obj.token_id
                                 singleToken.contract_address = address
 
@@ -420,14 +428,16 @@ export default function CreateAuction(props) {
                                     singleToken,
                                 ])
                             })
-
                         } else {
                             tokenData.tokens.map(async (obj) => {
-                                const singleToken = await api.contractQuery(address, {
-                                    nft_info: {
-                                        token_id: obj,
+                                const singleToken = await api.contractQuery(
+                                    address,
+                                    {
+                                        nft_info: {
+                                            token_id: obj,
+                                        },
                                     },
-                                })
+                                )
                                 console.log(singleToken)
 
                                 if (
@@ -445,7 +455,8 @@ export default function CreateAuction(props) {
                                     await axios(axios_config)
                                         .then(function (response) {
                                             //console.log(response)
-                                            singleToken.image = response.data.image
+                                            singleToken.image =
+                                                response.data.image
                                             if (
                                                 response.data.hasOwnProperty(
                                                     'extension',
@@ -493,8 +504,12 @@ export default function CreateAuction(props) {
                                             )
                                         })
                                 } else {
-                                    if (singleToken.hasOwnProperty('extension')) {
-                                        if (singleToken.extension.image !== null) {
+                                    if (
+                                        singleToken.hasOwnProperty('extension')
+                                    ) {
+                                        if (
+                                            singleToken.extension.image !== null
+                                        ) {
                                             singleToken.image =
                                                 singleToken.extension.image
                                         }
@@ -506,8 +521,8 @@ export default function CreateAuction(props) {
                                                 singleToken.extension.image_data
                                         }
                                         if (
-                                            singleToken.extension.animation_url !==
-                                            null
+                                            singleToken.extension
+                                                .animation_url !== null
                                         ) {
                                             singleToken.image =
                                                 singleToken.extension.animation_url
@@ -521,7 +536,8 @@ export default function CreateAuction(props) {
                                     singleToken.extension &&
                                     singleToken.extension.name
                                 ) {
-                                    singleToken.name = singleToken.extension.name
+                                    singleToken.name =
+                                        singleToken.extension.name
                                 }
 
                                 singleToken.token_id = obj
@@ -533,16 +549,15 @@ export default function CreateAuction(props) {
                                     singleToken,
                                 ])
                             })
-
                         }
                     }
 
-
-                    if (address == "terra1rslpedqv99rs0axw0y6sp0rssq7mma5wsqwmuh"){
+                    if (
+                        address ==
+                        'terra1rslpedqv99rs0axw0y6sp0rssq7mma5wsqwmuh'
+                    ) {
                         //console.log(true)
                     }
-
-
 
                     //console.log(userNfts)
                     if (tokenData && tokenData.tokens.length === 0) {
@@ -579,8 +594,13 @@ export default function CreateAuction(props) {
                 }
             })
             setTimeout(() => {
-                window.scrollTo({ behavior: 'smooth', top: document.querySelector('.settings-start').offsetTop - 100 })
-            },500)
+                window.scrollTo({
+                    behavior: 'smooth',
+                    top:
+                        document.querySelector('.settings-start').offsetTop -
+                        100,
+                })
+            }, 500)
         }
     }
 
@@ -618,16 +638,16 @@ export default function CreateAuction(props) {
                 setContracts((contracts) => [...contracts, data[0][key]])
             })
 
-           // console.log(connectedWallet.network, contracts)
+            // console.log(connectedWallet.network, contracts)
         }
     }
 
     async function finalCreation() {
         if (connectedWallet) {
-           // console.log('walletAddress is', connectedWallet.walletAddress)
+            // console.log('walletAddress is', connectedWallet.walletAddress)
             // In this case network should be testnet bombay
-           // console.log('network is', connectedWallet.network)
-           // console.log('connectType is', connectedWallet.connectType)
+            // console.log('network is', connectedWallet.network)
+            // console.log('connectType is', connectedWallet.connectType)
         }
 
         try {
@@ -681,7 +701,10 @@ export default function CreateAuction(props) {
                 String(contract.address),
                 {
                     send_nft: {
-                        contract: state.privAuctionContract,
+                        contract:
+                            state.network == 'mainnet'
+                                ? state.privAuctionContract
+                                : state.testnetPrivAuctionContract,
                         token_id: tokenId,
                         msg: Buffer.from(JSON.stringify(auction_msg)).toString(
                             'base64',
@@ -693,7 +716,7 @@ export default function CreateAuction(props) {
             const result = await connectedWallet.post({
                 msgs: [msg],
                 feeDenoms: ['uusd'],
-                gasPrices: new Coin("uusd", "0.15")
+                gasPrices: new Coin('uusd', '0.15'),
             })
             //console.log(result)
             toast.success('Auction successfully created')
@@ -702,8 +725,8 @@ export default function CreateAuction(props) {
                 window.location.href = window.location.origin
             }, 2000)
         } catch (e) {
-           // console.log(e.message)
-         //   console.log(e)
+            // console.log(e.message)
+            //   console.log(e)
             toast.error('Auction creation error')
         }
     }
@@ -711,7 +734,7 @@ export default function CreateAuction(props) {
     async function create(e) {
         e.preventDefault()
         const data = Object.fromEntries(new FormData(e.target).entries())
-       // console.log(data)
+        // console.log(data)
 
         if (!connectedWallet) {
             toast.error('Connect your wallet')
@@ -1034,7 +1057,6 @@ export default function CreateAuction(props) {
                                                 Select NFT You want to auction
                                             </strong>
                                         </h4>
-
                                     )}
                                     {userNfts &&
                                         userNfts.length > 0 &&
@@ -1067,9 +1089,8 @@ export default function CreateAuction(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                        ))
-                                    }
-                                    { userNfts && userNfts.length > 0 && (
+                                        ))}
+                                    {userNfts && userNfts.length > 0 && (
                                         <button
                                             type="button"
                                             className="btn btn-primary btn-lg"
@@ -1077,11 +1098,11 @@ export default function CreateAuction(props) {
                                             // data-bs-toggle="modal"
                                             // data-bs-target="#nftContracts"
                                         >
-                                            <ArchiveBox size={32} /> Try loading more
-                                        </button>)
-                                    }
+                                            <ArchiveBox size={32} /> Try loading
+                                            more
+                                        </button>
+                                    )}
                                 </div>
-
                             </div>
 
                             {/* <div className="col-12 mb-3 mt-2">

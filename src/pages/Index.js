@@ -4,7 +4,6 @@ import { useStore } from '../store'
 import axios from 'axios'
 // import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 
-
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import MainLoader from '../components/Loaders/MainLoader'
 import NftInfoCard from '../components/NftInfoCard'
@@ -17,13 +16,12 @@ import {
     MonitorPlay,
 } from 'phosphor-react'
 import { Navigation, Pagination, Autoplay } from 'swiper'
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/swiper-bundle.min.css'
 import 'swiper/swiper.min.css'
 import 'swiper/swiper-bundle.css'
 import CollectionSearch from '../components/CollectionSearch'
 import { Link } from 'react-router-dom'
- 
 
 export default () => {
     const [currentSlide, setCurrentSlide] = React.useState(0)
@@ -34,14 +32,13 @@ export default () => {
     const [auctions, setAuction] = useState([])
     const [nfts, setNfts] = useState([])
     const [loading, setLoading] = useState(true)
+    let api_url = state.network == 'mainnet' ? state.liveApi : state.testnetApi
 
     const exploreDiv = useRef(null)
 
     async function getHomePageData() {
         try {
-            const result = await axios.get(
-                'https://privilege.digital/api/get-items',
-            )
+            const result = await axios.get(api_url + '/get-items')
             // console.log(result.data)
             setNfts(result.data.filterItems)
             setLoading(false)
@@ -89,18 +86,22 @@ export default () => {
     const fetchNftData = useCallback(async () => {
         try {
             const contractStateInfo = await api.contractQuery(
-                state.privAuctionContract,
+                state.network == 'mainnet'
+                    ? state.privAuctionContract
+                    : state.testnetPrivAuctionContract,
                 {
                     state: {},
                 },
             )
-           // console.log(contractStateInfo)
+            // console.log(contractStateInfo)
 
-           // console.log(nfts, 'nfts')
+            // console.log(nfts, 'nfts')
 
             /// Min is 10 result max is 30
             const firstThirstyAuctionsInfo = await api.contractQuery(
-                state.privAuctionContract,
+                state.network == 'mainnet'
+                    ? state.privAuctionContract
+                    : state.testnetPrivAuctionContract,
                 {
                     all_auctions: {
                         // start_after: 0, // For pagination you can set the id you want here and receive next 30 auctions
@@ -117,20 +118,10 @@ export default () => {
         } catch {}
     }, [])
 
-
-    
-
-
-
-     
-
     useEffect(() => {
         fetchNftData()
         getHomePageData()
     }, [fetchNftData])
-
-  
-    
 
     return (
         <>
@@ -154,12 +145,17 @@ export default () => {
                                             NFT on Curio decentralized
                                             marketplace.
                                         </p>
-                                  
+
                                         <p className="powered">
-                                            <span style={{opacity: 0.5}}>powered by</span>{' '}
+                                            <span style={{ opacity: 0.5 }}>
+                                                powered by
+                                            </span>{' '}
                                             <img
                                                 src={'img/terralogo.svg'}
-                                                style={{ width: '80px', opacity:0.5 }}
+                                                style={{
+                                                    width: '80px',
+                                                    opacity: 0.5,
+                                                }}
                                             />
                                         </p>
                                     </div>
@@ -629,7 +625,11 @@ export default () => {
                                             })
                                             .map((obj, id) => {
                                                 return (
-                                                    <div className={'col-md-4 col-lg-3'}>
+                                                    <div
+                                                        className={
+                                                            'col-md-4 col-lg-3'
+                                                        }
+                                                    >
                                                         <NftCard
                                                             key={id}
                                                             data={obj}

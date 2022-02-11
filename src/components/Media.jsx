@@ -48,7 +48,7 @@ export default function Media(props) {
             )}
             {data.extension && data.extension.animation_url && (
                 <video
-                playsInline=""
+                    playsInline=""
                     autoPlay=""
                     muted
                     loop
