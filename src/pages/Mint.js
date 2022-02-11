@@ -84,17 +84,48 @@ export default (props) => {
         if (connectedWallet && connectedWallet.walletAddress) {
             try {
                 const max_limit = 30
+
                 let query = {
                     tokens: {
                         owner: connectedWallet.walletAddress,
-                        limit: max_limit,
-                    },
+                        limit: max_limit
+                    }
                 }
-                console.log('get get', c)
-                const data = await api.contractQuery(c, query)
-                console.log('mintednfts', data)
 
-                data.tokens.map(async (id) => {
+                let minted = { tokens: []}
+                const data = await api.contractQuery(c, query)
+                minted.tokens = [...minted.tokens, ...data.tokens]
+
+                if (data.tokens.length == 30) {
+                    console.log("it is")
+                    let get_more = data.tokens;
+                    let loop = true
+
+                    console.log(get_more[get_more.length - 1])
+
+                    while (loop){
+                        let last_element = get_more[get_more.length - 1];
+                        console.log(last_element)
+                        const query = {
+                            tokens: {
+                                owner: connectedWallet.walletAddress,
+                                limit: max_limit,
+                                start_after: last_element
+                            }
+                        }
+                        const data = await api.contractQuery(c, query)
+                        console.log(data)
+                        get_more = data.tokens
+                        minted.tokens = [...minted.tokens, ...data.tokens]
+                        if (data.tokens.length != 30){
+                            loop = false
+                        }
+                    }
+                }
+
+                console.log('mintednfts', minted)
+
+                minted.tokens.map(async (id) => {
                     const singleToken = await api.contractQuery(c, {
                         nft_info: {
                             token_id: id,
@@ -324,11 +355,6 @@ export default (props) => {
         }
     }
 
-    function getPercentage(a, b) {
-        const one = b / 100
-        const percentage = a / one
-        return percentage + '%'
-    }
 
     useEffect(() => {
         //Do stuff on mount
@@ -442,15 +468,14 @@ export default (props) => {
                                     </div>
                                 </div>
 
-                                {(launchpad &&
+                                {launchpad && (
                                     launchpad.opening_time <
                                         Math.floor(Date.now() / 1000) &&
                                     launchpad.closing_time >
-                                        Math.floor(Date.now() / 1000)) ||
-                                    (launchpad &&
+                                        Math.floor(Date.now() / 1000) ||
                                         launchpad.opening_time <
                                             Math.floor(Date.now() / 1000) &&
-                                        launchpad.closing_time == null && (
+                                        launchpad.closing_time == null) && (
                                             <div className="card nft-card">
                                                 <div className="card-body">
                                                     <div className="row">
@@ -547,7 +572,7 @@ export default (props) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                        ))}
+                                        )}
                                 {launchpad &&
                                     Math.floor(Date.now() / 1000) <
                                         launchpad.opening_time && (
@@ -568,8 +593,9 @@ export default (props) => {
                                 {(launchpad &&
                                     launchpad.closing_time &&
                                     Math.floor(Date.now() / 1000) >
-                                        launchpad.closing_time) ||
-                                    (user.counter_registration ==
+                                        launchpad.closing_time ||
+                                    launchpad &&
+                                    _state.counter_registration ==
                                         config.total_nft_collection && (
                                         <div className="card nft-card text-center">
                                             <div className="card-body">
