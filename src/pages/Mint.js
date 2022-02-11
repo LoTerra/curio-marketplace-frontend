@@ -10,6 +10,7 @@ import {useConnectedWallet, useWallet} from "@terra-money/wallet-provider";
 import numeral from "numeral";
 import { ArrowLeft } from 'phosphor-react';
 import Animation from '../components/Minting/Animation';
+import SmallCountdown from '../components/SmallCountdown'
 
 export default (props) => {
 
@@ -39,10 +40,10 @@ export default (props) => {
         "terrand_fee": "0.005"
     })
     const [_state, setState] = useState({
-        "counter_minted": 3,
-        "counter_registration": 3,
+        "counter_minted": 0,
+        "counter_registration": 0,
         "highest_token_id": 1000,
-        "total_terrand_worker_fees": "1500000"
+        "total_terrand_worker_fees": ""
     });
     const [user, setUser] = useState({
         sity_sent: "50",
@@ -55,21 +56,13 @@ export default (props) => {
         wallet = useWallet()
         connectedWallet = useConnectedWallet()
     }
-    const lcd = useMemo(() => {
-        if (!connectedWallet) {
-            return null
-        }
 
-        return new LCDClient({
-            URL: connectedWallet.network.lcd,
-            chainID: connectedWallet.network.chainID,
-        })
-    }, [connectedWallet])
+    // Get LCD from the state and not from the wallet connect since we also
+    // want to show this info for not connected users
     let api;
-    if (lcd){
-        api = new WasmAPI(lcd.apiRequester)
+    if (state.lcd){
+        api = new WasmAPI(state.lcd.apiRequester)
     }
-
 
     // Public mint id is the contract address of the candy machine
 
@@ -268,6 +261,7 @@ export default (props) => {
 
     // get the config candy machine
     async function get_config_candy_machine(){
+
         let query = {
             config: {},
         }
@@ -297,9 +291,13 @@ export default (props) => {
         }catch (e) {
             console.log(e)
         }
+
+
+
     }
     // get the config candy machine
     async function get_state_candy_machine(){
+
         let query = {
             state: {},
         }
@@ -308,9 +306,10 @@ export default (props) => {
             // Query config
             const state = await api.contractQuery(publicmintid, query)
             setState(state)
-        }catch (e) {
+        } catch (e) {
             console.log(e)
         }
+
     }
     // get user info candy machine
     async function get_user_candy_machine(){
@@ -340,16 +339,11 @@ export default (props) => {
     useEffect(() => {
         //Do stuff on mount
         get_launchpad()
-       
-        if (lcd){
-        
-            get_config_candy_machine()
-            get_state_candy_machine()
-        }        
+        get_config_candy_machine()
+        get_state_candy_machine()
+        get_user_candy_machine()
+    },[_state, config])
 
-    },[])
-
-  
 
     return (
         <>
@@ -385,11 +379,12 @@ export default (props) => {
                                         <img src={launchpad.background_image} className="img-fluid object-fit rounded"/>                                      
                                     </div>
                                     <div className="col-md-8">
+                                        <img src={launchpad.logo} className="img-fluid object-fit" width="100px"/>
                                         <h2>{launchpad.title}</h2>
                                         <p className="text-muted">{launchpad.description} </p>
                                         <h4>Globally minted <small>({_state.counter_minted}/{config.total_nft_collection})</small></h4>
                                         <div className="progress">
-                                            <div className="progress-bar" role="progressbar" style={{width:getPercentage(_state.counter_minted,config.total_nft_collection), backgroundColor: '#ff36ff59'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div className="progress-bar" role="progressbar" style={{width:_state.counter_minted * 100 / config.total_nft_collection +'%', backgroundColor: '#ff36ff59'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                         <p className="text-muted mt-3 mb-0">Minting cost</p>
                                         <h3 className="mt-0 fw-bold">     <img
@@ -404,8 +399,10 @@ export default (props) => {
                                     </div>
                                 </div>
                             </div>   
-                            { launchpad && launchpad.opening_time < Math.floor(Date.now() / 1000) && launchpad.closing_time > Math.floor(Date.now() / 1000) &&
-                                
+
+                            { launchpad && launchpad.opening_time < Math.floor(Date.now() / 1000) && launchpad.closing_time > Math.floor(Date.now() / 1000) || launchpad && launchpad.opening_time < Math.floor(Date.now() / 1000) && launchpad.closing_time == null &&
+                                <div className="card nft-card">
+                                <div className="card-body">
                                     <div className="row">
                                         <div className="col-md-6">
                                         <div className="card nft-card">
@@ -413,9 +410,8 @@ export default (props) => {
                                             <h3 className="mb-1 fw-bold">Mint</h3>
                                             <p className="mb-0 text-muted">You have minted ({mintedNfts.length}/{config.total_nft_collection})</p>
                                             <div className="progress mb-3">
-                                            <div className="progress-bar" role="progressbar" style={{width:getPercentage(mintedNfts.length,config.total_nft_collection),backgroundColor:'#e131e1'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                         
+                                            {/*<div className="progress-bar" role="progressbar" style={{width:'55%'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>*/}
+                                        </div>
                                         <input className="form-control" value={nftAmount} onChange={(e) => setNftAmount(e.target.value)} type="number" min="1" step="1"/>
                                         <button className="btn btn-primary w-100 mt-3" onClick={() => register(nftAmount)}>Mint</button>         
                                         </div>
@@ -445,10 +441,11 @@ export default (props) => {
                                 <div className="card nft-card text-center">
                                     <div className="card-body">
                                         <p className="m-0 text-muted">Minting not active yet</p>
+                                        <SmallCountdown start={launchpad.opening_time} expiryTimestamp={ Date.now()}/>
                                     </div>
                                 </div>
                             }
-                            { launchpad && Math.floor(Date.now() / 1000) > launchpad.closing_time &&
+                            { launchpad && launchpad.closing_time && Math.floor(Date.now() / 1000) > launchpad.closing_time || user.counter_registration == config.total_nft_collection  &&
                                 <div className="card nft-card text-center">
                                     <div className="card-body">
                                         <p className="m-0 text-muted">Minting done</p>
