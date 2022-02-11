@@ -29,7 +29,7 @@ export default (props) => {
         cw721_address: 'cw721_address',
         sity_address: 'sity_address',
         denom: 'uusd',
-        mint_price: '100000000',
+        mint_price: '0',
         mint_start: 1643294735,
         mint_end: null,
         total_nft_collection: 0,
