@@ -17,8 +17,7 @@ export default function NftInfoCard(props) {
     return (
         <>
             {data && (
-                <Link to={`/token/${ data.auction_id }`} className="nft-link">
-          
+                <Link to={`/token/${data.auction_id}`} className="nft-link">
                     <div className={'card text-white nft-card ' + type}>
                         {/* <button className="btn btn-plain"><ArrowRight size={24} color={'#fff'}/></button> */}
 

@@ -6,9 +6,9 @@ export default function Footer(props) {
     return (
         <>
             <footer className="footer mt-auto text-center">
-            <Link to={`/`} className="w-100">                      
+                <Link to={`/`} className="w-100">
                     <img src={'/img/logo.svg'} style={{ width: '160px' }} />
-              </Link>
+                </Link>
                 <p
                     className="badge"
                     style={{

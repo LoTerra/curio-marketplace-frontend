@@ -31,13 +31,12 @@ export default function AuctionInfo(props) {
         tab.show()
     }
 
-
     //console.log("data-props")
     ///console.log(data)
     return (
         <>
-        <div className="col-md-12">
-        <div className="nft-stats big w-100 my-2">
+            <div className="col-md-12">
+                <div className="nft-stats big w-100 my-2">
                     <h6>Highest bid</h6>
                     <p className="highest_bid mb-0">
                         {numeral(
@@ -50,19 +49,13 @@ export default function AuctionInfo(props) {
                         </span>{' '}
                         <small>UST</small>
                     </p>
-                    <small                      
-                        style={{ marginTop: '-4px', display: 'block' }}
-                    >
+                    <small style={{ marginTop: '-4px', display: 'block' }}>
                         Total of <strong>{bidInfo.length} bids</strong>
                     </small>
                 </div>
-        </div>
-        
-            <div className="col-12">
-                
-                
             </div>
-           
+
+            <div className="col-12"></div>
 
             <div className="col-6">
                 <div className="nft-stats">
@@ -172,15 +165,18 @@ export default function AuctionInfo(props) {
                         data-bs-toggle="collapse"
                         data-bs-target="#collapseExample"
                         aria-expanded="false"
-                        aria-controls="collapseExample"                       
+                        aria-controls="collapseExample"
                     >
                         View NFT Attributes ({imageNftData.attributes.length})
                     </button>
                     <div className="collapse" id="collapseExample">
                         <div className="row">
-                            {imageNftData.attributes.map((obj,i) => {
+                            {imageNftData.attributes.map((obj, i) => {
                                 return (
-                                    <div className="col-6 col-lg-4 mb-2" key={i}>
+                                    <div
+                                        className="col-6 col-lg-4 mb-2"
+                                        key={i}
+                                    >
                                         <div
                                             className="attribute-info"
                                             style={{
@@ -214,31 +210,36 @@ export default function AuctionInfo(props) {
                 </div>
             )}
             <div className="col-md-6">
-        <div className="nft-stats big w-100 my-2 mb-1">                   
+                <div className="nft-stats big w-100 my-2 mb-1">
                     {nftData && (
                         <ContractVerification
                             contractAddress={nftData.nft_contract}
                         />
                     )}
                 </div>
-        </div>
-        <div className="col-md-6">
-        <div className="nft-stats big w-100 my-2">                   
-                    {nftData && nftData.creator && 
+            </div>
+            <div className="col-md-6">
+                <div className="nft-stats big w-100 my-2">
+                    {nftData && nftData.creator && (
                         <>
-                        <p style={{
-                            fontSize:'14px'
-                        }}>
-                            <UserCircle size={16} />{nftData.creator.substring(0, 15).concat('...')}
-                           </p>                            
-                            <Link to={`/creator/${ nftData.creator }`}                       
-                        className="btn btn-simple mt-2 btn-sm"
-                        >View more</Link>
+                            <p
+                                style={{
+                                    fontSize: '14px',
+                                }}
+                            >
+                                <UserCircle size={16} />
+                                {nftData.creator.substring(0, 15).concat('...')}
+                            </p>
+                            <Link
+                                to={`/creator/${nftData.creator}`}
+                                className="btn btn-simple mt-2 btn-sm"
+                            >
+                                View more
+                            </Link>
                         </>
-                    }
+                    )}
                 </div>
-        </div>
-        
+            </div>
 
             {rightsCheck() && !isOwner && (
                 <div

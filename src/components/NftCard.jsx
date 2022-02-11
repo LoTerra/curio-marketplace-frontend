@@ -18,7 +18,7 @@ export default function NftCard(props) {
     return (
         <>
             {data && (
-                <Link to={`/token/${ data.auction_id }`}>
+                <Link to={`/token/${data.auction_id}`}>
                     <div
                         className={
                             'card text-white nft-card ratio ratio-1x1 ' + type

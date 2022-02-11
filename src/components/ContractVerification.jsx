@@ -51,12 +51,13 @@ export default function ContractVerification(props) {
                         <CheckCircle size={16} />
                         {verified.name}
                     </p>
-                   
+
                     <Link
-                    className="btn btn-simple mt-2 btn-sm"
-                    to={'/collection/'+contractAddress} >
-                        View more                      
-                        </Link>
+                        className="btn btn-simple mt-2 btn-sm"
+                        to={'/collection/' + contractAddress}
+                    >
+                        View more
+                    </Link>
                 </>
             )
         }
@@ -69,7 +70,7 @@ export default function ContractVerification(props) {
                     <p
                         style={{
                             fontSize: '14px',
-                            color: '#fff',                    
+                            color: '#fff',
                         }}
                     >
                         {verifyAddress(contractAddress)}

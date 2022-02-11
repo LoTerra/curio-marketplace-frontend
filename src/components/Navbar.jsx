@@ -30,22 +30,21 @@ import CollectionSearch from './CollectionSearch'
 export default function Navbar(props) {
     const { state, dispatch } = useStore()
 
-
     const [connected, setConnected] = useState(false)
     const [userBids, setUserBids] = useState(false)
     const [priv, setPriv] = useState(false)
     const [bank, setBank] = useState(false)
     const [liveFeed, setLiveFeed] = useState([])
 
-    const [renderModal,setRenderModal] = useState(false)
+    const [renderModal, setRenderModal] = useState(false)
 
     let wallet = ''
     let connectedWallet = ''
     if (typeof document !== 'undefined') {
         wallet = useWallet()
-        connectedWallet = useConnectedWallet()  
+        connectedWallet = useConnectedWallet()
     }
- 
+
     const lcd = useMemo(() => {
         if (!connectedWallet) {
             return null
@@ -68,7 +67,9 @@ export default function Navbar(props) {
                 coins = await lcd.bank.balance(connectedWallet.walletAddress)
 
                 privToken = await api.contractQuery(
-                    connectedWallet.network.name == 'mainnet' ? state.privTokenCw20Contract : state.testnetPrivTokenCw20Contract,
+                    connectedWallet.network.name == 'mainnet'
+                        ? state.privTokenCw20Contract
+                        : state.testnetPrivTokenCw20Contract,
                     {
                         balance: {
                             address: connectedWallet.walletAddress,
@@ -89,12 +90,12 @@ export default function Navbar(props) {
                 // console.log(bidderData)
                 //console.log(privToken)
 
-               // console.log(coins)
+                // console.log(coins)
                 let uusd = coins.filter((c) => {
                     return c.denom === 'uusd'
                 })
                 let ust = parseInt(uusd) / 1000000
-               // console.log(uusd, 'ust bank')
+                // console.log(uusd, 'ust bank')
                 setBank(numeral(ust).format('0,0.00'))
                 setConnected(true)
             } catch {}
@@ -113,21 +114,47 @@ export default function Navbar(props) {
         setConnected(!connected)
     }
 
-    function returnTogglers(){
-        return(
+    function returnTogglers() {
+        return (
             <>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collectionSearchContainer" aria-controls="collectionSearchContainer" aria-expanded="false" aria-label="Toggle navigation">
-            <MagnifyingGlass size={21}  color={'#fff'} weight="bold"  style={{
-                                            display: 'inline-block',
-                                            marginTop: '-3px',
-                                        }}/>
-            </button>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <List size={21}  color={'#fff'} weight="bold"  style={{
-                                            display: 'inline-block',
-                                            marginTop: '-3px',
-                                        }}/>
-            </button>
+                <button
+                    className="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collectionSearchContainer"
+                    aria-controls="collectionSearchContainer"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <MagnifyingGlass
+                        size={21}
+                        color={'#fff'}
+                        weight="bold"
+                        style={{
+                            display: 'inline-block',
+                            marginTop: '-3px',
+                        }}
+                    />
+                </button>
+                <button
+                    className="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <List
+                        size={21}
+                        color={'#fff'}
+                        weight="bold"
+                        style={{
+                            display: 'inline-block',
+                            marginTop: '-3px',
+                        }}
+                    />
+                </button>
             </>
         )
     }
@@ -168,9 +195,12 @@ export default function Navbar(props) {
     }
 
     useEffect(() => {
-        const pusher = new Pusher(/* testnet: '371306b233edc5c8cfb9'*/ 'cc01f6108151986beed1', {
-            cluster: 'eu',
-        })
+        const pusher = new Pusher(
+            /* testnet: '371306b233edc5c8cfb9'*/ 'cc01f6108151986beed1',
+            {
+                cluster: 'eu',
+            },
+        )
 
         //console.log(window.sessionStorage.getItem("liveFeed"))
 
@@ -178,17 +208,22 @@ export default function Navbar(props) {
         //     dispatch({ type: 'setLiveFeed', message: [...state.liveFeed, window.sessionStorage.getItem("liveFeed")] })
         // }
 
-    
         const channel = pusher.subscribe('auction-channel')
         channel.bind('bid-event', function (data) {
             console.log(data)
             let parsed_data = JSON.parse(JSON.stringify(data.message))
             //setLiveFeed(liveFeed => [...liveFeed, {obj:JSON.parse(JSON.stringify(data.message)),type:'bid'}])
-            dispatch({ type: 'setLiveFeed', message: [...state.liveFeed, {auction:JSON.parse(parsed_data),type:'bid'}] })
+            dispatch({
+                type: 'setLiveFeed',
+                message: [
+                    ...state.liveFeed,
+                    { auction: JSON.parse(parsed_data), type: 'bid' },
+                ],
+            })
             //window.sessionStorage.setItem('liveFeed', liveFeed );
         })
         channel.bind('buy-event', async function (data) {
-            // console.log(data)      
+            // console.log(data)
         })
         return () => {
             pusher.unsubscribe('auction-channel')
@@ -224,84 +259,108 @@ export default function Navbar(props) {
                         className="collapse navbar-collapse"
                         id="collectionSearchContainer"
                     >
-                    <div className="navbar-nav nav-selector me-auto">
-                    <button className="navbar-toggler w-100 text-center" type="button" data-bs-toggle="collapse" data-bs-target="#collectionSearchContainer" aria-controls="collectionSearchContainer" aria-expanded="false" aria-label="Toggle navigation">
-                    <X size={21}  color={'#fff'} weight="bold"/>
-                    </button>
-                        <CollectionSearch />
+                        <div className="navbar-nav nav-selector me-auto">
+                            <button
+                                className="navbar-toggler w-100 text-center"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#collectionSearchContainer"
+                                aria-controls="collectionSearchContainer"
+                                aria-expanded="false"
+                                aria-label="Toggle navigation"
+                            >
+                                <X size={21} color={'#fff'} weight="bold" />
+                            </button>
+                            <CollectionSearch />
+                        </div>
                     </div>
-                    </div>
-                
+
                     <div
                         className="collapse navbar-collapse"
                         id="navbarSupportedContent"
                     >
-                                          <button className="navbar-toggler w-100 text-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <X size={21}  color={'#fff'} weight="bold"/>
-                    </button>
+                        <button
+                            className="navbar-toggler w-100 text-center"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation"
+                        >
+                            <X size={21} color={'#fff'} weight="bold" />
+                        </button>
                         <ul className="navbar-nav main-nav ms-auto">
-                           { !connected && (
-                            <>
-                           <li className="nav-item">
-                                    {/* <a
+                            {!connected && (
+                                <>
+                                    <li className="nav-item">
+                                        {/* <a
                                         className="btn btn-outline-primary ms-md-3"
                                         href="/create"
                                     > */}
-                                    <Link to="/" className="nav-link">
-                                        <House size={16} weight="bold" />{' '}
-                                        Home
-                                    </Link>
-                                    {/* </a> */}
-                                </li>
-                            <li className="nav-item">
-                            {/* <a
+                                        <Link to="/" className="nav-link">
+                                            <House size={16} weight="bold" />{' '}
+                                            Home
+                                        </Link>
+                                        {/* </a> */}
+                                    </li>
+                                    <li className="nav-item">
+                                        {/* <a
                                 className="btn btn-outline-primary ms-md-3"
                                 href="/create"
                             > */}
-                            <Link to="/launchpad" className="nav-link">
-                                <Rocket size={16} weight="bold" />{' '}
-                                Launchpad
-                            </Link>
-                            {/* </a> */}
-                        </li>
-                            </>
-                           )
-                           }
+                                        <Link
+                                            to="/launchpad"
+                                            className="nav-link"
+                                        >
+                                            <Rocket size={16} weight="bold" />{' '}
+                                            Launchpad
+                                        </Link>
+                                        {/* </a> */}
+                                    </li>
+                                </>
+                            )}
                             {connected && (
                                 <>
-                                <li className="nav-item">
-                                    {/* <a
+                                    <li className="nav-item">
+                                        {/* <a
                                         className="btn btn-outline-primary ms-md-3"
                                         href="/create"
                                     > */}
-                                    <Link to="/" className="nav-link">
-                                        <House size={16} weight="bold" />{' '}
-                                        Home
-                                    </Link>
-                                    {/* </a> */}
-                                </li>                            
-                                <li className="nav-item">
-                                {/* <a
+                                        <Link to="/" className="nav-link">
+                                            <House size={16} weight="bold" />{' '}
+                                            Home
+                                        </Link>
+                                        {/* </a> */}
+                                    </li>
+                                    <li className="nav-item">
+                                        {/* <a
                                     className="btn btn-outline-primary ms-md-3"
                                     href="/create"
                                 > */}
-                                <Link to="/launchpad" className="nav-link">
-                                    <Rocket size={16} weight="bold" />{' '}
-                                    Launchpad
-                                </Link>
-                                {/* </a> */}
-                            </li>
-                            <li className="nav-item">
-                                {/* <a
+                                        <Link
+                                            to="/launchpad"
+                                            className="nav-link"
+                                        >
+                                            <Rocket size={16} weight="bold" />{' '}
+                                            Launchpad
+                                        </Link>
+                                        {/* </a> */}
+                                    </li>
+                                    <li className="nav-item">
+                                        {/* <a
                                     className="btn btn-outline-primary ms-md-3"
                                     href="/create"
                                 > */}
-                                <Link to="/create" className="nav-link">
-                                    <PlusCircle size={16} weight="bold" />{' '}
-                                    Create Auction
-                                </Link>
-                                {/* </a> */}
-                            </li>
+                                        <Link to="/create" className="nav-link">
+                                            <PlusCircle
+                                                size={16}
+                                                weight="bold"
+                                            />{' '}
+                                            Create Auction
+                                        </Link>
+                                        {/* </a> */}
+                                    </li>
                                 </>
                             )}
                         </ul>
@@ -353,7 +412,6 @@ export default function Navbar(props) {
                                     </button>
                                 </ul>
                                 {returnTogglers()}
-                
                             </div>
                         )}
                         {connected && (
@@ -362,7 +420,11 @@ export default function Navbar(props) {
                                     className="btn px-2"
                                     data-bs-toggle="modal"
                                     data-bs-target="#userModal"
-                                    onClick={() => setRenderModal(renderModal => !renderModal)}
+                                    onClick={() =>
+                                        setRenderModal(
+                                            (renderModal) => !renderModal,
+                                        )
+                                    }
                                 >
                                     <UserCircle
                                         size={21}
@@ -398,8 +460,7 @@ export default function Navbar(props) {
                                         </button>
                                     </ul>
                                 </div>
-                          {returnTogglers()}
-                 
+                                {returnTogglers()}
                             </>
                         )}
 
@@ -409,25 +470,35 @@ export default function Navbar(props) {
                     </div>
                 </div>
             </div>
-            { connectedWallet && connectedWallet.walletAddress &&                 
-                    <UserModal bank={bank} priv={priv} connectedWallet={connectedWallet} renderModal={renderModal} setRenderModal={() => setRenderModal(renderModal => !renderModal)} />               
-            }
-            <LiveFeed data={liveFeed}/>
-            { state.network == 'testnet' &&
-            <div style={{
-                position:'fixed',
-                bottom:0,
-                left:0,
-                right:0,
-                background:'#fc9803',
-                textTransform:'uppercase',
-                textAlign:'center',
-                fontWeight:'bold',
-                color:'#fff',
-            }}>
-                Testnet active
+            {connectedWallet && connectedWallet.walletAddress && (
+                <UserModal
+                    bank={bank}
+                    priv={priv}
+                    connectedWallet={connectedWallet}
+                    renderModal={renderModal}
+                    setRenderModal={() =>
+                        setRenderModal((renderModal) => !renderModal)
+                    }
+                />
+            )}
+            <LiveFeed data={liveFeed} />
+            {state.network == 'testnet' && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        background: '#fc9803',
+                        textTransform: 'uppercase',
+                        textAlign: 'center',
+                        fontWeight: 'bold',
+                        color: '#fff',
+                    }}
+                >
+                    Testnet active
                 </div>
-            }
+            )}
         </>
     )
 }

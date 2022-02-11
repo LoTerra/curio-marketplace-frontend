@@ -1,10 +1,6 @@
 import React from 'react'
-import { Root, Routes,addPrefetchExcludes } from 'react-static'
-import {
-    Switch,
-    Route,
-    Link
-  } from "react-router-dom";
+import { Root, Routes, addPrefetchExcludes } from 'react-static'
+import { Switch, Route, Link } from 'react-router-dom'
 import { Head } from 'react-static'
 import { popper } from '@popperjs/core'
 let bootstrap = {}
@@ -20,10 +16,10 @@ import MainLoader from './components/Loaders/MainLoader'
 import Footer from './components/Footer'
 import SingleCollection from './pages/Collections/SingleCollection'
 import SellerNfts from './pages/Seller/SellerNfts'
-import Mint from './pages/Mint.js';
+import Mint from './pages/Mint.js'
 import Index from './pages/Index'
-import ScrollToTop from './components/ScrollToTop';
-import Launchpad from './pages/Launchpad';
+import ScrollToTop from './components/ScrollToTop'
+import Launchpad from './pages/Launchpad'
 
 //Dont prerender routes starting with (because of dynamic data)
 addPrefetchExcludes(['token'])
@@ -79,34 +75,49 @@ function App() {
                     rel="stylesheet"
                 />
             </Head>
-      
+
             <StoreProvider>
-              
-                    <div className="page-content">
-                        <Navbar />
-                        <React.Suspense fallback={<MainLoader />}>
+                <div className="page-content">
+                    <Navbar />
+                    <React.Suspense fallback={<MainLoader />}>
                         <ScrollToTop />
 
-                        <Switch>                       
+                        <Switch>
                             <Route exact path="/" component={Index} />
-                            <Route exact path="/token/:nftid" component={SingleNft} />
-                            <Route exact path="/collection/:collectioncontract" component={SingleCollection} />
-                            <Route exact path="/creator/:selleraddress" component={SellerNfts} />
-                            <Route exact path="/mint/:publicmintid" component={Mint} />
-                            <Route exact path="/launchpad" component={Launchpad} />                            
+                            <Route
+                                exact
+                                path="/token/:nftid"
+                                component={SingleNft}
+                            />
+                            <Route
+                                exact
+                                path="/collection/:collectioncontract"
+                                component={SingleCollection}
+                            />
+                            <Route
+                                exact
+                                path="/creator/:selleraddress"
+                                component={SellerNfts}
+                            />
+                            <Route
+                                exact
+                                path="/mint/:publicmintid"
+                                component={Mint}
+                            />
+                            <Route
+                                exact
+                                path="/launchpad"
+                                component={Launchpad}
+                            />
                             <Route exact path="/create">
-                                <Create/>
+                                <Create />
                             </Route>
-                            <Route render={() => <Routes/>} />
-
+                            <Route render={() => <Routes />} />
                         </Switch>
-             
-                        </React.Suspense>
-                    </div>
-                    <Footer />
-               
+                    </React.Suspense>
+                </div>
+                <Footer />
             </StoreProvider>
-
         </Root>
     )
 }

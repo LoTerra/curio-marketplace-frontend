@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 export default function PreviewImage(props) {
     const { obj, tokenId } = props
 
-
     return (
         <>
             {tokenId && tokenId == obj.token_id && (
@@ -32,7 +31,7 @@ export default function PreviewImage(props) {
 
             {obj.animation_url && (
                 <video
-                playsInline=""
+                    playsInline=""
                     autoPlay=""
                     muted
                     loop

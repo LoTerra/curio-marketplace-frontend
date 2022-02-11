@@ -23,13 +23,19 @@ export default function BiddingInterface(props) {
     } = props
 
     function format_time(s) {
-        var date = new Date(s*1000);
-        const formatted = date.getDate()+
-        "-"+(date.getMonth()+1)+
-        "-"+date.getFullYear()+
-        " "+date.getHours()+
-        ":"+date.getMinutes()+
-        ":"+date.getSeconds();
+        var date = new Date(s * 1000)
+        const formatted =
+            date.getDate() +
+            '-' +
+            (date.getMonth() + 1) +
+            '-' +
+            date.getFullYear() +
+            ' ' +
+            date.getHours() +
+            ':' +
+            date.getMinutes() +
+            ':' +
+            date.getSeconds()
         return formatted
     }
 
@@ -142,12 +148,15 @@ export default function BiddingInterface(props) {
                                         )
                                     })
                             ) : (
-                                <p className="text-center w-100 m-0" style={{
-                                    color: '#595959',
-                                    background: '#1c1c1d63',                                    
-                                    padding: 10,
-                                    borderRadius: 4
-                                }}>
+                                <p
+                                    className="text-center w-100 m-0"
+                                    style={{
+                                        color: '#595959',
+                                        background: '#1c1c1d63',
+                                        padding: 10,
+                                        borderRadius: 4,
+                                    }}
+                                >
                                     No bids yet
                                 </p>
                             )}
@@ -216,9 +225,7 @@ export default function BiddingInterface(props) {
                                 }
                                 name="amount"
                             />
-                           
                         </div>
-                       
                     </div>
                     {/* <div className={'col-md-6'}>
                         <div
@@ -274,41 +281,16 @@ export default function BiddingInterface(props) {
                     </div> */}
                     <small className="d-block p-3 text-muted">
                         Bids must be at least <strong>5% higher</strong> than
-                        the previous bid,  {nftData.highest_bid != bidder.total_bid &&
-                                    nftData.highest_bid && (
-                                        <span
-                                            style={{
-                                                textDecoration: 'underline',                                               
-                                            }}
-                                            onClick={() =>
-                                                setAmount(
-                                                    nftData.highest_bid
-                                                        ? (
-                                                              (parseInt(
-                                                                  nftData.highest_bid,
-                                                              ) +
-                                                                  (parseInt(
-                                                                      nftData.highest_bid,
-                                                                  ) *
-                                                                      5) /
-                                                                      100 -
-                                                                  parseInt(
-                                                                      bidder.total_bid,
-                                                                  )) /
-                                                              1000000
-                                                          ).toFixed(6)
-                                                        : nftData.highest_bid ===
-                                                              null &&
-                                                          nftData.start_price !==
-                                                              null
-                                                        ? nftData.start_price /
-                                                          1000000
-                                                        : 0,
-                                                )
-                                            }
-                                        >
-                                            minimum overbid price{' '}
-                                            {nftData.highest_bid
+                        the previous bid,{' '}
+                        {nftData.highest_bid != bidder.total_bid &&
+                            nftData.highest_bid && (
+                                <span
+                                    style={{
+                                        textDecoration: 'underline',
+                                    }}
+                                    onClick={() =>
+                                        setAmount(
+                                            nftData.highest_bid
                                                 ? (
                                                       (parseInt(
                                                           nftData.highest_bid,
@@ -327,45 +309,38 @@ export default function BiddingInterface(props) {
                                                       null &&
                                                   nftData.start_price !== null
                                                 ? nftData.start_price / 1000000
-                                                : 0}{' '}
-                                            UST
-                                        </span>
-                                    )}
-                                {!parseInt(nftData.highest_bid) > 0 &&
-                                    parseInt(nftData.start_price) > 0 && (
-                                        <span
-                                            style={{
-                                                textDecoration: 'underline',                                             
-                                            }}
-                                            onClick={() =>
-                                                setAmount(
-                                                    nftData.highest_bid
-                                                        ? (
-                                                              (parseInt(
-                                                                  nftData.highest_bid,
-                                                              ) +
-                                                                  (parseInt(
-                                                                      nftData.highest_bid,
-                                                                  ) *
-                                                                      5) /
-                                                                      100 -
-                                                                  parseInt(
-                                                                      bidder.total_bid,
-                                                                  )) /
-                                                              1000000
-                                                          ).toFixed(6)
-                                                        : nftData.highest_bid ===
-                                                              null &&
-                                                          nftData.start_price !==
-                                                              null
-                                                        ? nftData.start_price /
-                                                          1000000
-                                                        : 0,
-                                                )
-                                            }
-                                        >
-                                            minimum overbid price{' '}
-                                            {nftData.highest_bid
+                                                : 0,
+                                        )
+                                    }
+                                >
+                                    minimum overbid price{' '}
+                                    {nftData.highest_bid
+                                        ? (
+                                              (parseInt(nftData.highest_bid) +
+                                                  (parseInt(
+                                                      nftData.highest_bid,
+                                                  ) *
+                                                      5) /
+                                                      100 -
+                                                  parseInt(bidder.total_bid)) /
+                                              1000000
+                                          ).toFixed(6)
+                                        : nftData.highest_bid === null &&
+                                          nftData.start_price !== null
+                                        ? nftData.start_price / 1000000
+                                        : 0}{' '}
+                                    UST
+                                </span>
+                            )}
+                        {!parseInt(nftData.highest_bid) > 0 &&
+                            parseInt(nftData.start_price) > 0 && (
+                                <span
+                                    style={{
+                                        textDecoration: 'underline',
+                                    }}
+                                    onClick={() =>
+                                        setAmount(
+                                            nftData.highest_bid
                                                 ? (
                                                       (parseInt(
                                                           nftData.highest_bid,
@@ -384,10 +359,29 @@ export default function BiddingInterface(props) {
                                                       null &&
                                                   nftData.start_price !== null
                                                 ? nftData.start_price / 1000000
-                                                : 0}{' '}
-                                            UST
-                                        </span>
-                                    )}
+                                                : 0,
+                                        )
+                                    }
+                                >
+                                    minimum overbid price{' '}
+                                    {nftData.highest_bid
+                                        ? (
+                                              (parseInt(nftData.highest_bid) +
+                                                  (parseInt(
+                                                      nftData.highest_bid,
+                                                  ) *
+                                                      5) /
+                                                      100 -
+                                                  parseInt(bidder.total_bid)) /
+                                              1000000
+                                          ).toFixed(6)
+                                        : nftData.highest_bid === null &&
+                                          nftData.start_price !== null
+                                        ? nftData.start_price / 1000000
+                                        : 0}{' '}
+                                    UST
+                                </span>
+                            )}
                     </small>
                     {rightsCheck() && !isOwner && (
                         <>

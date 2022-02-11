@@ -9,21 +9,16 @@ export default function NftPrice(props) {
     const [instantBuy, setInstantBuy] = useState(0)
 
     useEffect(() => {
-           const a = parseInt(data.start_price) / 1000000;
-        if(a > 0)
-            setStartPrice(a)
+        const a = parseInt(data.start_price) / 1000000
+        if (a > 0) setStartPrice(a)
 
-        const b = parseInt(data.instant_buy) / 1000000;
-        if(b > 0)
-            setInstantBuy(b)
+        const b = parseInt(data.instant_buy) / 1000000
+        if (b > 0) setInstantBuy(b)
 
-        const c = parseInt(data.highest_bid) / 1000000;
-        if(c > 0)
-            setPrice(c)
-   
+        const c = parseInt(data.highest_bid) / 1000000
+        if (c > 0) setPrice(c)
     }, [])
     return (
-
         <div className="nft-price">
             {price > 0 && (
                 <p className="m-0">
@@ -54,6 +49,5 @@ export default function NftPrice(props) {
                 </p>
             )}
         </div>
-      
     )
 }

@@ -45,7 +45,8 @@ const initialState = {
     //privTokenCw20Contract: 'terra1rtdeyeyp4jvde4rd5m3q7y2zxat6f5cyul7e8w',
 
     testnetPrivAuctionContract: 'terra1vj2w6wny2zrvqy9ytup7k52pa3exl5tj7dqjr0',
-    testnetPrivTokenCw20Contract: 'terra1rtdeyeyp4jvde4rd5m3q7y2zxat6f5cyul7e8w',
+    testnetPrivTokenCw20Contract:
+        'terra1rtdeyeyp4jvde4rd5m3q7y2zxat6f5cyul7e8w',
     categories: cats,
     auctions: [],
     lcd: lcd,
@@ -53,7 +54,7 @@ const initialState = {
     liveApi: 'https://privilege.digital/api',
     testnetApi: 'https://testnet.privilege.digital/api',
     wallet: {},
-    liveFeed: []
+    liveFeed: [],
 }
 
 const reducer = (state, action) => {
@@ -68,7 +69,7 @@ const reducer = (state, action) => {
                 ...state,
                 auctions: action.message,
             }
-            case 'setNetwork':
+        case 'setNetwork':
             return {
                 ...state,
                 network: action.message,
