@@ -351,7 +351,7 @@ export default (props) => {
                                     </div>
                                 </div>
                             </div>   
-                            { launchpad && launchpad.opening_time < Math.floor(Date.now() / 1000) && launchpad.closing_time > Math.floor(Date.now() / 1000) &&
+                            { launchpad && launchpad.opening_time < Math.floor(Date.now() / 1000) && launchpad.closing_time > Math.floor(Date.now() / 1000) || launchpad && launchpad.opening_time < Math.floor(Date.now() / 1000) && launchpad.closing_time == null &&
                                 <div className="card nft-card">
                                 <div className="card-body">
                                     <div className="row">
@@ -359,7 +359,7 @@ export default (props) => {
                                             <h3 className="mb-1 fw-bold">Mint</h3>
                                             <p className="mb-0 text-muted">You have minted ({user.counter_registration}/{config.total_nft_collection})</p>
                                             <div className="progress mb-3">
-                                            <div className="progress-bar" role="progressbar" style={{width:'55%'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                            {/*<div className="progress-bar" role="progressbar" style={{width:'55%'}} aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>*/}
                                         </div>
                                         <input className="form-control" value={nftAmount} onChange={(e) => setNftAmount(e.target.value)} type="number" min="1" step="1"/>
                                         <button className="btn btn-primary w-100 mt-3" onClick={() => register(nftAmount)}>Mint</button>                     

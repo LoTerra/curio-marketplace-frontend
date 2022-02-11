@@ -35,7 +35,7 @@ export default (props) => {
                     <div className="col-12 mt-5">
                         <h4 className={'fw-bold mb-2'}>Active mints</h4>
                         <div className="row">
-                            { launchpads && launchpads.length > 0 && launchpads.filter(o => o.opening_time < Math.floor(Date.now() / 1000) && o.closing_time > Math.floor(Date.now() / 1000)).map(a => {
+                            { launchpads && launchpads.length > 0 && launchpads.filter(o => o.opening_time < Math.floor(Date.now() / 1000) && o.closing_time > Math.floor(Date.now() / 1000) || o.opening_time < Math.floor(Date.now() / 1000) && o.closing_time == null ).map(a => {
                                 return (
                                     <LaunchpadCard a={a} link={true}/>
                                 )
