@@ -336,7 +336,7 @@ export default (props) => {
         get_config_candy_machine()
         get_state_candy_machine()
         get_user_candy_machine()
-    }, [_state, config])
+    }, [])
 
     return (
         <>
