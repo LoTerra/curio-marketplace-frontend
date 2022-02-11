@@ -57,7 +57,7 @@ export default (props) => {
                         <div className="row">
                         { launchpads && launchpads.length > 0 && launchpads.filter(o => o.opening_time > Math.floor(Date.now() / 1000)).map(a => {
                                 return (
-                                  <LaunchpadCard a={a} link={false}/>
+                                  <LaunchpadCard a={a} link={true}/>
                                 )
                             })
                             }
