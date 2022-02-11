@@ -32,7 +32,7 @@ export default (props) => {
         mint_price: '100000000',
         mint_start: 1643294735,
         mint_end: null,
-        total_nft_collection: 1000,
+        total_nft_collection: 0,
         sity_token_registration_required: false,
         sity_apply_fee_mint_price: '0.02',
         penality_time_refund: 600,
