@@ -50,6 +50,9 @@ export default (props) => {
         sity_sent: '50',
         counter_registration: 0,
     })
+    const [myCollectionNFT, setMyCollectionNFT] = useState([])
+    const [loadMoreNFT, setLoadMoreNFT] = useState(true)
+    const [lastTokenInfo, setLastTokenInfo] = useState()
 
     let wallet = ''
     let connectedWallet = ''
@@ -69,6 +72,7 @@ export default (props) => {
 
     let { publicmintid } = useParams()
 
+
     async function get_launchpad() {
         let api_url =
             state.network == 'mainnet' ? state.liveApi : state.testnetApi
@@ -77,10 +81,9 @@ export default (props) => {
         )
         setLaunchpad(res.data.launchpad[0])
         console.log(res.data.launchpad[0].cw721_address)
-        get_minted_nfts(res.data.launchpad[0].cw721_address)
     }
 
-    async function get_minted_nfts(c) {
+    async function get_minted_nfts(c, start_after) {
         if (connectedWallet && connectedWallet.walletAddress) {
             try {
                 const max_limit = 30
@@ -91,47 +94,63 @@ export default (props) => {
                         limit: max_limit
                     }
                 }
-
-                let minted = { tokens: []}
-                const data = await api.contractQuery(c, query)
-                minted.tokens = [...minted.tokens, ...data.tokens]
-
-                if (data.tokens.length == 30) {
-                    console.log("it is")
-                    let get_more = data.tokens;
-                    let loop = true
-
-                    console.log(get_more[get_more.length - 1])
-
-                    while (loop){
-                        let last_element = get_more[get_more.length - 1];
-                        console.log(last_element)
-                        const query = {
-                            tokens: {
-                                owner: connectedWallet.walletAddress,
-                                limit: max_limit,
-                                start_after: last_element
-                            }
-                        }
-                        const data = await api.contractQuery(c, query)
-                        console.log(data)
-                        get_more = data.tokens
-                        minted.tokens = [...minted.tokens, ...data.tokens]
-                        if (data.tokens.length != 30){
-                            loop = false
-                        }
-                    }
+                if (start_after){
+                    query.tokens.start_after = start_after
                 }
 
-                console.log('mintednfts', minted)
+                //let minted = { tokens: []}
+                const data = await api.contractQuery(c, query)
+                setMyCollectionNFT( myCollectionNFT => [...myCollectionNFT, ...data.tokens])
+                console.log(data)
 
-                minted.tokens.map(async (id) => {
+                setLastTokenInfo(data.tokens[data.tokens.length - 1])
+
+                if (data.tokens.length != 30){
+                    setLoadMoreNFT(true)
+                    setLastTokenInfo("null")
+                }else{
+                    setLoadMoreNFT(false)
+                }
+
+                console.log(start_after)
+                //minted.tokens = [...minted.tokens, ...data.tokens]
+
+                // if (data.tokens.length == 30) {
+                //     console.log("it is")
+                //     let get_more = data.tokens;
+                //     let loop = true
+                //
+                //     console.log(get_more[get_more.length - 1])
+                //
+                //     while (loop){
+                //         let last_element = get_more[get_more.length - 1];
+                //         console.log(last_element)
+                //         const query = {
+                //             tokens: {
+                //                 owner: connectedWallet.walletAddress,
+                //                 limit: max_limit,
+                //                 start_after: last_element
+                //             }
+                //         }
+                //         const data = await api.contractQuery(c, query)
+                //         console.log(data)
+                //         get_more = data.tokens
+                //         minted.tokens = [...minted.tokens, ...data.tokens]
+                //         if (data.tokens.length != 30){
+                //             loop = false
+                //         }
+                //     }
+                // }
+                console.log("myCollectionNFT")
+                console.log(myCollectionNFT)
+                let loadCollection = [...myCollectionNFT, ...data.tokens]
+                data.tokens.map(async (id) => {
                     const singleToken = await api.contractQuery(c, {
                         nft_info: {
                             token_id: id,
                         },
                     })
-                    console.log(singleToken)
+                    //console.log(singleToken)
                     setMintedNfts((mintedNfts) => [...mintedNfts, singleToken])
                 })
 
@@ -355,14 +374,20 @@ export default (props) => {
         }
     }
 
-
-    useEffect(() => {
-        //Do stuff on mount
+    useMemo(() => {
         get_launchpad()
         get_config_candy_machine()
         get_state_candy_machine()
         get_user_candy_machine()
     }, [])
+
+
+    useEffect(() => {
+        if (launchpad){
+            get_minted_nfts(launchpad.cw721_address)
+        }
+        //Do stuff on mount
+    }, [launchpad])
 
     return (
         <>
@@ -489,7 +514,7 @@ export default (props) => {
                                                                         You have
                                                                         minted (
                                                                         {
-                                                                            mintedNfts.length
+                                                                           user.counter_registration
                                                                         }
                                                                         /
                                                                         {
@@ -540,12 +565,15 @@ export default (props) => {
                                                                         <small className="text-muted">
                                                                             (
                                                                             {
-                                                                                mintedNfts.length
+                                                                                user.counter_registration
                                                                             }
                                                                             )
                                                                         </small>
                                                                     </h3>
-                                                                    <div className="row">
+                                                                    <div className="row" style={{
+                                                                        height: "500px",
+                                                                        overflowY: 'scroll',
+                                                                    }}>
                                                                         {mintedNfts &&
                                                                             mintedNfts.length >
                                                                                 0 &&
@@ -565,7 +593,12 @@ export default (props) => {
                                                                                     )
                                                                                 },
                                                                             )}
+                                                                        {mintedNfts &&
+                                                                        mintedNfts.length >
+                                                                        0 && (
+                                                                        <button className="btn btn-primary w-100 mt-3" disabled={loadMoreNFT} onClick={() => launchpad && get_minted_nfts(launchpad.cw721_address, lastTokenInfo)}>Load more</button>)}
                                                                     </div>
+
                                                                 </div>
                                                             </div>
                                                         </div>
