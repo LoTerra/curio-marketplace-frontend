@@ -560,7 +560,7 @@ export default (props) => {
                                                             <div className="card nft-card">
                                                                 <div className="card-body">
                                                                     <h3>
-                                                                        Minted
+                                                                        My minted
                                                                         nfts{' '}
                                                                         <small className="text-muted">
                                                                             (
