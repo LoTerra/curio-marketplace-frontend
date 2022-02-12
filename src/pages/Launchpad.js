@@ -120,8 +120,8 @@ export default (props) => {
                                 {launchpads &&
                                     launchpads.filter(
                                         (o) =>
-                                            o.opening_time <
-                                            Math.floor(Date.now() / 1000),
+                                            o.opening_time >
+                                            Math.floor(Date.now() / 1000)
                                     ).length == 0 && (
                                         <div className="col-12">
                                             <div className="card nft-card text-center">
