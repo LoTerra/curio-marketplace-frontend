@@ -645,7 +645,7 @@ export default (props) => {
                                         <div className="card nft-card text-center">
                                             <div className="card-body">
                                                 <p className="m-0 text-muted">
-                                                    Sold out
+                                                    Sold Out
                                                 </p>
                                             </div>
                                         </div>
