@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useReducer } from 'react'
 import { LCDClient } from '@terra-money/terra.js'
 
-// const lcd = new LCDClient({
-//     URL: 'https://bombay-lcd.terra.dev',
-//     chainID: 'bombay-12',
-// })
 const lcd = new LCDClient({
-    URL: 'https://lcd.terra.dev',
-    chainID: 'columbus-5',
+    URL: 'https://bombay-lcd.terra.dev',
+    chainID: 'bombay-12',
 })
+// const lcd = new LCDClient({
+//     URL: 'https://lcd.terra.dev',
+//     chainID: 'columbus-5',
+// })
 
 const StoreContext = createContext()
 

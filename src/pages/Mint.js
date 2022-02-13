@@ -15,7 +15,8 @@ import Animation from '../components/Minting/Animation'
 import SmallCountdown from '../components/SmallCountdown'
 
 export default (props) => {
-    const { state, dispatch } = useStore()
+    const {state, dispatch } = useStore()
+    const [loading, setLoading] = useState(false)
     const [launchpad, setLaunchpad] = useState()
     const [minting, setMinting] = useState(false)
     const [nftAmount, setNftAmount] = useState(1)
@@ -47,10 +48,9 @@ export default (props) => {
         total_terrand_worker_fees: '',
     })
     const [user, setUser] = useState({
-        sity_sent: '50',
+        sity_sent: '0',
         counter_registration: 0,
     })
-    const [myCollectionNFT, setMyCollectionNFT] = useState([])
     const [loadMoreNFT, setLoadMoreNFT] = useState(true)
     const [lastTokenInfo, setLastTokenInfo] = useState()
 
@@ -83,7 +83,11 @@ export default (props) => {
         console.log(res.data.launchpad[0].cw721_address)
     }
 
-    async function get_minted_nfts(c, start_after) {
+    async function get_minted_nfts(c, start_after, reload) {
+        if (reload){
+            setLoading(true)
+            setMintedNfts([])
+        }
         if (connectedWallet && connectedWallet.walletAddress) {
             try {
                 const max_limit = 30
@@ -100,7 +104,6 @@ export default (props) => {
 
                 //let minted = { tokens: []}
                 const data = await api.contractQuery(c, query)
-                setMyCollectionNFT( myCollectionNFT => [...myCollectionNFT, ...data.tokens])
                 console.log(data)
 
                 setLastTokenInfo(data.tokens[data.tokens.length - 1])
@@ -141,9 +144,6 @@ export default (props) => {
                 //         }
                 //     }
                 // }
-                console.log("myCollectionNFT")
-                console.log(myCollectionNFT)
-                let loadCollection = [...myCollectionNFT, ...data.tokens]
                 data.tokens.map(async (id) => {
                     const singleToken = await api.contractQuery(c, {
                         nft_info: {
@@ -154,6 +154,7 @@ export default (props) => {
                     setMintedNfts((mintedNfts) => [...mintedNfts, singleToken])
                 })
 
+                setLoading(false)
                 // setMintedNfts()
             } catch (e) {
                 console.log(e)
@@ -162,9 +163,11 @@ export default (props) => {
     }
 
     async function register(times) {
+
         if (connectedWallet && connectedWallet.walletAddress) {
             //Start minting animation
             setMinting(true)
+
             try {
                 let msgs = []
                 // Allows multiple registration max 100 per transactions
@@ -192,21 +195,22 @@ export default (props) => {
                     feeDenoms: ['uusd'],
                     gasPrices: new Coin('uusd', '0.15'),
                 })
-                // Query state contract candy machine
-                const state_candy_machine = await api.contractQuery(
-                    publicmintid,
-                    {
-                        state: {},
-                    },
-                )
-                // Get the current registration id
-                setRegistrationId(state_candy_machine.counter_registration)
+
+                // // Query state contract candy machine
+                // const state_candy_machine = await api.contractQuery(
+                //     publicmintid,
+                //     {
+                //         state: {},
+                //     },
+                // )
+                // // Get the current registration id
+                // setRegistrationId(state_candy_machine.counter_registration)
+
                 //End minting animation
-                setMinting(false)
-                /*
-                    TODO: Display a message we are minting your NFT blablabla...
-                    After 30 seconds to 1 mint Display the image of the NFT minted
-                 */
+                setTimeout(e => {
+                    setMinting(false)
+                }, 30000)
+
             } catch (e) {
                 console.log(e)
                 //End minting animation
@@ -277,7 +281,8 @@ export default (props) => {
         }
     }
     /*
-        We can just display all registration ?? and show it to all so they also see what others are minting
+        TODO: Read
+        // We can just display all registration ?? and show it to all so they also see what others are minting
      */
     async function get_all_registration_id() {
         let query = {
@@ -287,6 +292,7 @@ export default (props) => {
                 expired: false, // true to get already minted
             },
         }
+
         try {
             /*
                 @param: RegistrationInfoResponse
@@ -376,18 +382,18 @@ export default (props) => {
 
     useMemo(() => {
         get_launchpad()
-        get_config_candy_machine()
-        get_state_candy_machine()
-        get_user_candy_machine()
     }, [])
 
 
     useEffect(() => {
         if (launchpad){
-            get_minted_nfts(launchpad.cw721_address)
+            get_minted_nfts(launchpad.cw721_address, null, true)
         }
+        get_config_candy_machine()
+        get_state_candy_machine()
+        get_user_candy_machine()
         //Do stuff on mount
-    }, [launchpad])
+    }, [launchpad, minting])
 
     return (
         <>
@@ -443,7 +449,7 @@ export default (props) => {
                                                 <h4>
                                                     Globally minted{' '}
                                                     <small>
-                                                        ({_state.counter_minted}
+                                                        ({_state.counter_registration}
                                                         /
                                                         {
                                                             config.total_nft_collection
@@ -457,7 +463,7 @@ export default (props) => {
                                                         role="progressbar"
                                                         style={{
                                                             width:
-                                                                (_state.counter_minted *
+                                                                (_state.counter_registration *
                                                                     100) /
                                                                     config.total_nft_collection +
                                                                 '%',
@@ -597,6 +603,12 @@ export default (props) => {
                                                                         mintedNfts.length >
                                                                         0 && (
                                                                         <button className="btn btn-primary w-100 mt-3" disabled={loadMoreNFT} onClick={() => launchpad && get_minted_nfts(launchpad.cw721_address, lastTokenInfo)}>Load more</button>)}
+                                                                        { loading && (
+                                                                            <div className="spinner-border text-primary" role="status">
+                                                                                <span className="visually-hidden">Loading...</span>
+                                                                            </div>
+
+                                                                        )}
                                                                     </div>
 
                                                                 </div>
