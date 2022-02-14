@@ -17,6 +17,7 @@ import SmallCountdown from '../components/SmallCountdown'
 export default (props) => {
     const {state, dispatch } = useStore()
     const [loading, setLoading] = useState(false)
+    const [maxLimitMessage, setMaxLimitMessage] = useState("")
     const [launchpad, setLaunchpad] = useState()
     const [minting, setMinting] = useState(false)
     const [nftAmount, setNftAmount] = useState(1)
@@ -172,8 +173,11 @@ export default (props) => {
                 let msgs = []
                 // Allows multiple registration max 100 per transactions
                 if (times > 100) {
+                    setMaxLimitMessage("Max 100 per transaction")
                     return
                 }
+                setMaxLimitMessage("")
+
                 let denom_to_key = config.denom
                 let coins = {}
                 coins[denom_to_key] = config.mint_price
@@ -516,6 +520,7 @@ export default (props) => {
                                                                     <h3 className="mb-1 fw-bold">
                                                                         Mint
                                                                     </h3>
+                                                                    <p className="mb-0 text-muted">{maxLimitMessage}</p>
                                                                     <p className="mb-0 text-muted">
                                                                         You have
                                                                         minted (
