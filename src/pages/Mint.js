@@ -524,7 +524,7 @@ export default (props) => {
                                                                         You have
                                                                         minted (
                                                                         {
-                                                                           user.counter_registration
+                                                                            mintedNfts.length
                                                                         }
                                                                         /
                                                                         {
@@ -575,7 +575,7 @@ export default (props) => {
                                                                         <small className="text-muted">
                                                                             (
                                                                             {
-                                                                                user.counter_registration
+                                                                                mintedNfts.length
                                                                             }
                                                                             )
                                                                         </small>
