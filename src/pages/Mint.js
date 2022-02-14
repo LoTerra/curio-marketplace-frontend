@@ -167,8 +167,6 @@ export default (props) => {
 
         if (connectedWallet && connectedWallet.walletAddress) {
             //Start minting animation
-            setMinting(true)
-
             try {
                 let msgs = []
                 // Allows multiple registration max 100 per transactions
@@ -176,6 +174,7 @@ export default (props) => {
                     setMaxLimitMessage("Max 100 per transaction")
                     return
                 }
+                setMinting(true)
                 setMaxLimitMessage("")
 
                 let denom_to_key = config.denom
