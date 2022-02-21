@@ -13,7 +13,7 @@ import {
     Coin,
     Fire,
     HourglassMedium,
-    MonitorPlay,
+    MonitorPlay, Rocket,
 } from 'phosphor-react'
 import { Navigation, Pagination, Autoplay } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -164,7 +164,7 @@ export default () => {
                                             <div className="col-md-12 mb-3">
                                                 {/* <CollectionSearch/> */}
                                             </div>
-                                            <div className="col-6 mb-4">
+                                            <div className="col-4 mb-4">
                                                 <button
                                                     className="btn btn-primary btn-lg w-100"
                                                     onClick={() =>
@@ -174,12 +174,21 @@ export default () => {
                                                     Explore
                                                 </button>
                                             </div>
-                                            <div className="col-6 mb-4">
+                                            <div className="col-4 mb-4">
                                                 <Link
                                                     to="/create"
                                                     className="btn btn-lg btn-outline-primary w-100"
                                                 >
                                                     Create auction
+                                                </Link>
+                                            </div>
+                                            <div className="col-4 mb-4">
+                                                <Link
+                                                    to="/launchpad"
+                                                    className="btn btn-lg btn-outline-primary w-100"
+                                                >
+                                                    <Rocket size={16} weight="bold" />{' '}
+                                                    Launchpad
                                                 </Link>
                                             </div>
                                         </div>
