@@ -10,7 +10,7 @@ import {
 } from '@terra-money/terra.js'
 import { useConnectedWallet, useWallet } from '@terra-money/wallet-provider'
 import numeral from 'numeral'
-import { ArrowLeft } from 'phosphor-react'
+import {ArrowLeft, Flag} from 'phosphor-react'
 import Animation from '../components/Minting/Animation'
 import SmallCountdown from '../components/SmallCountdown'
 
@@ -283,6 +283,10 @@ export default (props) => {
             console.log(e)
         }
     }
+    const formatDate = (date) => {
+        let formatted = new Date(date * 1000)
+        return formatted.toLocaleString()
+    }
     /*
         TODO: Read
         // We can just display all registration ?? and show it to all so they also see what others are minting
@@ -448,6 +452,10 @@ export default (props) => {
                                                 <h2>{launchpad.title}</h2>
                                                 <p className="text-muted">
                                                     {launchpad.description}{' '}
+                                                </p>
+                                                <p className="m-0" style={{ opacity: 0.8 }}>
+                                                    Mint end :
+                                                    { formatDate(launchpad.closing_time)}
                                                 </p>
                                                 <h4>
                                                     Globally minted{' '}

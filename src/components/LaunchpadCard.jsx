@@ -1,4 +1,4 @@
-import { Clock, Flag, Rocket } from 'phosphor-react'
+import { Clock, Flag, Rocket, flag } from 'phosphor-react'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Media from './Media'
@@ -30,6 +30,14 @@ export default function LaunchpadCard(props) {
                                         weight={'bold'}
                                     />
                                     {formatDate(a.opening_time)}
+                                </p>
+                                <p className="m-0" style={{ opacity: 0.8 }}>
+                                    <Flag
+                                        className={'me-1'}
+                                        size={16}
+                                        weight={'bold'}
+                                    />
+                                    {formatDate(a.closing_time)}
                                 </p>
                             </div>
                         </div>
