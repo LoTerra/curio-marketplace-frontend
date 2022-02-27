@@ -16,13 +16,13 @@ export default function NftListItem(props) {
                 }
             >
                 <Link
-                    to={`/nfts/${obj.auction_id}`}
+                    to={`/token/${obj.auction_id}`}
                     className="btn btn-secondary float-end"
                 >
                     <Eye size={18} />
                 </Link>
                 <img src={obj.image_url} loading="lazy" />
-                <Link to={`/nfts/${obj.auction_id}`}>{obj.title}</Link>
+                <Link to={`/token/${obj.auction_id}`}>{obj.title}</Link>
                 <p className="text-white small fw-bolder mb-0">
                     Highest bid: {parseInt(obj.highest_bid) / 1000000} UST
                 </p>
