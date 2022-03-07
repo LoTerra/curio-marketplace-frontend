@@ -378,6 +378,12 @@
                 "symbol": "MP",
                 "contract": "terra1kjlhzw9puw7kz8z0vs9zkeel8gd9fr9zs3ruzk",
                 "icon": "https://res.cloudinary.com/curio-art/image/upload/v1644594456/NFTs/ezgif-1-03d17de1a8_gxvhsv.gif"
+            },
+            "terra1n5wdw9synvu7v7hd9pjeqz84dzkjuaxav0ffag": {
+                "name": "Handi Heroes NFT",
+                "symbol": "HH",
+                "contract": "terra1n5wdw9synvu7v7hd9pjeqz84dzkjuaxav0ffag",
+                "icon": "https://pbs.twimg.com/profile_images/1474075424602927115/7x3HeX2t_400x400.jpg"
             }
         }
     ],
