@@ -390,6 +390,30 @@
                 "symbol": "SCOUT",
                 "contract": "terra18ydzg0v4qjahxmlt9xjlvuanr4d6ud8umne4re",
                 "icon": "https://d75aawrtvbfp1.cloudfront.net/misc/scout/logo.gif"
+            },
+            "terra13xajks5jkwhsedum8wn6s8tm0zesx2jmmgxm2p":{
+                "name": "Fragments",
+                "symbol": "FRAGMENTS",
+                "contract": "terra13xajks5jkwhsedum8wn6s8tm0zesx2jmmgxm2p",
+                "icon": "https://d75aawrtvbfp1.cloudfront.net/misc/frag/logo.gif"
+            },
+            "terra16n4w0asnfelmh2za9p92tm774dnp4w5kqfmgew":{
+                "name": "The rooms",
+                "symbol": "ROOMS",
+                "contract": "terra16n4w0asnfelmh2za9p92tm774dnp4w5kqfmgew",
+                "icon": "https://d75aawrtvbfp1.cloudfront.net/misc/room/logo-min.jpg"
+            },
+            "terra1kzk5r3z58urx2ryxaan6ww2gezdu6mndar2ghv":{
+                "name": "Lunar Boots",
+                "symbol": "BOOTS",
+                "contract": "terra1kzk5r3z58urx2ryxaan6ww2gezdu6mndar2ghv",
+                "icon": "https://d75aawrtvbfp1.cloudfront.net/misc/boot/logo-min.jpg"
+            },
+            "terra185md6ex3d8f95xq3kxjt95exd72xxyl5m2kj88":{
+                "name": "Final Generation Baby Dragons",
+                "symbol": "BABYDRAGON",
+                "contract": "terra185md6ex3d8f95xq3kxjt95exd72xxyl5m2kj88",
+                "icon": "https://d75aawrtvbfp1.cloudfront.net/misc/bdrag/logo-min.jpg"
             }
         }
     ],
