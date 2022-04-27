@@ -414,6 +414,42 @@
                 "symbol": "BABYDRAGON",
                 "contract": "terra185md6ex3d8f95xq3kxjt95exd72xxyl5m2kj88",
                 "icon": "https://d75aawrtvbfp1.cloudfront.net/misc/bdrag/logo-min.jpg"
+            },
+            "terra1dmzwy9ujlsy262w3exw3ln6snvkasrcrnwfacu":{
+                "name": "Luna Doodle Monkeys",
+                "symbol": "DOODLE",
+                "contract": "terra1dmzwy9ujlsy262w3exw3ln6snvkasrcrnwfacu",
+                "icon": "https://d75aawrtvbfp1.cloudfront.net/misc/doodle/logo-min.jpg"
+            },
+            "terra1an9q9hxlzy6qyagv9menv7yl5xywa824yd5vvu":{
+                "name": "Terra Racer",
+                "symbol": "RACER",
+                "contract": "terra1an9q9hxlzy6qyagv9menv7yl5xywa824yd5vvu",
+                "icon": "https://d75aawrtvbfp1.cloudfront.net/misc/racer/logo-min.jpg"
+            },
+            "terra12gv7p8hymfv9zv6qnu2nedksd44tvcr7fvfvvf":{
+                "name": "TerraKongs v2",
+                "symbol": "KONG2",
+                "contract": "terra12gv7p8hymfv9zv6qnu2nedksd44tvcr7fvfvvf",
+                "icon": "https://d75aawrtvbfp1.cloudfront.net/misc/kong/1-min.jpg"
+            },
+            "terra19nc0f7kfawdhr944h24yx3s839jpgf5e247d4k":{
+                "name": "Terra Wolves: Prime",
+                "symbol": "WOLFPRIME",
+                "contract": "terra19nc0f7kfawdhr944h24yx3s839jpgf5e247d4k",
+                "icon": "https://d75aawrtvbfp1.cloudfront.net/partners%2Fterrawolves%2Flogowolf.jpg"
+            },
+            "terra1k5alz4xtvjx80dfk2n0eak3klcw3w4ygkphwny":{
+                "name": "TerraPrints [LOTA]",
+                "symbol": "LOTAPRINTS",
+                "contract": "terra1k5alz4xtvjx80dfk2n0eak3klcw3w4ygkphwny",
+                "icon": "https://d75aawrtvbfp1.cloudfront.net/partners%2Fterraprintslota%2Flogo.gif"
+            },
+            "terra1fr2hrhr76t2hlgsptpue74n3nhrk43nkpm75wc":{
+                "name": "Terra Wolves: Cyborg",
+                "symbol": "WOLFCYBORG",
+                "contract": "terra1fr2hrhr76t2hlgsptpue74n3nhrk43nkpm75wc",
+                "icon": "https://d75aawrtvbfp1.cloudfront.net/partners%2Fterrawolves%2Flogocyborg.jpg"
             }
         }
     ],
